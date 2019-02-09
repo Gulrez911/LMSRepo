@@ -65,7 +65,7 @@
 		]
 	}
   ],
-  "name": "RamLakhan",
+  "name": "${WORKSPACE_NAME}",
   "attributes": {
     "persistVolumes": "true"
   },
