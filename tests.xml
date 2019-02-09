@@ -1,0 +1,29 @@
+<workbook>
+	<worksheet name="Tests_Upload">
+		<section startRow="0" endRow="0" />
+		<loop startRow="1" endRow="1" items="result" var="test"
+			varType="com.assessment.data.Test">
+			<section startRow="1" endRow="1">
+				<mapping row="1" col="0">test.testName</mapping>
+				<mapping row="1" col="1">test.qualifier1</mapping>
+				<mapping row="1" col="2">test.qualifier2</mapping>
+				<mapping row="1" col="3">test.qualifier3</mapping>
+				<mapping row="1" col="4">test.qualifier4</mapping>
+				<mapping row="1" col="5">test.qualifier5</mapping>
+				<mapping row="1" col="6">test.skillName</mapping>
+				<mapping row="1" col="7">test.skillLevel</mapping>
+				<mapping row="1" col="8">test.passPercent</mapping>
+				<mapping row="1" col="9">test.sentToStudent</mapping>
+				<mapping row="1" col="10">test.defaultSendTo</mapping>
+				<mapping row="1" col="11">test.optionalSendTo</mapping>
+
+
+			</section>
+			<loopbreakcondition>
+				<rowcheck offset="0">
+					<cellcheck offset="0">End Rows:</cellcheck>
+				</rowcheck>
+			</loopbreakcondition>
+		</loop>
+	</worksheet>
+</workbook>

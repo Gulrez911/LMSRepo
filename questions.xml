@@ -1,0 +1,33 @@
+<workbook>
+	<worksheet name="Questions_Upload">
+		<section startRow="0" endRow="0" />
+		<loop startRow="1" endRow="1" items="result" var="ques"
+			varType="com.assessment.data.Question">
+			<section startRow="1" endRow="1">
+				<mapping row="1" col="0">ques.questionText</mapping>
+				<mapping row="1" col="1">ques.choice1</mapping>
+				<mapping row="1" col="2">ques.choice2</mapping>
+				<mapping row="1" col="3">ques.choice3</mapping>
+
+				<mapping row="1" col="4">ques.choice4</mapping>
+				<mapping row="1" col="5">ques.choice5</mapping>
+				<mapping row="1" col="6">ques.choice6</mapping>
+				<mapping row="1" col="7">ques.rightChoices</mapping>
+				<mapping row="1" col="8">ques.qualifier1</mapping>
+				<mapping row="1" col="9">ques.qualifier2</mapping>
+				<mapping row="1" col="10">ques.qualifier3</mapping>
+				<mapping row="1" col="11">ques.qualifier4</mapping>
+				<mapping row="1" col="12">ques.qualifier5</mapping>
+				<mapping row="1" col="13">ques.diff</mapping>
+				<mapping row="1" col="14">ques.instructionsIfAny</mapping>
+				<mapping row="1" col="15">ques.companyId</mapping>
+
+			</section>
+			<loopbreakcondition>
+				<rowcheck offset="0">
+					<cellcheck offset="0">End Rows:</cellcheck>
+				</rowcheck>
+			</loopbreakcondition>
+		</loop>
+	</worksheet>
+</workbook>

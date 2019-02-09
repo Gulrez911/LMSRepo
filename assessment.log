@@ -1,0 +1,461 @@
+2019-01-29 14:32:30 INFO  XmlBeanDefinitionReader:316 - Loading XML bean definitions from class path resource [appContext.xml]
+2019-01-29 14:32:31 INFO  GenericApplicationContext:590 - Refreshing org.springframework.context.support.GenericApplicationContext@27d415d9: startup date [Tue Jan 29 14:32:31 IST 2019]; root of context hierarchy
+2019-01-29 14:32:32 INFO  AutowiredAnnotationBeanPostProcessor:154 - JSR-330 'javax.inject.Inject' annotation found and supported for autowiring
+2019-01-29 14:32:32 INFO  MLog:212 - MLog clients using slf4j logging.
+2019-01-29 14:32:32 INFO  C3P0Registry:212 - Initializing c3p0-0.9.5.2 [built 08-December-2015 22:06:04 -0800; debug? true; trace: 10]
+2019-01-29 14:32:33 INFO  LocalContainerEntityManagerFactoryBean:361 - Building JPA container EntityManagerFactory for persistence unit 'V2CRM_PersistenceUnit'
+2019-01-29 14:32:33 INFO  LogHelper:31 - HHH000204: Processing PersistenceUnitInfo [
+	name: V2CRM_PersistenceUnit
+	...]
+2019-01-29 14:32:33 INFO  Version:37 - HHH000412: Hibernate Core {5.1.3.Final}
+2019-01-29 14:32:33 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2019-01-29 14:32:33 INFO  Environment:317 - HHH000021: Bytecode provider name : javassist
+2019-01-29 14:32:33 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2019-01-29 14:32:33 INFO  AbstractPoolBackedDataSource:212 - Initializing c3p0 pool... com.mchange.v2.c3p0.ComboPooledDataSource [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 5000, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, contextClassLoaderSource -> caller, dataSourceName -> 1hgeby9a016eqejp5ni3kg|28b46423, debugUnreturnedConnectionStackTraces -> false, description -> null, driverClass -> com.mysql.jdbc.Driver, extensions -> {}, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, forceSynchronousCheckins -> false, forceUseNamedDriverClass -> false, identityToken -> 1hgeby9a016eqejp5ni3kg|28b46423, idleConnectionTestPeriod -> 60, initialPoolSize -> 3, jdbcUrl -> jdbc:mysql://localhost:3306/assessment, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 10, maxIdleTime -> 180, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 25, maxStatements -> 0, maxStatementsPerConnection -> 0, minPoolSize -> 6, numHelperThreads -> 3, preferredTestQuery -> SELECT 1, privilegeSpawnedThreads -> false, properties -> {user=******, password=******}, propertyCycle -> 0, statementCacheNumDeferredCloseThreads -> 0, testConnectionOnCheckin -> true, testConnectionOnCheckout -> true, unreturnedConnectionTimeout -> 0, userOverrides -> {}, usesTraditionalReflectiveProxies -> false ]
+2019-01-29 14:32:33 WARN  BasicResourcePool:220 - Bad pool size config, start 3 < min 6. Using 6 as start.
+2019-01-29 14:32:34 INFO  Dialect:156 - HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+2019-01-29 14:32:35 INFO  Version:30 - HV000001: Hibernate Validator 5.4.0.Final
+2019-01-29 14:32:40 INFO  LocalContainerEntityManagerFactoryBean:415 - Initialized JPA EntityManagerFactory for persistence unit 'V2CRM_PersistenceUnit'
+2019-01-29 14:32:42 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2019-01-29 14:32:44 INFO  TransactionContext:107 - Began transaction (1) for test context [DefaultTestContext@120411ec testClass = TestReports, testInstance = com.test.TestReports@6cc8adff, testMethod = testGranulaReport@TestReports, testException = [null], mergedContextConfiguration = [MergedContextConfiguration@6b2e9db2 testClass = TestReports, locations = '{classpath:appContext.xml}', classes = '{}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{}', contextCustomizers = set[[empty]], contextLoader = 'org.springframework.test.context.support.DelegatingSmartContextLoader', parent = [null]], attributes = map[[empty]]]; transaction manager [org.springframework.orm.jpa.JpaTransactionManager@12670e55]; rollback [true]
+2019-01-29 14:32:46 WARN  DefaultExtensionsRegistry:179 - Extension resource jar:file:/C:/Users/jatin.sutaria/.m2/repository/net/sf/jasperreports/jasperreports/6.4.1/jasperreports-6.4.1.jar!/jasperreports_extension.properties was found to be a duplicate of jar:file:/C:/Users/jatin.sutaria/.m2/repository/net/sf/jasperreports/jasperreports/6.4.0/jasperreports-6.4.0.jar!/jasperreports_extension.properties in classloader sun.misc.Launcher$AppClassLoader@7a4f0f29
+2019-01-29 14:32:47 INFO  DynamicJasperHelper:239 - generating JasperPrint
+2019-01-29 14:32:47 INFO  DynamicJasperHelper:505 - generating JasperReport (DynamicReport dr, LayoutManager layoutManager, Map generatedParams)
+2019-01-29 14:32:47 INFO  DynamicJasperHelper:511 - generating JasperReport with prefix: r
+2019-01-29 14:32:47 INFO  DJJRDesignHelper:56 - Creating DynamicJasperDesign
+2019-01-29 14:32:48 INFO  DynamicJasperHelper:541 - Done generating JasperReport for design with name: DJR_5012
+2019-01-29 14:32:48 INFO  DynamicJasperHelper:239 - generating JasperPrint
+2019-01-29 14:32:48 INFO  DynamicJasperHelper:505 - generating JasperReport (DynamicReport dr, LayoutManager layoutManager, Map generatedParams)
+2019-01-29 14:32:48 INFO  DynamicJasperHelper:511 - generating JasperReport with prefix: r
+2019-01-29 14:32:48 INFO  DJJRDesignHelper:56 - Creating DynamicJasperDesign
+2019-01-29 14:32:48 INFO  DynamicJasperHelper:541 - Done generating JasperReport for design with name: DJR_111
+2019-01-29 14:32:49 INFO  TransactionContext:139 - Rolled back transaction for test: [DefaultTestContext@120411ec testClass = TestReports, testInstance = com.test.TestReports@6cc8adff, testMethod = testGranulaReport@TestReports, testException = net.sf.jasperreports.engine.JRRuntimeException: Could not create chart customizer instance., mergedContextConfiguration = [MergedContextConfiguration@6b2e9db2 testClass = TestReports, locations = '{classpath:appContext.xml}', classes = '{}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{}', contextCustomizers = set[[empty]], contextLoader = 'org.springframework.test.context.support.DelegatingSmartContextLoader', parent = [null]], attributes = map[[empty]]]
+2019-01-29 14:32:49 INFO  GenericApplicationContext:993 - Closing org.springframework.context.support.GenericApplicationContext@27d415d9: startup date [Tue Jan 29 14:32:31 IST 2019]; root of context hierarchy
+2019-01-29 14:32:49 INFO  LocalContainerEntityManagerFactoryBean:597 - Closing JPA EntityManagerFactory for persistence unit 'V2CRM_PersistenceUnit'
+2019-01-29 14:33:55 INFO  DefaultTestContextBootstrapper:248 - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
+2019-01-29 14:33:55 INFO  DefaultTestContextBootstrapper:177 - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@77ec78b9, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@1a3869f4, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@a38d7a3, org.springframework.test.context.support.DirtiesContextTestExecutionListener@77f99a05, org.springframework.test.context.transaction.TransactionalTestExecutionListener@63440df3, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@3aeaafa6]
+2019-01-29 14:33:55 INFO  XmlBeanDefinitionReader:316 - Loading XML bean definitions from class path resource [appContext.xml]
+2019-01-29 14:33:56 INFO  GenericApplicationContext:590 - Refreshing org.springframework.context.support.GenericApplicationContext@27d415d9: startup date [Tue Jan 29 14:33:56 IST 2019]; root of context hierarchy
+2019-01-29 14:33:57 INFO  AutowiredAnnotationBeanPostProcessor:154 - JSR-330 'javax.inject.Inject' annotation found and supported for autowiring
+2019-01-29 14:33:57 INFO  MLog:212 - MLog clients using slf4j logging.
+2019-01-29 14:33:57 INFO  C3P0Registry:212 - Initializing c3p0-0.9.5.2 [built 08-December-2015 22:06:04 -0800; debug? true; trace: 10]
+2019-01-29 14:33:58 INFO  LocalContainerEntityManagerFactoryBean:361 - Building JPA container EntityManagerFactory for persistence unit 'V2CRM_PersistenceUnit'
+2019-01-29 14:33:58 INFO  LogHelper:31 - HHH000204: Processing PersistenceUnitInfo [
+	name: V2CRM_PersistenceUnit
+	...]
+2019-01-29 14:33:58 INFO  Version:37 - HHH000412: Hibernate Core {5.1.3.Final}
+2019-01-29 14:33:58 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2019-01-29 14:33:58 INFO  Environment:317 - HHH000021: Bytecode provider name : javassist
+2019-01-29 14:33:58 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2019-01-29 14:33:59 INFO  AbstractPoolBackedDataSource:212 - Initializing c3p0 pool... com.mchange.v2.c3p0.ComboPooledDataSource [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 5000, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, contextClassLoaderSource -> caller, dataSourceName -> 1hgeby9a016es8a9qaa95z|28b46423, debugUnreturnedConnectionStackTraces -> false, description -> null, driverClass -> com.mysql.jdbc.Driver, extensions -> {}, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, forceSynchronousCheckins -> false, forceUseNamedDriverClass -> false, identityToken -> 1hgeby9a016es8a9qaa95z|28b46423, idleConnectionTestPeriod -> 60, initialPoolSize -> 3, jdbcUrl -> jdbc:mysql://localhost:3306/assessment, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 10, maxIdleTime -> 180, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 25, maxStatements -> 0, maxStatementsPerConnection -> 0, minPoolSize -> 6, numHelperThreads -> 3, preferredTestQuery -> SELECT 1, privilegeSpawnedThreads -> false, properties -> {user=******, password=******}, propertyCycle -> 0, statementCacheNumDeferredCloseThreads -> 0, testConnectionOnCheckin -> true, testConnectionOnCheckout -> true, unreturnedConnectionTimeout -> 0, userOverrides -> {}, usesTraditionalReflectiveProxies -> false ]
+2019-01-29 14:33:59 WARN  BasicResourcePool:220 - Bad pool size config, start 3 < min 6. Using 6 as start.
+2019-01-29 14:33:59 INFO  Dialect:156 - HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+2019-01-29 14:34:00 INFO  Version:30 - HV000001: Hibernate Validator 5.4.0.Final
+2019-01-29 14:34:06 INFO  LocalContainerEntityManagerFactoryBean:415 - Initialized JPA EntityManagerFactory for persistence unit 'V2CRM_PersistenceUnit'
+2019-01-29 14:34:07 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2019-01-29 14:34:09 INFO  TransactionContext:107 - Began transaction (1) for test context [DefaultTestContext@f810c18 testClass = TestReports, testInstance = com.test.TestReports@59f3426f, testMethod = testGranulaReport@TestReports, testException = [null], mergedContextConfiguration = [MergedContextConfiguration@120411ec testClass = TestReports, locations = '{classpath:appContext.xml}', classes = '{}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{}', contextCustomizers = set[[empty]], contextLoader = 'org.springframework.test.context.support.DelegatingSmartContextLoader', parent = [null]], attributes = map[[empty]]]; transaction manager [org.springframework.orm.jpa.JpaTransactionManager@12670e55]; rollback [true]
+2019-01-29 14:34:10 WARN  DefaultExtensionsRegistry:179 - Extension resource jar:file:/C:/Users/jatin.sutaria/.m2/repository/net/sf/jasperreports/jasperreports/6.4.1/jasperreports-6.4.1.jar!/jasperreports_extension.properties was found to be a duplicate of jar:file:/C:/Users/jatin.sutaria/.m2/repository/net/sf/jasperreports/jasperreports/6.4.0/jasperreports-6.4.0.jar!/jasperreports_extension.properties in classloader sun.misc.Launcher$AppClassLoader@7a4f0f29
+2019-01-29 14:34:12 INFO  DynamicJasperHelper:239 - generating JasperPrint
+2019-01-29 14:34:12 INFO  DynamicJasperHelper:505 - generating JasperReport (DynamicReport dr, LayoutManager layoutManager, Map generatedParams)
+2019-01-29 14:34:12 INFO  DynamicJasperHelper:511 - generating JasperReport with prefix: r
+2019-01-29 14:34:12 INFO  DJJRDesignHelper:56 - Creating DynamicJasperDesign
+2019-01-29 14:34:12 INFO  DynamicJasperHelper:541 - Done generating JasperReport for design with name: DJR_7412
+2019-01-29 14:34:13 INFO  DynamicJasperHelper:239 - generating JasperPrint
+2019-01-29 14:34:13 INFO  DynamicJasperHelper:505 - generating JasperReport (DynamicReport dr, LayoutManager layoutManager, Map generatedParams)
+2019-01-29 14:34:13 INFO  DynamicJasperHelper:511 - generating JasperReport with prefix: r
+2019-01-29 14:34:13 INFO  DJJRDesignHelper:56 - Creating DynamicJasperDesign
+2019-01-29 14:34:13 INFO  DynamicJasperHelper:541 - Done generating JasperReport for design with name: DJR_5172
+2019-01-29 14:34:14 INFO  TransactionContext:139 - Rolled back transaction for test: [DefaultTestContext@f810c18 testClass = TestReports, testInstance = com.test.TestReports@59f3426f, testMethod = testGranulaReport@TestReports, testException = [null], mergedContextConfiguration = [MergedContextConfiguration@120411ec testClass = TestReports, locations = '{classpath:appContext.xml}', classes = '{}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{}', contextCustomizers = set[[empty]], contextLoader = 'org.springframework.test.context.support.DelegatingSmartContextLoader', parent = [null]], attributes = map[[empty]]]
+2019-01-29 14:34:14 INFO  GenericApplicationContext:993 - Closing org.springframework.context.support.GenericApplicationContext@27d415d9: startup date [Tue Jan 29 14:33:56 IST 2019]; root of context hierarchy
+2019-01-29 14:34:14 INFO  LocalContainerEntityManagerFactoryBean:597 - Closing JPA EntityManagerFactory for persistence unit 'V2CRM_PersistenceUnit'
+2019-01-29 17:27:29 INFO  DefaultTestContextBootstrapper:248 - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
+2019-01-29 17:27:29 INFO  DefaultTestContextBootstrapper:177 - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@37d31475, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@27808f31, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@436e852b, org.springframework.test.context.support.DirtiesContextTestExecutionListener@32d2fa64, org.springframework.test.context.transaction.TransactionalTestExecutionListener@1d8d30f7, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@3e57cd70]
+2019-01-29 17:27:29 INFO  XmlBeanDefinitionReader:316 - Loading XML bean definitions from class path resource [appContext.xml]
+2019-01-29 17:27:31 INFO  GenericApplicationContext:590 - Refreshing org.springframework.context.support.GenericApplicationContext@4fb64261: startup date [Tue Jan 29 17:27:31 IST 2019]; root of context hierarchy
+2019-01-29 17:27:31 INFO  AutowiredAnnotationBeanPostProcessor:154 - JSR-330 'javax.inject.Inject' annotation found and supported for autowiring
+2019-01-29 17:27:31 INFO  MLog:212 - MLog clients using slf4j logging.
+2019-01-29 17:27:32 INFO  C3P0Registry:212 - Initializing c3p0-0.9.5.2 [built 08-December-2015 22:06:04 -0800; debug? true; trace: 10]
+2019-01-29 17:27:32 INFO  LocalContainerEntityManagerFactoryBean:361 - Building JPA container EntityManagerFactory for persistence unit 'V2CRM_PersistenceUnit'
+2019-01-29 17:27:32 INFO  LogHelper:31 - HHH000204: Processing PersistenceUnitInfo [
+	name: V2CRM_PersistenceUnit
+	...]
+2019-01-29 17:27:32 INFO  Version:37 - HHH000412: Hibernate Core {5.1.3.Final}
+2019-01-29 17:27:32 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2019-01-29 17:27:32 INFO  Environment:317 - HHH000021: Bytecode provider name : javassist
+2019-01-29 17:27:33 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2019-01-29 17:27:33 INFO  AbstractPoolBackedDataSource:212 - Initializing c3p0 pool... com.mchange.v2.c3p0.ComboPooledDataSource [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 5000, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, contextClassLoaderSource -> caller, dataSourceName -> 1hgeby9a016kzg1t1f8uhoo|20d7d6fb, debugUnreturnedConnectionStackTraces -> false, description -> null, driverClass -> com.mysql.jdbc.Driver, extensions -> {}, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, forceSynchronousCheckins -> false, forceUseNamedDriverClass -> false, identityToken -> 1hgeby9a016kzg1t1f8uhoo|20d7d6fb, idleConnectionTestPeriod -> 60, initialPoolSize -> 3, jdbcUrl -> jdbc:mysql://localhost:3306/assessment, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 10, maxIdleTime -> 180, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 25, maxStatements -> 0, maxStatementsPerConnection -> 0, minPoolSize -> 6, numHelperThreads -> 3, preferredTestQuery -> SELECT 1, privilegeSpawnedThreads -> false, properties -> {user=******, password=******}, propertyCycle -> 0, statementCacheNumDeferredCloseThreads -> 0, testConnectionOnCheckin -> true, testConnectionOnCheckout -> true, unreturnedConnectionTimeout -> 0, userOverrides -> {}, usesTraditionalReflectiveProxies -> false ]
+2019-01-29 17:27:33 WARN  BasicResourcePool:220 - Bad pool size config, start 3 < min 6. Using 6 as start.
+2019-01-29 17:27:34 INFO  Dialect:156 - HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+2019-01-29 17:27:34 INFO  Version:30 - HV000001: Hibernate Validator 5.4.0.Final
+2019-01-29 17:27:40 INFO  LocalContainerEntityManagerFactoryBean:415 - Initialized JPA EntityManagerFactory for persistence unit 'V2CRM_PersistenceUnit'
+2019-01-29 17:27:41 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2019-01-29 17:27:43 INFO  TransactionContext:107 - Began transaction (1) for test context [DefaultTestContext@598778cc testClass = TestCandidateProfileParams, testInstance = com.test.TestCandidateProfileParams@3386ed8, testMethod = testCreateCandidateProfileParams@TestCandidateProfileParams, testException = [null], mergedContextConfiguration = [MergedContextConfiguration@727453a3 testClass = TestCandidateProfileParams, locations = '{classpath:appContext.xml}', classes = '{}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{}', contextCustomizers = set[[empty]], contextLoader = 'org.springframework.test.context.support.DelegatingSmartContextLoader', parent = [null]], attributes = map[[empty]]]; transaction manager [org.springframework.orm.jpa.JpaTransactionManager@2ecdf528]; rollback [false]
+2019-01-29 17:27:43 INFO  GlobalSettings:113 - Trying to find Dozer configuration file: dozer.properties
+2019-01-29 17:27:43 WARN  GlobalSettings:118 - Dozer configuration file not found: dozer.properties.  Using defaults for all Dozer global properties.
+2019-01-29 17:27:43 INFO  DozerInitializer:75 - Initializing Dozer. Version: 5.5.0, Thread Name: main
+2019-01-29 17:27:43 INFO  JMXPlatformImpl:66 - Dozer JMX MBean [org.dozer.jmx:type=DozerStatisticsController] auto registered with the Platform MBean Server
+2019-01-29 17:27:43 INFO  JMXPlatformImpl:66 - Dozer JMX MBean [org.dozer.jmx:type=DozerAdminController] auto registered with the Platform MBean Server
+2019-01-29 17:27:43 INFO  DozerBeanMapper:175 - Initializing a new instance of dozer bean mapper.
+2019-01-29 17:27:44 INFO  DozerBeanMapper:175 - Initializing a new instance of dozer bean mapper.
+2019-01-29 17:27:44 INFO  DozerBeanMapper:175 - Initializing a new instance of dozer bean mapper.
+2019-01-29 17:27:44 INFO  DozerBeanMapper:175 - Initializing a new instance of dozer bean mapper.
+2019-01-29 17:27:44 INFO  DozerBeanMapper:175 - Initializing a new instance of dozer bean mapper.
+2019-01-29 17:27:44 INFO  DozerBeanMapper:175 - Initializing a new instance of dozer bean mapper.
+2019-01-29 17:27:44 INFO  DozerBeanMapper:175 - Initializing a new instance of dozer bean mapper.
+2019-01-29 17:27:44 INFO  DozerBeanMapper:175 - Initializing a new instance of dozer bean mapper.
+2019-01-29 17:27:44 INFO  DozerBeanMapper:175 - Initializing a new instance of dozer bean mapper.
+2019-01-29 17:27:44 WARN  SqlExceptionHelper:129 - SQL Error: 1406, SQLState: 22001
+2019-01-29 17:27:44 ERROR SqlExceptionHelper:131 - Data truncation: Data too long for column 'BETWEEN_TWENTY_AND_FIFTY' at row 1
+2019-01-29 17:27:44 INFO  AbstractBatchImpl:193 - HHH000010: On release of batch it still contained JDBC statements
+2019-01-29 17:27:44 WARN  TestContextManager:548 - Caught exception while invoking 'afterTestMethod' callback on TestExecutionListener [org.springframework.test.context.transaction.TransactionalTestExecutionListener@1d8d30f7] for test method [public void com.test.TestCandidateProfileParams.testCreateCandidateProfileParams()] and test instance [com.test.TestCandidateProfileParams@3386ed8]
+org.springframework.transaction.TransactionSystemException: Could not commit JPA transaction; nested exception is javax.persistence.RollbackException: Transaction marked as rollbackOnly
+	at org.springframework.orm.jpa.JpaTransactionManager.doCommit(JpaTransactionManager.java:545)
+	at org.springframework.transaction.support.AbstractPlatformTransactionManager.processCommit(AbstractPlatformTransactionManager.java:746)
+	at org.springframework.transaction.support.AbstractPlatformTransactionManager.commit(AbstractPlatformTransactionManager.java:714)
+	at org.springframework.test.context.transaction.TransactionContext.endTransaction(TransactionContext.java:131)
+	at org.springframework.test.context.transaction.TransactionalTestExecutionListener.afterTestMethod(TransactionalTestExecutionListener.java:216)
+	at org.springframework.test.context.TestContextManager.afterTestMethod(TestContextManager.java:443)
+	at org.springframework.test.context.junit4.statements.RunAfterTestMethodCallbacks.evaluate(RunAfterTestMethodCallbacks.java:94)
+	at org.springframework.test.context.junit4.statements.SpringRepeat.evaluate(SpringRepeat.java:84)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:251)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:97)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+	at org.springframework.test.context.junit4.statements.RunBeforeTestClassCallbacks.evaluate(RunBeforeTestClassCallbacks.java:61)
+	at org.springframework.test.context.junit4.statements.RunAfterTestClassCallbacks.evaluate(RunAfterTestClassCallbacks.java:70)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.run(SpringJUnit4ClassRunner.java:190)
+	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:86)
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:459)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:675)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:382)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:192)
+Caused by: javax.persistence.RollbackException: Transaction marked as rollbackOnly
+	at org.hibernate.jpa.internal.TransactionImpl.commit(TransactionImpl.java:58)
+	at org.springframework.orm.jpa.JpaTransactionManager.doCommit(JpaTransactionManager.java:536)
+	... 25 more
+2019-01-29 17:27:44 INFO  GenericApplicationContext:993 - Closing org.springframework.context.support.GenericApplicationContext@4fb64261: startup date [Tue Jan 29 17:27:31 IST 2019]; root of context hierarchy
+2019-01-29 17:27:44 INFO  LocalContainerEntityManagerFactoryBean:597 - Closing JPA EntityManagerFactory for persistence unit 'V2CRM_PersistenceUnit'
+2019-01-29 17:44:33 INFO  DefaultTestContextBootstrapper:248 - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
+2019-01-29 17:44:33 INFO  DefaultTestContextBootstrapper:177 - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@37d31475, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@27808f31, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@436e852b, org.springframework.test.context.support.DirtiesContextTestExecutionListener@32d2fa64, org.springframework.test.context.transaction.TransactionalTestExecutionListener@1d8d30f7, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@3e57cd70]
+2019-01-29 17:44:33 INFO  XmlBeanDefinitionReader:316 - Loading XML bean definitions from class path resource [appContext.xml]
+2019-01-29 17:44:34 INFO  GenericApplicationContext:590 - Refreshing org.springframework.context.support.GenericApplicationContext@4fb64261: startup date [Tue Jan 29 17:44:34 IST 2019]; root of context hierarchy
+2019-01-29 17:44:35 INFO  AutowiredAnnotationBeanPostProcessor:154 - JSR-330 'javax.inject.Inject' annotation found and supported for autowiring
+2019-01-29 17:44:35 INFO  MLog:212 - MLog clients using slf4j logging.
+2019-01-29 17:44:35 INFO  C3P0Registry:212 - Initializing c3p0-0.9.5.2 [built 08-December-2015 22:06:04 -0800; debug? true; trace: 10]
+2019-01-29 17:44:36 INFO  LocalContainerEntityManagerFactoryBean:361 - Building JPA container EntityManagerFactory for persistence unit 'V2CRM_PersistenceUnit'
+2019-01-29 17:44:36 INFO  LogHelper:31 - HHH000204: Processing PersistenceUnitInfo [
+	name: V2CRM_PersistenceUnit
+	...]
+2019-01-29 17:44:36 INFO  Version:37 - HHH000412: Hibernate Core {5.1.3.Final}
+2019-01-29 17:44:36 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2019-01-29 17:44:36 INFO  Environment:317 - HHH000021: Bytecode provider name : javassist
+2019-01-29 17:44:36 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2019-01-29 17:44:37 INFO  AbstractPoolBackedDataSource:212 - Initializing c3p0 pool... com.mchange.v2.c3p0.ComboPooledDataSource [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 5000, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, contextClassLoaderSource -> caller, dataSourceName -> 1hgeby9a016lldye1j8ukwo|20d7d6fb, debugUnreturnedConnectionStackTraces -> false, description -> null, driverClass -> com.mysql.jdbc.Driver, extensions -> {}, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, forceSynchronousCheckins -> false, forceUseNamedDriverClass -> false, identityToken -> 1hgeby9a016lldye1j8ukwo|20d7d6fb, idleConnectionTestPeriod -> 60, initialPoolSize -> 3, jdbcUrl -> jdbc:mysql://159.65.148.176:3306/test_assessment, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 10, maxIdleTime -> 180, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 25, maxStatements -> 0, maxStatementsPerConnection -> 0, minPoolSize -> 6, numHelperThreads -> 3, preferredTestQuery -> SELECT 1, privilegeSpawnedThreads -> false, properties -> {user=******, password=******}, propertyCycle -> 0, statementCacheNumDeferredCloseThreads -> 0, testConnectionOnCheckin -> true, testConnectionOnCheckout -> true, unreturnedConnectionTimeout -> 0, userOverrides -> {}, usesTraditionalReflectiveProxies -> false ]
+2019-01-29 17:44:37 WARN  BasicResourcePool:220 - Bad pool size config, start 3 < min 6. Using 6 as start.
+2019-01-29 17:44:37 INFO  Dialect:156 - HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+2019-01-29 17:44:38 INFO  Version:30 - HV000001: Hibernate Validator 5.4.0.Final
+2019-01-29 17:45:19 INFO  LocalContainerEntityManagerFactoryBean:415 - Initialized JPA EntityManagerFactory for persistence unit 'V2CRM_PersistenceUnit'
+2019-01-29 17:45:20 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2019-01-29 17:45:22 INFO  TransactionContext:107 - Began transaction (1) for test context [DefaultTestContext@598778cc testClass = TestCandidateProfileParams, testInstance = com.test.TestCandidateProfileParams@3386ed8, testMethod = testCreateCandidateProfileParams@TestCandidateProfileParams, testException = [null], mergedContextConfiguration = [MergedContextConfiguration@727453a3 testClass = TestCandidateProfileParams, locations = '{classpath:appContext.xml}', classes = '{}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{}', contextCustomizers = set[[empty]], contextLoader = 'org.springframework.test.context.support.DelegatingSmartContextLoader', parent = [null]], attributes = map[[empty]]]; transaction manager [org.springframework.orm.jpa.JpaTransactionManager@2ecdf528]; rollback [false]
+2019-01-29 17:45:25 WARN  SqlExceptionHelper:129 - SQL Error: 1406, SQLState: 22001
+2019-01-29 17:45:25 ERROR SqlExceptionHelper:131 - Data truncation: Data too long for column 'BETWEEN_TWENTY_AND_FIFTY' at row 1
+2019-01-29 17:45:25 INFO  AbstractBatchImpl:193 - HHH000010: On release of batch it still contained JDBC statements
+2019-01-29 17:45:25 WARN  TestContextManager:548 - Caught exception while invoking 'afterTestMethod' callback on TestExecutionListener [org.springframework.test.context.transaction.TransactionalTestExecutionListener@1d8d30f7] for test method [public void com.test.TestCandidateProfileParams.testCreateCandidateProfileParams()] and test instance [com.test.TestCandidateProfileParams@3386ed8]
+org.springframework.transaction.TransactionSystemException: Could not commit JPA transaction; nested exception is javax.persistence.RollbackException: Transaction marked as rollbackOnly
+	at org.springframework.orm.jpa.JpaTransactionManager.doCommit(JpaTransactionManager.java:545)
+	at org.springframework.transaction.support.AbstractPlatformTransactionManager.processCommit(AbstractPlatformTransactionManager.java:746)
+	at org.springframework.transaction.support.AbstractPlatformTransactionManager.commit(AbstractPlatformTransactionManager.java:714)
+	at org.springframework.test.context.transaction.TransactionContext.endTransaction(TransactionContext.java:131)
+	at org.springframework.test.context.transaction.TransactionalTestExecutionListener.afterTestMethod(TransactionalTestExecutionListener.java:216)
+	at org.springframework.test.context.TestContextManager.afterTestMethod(TestContextManager.java:443)
+	at org.springframework.test.context.junit4.statements.RunAfterTestMethodCallbacks.evaluate(RunAfterTestMethodCallbacks.java:94)
+	at org.springframework.test.context.junit4.statements.SpringRepeat.evaluate(SpringRepeat.java:84)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:251)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:97)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+	at org.springframework.test.context.junit4.statements.RunBeforeTestClassCallbacks.evaluate(RunBeforeTestClassCallbacks.java:61)
+	at org.springframework.test.context.junit4.statements.RunAfterTestClassCallbacks.evaluate(RunAfterTestClassCallbacks.java:70)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.run(SpringJUnit4ClassRunner.java:190)
+	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:86)
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:459)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:675)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:382)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:192)
+Caused by: javax.persistence.RollbackException: Transaction marked as rollbackOnly
+	at org.hibernate.jpa.internal.TransactionImpl.commit(TransactionImpl.java:58)
+	at org.springframework.orm.jpa.JpaTransactionManager.doCommit(JpaTransactionManager.java:536)
+	... 25 more
+2019-01-29 17:45:25 INFO  GenericApplicationContext:993 - Closing org.springframework.context.support.GenericApplicationContext@4fb64261: startup date [Tue Jan 29 17:44:34 IST 2019]; root of context hierarchy
+2019-01-29 17:45:25 INFO  LocalContainerEntityManagerFactoryBean:597 - Closing JPA EntityManagerFactory for persistence unit 'V2CRM_PersistenceUnit'
+2019-01-29 17:50:06 INFO  DefaultTestContextBootstrapper:248 - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
+2019-01-29 17:50:06 INFO  DefaultTestContextBootstrapper:177 - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@37d31475, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@27808f31, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@436e852b, org.springframework.test.context.support.DirtiesContextTestExecutionListener@32d2fa64, org.springframework.test.context.transaction.TransactionalTestExecutionListener@1d8d30f7, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@3e57cd70]
+2019-01-29 17:50:06 INFO  XmlBeanDefinitionReader:316 - Loading XML bean definitions from class path resource [appContext.xml]
+2019-01-29 17:50:07 INFO  GenericApplicationContext:590 - Refreshing org.springframework.context.support.GenericApplicationContext@4fb64261: startup date [Tue Jan 29 17:50:07 IST 2019]; root of context hierarchy
+2019-01-29 17:50:08 INFO  AutowiredAnnotationBeanPostProcessor:154 - JSR-330 'javax.inject.Inject' annotation found and supported for autowiring
+2019-01-29 17:50:08 INFO  MLog:212 - MLog clients using slf4j logging.
+2019-01-29 17:50:08 INFO  C3P0Registry:212 - Initializing c3p0-0.9.5.2 [built 08-December-2015 22:06:04 -0800; debug? true; trace: 10]
+2019-01-29 17:50:09 INFO  LocalContainerEntityManagerFactoryBean:361 - Building JPA container EntityManagerFactory for persistence unit 'V2CRM_PersistenceUnit'
+2019-01-29 17:50:09 INFO  LogHelper:31 - HHH000204: Processing PersistenceUnitInfo [
+	name: V2CRM_PersistenceUnit
+	...]
+2019-01-29 17:50:09 INFO  Version:37 - HHH000412: Hibernate Core {5.1.3.Final}
+2019-01-29 17:50:09 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2019-01-29 17:50:09 INFO  Environment:317 - HHH000021: Bytecode provider name : javassist
+2019-01-29 17:50:09 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2019-01-29 17:50:09 INFO  AbstractPoolBackedDataSource:212 - Initializing c3p0 pool... com.mchange.v2.c3p0.ComboPooledDataSource [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 5000, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, contextClassLoaderSource -> caller, dataSourceName -> 1hgeby9a016lsitq130v4jk|20d7d6fb, debugUnreturnedConnectionStackTraces -> false, description -> null, driverClass -> com.mysql.jdbc.Driver, extensions -> {}, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, forceSynchronousCheckins -> false, forceUseNamedDriverClass -> false, identityToken -> 1hgeby9a016lsitq130v4jk|20d7d6fb, idleConnectionTestPeriod -> 60, initialPoolSize -> 3, jdbcUrl -> jdbc:mysql://159.65.148.176:3306/test_assessment, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 10, maxIdleTime -> 180, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 25, maxStatements -> 0, maxStatementsPerConnection -> 0, minPoolSize -> 6, numHelperThreads -> 3, preferredTestQuery -> SELECT 1, privilegeSpawnedThreads -> false, properties -> {user=******, password=******}, propertyCycle -> 0, statementCacheNumDeferredCloseThreads -> 0, testConnectionOnCheckin -> true, testConnectionOnCheckout -> true, unreturnedConnectionTimeout -> 0, userOverrides -> {}, usesTraditionalReflectiveProxies -> false ]
+2019-01-29 17:50:09 WARN  BasicResourcePool:220 - Bad pool size config, start 3 < min 6. Using 6 as start.
+2019-01-29 17:50:10 INFO  Dialect:156 - HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+2019-01-29 17:50:11 INFO  Version:30 - HV000001: Hibernate Validator 5.4.0.Final
+2019-01-29 17:50:51 INFO  LocalContainerEntityManagerFactoryBean:415 - Initialized JPA EntityManagerFactory for persistence unit 'V2CRM_PersistenceUnit'
+2019-01-29 17:50:52 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2019-01-29 17:50:54 INFO  TransactionContext:107 - Began transaction (1) for test context [DefaultTestContext@598778cc testClass = TestCandidateProfileParams, testInstance = com.test.TestCandidateProfileParams@3386ed8, testMethod = testCreateCandidateProfileParams@TestCandidateProfileParams, testException = [null], mergedContextConfiguration = [MergedContextConfiguration@727453a3 testClass = TestCandidateProfileParams, locations = '{classpath:appContext.xml}', classes = '{}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{}', contextCustomizers = set[[empty]], contextLoader = 'org.springframework.test.context.support.DelegatingSmartContextLoader', parent = [null]], attributes = map[[empty]]]; transaction manager [org.springframework.orm.jpa.JpaTransactionManager@2ecdf528]; rollback [false]
+2019-01-29 17:51:00 INFO  TransactionContext:139 - Committed transaction for test: [DefaultTestContext@598778cc testClass = TestCandidateProfileParams, testInstance = com.test.TestCandidateProfileParams@3386ed8, testMethod = testCreateCandidateProfileParams@TestCandidateProfileParams, testException = [null], mergedContextConfiguration = [MergedContextConfiguration@727453a3 testClass = TestCandidateProfileParams, locations = '{classpath:appContext.xml}', classes = '{}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{}', contextCustomizers = set[[empty]], contextLoader = 'org.springframework.test.context.support.DelegatingSmartContextLoader', parent = [null]], attributes = map[[empty]]]
+2019-01-29 17:51:00 INFO  GenericApplicationContext:993 - Closing org.springframework.context.support.GenericApplicationContext@4fb64261: startup date [Tue Jan 29 17:50:07 IST 2019]; root of context hierarchy
+2019-01-29 17:51:00 INFO  LocalContainerEntityManagerFactoryBean:597 - Closing JPA EntityManagerFactory for persistence unit 'V2CRM_PersistenceUnit'
+2019-01-30 11:49:33 INFO  DefaultTestContextBootstrapper:248 - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
+2019-01-30 11:49:34 INFO  DefaultTestContextBootstrapper:177 - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@37d31475, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@27808f31, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@436e852b, org.springframework.test.context.support.DirtiesContextTestExecutionListener@32d2fa64, org.springframework.test.context.transaction.TransactionalTestExecutionListener@1d8d30f7, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@3e57cd70]
+2019-01-30 11:49:34 INFO  XmlBeanDefinitionReader:316 - Loading XML bean definitions from class path resource [appContext.xml]
+2019-01-30 11:49:35 INFO  GenericApplicationContext:590 - Refreshing org.springframework.context.support.GenericApplicationContext@4fb64261: startup date [Wed Jan 30 11:49:35 IST 2019]; root of context hierarchy
+2019-01-30 11:49:35 INFO  AutowiredAnnotationBeanPostProcessor:154 - JSR-330 'javax.inject.Inject' annotation found and supported for autowiring
+2019-01-30 11:49:36 INFO  MLog:212 - MLog clients using slf4j logging.
+2019-01-30 11:49:36 INFO  C3P0Registry:212 - Initializing c3p0-0.9.5.2 [built 08-December-2015 22:06:04 -0800; debug? true; trace: 10]
+2019-01-30 11:49:36 INFO  LocalContainerEntityManagerFactoryBean:361 - Building JPA container EntityManagerFactory for persistence unit 'V2CRM_PersistenceUnit'
+2019-01-30 11:49:36 INFO  LogHelper:31 - HHH000204: Processing PersistenceUnitInfo [
+	name: V2CRM_PersistenceUnit
+	...]
+2019-01-30 11:49:37 INFO  Version:37 - HHH000412: Hibernate Core {5.1.3.Final}
+2019-01-30 11:49:37 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2019-01-30 11:49:37 INFO  Environment:317 - HHH000021: Bytecode provider name : javassist
+2019-01-30 11:49:37 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2019-01-30 11:49:37 INFO  AbstractPoolBackedDataSource:212 - Initializing c3p0 pool... com.mchange.v2.c3p0.ComboPooledDataSource [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 5000, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, contextClassLoaderSource -> caller, dataSourceName -> 1hgeby9a017ocpqx17qe1oo|20d7d6fb, debugUnreturnedConnectionStackTraces -> false, description -> null, driverClass -> com.mysql.jdbc.Driver, extensions -> {}, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, forceSynchronousCheckins -> false, forceUseNamedDriverClass -> false, identityToken -> 1hgeby9a017ocpqx17qe1oo|20d7d6fb, idleConnectionTestPeriod -> 60, initialPoolSize -> 3, jdbcUrl -> jdbc:mysql://159.65.148.176:3306/test_assessment, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 10, maxIdleTime -> 180, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 25, maxStatements -> 0, maxStatementsPerConnection -> 0, minPoolSize -> 6, numHelperThreads -> 3, preferredTestQuery -> SELECT 1, privilegeSpawnedThreads -> false, properties -> {user=******, password=******}, propertyCycle -> 0, statementCacheNumDeferredCloseThreads -> 0, testConnectionOnCheckin -> true, testConnectionOnCheckout -> true, unreturnedConnectionTimeout -> 0, userOverrides -> {}, usesTraditionalReflectiveProxies -> false ]
+2019-01-30 11:49:37 WARN  BasicResourcePool:220 - Bad pool size config, start 3 < min 6. Using 6 as start.
+2019-01-30 11:49:38 INFO  Dialect:156 - HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+2019-01-30 11:49:39 INFO  Version:30 - HV000001: Hibernate Validator 5.4.0.Final
+2019-01-30 11:50:09 INFO  LocalContainerEntityManagerFactoryBean:415 - Initialized JPA EntityManagerFactory for persistence unit 'V2CRM_PersistenceUnit'
+2019-01-30 11:50:11 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2019-01-30 11:50:12 INFO  TransactionContext:107 - Began transaction (1) for test context [DefaultTestContext@598778cc testClass = TestCandidateProfileParams, testInstance = com.test.TestCandidateProfileParams@3386ed8, testMethod = testCreateCandidateProfileParams@TestCandidateProfileParams, testException = [null], mergedContextConfiguration = [MergedContextConfiguration@727453a3 testClass = TestCandidateProfileParams, locations = '{classpath:appContext.xml}', classes = '{}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{}', contextCustomizers = set[[empty]], contextLoader = 'org.springframework.test.context.support.DelegatingSmartContextLoader', parent = [null]], attributes = map[[empty]]]; transaction manager [org.springframework.orm.jpa.JpaTransactionManager@2ecdf528]; rollback [false]
+2019-01-30 11:50:19 INFO  TransactionContext:139 - Committed transaction for test: [DefaultTestContext@598778cc testClass = TestCandidateProfileParams, testInstance = com.test.TestCandidateProfileParams@3386ed8, testMethod = testCreateCandidateProfileParams@TestCandidateProfileParams, testException = [null], mergedContextConfiguration = [MergedContextConfiguration@727453a3 testClass = TestCandidateProfileParams, locations = '{classpath:appContext.xml}', classes = '{}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{}', contextCustomizers = set[[empty]], contextLoader = 'org.springframework.test.context.support.DelegatingSmartContextLoader', parent = [null]], attributes = map[[empty]]]
+2019-01-30 11:50:19 INFO  GenericApplicationContext:993 - Closing org.springframework.context.support.GenericApplicationContext@4fb64261: startup date [Wed Jan 30 11:49:35 IST 2019]; root of context hierarchy
+2019-01-30 11:50:19 INFO  LocalContainerEntityManagerFactoryBean:597 - Closing JPA EntityManagerFactory for persistence unit 'V2CRM_PersistenceUnit'
+2019-02-05 12:26:42 INFO  DefaultTestContextBootstrapper:248 - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
+2019-02-05 12:26:42 INFO  DefaultTestContextBootstrapper:177 - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@3098cf3b, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@610f7aa, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@6a03bcb1, org.springframework.test.context.support.DirtiesContextTestExecutionListener@21b2e768, org.springframework.test.context.transaction.TransactionalTestExecutionListener@57250572, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@5609159b]
+2019-02-05 12:26:42 INFO  XmlBeanDefinitionReader:316 - Loading XML bean definitions from class path resource [appContext.xml]
+2019-02-05 12:26:43 INFO  GenericApplicationContext:590 - Refreshing org.springframework.context.support.GenericApplicationContext@79da8dc5: startup date [Tue Feb 05 12:26:43 IST 2019]; root of context hierarchy
+2019-02-05 12:26:44 INFO  AutowiredAnnotationBeanPostProcessor:154 - JSR-330 'javax.inject.Inject' annotation found and supported for autowiring
+2019-02-05 12:26:44 INFO  MLog:212 - MLog clients using slf4j logging.
+2019-02-05 12:26:45 INFO  C3P0Registry:212 - Initializing c3p0-0.9.5.2 [built 08-December-2015 22:06:04 -0800; debug? true; trace: 10]
+2019-02-05 12:26:45 INFO  LocalContainerEntityManagerFactoryBean:361 - Building JPA container EntityManagerFactory for persistence unit 'V2CRM_PersistenceUnit'
+2019-02-05 12:26:45 INFO  LogHelper:31 - HHH000204: Processing PersistenceUnitInfo [
+	name: V2CRM_PersistenceUnit
+	...]
+2019-02-05 12:26:46 INFO  Version:37 - HHH000412: Hibernate Core {5.1.3.Final}
+2019-02-05 12:26:46 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2019-02-05 12:26:46 INFO  Environment:317 - HHH000021: Bytecode provider name : javassist
+2019-02-05 12:26:46 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2019-02-05 12:26:46 INFO  AbstractPoolBackedDataSource:212 - Initializing c3p0 pool... com.mchange.v2.c3p0.ComboPooledDataSource [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 5000, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, contextClassLoaderSource -> caller, dataSourceName -> 1hgeby9a01gabll61t6px94|63fd4873, debugUnreturnedConnectionStackTraces -> false, description -> null, driverClass -> com.mysql.jdbc.Driver, extensions -> {}, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, forceSynchronousCheckins -> false, forceUseNamedDriverClass -> false, identityToken -> 1hgeby9a01gabll61t6px94|63fd4873, idleConnectionTestPeriod -> 60, initialPoolSize -> 3, jdbcUrl -> jdbc:mysql://13.233.2.169:3306/test_assessment, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 10, maxIdleTime -> 180, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 25, maxStatements -> 0, maxStatementsPerConnection -> 0, minPoolSize -> 6, numHelperThreads -> 3, preferredTestQuery -> SELECT 1, privilegeSpawnedThreads -> false, properties -> {user=******, password=******}, propertyCycle -> 0, statementCacheNumDeferredCloseThreads -> 0, testConnectionOnCheckin -> true, testConnectionOnCheckout -> true, unreturnedConnectionTimeout -> 0, userOverrides -> {}, usesTraditionalReflectiveProxies -> false ]
+2019-02-05 12:26:46 WARN  BasicResourcePool:220 - Bad pool size config, start 3 < min 6. Using 6 as start.
+2019-02-05 12:26:51 WARN  JdbcEnvironmentInitiator:132 - HHH000342: Could not obtain connection to query metadata : An attempt by a client to checkout a Connection has timed out.
+2019-02-05 12:26:51 INFO  Dialect:156 - HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+2019-02-05 12:26:52 INFO  LobCreatorBuilderImpl:63 - HHH000422: Disabling contextual LOB creation as connection was null
+2019-02-05 12:26:53 INFO  Version:30 - HV000001: Hibernate Validator 5.4.0.Final
+2019-02-05 12:27:05 WARN  SqlExceptionHelper:129 - SQL Error: 0, SQLState: null
+2019-02-05 12:27:05 ERROR SqlExceptionHelper:131 - An attempt by a client to checkout a Connection has timed out.
+2019-02-05 12:27:05 WARN  GenericApplicationContext:558 - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [appContext.xml]: Invocation of init method failed; nested exception is javax.persistence.PersistenceException: [PersistenceUnit: V2CRM_PersistenceUnit] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.exception.GenericJDBCException: Unable to open JDBC Connection for DDL execution
+2019-02-05 12:27:05 ERROR TestContextManager:250 - Caught exception while allowing TestExecutionListener [org.springframework.test.context.support.DependencyInjectionTestExecutionListener@6a03bcb1] to prepare test instance [com.test.TestReports@498a4d62]
+java.lang.IllegalStateException: Failed to load ApplicationContext
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:125)
+	at org.springframework.test.context.support.DefaultTestContext.getApplicationContext(DefaultTestContext.java:108)
+	at org.springframework.test.context.support.DependencyInjectionTestExecutionListener.injectDependencies(DependencyInjectionTestExecutionListener.java:117)
+	at org.springframework.test.context.support.DependencyInjectionTestExecutionListener.prepareTestInstance(DependencyInjectionTestExecutionListener.java:83)
+	at org.springframework.test.context.TestContextManager.prepareTestInstance(TestContextManager.java:246)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.createTest(SpringJUnit4ClassRunner.java:227)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner$1.runReflectiveCall(SpringJUnit4ClassRunner.java:289)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.methodBlock(SpringJUnit4ClassRunner.java:291)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:246)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:97)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+	at org.springframework.test.context.junit4.statements.RunBeforeTestClassCallbacks.evaluate(RunBeforeTestClassCallbacks.java:61)
+	at org.springframework.test.context.junit4.statements.RunAfterTestClassCallbacks.evaluate(RunAfterTestClassCallbacks.java:70)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.run(SpringJUnit4ClassRunner.java:190)
+	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:86)
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:459)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:675)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:382)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:192)
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [appContext.xml]: Invocation of init method failed; nested exception is javax.persistence.PersistenceException: [PersistenceUnit: V2CRM_PersistenceUnit] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.exception.GenericJDBCException: Unable to open JDBC Connection for DDL execution
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1708)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:581)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:503)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:317)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:315)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1089)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:859)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:550)
+	at org.springframework.test.context.support.AbstractGenericContextLoader.loadContext(AbstractGenericContextLoader.java:128)
+	at org.springframework.test.context.support.AbstractGenericContextLoader.loadContext(AbstractGenericContextLoader.java:60)
+	at org.springframework.test.context.support.AbstractDelegatingSmartContextLoader.delegateLoading(AbstractDelegatingSmartContextLoader.java:107)
+	at org.springframework.test.context.support.AbstractDelegatingSmartContextLoader.loadContext(AbstractDelegatingSmartContextLoader.java:243)
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContextInternal(DefaultCacheAwareContextLoaderDelegate.java:99)
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:117)
+	... 25 more
+Caused by: javax.persistence.PersistenceException: [PersistenceUnit: V2CRM_PersistenceUnit] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.exception.GenericJDBCException: Unable to open JDBC Connection for DDL execution
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:402)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:377)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:341)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1767)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1704)
+	... 40 more
+Caused by: org.hibernate.exception.GenericJDBCException: Unable to open JDBC Connection for DDL execution
+	at org.hibernate.exception.internal.StandardSQLExceptionConverter.convert(StandardSQLExceptionConverter.java:47)
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:111)
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:97)
+	at org.hibernate.resource.transaction.backend.jdbc.internal.DdlTransactionIsolatorNonJtaImpl.getIsolatedConnection(DdlTransactionIsolatorNonJtaImpl.java:69)
+	at org.hibernate.tool.schema.internal.exec.ImprovedExtractionContextImpl.getJdbcConnection(ImprovedExtractionContextImpl.java:60)
+	at org.hibernate.tool.schema.internal.exec.ImprovedExtractionContextImpl.getJdbcDatabaseMetaData(ImprovedExtractionContextImpl.java:67)
+	at org.hibernate.tool.schema.extract.internal.InformationExtractorJdbcDatabaseMetaDataImpl.getTable(InformationExtractorJdbcDatabaseMetaDataImpl.java:271)
+	at org.hibernate.tool.schema.internal.exec.ImprovedDatabaseInformationImpl.getTableInformation(ImprovedDatabaseInformationImpl.java:110)
+	at org.hibernate.tool.schema.internal.SchemaMigratorImpl.performMigration(SchemaMigratorImpl.java:247)
+	at org.hibernate.tool.schema.internal.SchemaMigratorImpl.doMigration(SchemaMigratorImpl.java:132)
+	at org.hibernate.tool.schema.internal.SchemaMigratorImpl.doMigration(SchemaMigratorImpl.java:105)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.performDatabaseAction(SchemaManagementToolCoordinator.java:176)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.process(SchemaManagementToolCoordinator.java:65)
+	at org.hibernate.internal.SessionFactoryImpl.<init>(SessionFactoryImpl.java:459)
+	at org.hibernate.boot.internal.SessionFactoryBuilderImpl.build(SessionFactoryBuilderImpl.java:465)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:880)
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:57)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:365)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:390)
+	... 44 more
+Caused by: java.sql.SQLException: An attempt by a client to checkout a Connection has timed out.
+	at com.mchange.v2.sql.SqlUtils.toSQLException(SqlUtils.java:118)
+	at com.mchange.v2.sql.SqlUtils.toSQLException(SqlUtils.java:77)
+	at com.mchange.v2.c3p0.impl.C3P0PooledConnectionPool.checkoutPooledConnection(C3P0PooledConnectionPool.java:690)
+	at com.mchange.v2.c3p0.impl.AbstractPoolBackedDataSource.getConnection(AbstractPoolBackedDataSource.java:140)
+	at org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl.getConnection(DatasourceConnectionProviderImpl.java:122)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess.obtainConnection(JdbcEnvironmentInitiator.java:180)
+	at org.hibernate.resource.transaction.backend.jdbc.internal.DdlTransactionIsolatorNonJtaImpl.getIsolatedConnection(DdlTransactionIsolatorNonJtaImpl.java:43)
+	... 59 more
+Caused by: com.mchange.v2.resourcepool.TimeoutException: A client timed out while waiting to acquire a resource from com.mchange.v2.resourcepool.BasicResourcePool@bdd2027 -- timeout at awaitAvailable()
+	at com.mchange.v2.resourcepool.BasicResourcePool.awaitAvailable(BasicResourcePool.java:1467)
+	at com.mchange.v2.resourcepool.BasicResourcePool.prelimCheckoutResource(BasicResourcePool.java:644)
+	at com.mchange.v2.resourcepool.BasicResourcePool.checkoutResource(BasicResourcePool.java:554)
+	at com.mchange.v2.c3p0.impl.C3P0PooledConnectionPool.checkoutAndMarkConnectionInUse(C3P0PooledConnectionPool.java:758)
+	at com.mchange.v2.c3p0.impl.C3P0PooledConnectionPool.checkoutPooledConnection(C3P0PooledConnectionPool.java:685)
+	... 63 more
+2019-02-05 12:29:40 INFO  DefaultTestContextBootstrapper:248 - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
+2019-02-05 12:29:40 INFO  DefaultTestContextBootstrapper:177 - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@3098cf3b, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@610f7aa, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@6a03bcb1, org.springframework.test.context.support.DirtiesContextTestExecutionListener@21b2e768, org.springframework.test.context.transaction.TransactionalTestExecutionListener@57250572, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@5609159b]
+2019-02-05 12:29:40 INFO  XmlBeanDefinitionReader:316 - Loading XML bean definitions from class path resource [appContext.xml]
+2019-02-05 12:29:41 INFO  GenericApplicationContext:590 - Refreshing org.springframework.context.support.GenericApplicationContext@79da8dc5: startup date [Tue Feb 05 12:29:41 IST 2019]; root of context hierarchy
+2019-02-05 12:29:42 INFO  AutowiredAnnotationBeanPostProcessor:154 - JSR-330 'javax.inject.Inject' annotation found and supported for autowiring
+2019-02-05 12:29:42 INFO  MLog:212 - MLog clients using slf4j logging.
+2019-02-05 12:29:42 INFO  C3P0Registry:212 - Initializing c3p0-0.9.5.2 [built 08-December-2015 22:06:04 -0800; debug? true; trace: 10]
+2019-02-05 12:29:43 INFO  LocalContainerEntityManagerFactoryBean:361 - Building JPA container EntityManagerFactory for persistence unit 'V2CRM_PersistenceUnit'
+2019-02-05 12:29:43 INFO  LogHelper:31 - HHH000204: Processing PersistenceUnitInfo [
+	name: V2CRM_PersistenceUnit
+	...]
+2019-02-05 12:29:43 INFO  Version:37 - HHH000412: Hibernate Core {5.1.3.Final}
+2019-02-05 12:29:43 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2019-02-05 12:29:43 INFO  Environment:317 - HHH000021: Bytecode provider name : javassist
+2019-02-05 12:29:43 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2019-02-05 12:29:44 INFO  AbstractPoolBackedDataSource:212 - Initializing c3p0 pool... com.mchange.v2.c3p0.ComboPooledDataSource [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 5000, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, contextClassLoaderSource -> caller, dataSourceName -> 1hgeby9a01gafeilx42f0c|20312893, debugUnreturnedConnectionStackTraces -> false, description -> null, driverClass -> com.mysql.jdbc.Driver, extensions -> {}, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, forceSynchronousCheckins -> false, forceUseNamedDriverClass -> false, identityToken -> 1hgeby9a01gafeilx42f0c|20312893, idleConnectionTestPeriod -> 60, initialPoolSize -> 3, jdbcUrl -> jdbc:mysql://13.233.2.169:3306/assessment, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 10, maxIdleTime -> 180, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 25, maxStatements -> 0, maxStatementsPerConnection -> 0, minPoolSize -> 6, numHelperThreads -> 3, preferredTestQuery -> SELECT 1, privilegeSpawnedThreads -> false, properties -> {user=******, password=******}, propertyCycle -> 0, statementCacheNumDeferredCloseThreads -> 0, testConnectionOnCheckin -> true, testConnectionOnCheckout -> true, unreturnedConnectionTimeout -> 0, userOverrides -> {}, usesTraditionalReflectiveProxies -> false ]
+2019-02-05 12:29:44 WARN  BasicResourcePool:220 - Bad pool size config, start 3 < min 6. Using 6 as start.
+2019-02-05 12:29:44 INFO  Dialect:156 - HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+2019-02-05 12:29:46 INFO  Version:30 - HV000001: Hibernate Validator 5.4.0.Final
+2019-02-05 12:29:47 INFO  InformationExtractorJdbcDatabaseMetaDataImpl:395 - HHH000262: Table not found: CandidateProfileParams
+2019-02-05 12:29:47 INFO  InformationExtractorJdbcDatabaseMetaDataImpl:395 - HHH000262: Table not found: CandidateProfileParams
+2019-02-05 12:29:55 INFO  LocalContainerEntityManagerFactoryBean:415 - Initialized JPA EntityManagerFactory for persistence unit 'V2CRM_PersistenceUnit'
+2019-02-05 12:29:57 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2019-02-05 12:29:59 INFO  TransactionContext:107 - Began transaction (1) for test context [DefaultTestContext@4d2950ed testClass = TestReports, testInstance = com.test.TestReports@3095d06b, testMethod = testGetUsersDataForTest@TestReports, testException = [null], mergedContextConfiguration = [MergedContextConfiguration@51aaa9d4 testClass = TestReports, locations = '{classpath:appContext.xml}', classes = '{}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{}', contextCustomizers = set[[empty]], contextLoader = 'org.springframework.test.context.support.DelegatingSmartContextLoader', parent = [null]], attributes = map[[empty]]]; transaction manager [org.springframework.orm.jpa.JpaTransactionManager@18c0f025]; rollback [true]
+2019-02-05 12:34:06 INFO  DynamicJasperHelper:239 - generating JasperPrint
+2019-02-05 12:34:06 INFO  DynamicJasperHelper:505 - generating JasperReport (DynamicReport dr, LayoutManager layoutManager, Map generatedParams)
+2019-02-05 12:34:06 INFO  DynamicJasperHelper:511 - generating JasperReport with prefix: r
+2019-02-05 12:34:06 INFO  DJJRDesignHelper:56 - Creating DynamicJasperDesign
+2019-02-05 12:34:09 INFO  DynamicJasperHelper:541 - Done generating JasperReport for design with name: NewTest_23Nov-Users_Report_5961
+2019-02-05 12:34:15 WARN  DefaultExtensionsRegistry:179 - Extension resource jar:file:/C:/Users/jatin.sutaria/.m2/repository/net/sf/jasperreports/jasperreports/6.4.1/jasperreports-6.4.1.jar!/jasperreports_extension.properties was found to be a duplicate of jar:file:/C:/Users/jatin.sutaria/.m2/repository/net/sf/jasperreports/jasperreports/6.4.0/jasperreports-6.4.0.jar!/jasperreports_extension.properties in classloader sun.misc.Launcher$AppClassLoader@18b4aac2
+2019-02-05 12:34:53 INFO  TransactionContext:139 - Rolled back transaction for test: [DefaultTestContext@4d2950ed testClass = TestReports, testInstance = com.test.TestReports@3095d06b, testMethod = testGetUsersDataForTest@TestReports, testException = java.lang.NoSuchMethodError: org.apache.poi.hssf.util.HSSFColor.getTripletHash()Ljava/util/Hashtable;, mergedContextConfiguration = [MergedContextConfiguration@51aaa9d4 testClass = TestReports, locations = '{classpath:appContext.xml}', classes = '{}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{}', contextCustomizers = set[[empty]], contextLoader = 'org.springframework.test.context.support.DelegatingSmartContextLoader', parent = [null]], attributes = map[[empty]]]
+2019-02-05 12:34:53 INFO  GenericApplicationContext:993 - Closing org.springframework.context.support.GenericApplicationContext@79da8dc5: startup date [Tue Feb 05 12:29:41 IST 2019]; root of context hierarchy
+2019-02-05 12:34:53 INFO  LocalContainerEntityManagerFactoryBean:597 - Closing JPA EntityManagerFactory for persistence unit 'V2CRM_PersistenceUnit'
+2019-02-05 12:40:30 INFO  DefaultTestContextBootstrapper:248 - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
+2019-02-05 12:40:30 INFO  DefaultTestContextBootstrapper:177 - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@77ec78b9, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@1a3869f4, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@a38d7a3, org.springframework.test.context.support.DirtiesContextTestExecutionListener@77f99a05, org.springframework.test.context.transaction.TransactionalTestExecutionListener@63440df3, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@3aeaafa6]
+2019-02-05 12:40:30 INFO  XmlBeanDefinitionReader:316 - Loading XML bean definitions from class path resource [appContext.xml]
+2019-02-05 12:40:31 INFO  GenericApplicationContext:590 - Refreshing org.springframework.context.support.GenericApplicationContext@27d415d9: startup date [Tue Feb 05 12:40:31 IST 2019]; root of context hierarchy
+2019-02-05 12:40:32 INFO  AutowiredAnnotationBeanPostProcessor:154 - JSR-330 'javax.inject.Inject' annotation found and supported for autowiring
+2019-02-05 12:40:32 INFO  MLog:212 - MLog clients using slf4j logging.
+2019-02-05 12:40:32 INFO  C3P0Registry:212 - Initializing c3p0-0.9.5.2 [built 08-December-2015 22:06:04 -0800; debug? true; trace: 10]
+2019-02-05 12:40:33 INFO  LocalContainerEntityManagerFactoryBean:361 - Building JPA container EntityManagerFactory for persistence unit 'V2CRM_PersistenceUnit'
+2019-02-05 12:40:33 INFO  LogHelper:31 - HHH000204: Processing PersistenceUnitInfo [
+	name: V2CRM_PersistenceUnit
+	...]
+2019-02-05 12:40:33 INFO  Version:37 - HHH000412: Hibernate Core {5.1.3.Final}
+2019-02-05 12:40:33 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2019-02-05 12:40:33 INFO  Environment:317 - HHH000021: Bytecode provider name : javassist
+2019-02-05 12:40:33 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2019-02-05 12:40:34 INFO  AbstractPoolBackedDataSource:212 - Initializing c3p0 pool... com.mchange.v2.c3p0.ComboPooledDataSource [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 5000, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, contextClassLoaderSource -> caller, dataSourceName -> 1hgeby9a01gatc669de4t4|3b79fd76, debugUnreturnedConnectionStackTraces -> false, description -> null, driverClass -> com.mysql.jdbc.Driver, extensions -> {}, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, forceSynchronousCheckins -> false, forceUseNamedDriverClass -> false, identityToken -> 1hgeby9a01gatc669de4t4|3b79fd76, idleConnectionTestPeriod -> 60, initialPoolSize -> 3, jdbcUrl -> jdbc:mysql://13.233.2.169:3306/assessment, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 10, maxIdleTime -> 180, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 25, maxStatements -> 0, maxStatementsPerConnection -> 0, minPoolSize -> 6, numHelperThreads -> 3, preferredTestQuery -> SELECT 1, privilegeSpawnedThreads -> false, properties -> {user=******, password=******}, propertyCycle -> 0, statementCacheNumDeferredCloseThreads -> 0, testConnectionOnCheckin -> true, testConnectionOnCheckout -> true, unreturnedConnectionTimeout -> 0, userOverrides -> {}, usesTraditionalReflectiveProxies -> false ]
+2019-02-05 12:40:34 WARN  BasicResourcePool:220 - Bad pool size config, start 3 < min 6. Using 6 as start.
+2019-02-05 12:40:34 INFO  Dialect:156 - HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+2019-02-05 12:40:35 INFO  Version:30 - HV000001: Hibernate Validator 5.4.0.Final
+2019-02-05 12:40:45 INFO  LocalContainerEntityManagerFactoryBean:415 - Initialized JPA EntityManagerFactory for persistence unit 'V2CRM_PersistenceUnit'
+2019-02-05 12:40:46 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2019-02-05 12:40:48 INFO  TransactionContext:107 - Began transaction (1) for test context [DefaultTestContext@120411ec testClass = TestReports, testInstance = com.test.TestReports@6cc8adff, testMethod = testGetUsersDataForTest@TestReports, testException = [null], mergedContextConfiguration = [MergedContextConfiguration@6b2e9db2 testClass = TestReports, locations = '{classpath:appContext.xml}', classes = '{}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{}', contextCustomizers = set[[empty]], contextLoader = 'org.springframework.test.context.support.DelegatingSmartContextLoader', parent = [null]], attributes = map[[empty]]]; transaction manager [org.springframework.orm.jpa.JpaTransactionManager@5a90fcaa]; rollback [true]
+2019-02-05 12:40:49 INFO  DynamicJasperHelper:239 - generating JasperPrint
+2019-02-05 12:40:49 INFO  DynamicJasperHelper:505 - generating JasperReport (DynamicReport dr, LayoutManager layoutManager, Map generatedParams)
+2019-02-05 12:40:49 INFO  DynamicJasperHelper:511 - generating JasperReport with prefix: r
+2019-02-05 12:40:49 INFO  DJJRDesignHelper:56 - Creating DynamicJasperDesign
+2019-02-05 12:40:50 INFO  DynamicJasperHelper:541 - Done generating JasperReport for design with name: NewTest_23Nov-Users_Report_9749
+2019-02-05 12:40:50 WARN  DefaultExtensionsRegistry:179 - Extension resource jar:file:/C:/Users/jatin.sutaria/.m2/repository/net/sf/jasperreports/jasperreports/6.4.1/jasperreports-6.4.1.jar!/jasperreports_extension.properties was found to be a duplicate of jar:file:/C:/Users/jatin.sutaria/.m2/repository/net/sf/jasperreports/jasperreports/6.4.0/jasperreports-6.4.0.jar!/jasperreports_extension.properties in classloader sun.misc.Launcher$AppClassLoader@7a4f0f29
+2019-02-05 12:40:52 INFO  TransactionContext:139 - Rolled back transaction for test: [DefaultTestContext@120411ec testClass = TestReports, testInstance = com.test.TestReports@6cc8adff, testMethod = testGetUsersDataForTest@TestReports, testException = java.lang.NoSuchMethodError: org.apache.poi.hssf.util.HSSFColor.getTripletHash()Ljava/util/Hashtable;, mergedContextConfiguration = [MergedContextConfiguration@6b2e9db2 testClass = TestReports, locations = '{classpath:appContext.xml}', classes = '{}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{}', contextCustomizers = set[[empty]], contextLoader = 'org.springframework.test.context.support.DelegatingSmartContextLoader', parent = [null]], attributes = map[[empty]]]
+2019-02-05 12:40:52 INFO  GenericApplicationContext:993 - Closing org.springframework.context.support.GenericApplicationContext@27d415d9: startup date [Tue Feb 05 12:40:31 IST 2019]; root of context hierarchy
+2019-02-05 12:40:52 INFO  LocalContainerEntityManagerFactoryBean:597 - Closing JPA EntityManagerFactory for persistence unit 'V2CRM_PersistenceUnit'
+2019-02-05 12:47:08 INFO  DefaultTestContextBootstrapper:248 - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
+2019-02-05 12:47:08 INFO  DefaultTestContextBootstrapper:177 - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@77ec78b9, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@1a3869f4, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@a38d7a3, org.springframework.test.context.support.DirtiesContextTestExecutionListener@77f99a05, org.springframework.test.context.transaction.TransactionalTestExecutionListener@63440df3, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@3aeaafa6]
+2019-02-05 12:47:08 INFO  XmlBeanDefinitionReader:316 - Loading XML bean definitions from class path resource [appContext.xml]
+2019-02-05 12:47:10 INFO  GenericApplicationContext:590 - Refreshing org.springframework.context.support.GenericApplicationContext@27d415d9: startup date [Tue Feb 05 12:47:10 IST 2019]; root of context hierarchy
+2019-02-05 12:47:10 INFO  AutowiredAnnotationBeanPostProcessor:154 - JSR-330 'javax.inject.Inject' annotation found and supported for autowiring
+2019-02-05 12:47:11 INFO  MLog:212 - MLog clients using slf4j logging.
+2019-02-05 12:47:11 INFO  C3P0Registry:212 - Initializing c3p0-0.9.5.2 [built 08-December-2015 22:06:04 -0800; debug? true; trace: 10]
+2019-02-05 12:47:11 INFO  LocalContainerEntityManagerFactoryBean:361 - Building JPA container EntityManagerFactory for persistence unit 'V2CRM_PersistenceUnit'
+2019-02-05 12:47:11 INFO  LogHelper:31 - HHH000204: Processing PersistenceUnitInfo [
+	name: V2CRM_PersistenceUnit
+	...]
+2019-02-05 12:47:12 INFO  Version:37 - HHH000412: Hibernate Core {5.1.3.Final}
+2019-02-05 12:47:12 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2019-02-05 12:47:12 INFO  Environment:317 - HHH000021: Bytecode provider name : javassist
+2019-02-05 12:47:12 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2019-02-05 12:47:12 INFO  AbstractPoolBackedDataSource:212 - Initializing c3p0 pool... com.mchange.v2.c3p0.ComboPooledDataSource [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 5000, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, contextClassLoaderSource -> caller, dataSourceName -> 1hgeby9a01gb1voo1y8ok1s|3b79fd76, debugUnreturnedConnectionStackTraces -> false, description -> null, driverClass -> com.mysql.jdbc.Driver, extensions -> {}, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, forceSynchronousCheckins -> false, forceUseNamedDriverClass -> false, identityToken -> 1hgeby9a01gb1voo1y8ok1s|3b79fd76, idleConnectionTestPeriod -> 60, initialPoolSize -> 3, jdbcUrl -> jdbc:mysql://13.233.2.169:3306/assessment, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 10, maxIdleTime -> 180, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 25, maxStatements -> 0, maxStatementsPerConnection -> 0, minPoolSize -> 6, numHelperThreads -> 3, preferredTestQuery -> SELECT 1, privilegeSpawnedThreads -> false, properties -> {user=******, password=******}, propertyCycle -> 0, statementCacheNumDeferredCloseThreads -> 0, testConnectionOnCheckin -> true, testConnectionOnCheckout -> true, unreturnedConnectionTimeout -> 0, userOverrides -> {}, usesTraditionalReflectiveProxies -> false ]
+2019-02-05 12:47:12 WARN  BasicResourcePool:220 - Bad pool size config, start 3 < min 6. Using 6 as start.
+2019-02-05 12:47:13 INFO  Dialect:156 - HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+2019-02-05 12:47:14 INFO  Version:30 - HV000001: Hibernate Validator 5.4.0.Final
+2019-02-05 12:47:33 INFO  LocalContainerEntityManagerFactoryBean:415 - Initialized JPA EntityManagerFactory for persistence unit 'V2CRM_PersistenceUnit'
+2019-02-05 12:47:34 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2019-02-05 12:47:36 INFO  TransactionContext:107 - Began transaction (1) for test context [DefaultTestContext@120411ec testClass = TestReports, testInstance = com.test.TestReports@6cc8adff, testMethod = testGetUsersDataForTest@TestReports, testException = [null], mergedContextConfiguration = [MergedContextConfiguration@6b2e9db2 testClass = TestReports, locations = '{classpath:appContext.xml}', classes = '{}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{}', contextCustomizers = set[[empty]], contextLoader = 'org.springframework.test.context.support.DelegatingSmartContextLoader', parent = [null]], attributes = map[[empty]]]; transaction manager [org.springframework.orm.jpa.JpaTransactionManager@5a90fcaa]; rollback [true]
+2019-02-05 12:47:38 INFO  DynamicJasperHelper:239 - generating JasperPrint
+2019-02-05 12:47:38 INFO  DynamicJasperHelper:505 - generating JasperReport (DynamicReport dr, LayoutManager layoutManager, Map generatedParams)
+2019-02-05 12:47:38 INFO  DynamicJasperHelper:511 - generating JasperReport with prefix: r
+2019-02-05 12:47:38 INFO  DJJRDesignHelper:56 - Creating DynamicJasperDesign
+2019-02-05 12:47:39 INFO  DynamicJasperHelper:541 - Done generating JasperReport for design with name: NewTest_23Nov-Users_Report_7406
+2019-02-05 12:47:39 WARN  DefaultExtensionsRegistry:179 - Extension resource jar:file:/C:/Users/jatin.sutaria/.m2/repository/net/sf/jasperreports/jasperreports/6.4.1/jasperreports-6.4.1.jar!/jasperreports_extension.properties was found to be a duplicate of jar:file:/C:/Users/jatin.sutaria/.m2/repository/net/sf/jasperreports/jasperreports/6.4.0/jasperreports-6.4.0.jar!/jasperreports_extension.properties in classloader sun.misc.Launcher$AppClassLoader@7a4f0f29
+2019-02-05 12:47:42 INFO  TransactionContext:139 - Rolled back transaction for test: [DefaultTestContext@120411ec testClass = TestReports, testInstance = com.test.TestReports@6cc8adff, testMethod = testGetUsersDataForTest@TestReports, testException = java.lang.NoSuchMethodError: org.apache.poi.hssf.util.HSSFColor.getTripletHash()Ljava/util/Hashtable;, mergedContextConfiguration = [MergedContextConfiguration@6b2e9db2 testClass = TestReports, locations = '{classpath:appContext.xml}', classes = '{}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{}', contextCustomizers = set[[empty]], contextLoader = 'org.springframework.test.context.support.DelegatingSmartContextLoader', parent = [null]], attributes = map[[empty]]]
+2019-02-05 12:47:42 INFO  GenericApplicationContext:993 - Closing org.springframework.context.support.GenericApplicationContext@27d415d9: startup date [Tue Feb 05 12:47:10 IST 2019]; root of context hierarchy
+2019-02-05 12:47:42 INFO  LocalContainerEntityManagerFactoryBean:597 - Closing JPA EntityManagerFactory for persistence unit 'V2CRM_PersistenceUnit'

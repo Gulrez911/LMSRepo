@@ -1,0 +1,29 @@
+<workbook>
+	<worksheet name="Users_Upload">
+		<section startRow="0" endRow="0" />
+		<loop startRow="1" endRow="1" items="result" var="user"
+			varType="com.assessment.data.User">
+			<section startRow="1" endRow="1">
+				<mapping row="1" col="0">user.firstName</mapping>
+				<mapping row="1" col="1">user.lastName</mapping>
+				<mapping row="1" col="2">user.companyId</mapping>
+				<mapping row="1" col="3">user.companyName</mapping>
+				<mapping row="1" col="4">user.email</mapping>
+				<mapping row="1" col="5">user.mobileNumber</mapping>
+				<mapping row="1" col="6">user.password</mapping>
+				<mapping row="1" col="7">user.department</mapping>
+				<mapping row="1" col="8">user.type</mapping>
+				<mapping row="1" col="9">user.groupOfUser</mapping>
+				<mapping row="1" col="10">user.grade</mapping>
+				<mapping row="1" col="11">user.companyId</mapping>
+
+
+			</section>
+			<loopbreakcondition>
+				<rowcheck offset="0">
+					<cellcheck offset="0">End Rows:</cellcheck>
+				</rowcheck>
+			</loopbreakcondition>
+		</loop>
+	</worksheet>
+</workbook>
