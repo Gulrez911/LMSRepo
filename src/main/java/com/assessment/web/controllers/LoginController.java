@@ -50,9 +50,9 @@ PropertyConfig propertyConfig;
 	  public ModelAndView showLogin(HttpServletRequest request, HttpServletResponse response) {
 	    ModelAndView mav = new ModelAndView("index");
 	    User user = new User();
-	    user.setEmail("system@iiht.com");
-	    user.setPassword("1234");
-	    user.setCompanyName("IIHT");
+	   // user.setEmail("system@iiht.com");
+	  //  user.setPassword("1234");
+	 //   user.setCompanyName("IIHT");
 	    mav.addObject("user", user);
 	    return mav;
 	  }
@@ -155,9 +155,9 @@ PropertyConfig propertyConfig;
 	    request.getSession().invalidate();
 		 ModelAndView mav = new ModelAndView("index");
 	    User user = new User();
-	    user.setEmail("system@iiiht.com");
-	    user.setPassword("1234");
-	    user.setCompanyName("IIHT");
+	    //user.setEmail("system@iiiht.com");
+	   // user.setPassword("1234");
+	   // user.setCompanyName("IIHT");
 	    mav.addObject("user", user);
 	    return mav;
 	  }

@@ -273,5 +273,79 @@ public class TestCandidateProfileParams {
 		candidateProfileParamsService.saveOrUpdate(candidateProfileParams);
 		
 	}
+	
+	@Test
+	@Rollback(value=false)
+	public void testCreateCandidateProfileParamsTesting(){
+		CandidateProfileParams candidateProfileParams = new CandidateProfileParams();
+		candidateProfileParams.setCompanyId("Test");
+		candidateProfileParams.setCompanyName("Test Company");
+		candidateProfileParams.setQualifier1("Software Testing");
+		candidateProfileParams.setQualifier2("Manual Testing");
+		candidateProfileParams.setQualifier3("Testing Basic");
+		
+		candidateProfileParams.setLESS_THAN_TWENTY_PERCENT("Not advisable to hire, basics are very bad.");
+		candidateProfileParams.setBETWEEN_TWENTY_AND_FIFTY("Not advisable to hire, basic is not even at average ");
+		candidateProfileParams.setBETWEEN_FIFTY_AND_SEVENTYFIVE("Average candidate need to check other factors. ");
+		candidateProfileParams.setBETWEEN_SEVENTYFIVE_AND_NINETY("Average candidate need to check other factors.");
+		candidateProfileParams.setMORE_THAN_NINETY(" Awesome score basics are in place!!! ");
+		candidateProfileParamsService.saveOrUpdate(candidateProfileParams);
+		
+		candidateProfileParams = new CandidateProfileParams();
+		candidateProfileParams.setCompanyId("Test");
+		candidateProfileParams.setCompanyName("Test Company");
+		candidateProfileParams.setQualifier1("Software Testing");
+		candidateProfileParams.setQualifier2("Manual Testing");
+		candidateProfileParams.setQualifier3("Testing Advance");
+		candidateProfileParams.setLESS_THAN_TWENTY_PERCENT("Not advisable to hire, if test taken by an experienced candidate ");
+		candidateProfileParams.setBETWEEN_TWENTY_AND_FIFTY("Not advisable to hire, below average candidate");
+		candidateProfileParams.setBETWEEN_FIFTY_AND_SEVENTYFIVE("Average candidature if an applicant is a fresher then it is recommended to hire ");
+		candidateProfileParams.setBETWEEN_SEVENTYFIVE_AND_NINETY(" Meets expectation, 60% of candidates falls in this category.");
+		candidateProfileParams.setMORE_THAN_NINETY("Awesome score good candidature");
+		candidateProfileParamsService.saveOrUpdate(candidateProfileParams);
+		
+		candidateProfileParams = new CandidateProfileParams();
+		candidateProfileParams.setCompanyId("Test");
+		candidateProfileParams.setCompanyName("Test Company");
+		candidateProfileParams.setQualifier1("Software Testing");
+		candidateProfileParams.setQualifier2("Manual Testing");
+		candidateProfileParams.setQualifier3("Database Testing");
+		candidateProfileParams.setLESS_THAN_TWENTY_PERCENT("Not advisable to hire, if test taken by an experienced candidate ");
+		candidateProfileParams.setBETWEEN_TWENTY_AND_FIFTY("Not advisable to hire, below average candidate");
+		candidateProfileParams.setBETWEEN_FIFTY_AND_SEVENTYFIVE("Average candidature if an applicant is a fresher then it is recommended to hire ");
+		candidateProfileParams.setBETWEEN_SEVENTYFIVE_AND_NINETY("Meets expectation, 50% of candidates falls in this category");
+		candidateProfileParams.setMORE_THAN_NINETY("Awesome score good candidature ");
+		candidateProfileParamsService.saveOrUpdate(candidateProfileParams);
+		
+		candidateProfileParams = new CandidateProfileParams();
+		candidateProfileParams.setCompanyId("Test");
+		candidateProfileParams.setCompanyName("Test Company");
+		candidateProfileParams.setQualifier1("Software Testing");
+		candidateProfileParams.setQualifier2("Manual Testing");
+		candidateProfileParams.setQualifier3("Agile & API");
+		candidateProfileParams.setLESS_THAN_TWENTY_PERCENT("Not advisable to hire, if test taken by an experienced candidate");
+		candidateProfileParams.setBETWEEN_TWENTY_AND_FIFTY("Not advisable to hire, below average candidate ");
+		candidateProfileParams.setBETWEEN_FIFTY_AND_SEVENTYFIVE("Average candidature if an applicant is a fresher then it is recommended to hire");
+		candidateProfileParams.setBETWEEN_SEVENTYFIVE_AND_NINETY("Meets expectation, 70% of candidates falls in this category");
+		candidateProfileParams.setMORE_THAN_NINETY("Awesome score good candidature ");
+		candidateProfileParamsService.saveOrUpdate(candidateProfileParams);
+		
+		candidateProfileParams = new CandidateProfileParams();
+		candidateProfileParams.setCompanyId("Test");
+		candidateProfileParams.setCompanyName("Test Company");
+		candidateProfileParams.setQualifier1("Software Testing");
+		candidateProfileParams.setQualifier2("Manual Testing");
+		candidateProfileParams.setQualifier3("Logical/Appti");
+		candidateProfileParams.setLESS_THAN_TWENTY_PERCENT("Not advisable to hire, scores are very bad ");
+		candidateProfileParams.setBETWEEN_TWENTY_AND_FIFTY("Not advisable to hire, below average candidate");
+		candidateProfileParams.setBETWEEN_FIFTY_AND_SEVENTYFIVE("Average candidature if an applicant is a fresher then it is recommended to hire ");
+		candidateProfileParams.setBETWEEN_SEVENTYFIVE_AND_NINETY(" Meets expectation, 80% of candidates falls in this category");
+		candidateProfileParams.setMORE_THAN_NINETY(" Awesome score good candidature ");
+		candidateProfileParamsService.saveOrUpdate(candidateProfileParams);
+		
+
+
+		
+	}
 
 }

@@ -66,8 +66,8 @@ public class TestLocal {
 
 		        OutputStream os = connection.getOutputStream(); 
 		        CompileData data = new CompileData();
-				data.setLanguage("7");
-				data.setCode(str);
+				data.setLanguage("8");
+				data.setCode(code);
 				data.setStdin("29");
 				ObjectMapper mapper = new ObjectMapper();
 				String str = mapper.writeValueAsString(data);

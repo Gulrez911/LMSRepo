@@ -51,13 +51,13 @@ public class TestQuestion {
 	
 	@Test
 	public void testQMC(){
-		List<QuestionMapperInstance> ins = instanceRep.findCodingQuestionMapperInstances("IH");
+		List<QuestionMapperInstance> ins = instanceRep.findCodingQuestionMapperInstances("Test");
 		System.out.println(ins.size());
 	}
 	
 	@Test
 	public void testGetUniqueQualifiers(){
-		Set<Qualifiers> qs = questionRepository.getAllUniqueQualifiers("IH");
+		Set<Qualifiers> qs = questionRepository.getAllUniqueQualifiers("Test");
 		System.out.println(qs.size());
 		for(Qualifiers qualifiers : qs){
 			System.out.println(qualifiers.getQualifier1()+" ." +qualifiers.getQualifier2()+" ."+ qualifiers.getQualifier3()+" ."+ qualifiers.getQualifier4()+" ."+ qualifiers.getQualifier5());

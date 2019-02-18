@@ -2,6 +2,7 @@ package com.assessment.data;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Transient;
 
 @Entity
 public class CandidateProfileParams extends Base{
@@ -34,6 +35,9 @@ public class CandidateProfileParams extends Base{
 	@Column(length=555)
 	String MORE_THAN_NINETY = "NA";
 	
+	@Transient
+	String context;
+	
 	public CandidateProfileParams(){
 		
 	}
@@ -55,7 +59,7 @@ public class CandidateProfileParams extends Base{
 	}
 
 	public String getQualifier2() {
-		return qualifier2 == null?"NA":this.qualifier2;
+		return (qualifier2 == null || qualifier2.length()==0)?"NA":this.qualifier2;
 	}
 
 	public void setQualifier2(String qualifier2) {
@@ -63,7 +67,7 @@ public class CandidateProfileParams extends Base{
 	}
 
 	public String getQualifier3() {
-		return qualifier3 == null?"NA":this.qualifier3;
+		return (qualifier3 == null || qualifier3.length()==0)?"NA":this.qualifier3;
 	}
 
 	public void setQualifier3(String qualifier3) {
@@ -71,7 +75,7 @@ public class CandidateProfileParams extends Base{
 	}
 
 	public String getQualifier4() {
-		return qualifier4 == null?"NA":this.qualifier4;
+		return (qualifier4 == null || qualifier4.length()==0)?"NA" :this.qualifier4;
 	}
 
 	public void setQualifier4(String qualifier4) {
@@ -79,7 +83,7 @@ public class CandidateProfileParams extends Base{
 	}
 
 	public String getQualifier5() {
-		return qualifier5 == null?"NA":this.qualifier5;
+		return (qualifier5 == null || qualifier4.length()==0)?"NA":this.qualifier5;
 	}
 
 	public void setQualifier5(String qualifier5) {
@@ -95,6 +99,9 @@ public class CandidateProfileParams extends Base{
 	}
 
 	public String getLESS_THAN_TWENTY_PERCENT() {
+		if(this.LESS_THAN_TWENTY_PERCENT != null && this.LESS_THAN_TWENTY_PERCENT.equals("NA")){
+			return "";
+		}
 		return LESS_THAN_TWENTY_PERCENT;
 	}
 
@@ -103,6 +110,9 @@ public class CandidateProfileParams extends Base{
 	}
 
 	public String getBETWEEN_TWENTY_AND_FIFTY() {
+		if(this.BETWEEN_TWENTY_AND_FIFTY != null && this.BETWEEN_TWENTY_AND_FIFTY.equals("NA")){
+			return "";
+		}
 		return BETWEEN_TWENTY_AND_FIFTY;
 	}
 
@@ -111,6 +121,9 @@ public class CandidateProfileParams extends Base{
 	}
 
 	public String getBETWEEN_FIFTY_AND_SEVENTYFIVE() {
+		if(this.BETWEEN_FIFTY_AND_SEVENTYFIVE != null && this.BETWEEN_FIFTY_AND_SEVENTYFIVE.equals("NA")){
+			return "";
+		}
 		return BETWEEN_FIFTY_AND_SEVENTYFIVE;
 	}
 
@@ -119,6 +132,9 @@ public class CandidateProfileParams extends Base{
 	}
 
 	public String getBETWEEN_SEVENTYFIVE_AND_NINETY() {
+		if(this.BETWEEN_SEVENTYFIVE_AND_NINETY != null && this.BETWEEN_SEVENTYFIVE_AND_NINETY.equals("NA")){
+			return "";
+		}
 		return BETWEEN_SEVENTYFIVE_AND_NINETY;
 	}
 
@@ -127,6 +143,9 @@ public class CandidateProfileParams extends Base{
 	}
 
 	public String getMORE_THAN_NINETY() {
+		if(this.MORE_THAN_NINETY != null && this.MORE_THAN_NINETY.equals("NA")){
+			return "";
+		}
 		return MORE_THAN_NINETY;
 	}
 
@@ -151,5 +170,15 @@ public class CandidateProfileParams extends Base{
 	public String toString(){
 		return getQualifier1()+getQualifier2()+getQualifier3()+getQualifier4()+getQualifier5();
 	}
+
+	public String getContext() {
+		return context;
+	}
+
+	public void setContext(String context) {
+		this.context = context;
+	}
+	
+	
 	
 }

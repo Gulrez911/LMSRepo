@@ -16,7 +16,7 @@ public class TestWorkspaceService {
 	@Test
 	public void testCreateWorkSpace() throws Exception{
 		String json = FileUtils.readFileToString(new File("eclipseChe/workspaceConfig.json"));
-		json = json.replace("${WORKSPACE_NAME}", "abdul");
+		json = json.replace("${WORKSPACE_NAME}", "gaffar");
 		
 		WorkspaceResponse workspaceResponse = eclipseCheService.createWorkSpace(json);
 		System.out.println(workspaceResponse.getLinks().getIde());

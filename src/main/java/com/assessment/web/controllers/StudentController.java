@@ -371,7 +371,8 @@ public class StudentController {
 				 sectionInstanceDto = populateWithQuestions(sectionInstanceDto, test.getTestName(),sectionInstanceDto.getSection().getSectionName(), user.getCompanyId());
 				 model.addObject("currentSection", sectionInstanceDto);
 				 QuestionInstanceDto currentQuestion = sectionInstanceDto.getQuestionInstanceDtos().get(0);
-				 if(sectionInstanceDto.getQuestionInstanceDtos().size() == 1){
+				// if(sectionInstanceDto.getQuestionInstanceDtos().size() == 1){
+				 if(sectionInstanceDto.getQuestionInstanceDtos().size() == 1 && count == sectionInstanceDtos.size()){
 					 sectionInstanceDto.setLast(true);
 				 }
 				 
@@ -978,8 +979,16 @@ public class StudentController {
 					th.start();
 			 }
 			 else if(test.getTestName().equalsIgnoreCase("Manual Testing")){
-				// String file = reportsService.generatedetailedReportForCompositeTest(user.getCompanyId(), test.getTestName(), user.getEmail());
+				 String file = reportsService.generatedetailedReportForCompositeTest(user.getCompanyId(), test.getTestName(), user.getEmail());
 				 String cc[] = {"abbas.meghani@gmail.com", user.getEmail()};
+				 EmailGenericMessageThread client = new EmailGenericMessageThread(test.getCreatedBy(), "Test Results for "+user.getFirstName()+" "+user.getLastName()+" for test- "+test.getTestName(), html, user.getEmail(), propertyConfig, file, user.getFirstName()+" "+user.getLastName()+"-"+test.getTestName());
+					client.setCcArray(cc);
+				 	Thread th = new Thread(client);
+					th.start();
+			 }
+			 else if(test.getSentToStudent()){
+				// String file = reportsService.generatedetailedReportForCompositeTest(user.getCompanyId(), test.getTestName(), user.getEmail());
+				 String cc[] = {user.getEmail()};
 				 EmailGenericMessageThread client = new EmailGenericMessageThread(test.getCreatedBy(), "Test Results for "+user.getFirstName()+" "+user.getLastName()+" for test- "+test.getTestName(), html, propertyConfig);
 					client.setCcArray(cc);
 				 	Thread th = new Thread(client);
