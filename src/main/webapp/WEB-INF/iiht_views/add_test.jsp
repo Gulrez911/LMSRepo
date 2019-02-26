@@ -86,7 +86,10 @@
                                         </div>
                                         <div class="formfield">
                                             <label>Skills</label>
-                                            <input type="text" placeholder="Eg. Hire Java Freshers" value="Java" disabled>
+                                           <!-- <input type="text" placeholder="Eg. Hire Java Freshers" value="Java" disabled> -->
+										    <form:select path="test.skls" multiple="multiple" class="multiselect col-md-4">
+												<form:options items="${skls}" itemValue="id" itemLabel="label" />
+											 </form:select>
                                         </div>
                                         <div class="formfield">
                                             <label>Duration</label>
@@ -118,9 +121,17 @@
                                              
                                         </div>
 					
-					<div class="formfield">
+										<div class="formfield">
                                             <label>Email Domain for Test Givers </label>
 					   <form:input path="test.domainEmailSupported" name="domainEmailSupported" id="domainEmailSupported"  style="width: 25%;" value="" placeholder="Enter an email domain" />
+                                             
+                                        </div>
+
+										<div class="formfield">
+                                            <label>Test Type </label>
+										   <form:select path="test.testType">
+												<form:options items="${testTypes}" />
+											</form:select>
                                              
                                         </div>
                                         

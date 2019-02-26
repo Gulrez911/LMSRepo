@@ -23,8 +23,8 @@ public class TestCandidateProfileParams {
 	@Rollback(value=false)
 	public void testCreateCandidateProfileParams(){
 		CandidateProfileParams candidateProfileParams = new CandidateProfileParams();
-		candidateProfileParams.setCompanyId("Test");
-		candidateProfileParams.setCompanyName("Test Company");
+		candidateProfileParams.setCompanyId("IH");
+		candidateProfileParams.setCompanyName("IIHT");
 		candidateProfileParams.setQualifier1("General Knowledge");
 		
 		candidateProfileParams.setLESS_THAN_TWENTY_PERCENT("Pretty poor. Not suitable for jobs where job profile is horizontal - little bit of everything.");
@@ -35,8 +35,8 @@ public class TestCandidateProfileParams {
 		candidateProfileParamsService.saveOrUpdate(candidateProfileParams);
 		
 		candidateProfileParams = new CandidateProfileParams();
-		candidateProfileParams.setCompanyId("Test");
-		candidateProfileParams.setCompanyName("Test Company");
+		candidateProfileParams.setCompanyId("IH");
+		candidateProfileParams.setCompanyName("IIHT");
 		candidateProfileParams.setQualifier1("Mathematical Reasoning");
 		candidateProfileParams.setLESS_THAN_TWENTY_PERCENT("Pretty poor. Not suitable for Programming Jobs that requires a bit of analysis.");
 		candidateProfileParams.setBETWEEN_TWENTY_AND_FIFTY("Not adequate. But can be groomed to be better. For projects needing folks with a 'algorithmic' mind set, may be you have to look at other folks.");
@@ -46,8 +46,8 @@ public class TestCandidateProfileParams {
 		candidateProfileParamsService.saveOrUpdate(candidateProfileParams);
 		
 		candidateProfileParams = new CandidateProfileParams();
-		candidateProfileParams.setCompanyId("Test");
-		candidateProfileParams.setCompanyName("Test Company");
+		candidateProfileParams.setCompanyId("IH");
+		candidateProfileParams.setCompanyName("IIHT");
 		candidateProfileParams.setQualifier1("Vocabulary");
 		candidateProfileParams.setLESS_THAN_TWENTY_PERCENT("Beginner's Level. Not suited for public facing jobs.");
 		candidateProfileParams.setBETWEEN_TWENTY_AND_FIFTY("Lower - Intermediate. But can be groomed to be better - however better suited at 'on the desk' jobs.");
@@ -57,8 +57,8 @@ public class TestCandidateProfileParams {
 		candidateProfileParamsService.saveOrUpdate(candidateProfileParams);
 		
 		candidateProfileParams = new CandidateProfileParams();
-		candidateProfileParams.setCompanyId("Test");
-		candidateProfileParams.setCompanyName("Test Company");
+		candidateProfileParams.setCompanyId("IH");
+		candidateProfileParams.setCompanyName("IIHT");
 		candidateProfileParams.setQualifier1("Verbal Reasoning");
 		candidateProfileParams.setLESS_THAN_TWENTY_PERCENT("Beginner's Level. The verbal test’ s level of difficulty is determined by four main factors – the length of the reading passage, complexity of the text, use of higher language rather than simple words, and time constraints.");
 		candidateProfileParams.setBETWEEN_TWENTY_AND_FIFTY("Lower - Intermediate. The verbal test’ s level of difficulty is determined by four main factors – the length of the reading passage, complexity of the text, use of higher language rather than simple words, and time constraints.");
@@ -68,8 +68,8 @@ public class TestCandidateProfileParams {
 		candidateProfileParamsService.saveOrUpdate(candidateProfileParams);
 		
 		candidateProfileParams = new CandidateProfileParams();
-		candidateProfileParams.setCompanyId("Test");
-		candidateProfileParams.setCompanyName("Test Company");
+		candidateProfileParams.setCompanyId("IH");
+		candidateProfileParams.setCompanyName("IIHT");
 		candidateProfileParams.setQualifier1("Reasoning");
 		candidateProfileParams.setLESS_THAN_TWENTY_PERCENT("Pretty Elementary. Can have basic ability to recall or remember the information. However need to significantly improve for 'thinking' jobs.");
 		candidateProfileParams.setBETWEEN_TWENTY_AND_FIFTY("Lower - Intermediate. Can explain basic ideas or concepts. If the test giver is a beginner, he or she is worth a look in.");
@@ -79,8 +79,8 @@ public class TestCandidateProfileParams {
 		candidateProfileParamsService.saveOrUpdate(candidateProfileParams);
 		
 		candidateProfileParams = new CandidateProfileParams();
-		candidateProfileParams.setCompanyId("Test");
-		candidateProfileParams.setCompanyName("Test Company");
+		candidateProfileParams.setCompanyId("IH");
+		candidateProfileParams.setCompanyName("IIHT");
 		candidateProfileParams.setQualifier1("Low Temperament");
 		candidateProfileParams.setLESS_THAN_TWENTY_PERCENT("Energy levels change from low to high and other way round in a jiffy. Highly sensitive. Low predictability. May have Withdrawal symptoms. Slow to adapt. Moody. High Distractability!.");
 		candidateProfileParams.setBETWEEN_TWENTY_AND_FIFTY("Can be bit sensitive and reluctant to change. May prefer known surroundings and as such can hang on better than others - if thats what you are looking for.");
@@ -90,8 +90,8 @@ public class TestCandidateProfileParams {
 		candidateProfileParamsService.saveOrUpdate(candidateProfileParams);
 		
 		candidateProfileParams = new CandidateProfileParams();
-		candidateProfileParams.setCompanyId("Test");
-		candidateProfileParams.setCompanyName("Test Company");
+		candidateProfileParams.setCompanyId("IH");
+		candidateProfileParams.setCompanyName("IIHT");
 		candidateProfileParams.setQualifier1("Good Temperament");
 		candidateProfileParams.setLESS_THAN_TWENTY_PERCENT("Exceptional Temperament. Can be analytical, wise, optimistic, active, social, relaxed and peaceful. Good combination.");
 		candidateProfileParams.setBETWEEN_TWENTY_AND_FIFTY("Has reasonably good temperament. Can be analytical, wise and quiet along with being optimistic, active and social.");
@@ -101,8 +101,8 @@ public class TestCandidateProfileParams {
 		candidateProfileParamsService.saveOrUpdate(candidateProfileParams);
 		
 		candidateProfileParams = new CandidateProfileParams();
-		candidateProfileParams.setCompanyId("Test");
-		candidateProfileParams.setCompanyName("Test Company");
+		candidateProfileParams.setCompanyId("IH");
+		candidateProfileParams.setCompanyName("IIHT");
 		candidateProfileParams.setQualifier1("Honesty");
 		candidateProfileParams.setLESS_THAN_TWENTY_PERCENT("Can have Integrity Problems. Need a closer look.");
 		candidateProfileParams.setBETWEEN_TWENTY_AND_FIFTY("Trust will come at a price. May need to spend a lot of time to establish trust.");
@@ -112,8 +112,8 @@ public class TestCandidateProfileParams {
 		candidateProfileParamsService.saveOrUpdate(candidateProfileParams);
 		
 		candidateProfileParams = new CandidateProfileParams();
-		candidateProfileParams.setCompanyId("Test");
-		candidateProfileParams.setCompanyName("Test Company");
+		candidateProfileParams.setCompanyId("IH");
+		candidateProfileParams.setCompanyName("IIHT");
 		candidateProfileParams.setQualifier1("Social");
 		candidateProfileParams.setLESS_THAN_TWENTY_PERCENT("Pretty Poor Social Skills. This often leads to stress and loneliness and this may impact physical & mental health. Some folks have a strength of character to keep a focus and survive, if not flourish professionally despite poor social skills. However need a closer look to further assess these folks on this front.");
 		candidateProfileParams.setBETWEEN_TWENTY_AND_FIFTY("Have basic Social skills. Can work as individual contributors. These are the folks who like one-on-one events arther than group participation in social activities. Every individual is different and so if the job profile doesn't warrants extensive networking and public approach, such folks should be considered.");
@@ -123,8 +123,8 @@ public class TestCandidateProfileParams {
 		candidateProfileParamsService.saveOrUpdate(candidateProfileParams);
 		
 //		candidateProfileParams = new CandidateProfileParams();
-//		candidateProfileParams.setCompanyId("Test");
-//		candidateProfileParams.setCompanyName("Test Company");
+//		candidateProfileParams.setCompanyId("IH");
+//		candidateProfileParams.setCompanyName("IIHT");
 //		candidateProfileParams.setQualifier1("Social");
 //		candidateProfileParams.setLESS_THAN_TWENTY_PERCENT("Pretty Poor Social Skills");
 //		candidateProfileParams.setBETWEEN_TWENTY_AND_FIFTY("Have basic Social skills. Can work as individual contributors");
@@ -134,8 +134,8 @@ public class TestCandidateProfileParams {
 //		candidateProfileParamsService.saveOrUpdate(candidateProfileParams);
 		
 		candidateProfileParams = new CandidateProfileParams();
-		candidateProfileParams.setCompanyId("Test");
-		candidateProfileParams.setCompanyName("Test Company");
+		candidateProfileParams.setCompanyId("IH");
+		candidateProfileParams.setCompanyName("IIHT");
 		candidateProfileParams.setQualifier1("Time Management");
 		candidateProfileParams.setLESS_THAN_TWENTY_PERCENT("Negligent Time Management, Can not be trusted to come on time or respect other's time.");
 		candidateProfileParams.setBETWEEN_TWENTY_AND_FIFTY("Poor Time Management - Can be a concern while working in a team. Good managers can force a certain time discipline in these folks but if left on their own are more likely to make you wait.");
@@ -145,8 +145,8 @@ public class TestCandidateProfileParams {
 		candidateProfileParamsService.saveOrUpdate(candidateProfileParams);
 		
 		candidateProfileParams = new CandidateProfileParams();
-		candidateProfileParams.setCompanyId("Test");
-		candidateProfileParams.setCompanyName("Test Company");
+		candidateProfileParams.setCompanyId("IH");
+		candidateProfileParams.setCompanyName("IIHT");
 		candidateProfileParams.setQualifier1("Efficiency");
 		candidateProfileParams.setLESS_THAN_TWENTY_PERCENT("Poor, Can not be trusted on tasks. Not pro active enough to communicate. Can be pretty frustruating.");
 		candidateProfileParams.setBETWEEN_TWENTY_AND_FIFTY("Being organized is not a trait the test giver thrives on. Though with good managers around, can be expected to do their bit.");
@@ -156,8 +156,8 @@ public class TestCandidateProfileParams {
 		candidateProfileParamsService.saveOrUpdate(candidateProfileParams);
 		
 		candidateProfileParams = new CandidateProfileParams();
-		candidateProfileParams.setCompanyId("Test");
-		candidateProfileParams.setCompanyName("Test Company");
+		candidateProfileParams.setCompanyId("IH");
+		candidateProfileParams.setCompanyName("IIHT");
 		candidateProfileParams.setQualifier1("Ambition");
 		candidateProfileParams.setLESS_THAN_TWENTY_PERCENT("Least Ambitious - If they deliver decent productivity, can be the ones who may stick with you the most");
 		candidateProfileParams.setBETWEEN_TWENTY_AND_FIFTY("Not much ambitious - However can be inspired to play their part by good managers and contribute their part to the best of their abilities.");
@@ -167,8 +167,8 @@ public class TestCandidateProfileParams {
 		candidateProfileParamsService.saveOrUpdate(candidateProfileParams);
 		
 		candidateProfileParams = new CandidateProfileParams();
-		candidateProfileParams.setCompanyId("Test");
-		candidateProfileParams.setCompanyName("Test Company");
+		candidateProfileParams.setCompanyId("IH");
+		candidateProfileParams.setCompanyName("IIHT");
 		candidateProfileParams.setQualifier1("Self Esteem");
 		candidateProfileParams.setLESS_THAN_TWENTY_PERCENT("Pretty Low! Very defensive mindset. This can reduce the quality of life in many ways including leading to depression or anxiety.");
 		candidateProfileParams.setBETWEEN_TWENTY_AND_FIFTY("Need to improve a bit - Would be defensive in pressure situations. Ability to confront problems may be lacking a bit but with some effort these folks can do well.");
@@ -178,8 +178,8 @@ public class TestCandidateProfileParams {
 		candidateProfileParamsService.saveOrUpdate(candidateProfileParams);
 		
 		candidateProfileParams = new CandidateProfileParams();
-		candidateProfileParams.setCompanyId("Test");
-		candidateProfileParams.setCompanyName("Test Company");
+		candidateProfileParams.setCompanyId("IH");
+		candidateProfileParams.setCompanyName("IIHT");
 		candidateProfileParams.setQualifier1("Creativity");
 		candidateProfileParams.setLESS_THAN_TWENTY_PERCENT("Pretty Low!");
 		candidateProfileParams.setBETWEEN_TWENTY_AND_FIFTY("Need to improve a bit to fit in a dynamic work environment. ");
@@ -189,8 +189,8 @@ public class TestCandidateProfileParams {
 		candidateProfileParamsService.saveOrUpdate(candidateProfileParams);
 		
 		candidateProfileParams = new CandidateProfileParams();
-		candidateProfileParams.setCompanyId("Test");
-		candidateProfileParams.setCompanyName("Test Company");
+		candidateProfileParams.setCompanyId("IH");
+		candidateProfileParams.setCompanyName("IIHT");
 		candidateProfileParams.setQualifier1("Java");
 		candidateProfileParams.setLESS_THAN_TWENTY_PERCENT("Poor basic concepts!. It is pretty important to understand basics so that its applicability to advanced contexts is better. With poor basics, you may end up writing repeated (more) code, have un-optimized designs and poor exception handling strategies.");
 		candidateProfileParams.setBETWEEN_TWENTY_AND_FIFTY("Need to improve a lot.  Would require some training to fit in. Need a bettwen understanding on Collections, Multi-Threading, JDBC, basic Design Patterns or related core concept");
@@ -200,8 +200,8 @@ public class TestCandidateProfileParams {
 		candidateProfileParamsService.saveOrUpdate(candidateProfileParams);
 		
 		candidateProfileParams = new CandidateProfileParams();
-		candidateProfileParams.setCompanyId("Test");
-		candidateProfileParams.setCompanyName("Test Company");
+		candidateProfileParams.setCompanyId("IH");
+		candidateProfileParams.setCompanyName("IIHT");
 		candidateProfileParams.setQualifier1("Java");
 		candidateProfileParams.setQualifier2("JVM");
 		candidateProfileParams.setLESS_THAN_TWENTY_PERCENT("Poor concepts! Having a basic JVM knowledge is a must to understand application behaviour at run time.");
@@ -212,8 +212,8 @@ public class TestCandidateProfileParams {
 		candidateProfileParamsService.saveOrUpdate(candidateProfileParams);
 		
 		candidateProfileParams = new CandidateProfileParams();
-		candidateProfileParams.setCompanyId("Test");
-		candidateProfileParams.setCompanyName("Test Company");
+		candidateProfileParams.setCompanyId("IH");
+		candidateProfileParams.setCompanyName("IIHT");
 		candidateProfileParams.setQualifier1("Java");
 		candidateProfileParams.setQualifier2("Threading");
 		candidateProfileParams.setLESS_THAN_TWENTY_PERCENT("Poor concepts! Basic threading concepts are a must in a Programming job irrespective of technology");
@@ -225,8 +225,8 @@ public class TestCandidateProfileParams {
 		
 		
 		candidateProfileParams = new CandidateProfileParams();
-		candidateProfileParams.setCompanyId("Test");
-		candidateProfileParams.setCompanyName("Test Company");
+		candidateProfileParams.setCompanyId("IH");
+		candidateProfileParams.setCompanyName("IIHT");
 		candidateProfileParams.setQualifier1("Java");
 		candidateProfileParams.setQualifier2("Spring");
 		candidateProfileParams.setLESS_THAN_TWENTY_PERCENT("Poor concepts! Can't work on projects with Spring as middleware" );
@@ -237,8 +237,8 @@ public class TestCandidateProfileParams {
 		candidateProfileParamsService.saveOrUpdate(candidateProfileParams);
 		
 		candidateProfileParams = new CandidateProfileParams();
-		candidateProfileParams.setCompanyId("Test");
-		candidateProfileParams.setCompanyName("Test Company");
+		candidateProfileParams.setCompanyId("IH");
+		candidateProfileParams.setCompanyName("IIHT");
 		candidateProfileParams.setQualifier1("Java");
 		candidateProfileParams.setQualifier2("Hibernate");
 		candidateProfileParams.setLESS_THAN_TWENTY_PERCENT("Poor concepts! Can't work on projects with Hibernate as ORM" );
@@ -249,8 +249,8 @@ public class TestCandidateProfileParams {
 		candidateProfileParamsService.saveOrUpdate(candidateProfileParams);
 		
 		candidateProfileParams = new CandidateProfileParams();
-		candidateProfileParams.setCompanyId("Test");
-		candidateProfileParams.setCompanyName("Test Company");
+		candidateProfileParams.setCompanyId("IH");
+		candidateProfileParams.setCompanyName("IIHT");
 		candidateProfileParams.setQualifier1("Design Patterns");
 		//candidateProfileParams.setQualifier2("Hibernate");
 		candidateProfileParams.setLESS_THAN_TWENTY_PERCENT("Poor concepts! Can't translate a problem statement into an working design" );
@@ -261,8 +261,8 @@ public class TestCandidateProfileParams {
 		candidateProfileParamsService.saveOrUpdate(candidateProfileParams);
 		
 		candidateProfileParams = new CandidateProfileParams();
-		candidateProfileParams.setCompanyId("Test");
-		candidateProfileParams.setCompanyName("Test Company");
+		candidateProfileParams.setCompanyId("IH");
+		candidateProfileParams.setCompanyName("IIHT");
 		candidateProfileParams.setQualifier1("Coding_Java");
 		//candidateProfileParams.setQualifier2("Hibernate");
 		candidateProfileParams.setLESS_THAN_TWENTY_PERCENT("Poor Programming skills! Can't code" );
@@ -278,8 +278,8 @@ public class TestCandidateProfileParams {
 	@Rollback(value=false)
 	public void testCreateCandidateProfileParamsTesting(){
 		CandidateProfileParams candidateProfileParams = new CandidateProfileParams();
-		candidateProfileParams.setCompanyId("Test");
-		candidateProfileParams.setCompanyName("Test Company");
+		candidateProfileParams.setCompanyId("IH");
+		candidateProfileParams.setCompanyName("IIHT");
 		candidateProfileParams.setQualifier1("Software Testing");
 		candidateProfileParams.setQualifier2("Manual Testing");
 		candidateProfileParams.setQualifier3("Testing Basic");
@@ -292,8 +292,8 @@ public class TestCandidateProfileParams {
 		candidateProfileParamsService.saveOrUpdate(candidateProfileParams);
 		
 		candidateProfileParams = new CandidateProfileParams();
-		candidateProfileParams.setCompanyId("Test");
-		candidateProfileParams.setCompanyName("Test Company");
+		candidateProfileParams.setCompanyId("IH");
+		candidateProfileParams.setCompanyName("IIHT");
 		candidateProfileParams.setQualifier1("Software Testing");
 		candidateProfileParams.setQualifier2("Manual Testing");
 		candidateProfileParams.setQualifier3("Testing Advance");
@@ -305,8 +305,8 @@ public class TestCandidateProfileParams {
 		candidateProfileParamsService.saveOrUpdate(candidateProfileParams);
 		
 		candidateProfileParams = new CandidateProfileParams();
-		candidateProfileParams.setCompanyId("Test");
-		candidateProfileParams.setCompanyName("Test Company");
+		candidateProfileParams.setCompanyId("IH");
+		candidateProfileParams.setCompanyName("IIHT");
 		candidateProfileParams.setQualifier1("Software Testing");
 		candidateProfileParams.setQualifier2("Manual Testing");
 		candidateProfileParams.setQualifier3("Database Testing");
@@ -318,8 +318,8 @@ public class TestCandidateProfileParams {
 		candidateProfileParamsService.saveOrUpdate(candidateProfileParams);
 		
 		candidateProfileParams = new CandidateProfileParams();
-		candidateProfileParams.setCompanyId("Test");
-		candidateProfileParams.setCompanyName("Test Company");
+		candidateProfileParams.setCompanyId("IH");
+		candidateProfileParams.setCompanyName("IIHT");
 		candidateProfileParams.setQualifier1("Software Testing");
 		candidateProfileParams.setQualifier2("Manual Testing");
 		candidateProfileParams.setQualifier3("Agile & API");
@@ -331,8 +331,8 @@ public class TestCandidateProfileParams {
 		candidateProfileParamsService.saveOrUpdate(candidateProfileParams);
 		
 		candidateProfileParams = new CandidateProfileParams();
-		candidateProfileParams.setCompanyId("Test");
-		candidateProfileParams.setCompanyName("Test Company");
+		candidateProfileParams.setCompanyId("IH");
+		candidateProfileParams.setCompanyName("IIHT");
 		candidateProfileParams.setQualifier1("Software Testing");
 		candidateProfileParams.setQualifier2("Manual Testing");
 		candidateProfileParams.setQualifier3("Logical/Appti");

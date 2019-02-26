@@ -40,7 +40,8 @@
 						<div class="userheader">
 							<div class="userinfo">
 								<h4>Welcome ${studentTestForm.userName}<span>${studentTestForm.emailId}</span></h4>
-								<img src="images/userimg.png">
+								<!-- <img src="images/userimg.png"> -->
+								<img src="${studentTestForm.techLogo}">
 							</div>
 						</div>
 					</div>

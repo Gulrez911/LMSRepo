@@ -12,11 +12,18 @@
 	    <li class="active"><a href="javascript:notify('Information', 'We will release the feature pretty soon! Pease wait for our next release');"><img src="images/dashboard_icon.png" alt="logo"> <span class="collapse in hidden-xs">Dashboard</span></a></li>
 	    <li><a href="question_list"><img src="images/question_icon.png" alt="logo"> <span class="collapse in hidden-xs">Question Bank</span></a></li>
 	    <li><a href="testlist"><img src="images/test_icon.png" alt="logo"> <span class="collapse in hidden-xs">Tests</span></a></li>
+		<li><a href="skills"><img src="images/test_icon.png" alt="logo"> <span class="collapse in hidden-xs">Skills</span></a></li>
 	    <li><a href="showReports"><img src="images/results_icon.png" alt="logo"> <span class="collapse in hidden-xs">Results</span></a></li>
-	    
+	    <li><a href="codingSessions"><img src="images/results_icon.png" alt="logo"> <span class="collapse in hidden-xs">Code Analysis Reports</span></a></li>
+		<li><a href="showSkillTags"><img src="images/results_icon.png" alt="logo"> <span class="collapse in hidden-xs">Skill based Reports</span></a></li>
+		<li><a href="showProfileParams"><img src="images/dashboard_icon.png" alt="logo"> <span class="collapse in hidden-xs">Recomm Setting</span></a></li>
+		<li><a href="showAllSchedules"><img src="images/dashboard_icon.png" alt="logo"> <span class="collapse in hidden-xs">Schedule Management</span></a></li>
 	    <%
 		User user = (User) request.getSession().getAttribute("user");
 		System.out.println("user is "+user.getEmail() );
+			if(user == null){
+					response.sendRedirect("login");
+			}
 		Boolean showTenantAdmin = false;
 		if(user.getEmail().endsWith("iiht.com")){
 			showTenantAdmin = true;

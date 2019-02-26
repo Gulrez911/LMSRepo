@@ -102,8 +102,10 @@
 						                      		<td>${session.highestScore} </td>
 						                      		<td>${session.topCandidates} </td>
 										<td>${session.topCandidatesEmail} </td>
-										<td> <a  href="downloadUserReportsForTest?testName=${session.testName}">Click </a>  </td> 
-										<td> <a  href="downloadUserReportsForTestWithExtraAttrs?testName=${session.testName}">Click </a>  </td> 
+										<!--<td> <a  href="downloadUserReportsForTest?testName=${session.testName}">Click </a>  </td> -->
+				<td> <a  href="javascript:void(0);" onclick="encodeAndSend('downloadUserReportsForTest','testName','${session.testName}');">Click </a>  </td>
+										<!--<td> <a  href="downloadUserReportsForTestWithExtraAttrs?testName=${session.testName}">Click </a>  </td> --> 
+				<td> <a  href="javascript:void(0);" onclick="encodeAndSend('downloadUserReportsForTestWithExtraAttrs','testName','${session.testName}');">Click </a>  </td> 
 								
 						                      	</tr>
 						                      	</c:forEach>   
@@ -131,8 +133,12 @@
       
 	<script>
 	
-	
-	
+	function encodeAndSend(method, key, value){
+		val = encodeURIComponent(value);
+		url = ''+method+'?'+key+'='+val;
+		window.location = url;
+		
+	}
 	function notify(messageType, message){
 		 var notification = 'Information';
 			 $(function(){

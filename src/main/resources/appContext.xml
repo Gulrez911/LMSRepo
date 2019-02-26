@@ -21,6 +21,8 @@
     http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
     http://www.springframework.org/schema/data/jpa  http://www.springframework.org/schema/data/jpa/spring-jpa-1.0.xsd"
     default-lazy-init="true" >
+    
+    <task:scheduler id="scheduler" pool-size="2"/>
 
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 	  <property name="locations">
@@ -55,6 +57,7 @@
 		<property name="tomcatDeployLocation" value="D:\apache-tomcat-8.0.3\webapps"></property>
 		<property name="remoteBaseUrl" value="http://13.59.126.83/" ></property>
 		<property name="pmdServerBaseUrl" value="http://localhost/pmd-server-0.0.1-SNAPSHOT/"></property>
+		<property name="testLinkHtml_Generic_Location" value="C:\fromMainLaptop\apache-tomcat-8.0.3\bin\assessment\sendTestLink_Generic.html" ></property>
 	</bean>
 
     <context:component-scan base-package="com.assessment"  />
@@ -68,17 +71,17 @@
     <bean id="dataSource" class = "com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
         <property name="driverClass" value="com.mysql.jdbc.Driver" />
         <!-- Connection Details -->
-       <property name="jdbcUrl" value="jdbc:mysql://159.65.148.176:3306/test_assessment" />   
-        <property name="user" value="digital_user" /> 
-        <property name="password" value="Welcome@123" />  
+<!--        <property name="jdbcUrl" value="jdbc:mysql://159.65.148.176:3306/test_assessment" />    -->
+<!--         <property name="user" value="digital_user" />  -->
+<!--         <property name="password" value="Welcome@123" />   -->
 
 <!--     <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/assessment" />   -->
 <!--         <property name="user" value="root" />  -->
 <!--         <property name="password" value="" />  -->
 
-<!-- <property name="jdbcUrl" value="jdbc:mysql://13.233.2.169:3306/assessment" />    -->
-<!--         <property name="user" value="iiht_user" />  -->
-<!--         <property name="password" value="Welcome@123" />  -->
+	<property name="jdbcUrl" value="jdbc:mysql://13.233.2.169:3306/assessment" />   
+	        <property name="user" value="iiht_user" /> 
+	        <property name="password" value="Welcome@123" /> 
 
         <!-- Pooling Details-->
         <property name="initialPoolSize" value="3" />

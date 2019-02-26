@@ -124,7 +124,7 @@
 					data:datasend
 				    }
 				}).done(function(fileName) {
-					alert("done");
+					//alert("done");
 
 				}); 
 			}
@@ -135,9 +135,10 @@
 				allowTaint: true
 			    }).then(function(canvas) {
 				var dataImage = canvas.toDataURL("image/png");
+				var testname = encodeURIComponent('${studentTestForm.testName}');
 				$.ajax({
 				    type: "POST",
-				    url: "uploadScreenSnapShot?testName=${studentTestForm.testName}",
+				    url: "uploadScreenSnapShot?testName="+testname,
 				    data: { 
 					data:dataImage
 				    }
@@ -322,13 +323,13 @@
 
 						<div class="col-md-12">
 						    <div class="col-md-7 leftside">
-							<b>Java</b>
+							<b>${currentQuestion.questionMapperInstance.questionMapper.question.qualifier1} ${currentQuestion.questionMapperInstance.questionMapper.question.qualifier2} ${currentQuestion.questionMapperInstance.questionMapper.question.qualifier3} ${currentQuestion.questionMapperInstance.questionMapper.question.qualifier4} ${currentQuestion.questionMapperInstance.questionMapper.question.qualifier5}</b>
 							<a class="runcode" href="javascript:runCodeSystemTestCase();">Run System Test Case  </a>
 							<a class="runcode" href="javascript:runCode();">Run Code</a>
 							<label>Code</label>
 							
-							<form:textarea id="editor" path="code"/>
-							<form:hidden path="code" id="codeOfEditor"/>
+							<form:textarea id="editor" path="code" wrap="physical"/>
+							<form:hidden path="code" id="codeOfEditor" wrap="physical"/>
 							   
 							
 							
@@ -442,8 +443,25 @@
 	    var editor = ace.edit("editor");
 	    editor.setTheme("ace/theme/solarized_light");
 	   //editor.setTheme("ace/theme/theme-github");
-	    editor.session.setMode("ace/mode/java");
-		console.log('code is ${currentQuestion.code}');
+	   
+	   var language = '${currentQuestion.questionMapperInstance.questionMapper.question.language.language}';
+		if(language == 'JAVA'){
+			editor.session.setMode("ace/mode/java");
+		}
+		else if(language == 'C'){
+			editor.session.setMode("ace/mode/c_cpp");
+		}
+		else if(language == 'C++'){
+			editor.session.setMode("ace/mode/c_cpp");
+		}
+		else if(language == 'C#'){
+			editor.session.setMode("ace/mode/csharp");
+		}
+		else if(language == 'PYTHON'){
+			editor.session.setMode("ace/mode/python");
+		}
+	    
+		
 		editor.setValue('${currentQuestion.code}');
 	    editor.setOptions({
 	   enableBasicAutocompletion: true, // the editor completes the statement when you hit Ctrl + Space
@@ -482,9 +500,56 @@
 		
 <script>
 	function changeSection(sectionName){
-		window.location = 'changeSection?sectionName='+sectionName+"&timeCounter="+timeCounter;
-		localStorage.setItem('timeCounter', timeCounter);
+		//window.location = 'changeSection?sectionName='+sectionName+"&timeCounter="+timeCounter;
+		//localStorage.setItem('timeCounter', timeCounter);
+		var tp = '${currentQuestion.questionMapperInstance.questionMapper.question.type}';
+			if(tp == 'CODING'){
+				confirm(sectionName);
+			}
+			else{
+				window.location = 'changeSection?sectionName='+sectionName+"&timeCounter="+timeCounter;
+				localStorage.setItem('timeCounter', timeCounter);
+			}
+		
 	}
+	
+	function get_center_pos(width, top){
+    // top is empty when creating a new notification and is set when recentering
+		if (!top){
+			top = 30;
+			// this part is needed to avoid notification stacking on top of each other
+			$('.ui-pnotify').each(function() { top += $(this).outerHeight() + 20; });
+		}
+
+		return {"top": top, "left": ($(window).width() / 2) - (width / 2)}
+	}
+	
+	function confirm(sectionName) {
+           (new PNotify({
+		    title: 'Confirmation Needed',
+		    text: 'For a coding Question if you change a section you may loose your changes. Either copy your code somewhere and then change section or use Next/Back to navigate',
+		    icon: 'glyphicon glyphicon-question-sign',
+		    hide: false,
+		    confirm: {
+			confirm: true
+		    },
+		    buttons: {
+			closer: false,
+			sticker: false
+		    },
+		    history: {
+			history: false
+		    },
+			 before_open: function (PNotify) {
+            PNotify.get().css(get_center_pos(PNotify.get().width()));
+			}
+		})).get().on('pnotify.confirm', function() {
+		   window.location = 'changeSection?sectionName='+sectionName+"&timeCounter="+timeCounter;
+			localStorage.setItem('timeCounter', timeCounter);
+		}).on('pnotify.cancel', function() {
+		   
+		});
+    }
 	
 	function runCode(){
 	//editor
@@ -492,6 +557,26 @@
 	var code = editor.getValue();
 	var input = document.getElementById('input').value;
 	var lang = '8';
+	var language = '${currentQuestion.questionMapperInstance.questionMapper.question.language.language}';
+		if(language == 'JAVA'){
+			lang = '8';
+		}
+		else if(language == 'C'){
+			lang = '7';
+		}
+		else if(language == 'CPLUSPLUS'){
+			lang = '7';
+		}
+		else if(language == 'CHASH'){
+			lang = '10';
+		}
+		else if(language == 'DotNet'){
+			lang = '10';
+		}
+		else if(language == 'PYTHON'){
+			lang = '0';
+		}
+	
 	var url = 'compile';
 	var data = {}; 
 	data.language = lang;
@@ -528,6 +613,26 @@
 	var input = '${currentQuestion.questionMapperInstance.questionMapper.question.hiddenInputPositive}';
 	document.getElementById('input').value = input;
 	var lang = '8';
+	var language = '${currentQuestion.questionMapperInstance.questionMapper.question.language.language}';
+		if(language == 'JAVA'){
+			lang = '8';
+		}
+		else if(language == 'C'){
+			lang = '7';
+		}
+		else if(language == 'CPLUSPLUS'){
+			lang = '7';
+		}
+		else if(language == 'CHASH'){
+			lang = '10';
+		}
+		else if(language == 'DotNet'){
+			lang = '10';
+		}
+		else if(language == 'PYTHON'){
+			lang = '0';
+		}
+	
 	var url = 'compileAndRunSystemTest';
 	
 	var data = {}; 
@@ -590,9 +695,7 @@
  		edt = editor.getSession().getValue();
 		textarea.value = edt;
 	}
-	var textarea = document.getElementById('codeOfEditor');
- 	edt = editor.getSession().getValue();
-	textarea.value = edt;
+	
 	document.testForm.action = "prevQuestion?questionId=${currentQuestion.questionMapperInstance.questionMapper.id}&timeCounter="+timeCounter;
 	storeTimeLocal();
 	document.testForm.submit();
@@ -605,9 +708,9 @@
  		edt = editor.getSession().getValue();
 		textarea.value = edt;
 	}
-	var textarea = document.getElementById('codeOfEditor');
- 	edt = editor.getSession().getValue();
-	textarea.value = edt;
+	//var textarea = document.getElementById('codeOfEditor');
+	//edt = editor.getSession().getValue();
+	//textarea.value = edt;
 	document.testForm.action = "submitTest?questionId=${currentQuestion.questionMapperInstance.questionMapper.id}&timeCounter="+timeCounter;
 	resetTimeLocal();
 	//modal.style.display = "block";

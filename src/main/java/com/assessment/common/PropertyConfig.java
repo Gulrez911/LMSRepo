@@ -16,6 +16,8 @@ public class PropertyConfig {
 	
 	String testLinkHtmlLocation;
 	
+	String testLinkHtml_Generic_Location;
+	
 	String resultLinkHtmlLocation;
 	
 	String screenShotFolder;
@@ -139,6 +141,14 @@ public class PropertyConfig {
 
 	public void setPmdServerBaseUrl(String pmdServerBaseUrl) {
 		this.pmdServerBaseUrl = pmdServerBaseUrl;
+	}
+
+	public String getTestLinkHtml_Generic_Location() {
+		return testLinkHtml_Generic_Location;
+	}
+
+	public void setTestLinkHtml_Generic_Location(String testLinkHtml_Generic_Location) {
+		this.testLinkHtml_Generic_Location = testLinkHtml_Generic_Location;
 	}
 	
 	

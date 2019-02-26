@@ -3,12 +3,15 @@ package com.assessment.web.controllers;
 
 import java.net.URLEncoder;
 import java.util.Base64;
+import java.util.List;
+import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,12 +21,16 @@ import org.springframework.web.servlet.ModelAndView;
 import com.assessment.common.AssessmentGenericException;
 import com.assessment.common.CommonUtil;
 import com.assessment.common.PropertyConfig;
+import com.assessment.common.SchedulerTask;
 import com.assessment.common.util.EmailGenericMessageThread;
 import com.assessment.data.Company;
 import com.assessment.data.DifficultyLevel;
 import com.assessment.data.Question;
 import com.assessment.data.Test;
+import com.assessment.data.TestScheduler;
 import com.assessment.data.User;
+import com.assessment.repositories.TestSchedulerRepository;
+import com.assessment.scheduler.ScheduleTaskService;
 import com.assessment.services.CompanyService;
 import com.assessment.services.QuestionService;
 import com.assessment.services.TestService;
@@ -43,8 +50,28 @@ TestService testService;
 
 @Autowired
 PropertyConfig propertyConfig;
+
+Boolean first = false;
+
+@Autowired
+TestSchedulerRepository rep;
+
+@Autowired
+ScheduleTaskService schedulerService;
+@Autowired
+PropertyConfig config;
 	
 	private final String prefixURL = "iiht_html";
+	
+	public void init(String companyId){
+		List<TestScheduler> schedulers = rep.findByCompanyId(companyId);
+		for(TestScheduler scheduler : schedulers){
+			TimeZone timeZone = TimeZone.getTimeZone("Asia/Kolkata");
+		    CronTrigger cronTrigger = new CronTrigger(scheduler.getCronExpression(), timeZone);
+			SchedulerTask schedulerTask=  new SchedulerTask(scheduler.getTestId(), scheduler.getTestName(), scheduler.getCompanyId(), config.getBaseUrl(), scheduler.getUserEmails(), config.getTestLinkHtml_Generic_Location(), config);
+			schedulerService.addTaskToScheduler(scheduler.getId().intValue(), schedulerTask, cronTrigger);
+		}
+	}
 
 	  @RequestMapping(value = "/login", method = RequestMethod.GET)
 	  public ModelAndView showLogin(HttpServletRequest request, HttpServletResponse response) {
@@ -178,6 +205,13 @@ PropertyConfig propertyConfig;
 		  	else {
 		  		//to dashboard
 		  		//List<Question> questions = questionService.findQuestions(user.getCompanyId());
+		  		/**
+		  		 * Get all scheduled tests and load them into scheduler for the first time.
+		  		 */
+		  		if(!first){
+		  			init(user.getCompanyId());
+		  			first = true;
+		  		}
 		  		Page<Question> questions = questionService.findQuestionsByPage(user.getCompanyId(), 0);
 		  		request.getSession().setAttribute("user", user);
 		  		request.getSession().setAttribute("companyId", user.getCompanyId());
