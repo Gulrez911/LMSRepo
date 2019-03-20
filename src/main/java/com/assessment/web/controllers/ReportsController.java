@@ -2,6 +2,7 @@ package com.assessment.web.controllers;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -222,7 +223,7 @@ public class ReportsController {
     			for(AssessmentUserPerspectiveData data : collection) {
     				if(data.getTestName().equals(testName)) {
     					data.setCompanyId(user.getCompanyId());
-    					data.setUrlForUserSession(propertyConfig.getBaseUrl()+"downloadUserSessionReportsForTest?testName="+testName+"&companyId="+user.getCompanyId()+"&email="+data.getEmail());
+    					data.setUrlForUserSession(propertyConfig.getBaseUrl()+"downloadUserSessionReportsForTest?testName="+testName+"&companyId="+user.getCompanyId()+"&email="+URLEncoder.encode(data.getEmail()));
     					collectionForTest.add(data);
     				}
     			}

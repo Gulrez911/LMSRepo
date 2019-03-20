@@ -2,7 +2,7 @@ package com.assessment.data;
 
 public enum QuestionType {
 	
-MCQ("MCQ"), CODING("CODING");
+MCQ("MCQ"), CODING("CODING"), FULL_STACK_JAVA("FULL_STACK_JAVA");
 	
 	String type;
 	private QuestionType(String type) {

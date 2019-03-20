@@ -26,5 +26,10 @@ public interface UserTestSessionRepository extends JpaRepository< UserTestSessio
 	
 	@Query("SELECT u FROM UserTestSession u WHERE u.testName=:testName and u.companyId=:companyId ORDER BY u.createDate desc, u.percentageMarksRecieved desc")
 	 List<UserTestSession> findUserSessionsForTest( @Param("testName")  String testName, @Param("companyId") String companyId);
+	
+	@Query("SELECT u FROM UserTestSession u WHERE u.user LIKE CONCAT(:user,'%') and u.testName=:testName and u.companyId=:companyId")
+	 List<UserTestSession> findByTestNamePart(@Param("user") String user, @Param("testName")  String testName, @Param("companyId") String companyId);
+
+
 
 }

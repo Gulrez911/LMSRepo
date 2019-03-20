@@ -31,6 +31,19 @@ public class PropertyConfig {
 	String remoteBaseUrl;
 
 	String pmdServerBaseUrl = "";
+	
+	String fileServerLocation;
+	
+	String fileServerWebUrl;
+	
+	String fullStackCodeLocation = "/opt/eclipse_che/instance/data/workspaces";
+	
+	String codeQualityServerLink = "http://13.233.2.97:9000/dashboard?id=";
+	
+	String codeQualityEmailTemplateLocation;
+	
+	String sonarAnalysisFileLocation;
+	
 	public String getBaseUrl() {
 		return baseUrl;
 	}
@@ -150,6 +163,59 @@ public class PropertyConfig {
 	public void setTestLinkHtml_Generic_Location(String testLinkHtml_Generic_Location) {
 		this.testLinkHtml_Generic_Location = testLinkHtml_Generic_Location;
 	}
+
+	
+	public String getFileServerLocation() {
+		return fileServerLocation;
+	}
+
+	public void setFileServerLocation(String fileServerLocation) {
+		this.fileServerLocation = fileServerLocation;
+	}
+
+	
+
+	public String getFileServerWebUrl() {
+		return fileServerWebUrl;
+	}
+
+	public void setFileServerWebUrl(String fileServerWebUrl) {
+		this.fileServerWebUrl = fileServerWebUrl;
+	}
+
+	public String getFullStackCodeLocation() {
+		return fullStackCodeLocation;
+	}
+
+	public void setFullStackCodeLocation(String fullStackCodeLocation) {
+		this.fullStackCodeLocation = fullStackCodeLocation;
+	}
+
+	public String getCodeQualityServerLink() {
+		return codeQualityServerLink;
+	}
+
+	public void setCodeQualityServerLink(String codeQualityServerLink) {
+		this.codeQualityServerLink = codeQualityServerLink;
+	}
+
+	public String getCodeQualityEmailTemplateLocation() {
+		return codeQualityEmailTemplateLocation;
+	}
+
+	public void setCodeQualityEmailTemplateLocation(String codeQualityEmailTemplateLocation) {
+		this.codeQualityEmailTemplateLocation = codeQualityEmailTemplateLocation;
+	}
+
+	public String getSonarAnalysisFileLocation() {
+		return sonarAnalysisFileLocation;
+	}
+
+	public void setSonarAnalysisFileLocation(String sonarAnalysisFileLocation) {
+		this.sonarAnalysisFileLocation = sonarAnalysisFileLocation;
+	}
+
+	
 	
 	
 

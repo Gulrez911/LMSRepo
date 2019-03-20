@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +28,10 @@ import org.springframework.web.servlet.ModelAndView;
 import com.assessment.Exceptions.AssessmentGenericException;
 import com.assessment.common.CommonUtil;
 import com.assessment.common.ExcelReader;
+import com.assessment.common.PropertyConfig;
 import com.assessment.data.Company;
 import com.assessment.data.DifficultyLevel;
+import com.assessment.data.FullStackOptions;
 import com.assessment.data.ProgrammingLanguage;
 import com.assessment.data.Question;
 import com.assessment.data.QuestionType;
@@ -47,6 +50,9 @@ public class QuestionController {
 	private QuestionService questionService;
 	@Autowired
 	private CompanyService companyService;
+	
+	@Autowired
+	PropertyConfig propertyConfig;
 	
 	Logger logger =LoggerFactory.getLogger(QuestionController.class);
 	
@@ -90,6 +96,7 @@ public class QuestionController {
 		mav.addObject("levels", DifficultyLevel.values());
 		mav.addObject("types", QuestionType.values());
   		mav.addObject("languages", ProgrammingLanguage.values());
+  		mav.addObject("stacks", FullStackOptions.values());
 		CommonUtil.setCommonAttributesOfPagination(questions, mav.getModelMap(), pageNumber, "addQuestion", null);
 		return mav;
 	}
@@ -167,11 +174,64 @@ public class QuestionController {
 	}
 
 	@RequestMapping(value = "/saveQuestion", method = RequestMethod.POST)
-	public ModelAndView saveQuestion(HttpServletRequest request, HttpServletResponse response,
+	public ModelAndView saveQuestion(@RequestParam(name="addimage", required=false) MultipartFile addimage,@RequestParam(name="addaudio", required=false) MultipartFile addaudio,@RequestParam(name="addvideo", required=false) MultipartFile addvideo ,HttpServletRequest request, HttpServletResponse response,
 			@ModelAttribute("question") Question question) throws Exception {
 		ModelAndView mav = null;
 		User user = (User) request.getSession().getAttribute("user");
 		List<Question> questions = new ArrayList<Question>();
+		if(addimage != null){
+			 String destination = propertyConfig.getFileServerLocation()+File.separator+"images"+File.separator+addimage.getOriginalFilename();
+			 File file = new File(destination);
+			 	if( file.exists()){
+			 		if(addimage.getOriginalFilename() != null && addimage.getOriginalFilename().trim().length() > 0){
+			 			FileUtils.forceDelete(file);
+			 		}
+			 		
+			 	}
+			 	if(addimage.getOriginalFilename() != null && addimage.getOriginalFilename().trim().length() > 0){
+			 		 String imageUrl = propertyConfig.getFileServerWebUrl()+"images/"+addimage.getOriginalFilename();
+					 question.setImageUrl(imageUrl);
+			 		 addimage.transferTo(file);
+			 	}
+			
+			
+		}
+		
+		if(addaudio != null){
+			 String destination = propertyConfig.getFileServerLocation()+File.separator+"audios"+File.separator+addaudio.getOriginalFilename();
+			 File file = new File(destination);
+			 if( file.exists()){
+				 if(addaudio.getOriginalFilename() != null && addaudio.getOriginalFilename().trim().length() > 0){
+			 			FileUtils.forceDelete(file);
+			 		}
+			 		
+			 	}
+			 
+			 if(addaudio.getOriginalFilename() != null && addaudio.getOriginalFilename().trim().length() > 0){
+				 addaudio.transferTo(file);
+				 String audioUrl = propertyConfig.getFileServerWebUrl()+"audios/"+addaudio.getOriginalFilename();
+				 question.setAudioURL(audioUrl);
+			 }
+			 
+		}
+		
+		if(addvideo != null){
+			 String destination = propertyConfig.getFileServerLocation()+File.separator+"videos"+File.separator+addvideo.getOriginalFilename();
+			 File file = new File(destination);
+			 if( file.exists()){
+				 if(addvideo.getOriginalFilename() != null && addvideo.getOriginalFilename().trim().length() > 0){
+			 			FileUtils.forceDelete(file);
+			 		}
+			 	}
+			 
+			 if(addvideo.getOriginalFilename() != null && addvideo.getOriginalFilename().trim().length() > 0){
+				 addvideo.transferTo(file);
+				 String videoUrl = propertyConfig.getFileServerWebUrl()+"videos/"+addvideo.getOriginalFilename();
+				 question.setVideoURL(videoUrl);
+			 }
+			 
+		}
+		
 		try {
 			question.setup();
 		} catch (AssessmentGenericException e) {
@@ -181,6 +241,7 @@ public class QuestionController {
 			mav.addObject("question", question);
 			mav.addObject("message", "Select atleast 1 Correct answer");// later put it as label
 			mav.addObject("msgtype", "failure");
+			mav.addObject("types", QuestionType.values());
 			mav.addObject("qs", questions);
 			mav.addObject("levels", DifficultyLevel.values());
 			return mav;
@@ -194,7 +255,11 @@ public class QuestionController {
 			if( (!question.getInstructionsIfAny().contains("<br />")) && question.getInstructionsIfAny() != null){
 				question.setInstructionsIfAny(question.getInstructionsIfAny().replaceAll("\n", "<br />"));
 			}
-		
+			
+			if(question.getQuestionType().getType().equals(QuestionType.CODING.getType()) || question.getQuestionType().getType().equals(QuestionType.MCQ.getType())){
+				question.setFullstack(FullStackOptions.NONE);
+			}
+			
 			if(question.getId() != null) {
 				questionService.updateQuestion(question);
 			}
@@ -212,6 +277,7 @@ public class QuestionController {
 		//return listQuestions(null, response, request, mav.getModelMap());
 		question = new Question();
 		question.setType(question.getQuestionType() != null? question.getQuestionType().getType():QuestionType.MCQ.getType());
+			
 		question.setLang(question.getLanguage() != null?question.getLanguage().getLanguage():ProgrammingLanguage.JAVA.getLanguage());
 		mav.addObject("question", question);
 		mav.addObject("question_label", "Add new Question");

@@ -30,6 +30,7 @@ import com.assessment.common.PropertyConfig;
 import com.assessment.common.QuestionSequence;
 import com.assessment.common.SectionSequence;
 import com.assessment.common.util.EmailGenericMessageThread;
+import com.assessment.data.FullStackOptions;
 import com.assessment.data.Question;
 import com.assessment.data.QuestionMapper;
 import com.assessment.data.QuestionMapperInstance;
@@ -40,6 +41,9 @@ import com.assessment.data.Test;
 import com.assessment.data.User;
 import com.assessment.data.UserNonCompliance;
 import com.assessment.data.UserTestSession;
+import com.assessment.eclipseche.config.response.WorkspaceResponse;
+import com.assessment.eclipseche.services.EclipseCheService;
+import com.assessment.repositories.QuestionMapperInstanceRepository;
 import com.assessment.services.CompanyService;
 import com.assessment.services.QuestionMapperInstanceService;
 import com.assessment.services.QuestionMapperService;
@@ -98,7 +102,8 @@ public class StudentController {
 	
 	@Autowired
 	ReportsService reportsService;
-	
+	@Autowired
+	QuestionMapperInstanceRepository  questionMapperInstanceRep;
 	
 	 @RequestMapping(value = "/startTestSession", method = RequestMethod.GET)
 	  public ModelAndView studentHome(@RequestParam(required=false) String sharedDirect,@RequestParam(required=false) String inviteSent, @RequestParam String userId, @RequestParam String companyId, @RequestParam String testId, HttpServletRequest request, HttpServletResponse response) {
@@ -208,6 +213,8 @@ public class StudentController {
 			String pattern = "dd-MM-yyyy HH:mm:ss";
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 			studentTest.setTestCreationDate(simpleDateFormat.format(testDetails.getCreateDate()));
+			//Integer noOfAttempts = userTestSessionService.findNoOfAttempsByUserForTest(userDetails.getEmail(), testDetails.getTestName(), userDetails.getCompanyId());
+		//	studentTest.setNoOfAttempts(noOfAttempts == null || noOfAttempts == 0 ?1:noOfAttempts +1);
 			UserTestSession session = userTestSessionService.findUserTestSession(userDetails.getEmail(), testDetails.getTestName(), userDetails.getCompanyId());
 			if(session != null && session.getComplete()) {
 				
@@ -220,6 +227,10 @@ public class StudentController {
 			else if(session != null && !session.getComplete()) {
 				studentTest.setNoOfAttempts(session.getNoOfAttempts());
 			}
+			else if(session == null){
+				studentTest.setNoOfAttempts(1);
+			}
+			
 		}
 		model.addObject("studentTestForm", studentTest);
 		request.getSession().setAttribute("studentTestForm", studentTest);
@@ -240,7 +251,7 @@ public class StudentController {
 	
 	 
 	 @RequestMapping(value = "/studentJourney", method = RequestMethod.POST)
-	 public ModelAndView studentStartExam(HttpServletRequest request, HttpServletResponse response,@ModelAttribute("studentTestForm") StudentTestForm studentForm) {
+	 public ModelAndView studentStartExam(HttpServletRequest request, HttpServletResponse response,@ModelAttribute("studentTestForm") StudentTestForm studentForm) throws Exception {
 		 ModelAndView model= new ModelAndView("test");
 		 User user = (User) request.getSession().getAttribute("user");
 		 Test test = (Test) request.getSession().getAttribute("test");
@@ -296,6 +307,16 @@ public class StudentController {
 					model.addObject("currentSection", sectionInstanceDto);
 					model.addObject("currentQuestion", questionMapperInstances.get(0));
 					request.getSession().setAttribute("currentSection", sectionInstanceDto);
+					 /**
+					  * Get the fullstack for Q if type is full stack.
+					  * 
+					  */
+					 if(!questionMapperInstances.get(0).getQuestionMapperInstance().getQuestionMapper().getQuestion().getFullstack().getStack().equals(FullStackOptions.NONE.getStack())){
+						 setWorkspaceIDEForFullStackQ(request, questionMapperInstances.get(0));
+					 }
+					 /**
+					  * End full stack check
+					  */
 			 }
 			 sectionInstanceDto.setNoOfQuestions(section.getNoOfQuestionsToBeAsked());
 			 sectionInstanceDto.setSection(section);
@@ -449,8 +470,8 @@ public class StudentController {
 				 				CompileData compileData = new CompileData();
 				 				compileData.setLanguage(lang);
 				 				String code = currentQuestion.getCode();
-				 				//code = code.replaceAll("\\n", "");
-				 				//code = code.replaceAll("\\t", "");
+				 				code = code.replaceAll("\\\\n", System.lineSeparator());
+				 				code = code.replaceAll("\\\\t", "   ");
 				 				compileData.setCode(code);
 				 				compileData.setStdin(q.getHiddenInputNegative());
 				 				CompileOutput op = compiler.compile(compileData);
@@ -615,7 +636,7 @@ public class StudentController {
 	 }
 	 
 	 @RequestMapping(value = "/nextQuestion", method = RequestMethod.POST)
-	  public ModelAndView nextQuestion(@RequestParam String questionId, @RequestParam String timeCounter,HttpServletRequest request, HttpServletResponse response,@ModelAttribute("currentQuestion") QuestionInstanceDto currentQuestion) {
+	  public ModelAndView nextQuestion(@RequestParam String questionId, @RequestParam String timeCounter,HttpServletRequest request, HttpServletResponse response,@ModelAttribute("currentQuestion") QuestionInstanceDto currentQuestion) throws Exception {
 		 ModelAndView model= new ModelAndView("test");
 		 User user = (User) request.getSession().getAttribute("user");
 		 Test test = (Test) request.getSession().getAttribute("test");
@@ -681,6 +702,16 @@ public class StudentController {
 				 request.getSession().setAttribute("currentSection", nextSection);
 				 putMiscellaneousInfoInModel(model, request);
 				 processPercentages(model, sectionInstanceDtos, test.getTotalMarks());
+				 /**
+				  * Get the fullstack for Q if type is full stack.
+				  * 
+				  */
+				 if(!currentQuestion.getQuestionMapperInstance().getQuestionMapper().getQuestion().getFullstack().getStack().equals(FullStackOptions.NONE.getStack())){
+					 setWorkspaceIDEForFullStackQ(request, currentQuestion);
+				 }
+				 /**
+				  * End full stack check
+				  */
 				 return model;
 			}
 			else {
@@ -718,6 +749,16 @@ public class StudentController {
 			 putMiscellaneousInfoInModel(model, request);
 			 setTimeInCounter(request, Long.valueOf(timeCounter));
 			 processPercentages(model, sectionInstanceDtos, test.getTotalMarks());
+			 /**
+			  * Get the fullstack for Q if type is full stack.
+			  * 
+			  */
+			 if(!currentQuestion.getQuestionMapperInstance().getQuestionMapper().getQuestion().getFullstack().getStack().equals(FullStackOptions.NONE.getStack())){
+				 setWorkspaceIDEForFullStackQ(request, currentQuestion);
+			 }
+			 /**
+			  * End full stack check
+			  */
 			 return model;
 		}
 		    
@@ -743,9 +784,71 @@ public class StudentController {
 		 return false;
 	 }
 	 
+	 private void setWorkspaceIDEForFullStackQ(HttpServletRequest request, QuestionInstanceDto currentQuestion) throws Exception{
+		if(currentQuestion.getQuestionMapperInstance().getQuestionMapper().getQuestion().getFullstack().getStack().equals(FullStackOptions.JAVA_FULLSTACK.getStack())){
+			
+			User user = (User) request.getSession().getAttribute("user");
+			String fullName = user.getFirstName()+user.getLastName();
+			Test test = (Test) request.getSession().getAttribute("test");
+			fullName = fullName.replace(" ", "");
+			String secName = currentQuestion.getQuestionMapperInstance().getQuestionMapper().getSectionName();
+			QuestionMapperInstance qms = questionMapperInstanceRep.findUniqueQuestionMapperInstanceForUser(currentQuestion.getQuestionMapperInstance().getQuestionMapper().getQuestion().getQuestionText(), test.getTestName(), secName, user.getEmail(), user.getCompanyId());
+		    String workspace = "";
+		    if(qms == null){
+		    	WorkspaceResponse workspaceResponse = generateWorkspace(currentQuestion, test.getId(), currentQuestion.getQuestionMapperInstance().getQuestionMapper().getQuestion().getId(), fullName);
+		    	workspace = workspaceResponse.getLinks().getIde();
+		    	qms = currentQuestion.getQuestionMapperInstance();
+		 		qms.setCompanyId(test.getCompanyId());
+		 		qms.setQuestionText(currentQuestion.getQuestionMapperInstance().getQuestionMapper().getQuestion().getQuestionText());
+		 		qms.setTestName(test.getTestName());
+		 		qms.setSectionName(secName);
+		 		qms.setUser(user.getEmail());
+		 		qms.setCreateDate(new Date());
+		 		qms.setCompanyName(test.getCompanyName());
+		 		qms.setWorkspaceUrl(workspace);
+		 		qms.setWorkSpaceId(workspaceResponse.getId());
+		 		questionMapperInstanceRep.save(qms);
+		    }
+		    else{
+		    	if(qms.getWorkspaceUrl() == null || qms.getWorkspaceUrl().trim().length() == 0){
+			    	// if(stackName.equals("Java")){
+		    		//workspace = generateWorkspace(currentQuestion, test.getId(), currentQuestion.getQuestionMapperInstance().getQuestionMapper().getQuestion().getId(), fullName);
+		    		WorkspaceResponse workspaceResponse = generateWorkspace(currentQuestion, test.getId(), currentQuestion.getQuestionMapperInstance().getQuestionMapper().getQuestion().getId(), fullName);
+			    	workspace = workspaceResponse.getLinks().getIde();
+		    		//return workspaceResponse.getLinks().getIde();
+			    	qms.setWorkSpaceId(workspaceResponse.getId());
+		    		qms.setWorkspaceUrl(workspace);
+		    		qms.setUpdateDate(new Date());
+		    		questionMapperInstanceRep.save(qms);
+			 	// }
+			    }
+				else{
+					workspace = qms.getWorkspaceUrl();
+				}
+		    }
+		    currentQuestion.setQuestionMapperInstance(qms);
+		    currentQuestion.getQuestionMapperInstance().setWorkspaceUrl(workspace);
+		    
+		}
+		
+	 	
+	 }
+	 
+	 private WorkspaceResponse generateWorkspace(QuestionInstanceDto currentQuestion, Long tid, Long qid, String fullName) throws Exception{
+		 String json = FileUtils.readFileToString(new File("assessment"+File.separator+"eclipseChe"+File.separator+"Java_FullStack.json"));
+	 		//String qid = ""+currentQuestion.getQuestionMapperInstance().getQuestionMapper().getQuestion().getId();
+	 		json = json.replace("${APP_USER}", fullName+"-"+tid+"-"+qid+"-"+System.currentTimeMillis());
+	 		//json = json.replace("${APP_USER}", "a01");
+	 		json = json.replace("${APP_DESC}", "Skeleton Code............................Project\n\n\n.........");
+	 		EclipseCheService eclipseCheService = new EclipseCheService();
+	 		WorkspaceResponse workspaceResponse = eclipseCheService.createWorkSpace(json);
+	 		//return workspaceResponse.getLinks().getIde();
+	 		return workspaceResponse;
+	 }
+	 
 	 
 	 @RequestMapping(value = "/prevQuestion", method = RequestMethod.POST)
-	  public ModelAndView prevQuestion(@RequestParam String questionId, @RequestParam String timeCounter,HttpServletRequest request, HttpServletResponse response,@ModelAttribute("currentQuestion") QuestionInstanceDto currentQuestion) {
+	  public ModelAndView prevQuestion(@RequestParam String questionId, @RequestParam String timeCounter,HttpServletRequest request, HttpServletResponse response,@ModelAttribute("currentQuestion") QuestionInstanceDto currentQuestion) throws Exception {
 		 ModelAndView model= new ModelAndView("test");
 		 User user = (User) request.getSession().getAttribute("user");
 		 Test test = (Test) request.getSession().getAttribute("test");
@@ -804,6 +907,16 @@ public class StudentController {
 				 request.getSession().setAttribute("currentSection", previousSection);
 				 putMiscellaneousInfoInModel(model, request);
 				 processPercentages(model, sectionInstanceDtos, test.getTotalMarks());
+				 /**
+				  * Get the fullstack for Q if type is full stack.
+				  * 
+				  */
+				 if(!currentQuestion.getQuestionMapperInstance().getQuestionMapper().getQuestion().getFullstack().getStack().equals(FullStackOptions.NONE.getStack())){
+					 setWorkspaceIDEForFullStackQ(request, currentQuestion);
+				 }
+				 /**
+				  * End full stack check
+				  */
 				 return model;
 			}
 			else {
@@ -841,6 +954,16 @@ public class StudentController {
 			 putMiscellaneousInfoInModel(model, request);
 			 setTimeInCounter(request, Long.valueOf(timeCounter));
 			 processPercentages(model, sectionInstanceDtos, test.getTotalMarks());
+			 /**
+			  * Get the fullstack for Q if type is full stack.
+			  * 
+			  */
+			 if(!currentQuestion.getQuestionMapperInstance().getQuestionMapper().getQuestion().getFullstack().getStack().equals(FullStackOptions.NONE.getStack())){
+				 setWorkspaceIDEForFullStackQ(request, currentQuestion);
+			 }
+			 /**
+			  * End full stack check
+			  */
 			 return model;
 		}
 		    
@@ -909,11 +1032,22 @@ public class StudentController {
 			userTestSession = userTestSessionService.saveOrUpdate(userTestSession);
 			
 			studentTestForm.setNoOfAttempts(userTestSession.getNoOfAttempts());
-		 model= new ModelAndView("studentTestCompletion");
+		 
 		 putMiscellaneousInfoInModel(model, request);
 		 setTimeInCounter(request, Long.valueOf(timeCounter));
 		 try {
-			sendResultsEmail(request, userTestSession);
+			String rows = sendResultsEmail(request, userTestSession);
+			model= new ModelAndView("studentTestCompletion");
+			model.addObject("rows", rows);
+			model.addObject("showResults", test.getSentToStudent());
+				if(test.getSentToStudent()){
+					model.addObject("TOTAL_QUESTIONS", userTestSession.getTotalMarks());
+					model.addObject("TOTAL_MARKS", userTestSession.getTotalMarksRecieved());
+					model.addObject("PASS_PERCENTAGE", test.getPassPercent());
+					model.addObject("RESULT_PERCENTAGE", userTestSession.getPercentageMarksRecieved());
+					model.addObject("STATUS", test.getPassPercent() > userTestSession.getPercentageMarksRecieved()?"Fail":"Success");
+				}
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			
@@ -934,7 +1068,7 @@ public class StudentController {
 		 return decoded;
 	 }
 	 
-	 private void sendResultsEmail(HttpServletRequest request, UserTestSession userTestSession) throws Exception {
+	 private String sendResultsEmail(HttpServletRequest request, UserTestSession userTestSession) throws Exception {
 		 String table = "<tr style=\"border-collapse:collapse;border: 1px solid black\">\r\n" + 
 		 		"                                                <td align=\"center\" style=\"border: 1px solid black\"> {SECTION_NAME}</td>\r\n" + 
 		 		"						<td align=\"center\" style=\"border: 1px solid black\"> {SECTION_PERCENT}</td>\r\n" + 
@@ -962,7 +1096,9 @@ public class StudentController {
 			 }
 			 html = html.replace("{ROWS}", rows);
 			 UserNonCompliance nonCompliance = null;
-			 nonCompliance = userNonComplianceService.findNonCompliance(userTestSession.getUser(), userTestSession.getTestName(), userTestSession.getCompanyId());
+			  nonCompliance = userNonComplianceService.findNonCompliance(userTestSession.getUser(), userTestSession.getTestName(), userTestSession.getCompanyId());
+			// nonCompliance = userNonComplianceService.findLastNonCompliance(userTestSession.getUser(), userTestSession.getTestName(), userTestSession.getCompanyId());
+//			 
 //			 if(userTestSession.getId() == null) {
 //				 nonCompliance = userNonComplianceService.findNonCompliance(userTestSession.getUser(), userTestSession.getTestName(), userTestSession.getCompanyId());
 //			 }
@@ -980,7 +1116,29 @@ public class StudentController {
 			 }
 			 else if(test.getTestName().equalsIgnoreCase("Manual Testing")){
 				 String file = reportsService.generatedetailedReportForCompositeTest(user.getCompanyId(), test.getTestName(), user.getEmail());
-				 String cc[] = {"abbas.meghani@gmail.com", user.getEmail()};
+				 String email = "";
+				 	if(user.getEmail().lastIndexOf("[") > 0 ){
+				 		email = user.getEmail().substring(0, user.getEmail().lastIndexOf("["));
+				 	}
+				 	else{
+				 		email = user.getEmail();
+				 	}
+				 String cc[] = {"abbas.meghani@gmail.com", email};
+				 EmailGenericMessageThread client = new EmailGenericMessageThread(test.getCreatedBy(), "Test Results for "+user.getFirstName()+" "+user.getLastName()+" for test- "+test.getTestName(), html, user.getEmail(), propertyConfig, file, user.getFirstName()+" "+user.getLastName()+"-"+test.getTestName());
+					client.setCcArray(cc);
+				 	Thread th = new Thread(client);
+					th.start();
+			 }
+			 else if(test.getTestName().equalsIgnoreCase("Java_Test_With_Recomm_Support")){
+				 String file = reportsService.generatedetailedReportForCompositeTest(user.getCompanyId(), test.getTestName(), user.getEmail());
+				 String email = "";
+				 	if(user.getEmail().lastIndexOf("[") > 0 ){
+				 		email = user.getEmail().substring(0, user.getEmail().lastIndexOf("["));
+				 	}
+				 	else{
+				 		email = user.getEmail();
+				 	}
+				 String cc[] = {"sreeram.gopal@iiht.com", email};
 				 EmailGenericMessageThread client = new EmailGenericMessageThread(test.getCreatedBy(), "Test Results for "+user.getFirstName()+" "+user.getLastName()+" for test- "+test.getTestName(), html, user.getEmail(), propertyConfig, file, user.getFirstName()+" "+user.getLastName()+"-"+test.getTestName());
 					client.setCcArray(cc);
 				 	Thread th = new Thread(client);
@@ -988,7 +1146,14 @@ public class StudentController {
 			 }
 			 else if(test.getSentToStudent()){
 				// String file = reportsService.generatedetailedReportForCompositeTest(user.getCompanyId(), test.getTestName(), user.getEmail());
-				 String cc[] = {user.getEmail()};
+				 String email = "";
+				 	if(user.getEmail().lastIndexOf("[") > 0 ){
+				 		email = user.getEmail().substring(0, user.getEmail().lastIndexOf("["));
+				 	}
+				 	else{
+				 		email = user.getEmail();
+				 	}
+				 String cc[] = {email};
 				 EmailGenericMessageThread client = new EmailGenericMessageThread(test.getCreatedBy(), "Test Results for "+user.getFirstName()+" "+user.getLastName()+" for test- "+test.getTestName(), html, propertyConfig);
 					client.setCcArray(cc);
 				 	Thread th = new Thread(client);
@@ -1000,7 +1165,7 @@ public class StudentController {
 				 	Thread th = new Thread(client);
 					th.start();
 			 }
-			 
+		return rows;	 
 			 
 	 }
 }

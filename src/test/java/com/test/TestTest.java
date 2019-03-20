@@ -23,6 +23,7 @@ import com.assessment.data.SkillLevel;
 import com.assessment.data.User;
 import com.assessment.data.UserTestSession;
 import com.assessment.repositories.QuestionMapperRepository;
+import com.assessment.repositories.UserTestSessionRepository;
 import com.assessment.services.CompanyService;
 import com.assessment.services.QuestionService;
 import com.assessment.services.SectionInstanceService;
@@ -34,7 +35,7 @@ import com.assessment.services.UserTestSessionService;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:appContext_Remote.xml"})
+@ContextConfiguration(locations = {"classpath:appContext.xml"})
 @Transactional
 public class TestTest {
 	@Autowired
@@ -70,12 +71,22 @@ public class TestTest {
 	
 //	company.setCompanyId("IH");
 //	company.setCompanyName("IIHT");
+	@Autowired
+	UserTestSessionRepository repository;
 //	
 	private  User user = null;
+	
 	
 	@Before
 	public  void init() {
 		user = userService.findByPrimaryKey("ashutosh.dhurve@thev2technologies.com", companyId);
+	}
+	
+	@Test
+	@Rollback(value=false)
+	public void findUsersForTest(){
+		List<UserTestSession> sess= repository.findByTestNamePart("john.doe2@smith.com", "image_audio_video", "IH");
+		System.out.println(sess.size());
 	}
 	
 	@Test

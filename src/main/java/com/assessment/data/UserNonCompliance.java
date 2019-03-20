@@ -21,6 +21,8 @@ public class UserNonCompliance extends Base{
 	
 	Long userTestSessionId;
 	
+	Integer testAttemtByUser;
+	
 	Integer noOfNonCompliances = 0;
 
 	
@@ -73,6 +75,14 @@ public class UserNonCompliance extends Base{
 
 	public void setNoOfNonCompliances(Integer noOfNonCompliances) {
 		this.noOfNonCompliances = noOfNonCompliances;
+	}
+
+	public Integer getTestAttemtByUser() {
+		return testAttemtByUser;
+	}
+
+	public void setTestAttemtByUser(Integer testAttemtByUser) {
+		this.testAttemtByUser = testAttemtByUser;
 	}
 	
 	

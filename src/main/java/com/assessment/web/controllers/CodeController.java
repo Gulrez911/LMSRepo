@@ -88,6 +88,7 @@ public class CodeController {
 			codeReportData.setTestName(instance.getTestName());
 			codeReportData.setProblemStatement(instance.getQuestionMapper().getQuestion().getQuestionText().replaceAll("\r\n|\n", "<br>").replaceAll("\t", "&nbsp;&nbsp;&nbsp;").replace("'", "\\'").replace("\"", "<q>"));
 			codeReportData.setOutputCode(instance.getCodeByUser() != null?instance.getCodeByUser().replaceAll("\r\n|\n", "<br>").replace("'", "\\'").replace("\"", "<q>").replaceAll("\t", "&nbsp;&nbsp;&nbsp;"):"NA");
+			
 			UserTestSession session = userTestSessionService.findUserTestSession(user2.getEmail(), instance.getTestName(), user.getCompanyId());
 				if(session != null && session.getPercentageMarksRecieved() != null){
 					codeReportData.setOverallScore(String.format("%.2f", session.getPercentageMarksRecieved()));

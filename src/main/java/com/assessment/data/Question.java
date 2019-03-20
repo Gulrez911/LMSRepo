@@ -8,8 +8,9 @@ import javax.persistence.Enumerated;
 import javax.persistence.Lob;
 import javax.persistence.Transient;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.assessment.Exceptions.AssessmentGenericException;
-import com.sun.javafx.css.SelectorPartitioning;
 /**
  * Primary key - questionText & companyId
  * @author jsutaria
@@ -97,8 +98,14 @@ public class Question extends Base{
 	@Enumerated(EnumType.STRING)
 	private ProgrammingLanguage language = ProgrammingLanguage.JAVA;
 	
+	@Enumerated(EnumType.STRING)
+	private FullStackOptions fullstack = FullStackOptions.JAVA_FULLSTACK;
+	
 	@Transient
 	String lang;
+	
+	@Transient
+	String stack;
 	
 	@Transient
 	private String type;
@@ -106,7 +113,8 @@ public class Question extends Base{
 	@Column(length=2000)
 	private String constrnt;
 	
-	
+	@Column(length=2000)
+	private String stackProblemDetails;
 	
 	
 	
@@ -145,6 +153,19 @@ public class Question extends Base{
 	 */
 	@Transient
 	Boolean selected;
+	
+	
+	
+	@Column(length=2000)
+	String imageUrl;
+	
+	@Column(length=2000)
+	String videoURL;
+	
+	@Column(length=2000)
+	String audioURL;
+	
+	String reviewerEmail;
 	
 	public String getQualifier1() {
 		return qualifier1;
@@ -714,6 +735,53 @@ public class Question extends Base{
 	}
 	public void setHiddenOutputNegative(String hiddenOutputNegative) {
 		this.hiddenOutputNegative = hiddenOutputNegative;
+	}
+	
+	
+	public String getImageUrl() {
+		return imageUrl;
+	}
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+	public String getVideoURL() {
+		return videoURL;
+	}
+	public void setVideoURL(String videoURL) {
+		this.videoURL = videoURL;
+	}
+	public String getAudioURL() {
+		return audioURL;
+	}
+	public void setAudioURL(String audioURL) {
+		this.audioURL = audioURL;
+	}
+	public FullStackOptions getFullstack() {
+		if(this.fullstack == null){
+			return FullStackOptions.NONE;
+		}
+		return fullstack;
+	}
+	public void setFullstack(FullStackOptions fullstack) {
+		this.fullstack = fullstack;
+	}
+	public String getStack() {
+		return stack;
+	}
+	public void setStack(String stack) {
+		this.stack = stack;
+	}
+	public String getStackProblemDetails() {
+		return stackProblemDetails;
+	}
+	public void setStackProblemDetails(String stackProblemDetails) {
+		this.stackProblemDetails = stackProblemDetails;
+	}
+	public String getReviewerEmail() {
+		return reviewerEmail;
+	}
+	public void setReviewerEmail(String reviewerEmail) {
+		this.reviewerEmail = reviewerEmail;
 	}
 	
 	

@@ -29,7 +29,9 @@ import com.assessment.data.Question;
 import com.assessment.data.Test;
 import com.assessment.data.TestScheduler;
 import com.assessment.data.User;
+import com.assessment.data.UserTestSession;
 import com.assessment.repositories.TestSchedulerRepository;
+import com.assessment.repositories.UserTestSessionRepository;
 import com.assessment.scheduler.ScheduleTaskService;
 import com.assessment.services.CompanyService;
 import com.assessment.services.QuestionService;
@@ -60,6 +62,8 @@ TestSchedulerRepository rep;
 ScheduleTaskService schedulerService;
 @Autowired
 PropertyConfig config;
+@Autowired
+UserTestSessionRepository testSessionRepository;
 	
 	private final String prefixURL = "iiht_html";
 	
@@ -122,6 +126,23 @@ PropertyConfig config;
 		  
 		  testUserData.getUser().setPassword("12345");
 		  Test test = testService.findTestById(Long.parseLong(testUserData.getTestId()));
+		  
+		  /**
+		   * Step 1 - figure out if the user has taken a test.
+		   */
+		  UserTestSession session = testSessionRepository.findByPrimaryKey(testUserData.getUser().getEmail(), test.getTestName(), test.getCompanyId());
+		  String userNameNew = "";
+		  if(session == null){
+			  userNameNew = testUserData.getUser().getEmail();
+		  }
+		  else{
+			  /**
+			   * Step 2 - find out how many sessions for the given test the user has taken
+			   */
+			  List<UserTestSession> sessions = testSessionRepository.findByTestNamePart(testUserData.getUser().getEmail()+"["+test.getId(), test.getTestName(), test.getCompanyId());
+			  userNameNew = testUserData.getUser().getEmail()+"["+test.getId()+"-"+(sessions.size()+1+"]");
+		  }
+		  
 		  boolean validate = validateDomainCheck(test, testUserData.getUser().getEmail());
 		  	if(!validate) {
 		  		ModelAndView mav = new ModelAndView("studentNoTest_Domain");
@@ -130,7 +151,8 @@ PropertyConfig config;
 		  		mav.addObject("domain", test.getDomainEmailSupported());
 		  		return mav;
 		  	}
-	    userService.saveOrUpdate(testUserData.getUser());
+		  	testUserData.getUser().setEmail(userNameNew);
+	   userService.saveOrUpdate(testUserData.getUser());
 	   request.getSession().setAttribute("user", testUserData.getUser());
 	  
 	   request.getSession().setAttribute("test", test);

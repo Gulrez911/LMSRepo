@@ -1,5 +1,6 @@
 package com.assessment.data;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -13,6 +14,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 public class User extends Base{
 	@NotNull
+	@Column(length=2000)
 	 String email;
 	 String mobileNumber;
 	 String firstName;
@@ -34,6 +36,47 @@ public class User extends Base{
 	
 	@Transient
 	Boolean selected;
+	
+	String aadharNo;
+	
+	String dateOfBirth;
+	
+	String gender = "Male";
+	
+	@Column(length=1000)
+	String permanentAddress;
+	
+	@Column(length=1000)
+	String addressCommunication;
+	
+	String collegeName;
+	
+	String tenPercentage;
+	
+	String tenYearOfPassing;
+	
+	String twelveDiplomaPercentage;
+	
+	String twelveDiplomaYearOfPassing;
+	
+	String underGradDegree;
+	
+	String underGradDegreeSpec;
+	
+	String underGradYearOfPassing;
+	
+	String underGradPercentage;
+	
+	String postGradDegree;
+	
+	String postGradDegreeSpec;
+	
+	String postGradYearOfPassing;
+	
+	String postGradPercentage;
+	
+	String activeBackLogs;
+	
 	
 	public String getDepartment() {
 		return department;
@@ -132,5 +175,121 @@ public class User extends Base{
 		
 		return false;
 	}
+	public String getAadharNo() {
+		return aadharNo;
+	}
+	public void setAadharNo(String aadharNo) {
+		this.aadharNo = aadharNo;
+	}
+	public String getDateOfBirth() {
+		return dateOfBirth;
+	}
+	public void setDateOfBirth(String dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
+	public String getGender() {
+		return gender;
+	}
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+	public String getPermanentAddress() {
+		return permanentAddress;
+	}
+	public void setPermanentAddress(String permanentAddress) {
+		this.permanentAddress = permanentAddress;
+	}
+	public String getAddressCommunication() {
+		return addressCommunication;
+	}
+	public void setAddressCommunication(String addressCommunication) {
+		this.addressCommunication = addressCommunication;
+	}
+	public String getCollegeName() {
+		return collegeName;
+	}
+	public void setCollegeName(String collegeName) {
+		this.collegeName = collegeName;
+	}
+	public String getTenPercentage() {
+		return tenPercentage;
+	}
+	public void setTenPercentage(String tenPercentage) {
+		this.tenPercentage = tenPercentage;
+	}
+	public String getTenYearOfPassing() {
+		return tenYearOfPassing;
+	}
+	public void setTenYearOfPassing(String tenYearOfPassing) {
+		this.tenYearOfPassing = tenYearOfPassing;
+	}
+	public String getTwelveDiplomaPercentage() {
+		return twelveDiplomaPercentage;
+	}
+	public void setTwelveDiplomaPercentage(String twelveDiplomaPercentage) {
+		this.twelveDiplomaPercentage = twelveDiplomaPercentage;
+	}
+	public String getTwelveDiplomaYearOfPassing() {
+		return twelveDiplomaYearOfPassing;
+	}
+	public void setTwelveDiplomaYearOfPassing(String twelveDiplomaYearOfPassing) {
+		this.twelveDiplomaYearOfPassing = twelveDiplomaYearOfPassing;
+	}
+	public String getUnderGradDegree() {
+		return underGradDegree;
+	}
+	public void setUnderGradDegree(String underGradDegree) {
+		this.underGradDegree = underGradDegree;
+	}
+	public String getUnderGradDegreeSpec() {
+		return underGradDegreeSpec;
+	}
+	public void setUnderGradDegreeSpec(String underGradDegreeSpec) {
+		this.underGradDegreeSpec = underGradDegreeSpec;
+	}
+	public String getUnderGradYearOfPassing() {
+		return underGradYearOfPassing;
+	}
+	public void setUnderGradYearOfPassing(String underGradYearOfPassing) {
+		this.underGradYearOfPassing = underGradYearOfPassing;
+	}
+	public String getUnderGradPercentage() {
+		return underGradPercentage;
+	}
+	public void setUnderGradPercentage(String underGradPercentage) {
+		this.underGradPercentage = underGradPercentage;
+	}
+	public String getPostGradDegree() {
+		return postGradDegree;
+	}
+	public void setPostGradDegree(String postGradDegree) {
+		this.postGradDegree = postGradDegree;
+	}
+	public String getPostGradDegreeSpec() {
+		return postGradDegreeSpec;
+	}
+	public void setPostGradDegreeSpec(String postGradDegreeSpec) {
+		this.postGradDegreeSpec = postGradDegreeSpec;
+	}
+	public String getPostGradYearOfPassing() {
+		return postGradYearOfPassing;
+	}
+	public void setPostGradYearOfPassing(String postGradYearOfPassing) {
+		this.postGradYearOfPassing = postGradYearOfPassing;
+	}
+	public String getPostGradPercentage() {
+		return postGradPercentage;
+	}
+	public void setPostGradPercentage(String postGradPercentage) {
+		this.postGradPercentage = postGradPercentage;
+	}
+	public String getActiveBackLogs() {
+		return activeBackLogs;
+	}
+	public void setActiveBackLogs(String activeBackLogs) {
+		this.activeBackLogs = activeBackLogs;
+	}
+	
+	
 
 }

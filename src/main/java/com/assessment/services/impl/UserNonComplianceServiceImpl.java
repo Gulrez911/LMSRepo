@@ -1,6 +1,7 @@
 package com.assessment.services.impl;
 
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +15,12 @@ import com.assessment.repositories.UserNonComplianceRepository;
 import com.assessment.services.CompanyService;
 import com.assessment.services.TestService;
 import com.assessment.services.UserNonComplianceService;
+import com.assessment.services.UserTestSessionService;
 
 @Service
 @Transactional
 public class UserNonComplianceServiceImpl implements UserNonComplianceService {
-	Logger logger = Logger.getLogger(UserNonComplianceServiceImpl.class.getName());
+Logger logger = Logger.getLogger(UserNonComplianceServiceImpl.class.getName());
 	
 	@Autowired
 	UserNonComplianceRepository userNonComplianceRepository;

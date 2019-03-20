@@ -193,7 +193,7 @@
 							<h4>
 								Welcome ${studentTestForm.userName}<span>${studentTestForm.emailId}</span>
 							</h4>
-							<img src="images/userimg.png">
+							<!-- <img src="images/userimg.png"> -->
 						</div>
 					</div>
 				</div>
@@ -211,7 +211,7 @@
 				</div>
 			</div>
 			<div class="durationinfo">
-				<span><i class="fa fa-clock-o">
+				<span>Timer - <!-- <i class="fa fa-clock-o"> -->
 				<span class="time" id="timer"><i id="hours"></i><sub>h</sub><i id="min"></i><sub> min</sub><i id="sec"></i> <sub> sec</sub></span> </i>
 				   <!-- <c:choose>
 						 <c:when test="${currentSection.last==true}">
@@ -259,7 +259,26 @@
 									<span>${currentQuestion.position}</span>
 								</div>
 								<h3 class="qname">${currentQuestion.questionMapperInstance.questionMapper.question.questionText}</h3>
-
+								&nbsp; &nbsp; &nbsp;   <c:if test = "${currentQuestion.questionMapperInstance.questionMapper.question.imageUrl != null && currentQuestion.questionMapperInstance.questionMapper.question.imageUrl.trim().length() > 0}">
+								<img src="${currentQuestion.questionMapperInstance.questionMapper.question.imageUrl}" height="400" width="500">
+							  </c:if>
+							  
+							  <c:if test = "${currentQuestion.questionMapperInstance.questionMapper.question.audioURL != null && currentQuestion.questionMapperInstance.questionMapper.question.audioURL.trim().length() > 0}">
+							   &nbsp; &nbsp; &nbsp;  <audio controls src="${currentQuestion.questionMapperInstance.questionMapper.question.audioURL}">
+										Your browser does not support the
+										<code>audio</code> element.
+								</audio>
+								
+							  </c:if>
+							  
+							  <c:if test = "${currentQuestion.questionMapperInstance.questionMapper.question.videoURL != null && currentQuestion.questionMapperInstance.questionMapper.question.videoURL.trim().length() > 0}">
+								&nbsp; &nbsp; &nbsp; <video width="400" height="300" controls>
+									  <source src="${currentQuestion.questionMapperInstance.questionMapper.question.videoURL}" >
+									 
+									  Your browser does not support the video tag.
+									</video>
+							  </c:if>
+								<br/><br/><br/><br/>
 								<div class="answers">
 									<ul>
 										<li
@@ -387,7 +406,7 @@
 		
 		
             <div class="flagdiv">
-                <a href="#"><i class="fa fa-flag-checkered"></i>FLAG</a>
+              <!--  <a href="#"><i class="fa fa-flag-checkered"></i>FLAG</a> -->
             </div>
 
         </div>

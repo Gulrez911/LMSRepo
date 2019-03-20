@@ -39,6 +39,15 @@ public class QuestionMapperInstance extends Base{
 	@Lob
 	String codeByUser;
 	
+	@Lob
+	String reviewerComments;
+	
+	@Column(length=400)
+	String workspaceUrl;
+	
+	@Column(length=200)
+	String workSpaceId;
+	
 	
 	//Long userTestSessionId;
 
@@ -143,6 +152,30 @@ public class QuestionMapperInstance extends Base{
 
 	public void setCodeByUser(String codeByUser) {
 		this.codeByUser = codeByUser;
+	}
+
+	public String getReviewerComments() {
+		return reviewerComments;
+	}
+
+	public void setReviewerComments(String reviewerComments) {
+		this.reviewerComments = reviewerComments;
+	}
+
+	public String getWorkspaceUrl() {
+		return workspaceUrl;
+	}
+
+	public void setWorkspaceUrl(String workspaceUrl) {
+		this.workspaceUrl = workspaceUrl;
+	}
+
+	public String getWorkSpaceId() {
+		return workSpaceId;
+	}
+
+	public void setWorkSpaceId(String workSpaceId) {
+		this.workSpaceId = workSpaceId;
 	}
 	
 	
