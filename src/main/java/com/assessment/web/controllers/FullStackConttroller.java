@@ -2,38 +2,37 @@ package com.assessment.web.controllers;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URLEncoder;
-import java.util.Properties;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.velocity.texen.util.FileUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.assessment.common.PropertyConfig;
 import com.assessment.common.util.EmailGenericMessageThread;
+import com.assessment.data.Question;
 import com.assessment.data.QuestionMapperInstance;
 import com.assessment.data.Test;
 import com.assessment.data.User;
 import com.assessment.eclipseche.config.response.WorkspaceResponse;
 import com.assessment.eclipseche.services.EclipseCheService;
 import com.assessment.repositories.QuestionMapperInstanceRepository;
-import com.assessment.web.dto.QuestionInstanceDto;
 @Controller
 public class FullStackConttroller {
 	
@@ -136,12 +135,53 @@ QuestionMapperInstanceRepository  questionMapperInstanceRep;
 		 html = html.replace("{FULL_NAME}", user.getFirstName()+" "+user.getLastName());
 		 html = html.replace("{TEST_NAME}", test.getTestName());
 		 html = html.replace("{CODE_QUALITY_URL}", url);
+		 
+		 String reviewer = questionMapperInstance.getQuestionMapper().getQuestion().getReviewerEmail();
+		 html = html.replace("{PROJECT_URL}", questionMapperInstance.getUsageDocumentUrl());
+		 html = html.replace("{REVIEWER_EMAIL}", reviewer);
+		 html = html.replace("{PASSWORD}", ""+reviewer.hashCode());
+		 html = html.replace("{Company}", user.getCompanyName());
+		 html = html.replace("{BASE_URL}", propertyConfig.getBaseUrl()+"login");
 		// String message = "Results can not be sent for "+user.getEmail()+" for test "+test.getTestName();
 		 System.out.println(" sending mail with foll link "+url);
 		 	EmailGenericMessageThread client = new EmailGenericMessageThread("jatin.sutaria@thev2technologies.com", "Code quality Report Link for "+user.getFirstName(), html, propertyConfig);
-			Thread th = new Thread(client);
+		 	String cc[] = {reviewer};
+		 	client.setCcArray(cc);
+		 	Thread th = new Thread(client);
 			th.start();
 		 return "Your code has been submitted for verification. This is a 2 step process - Code quality will be measured through automation and functional compilance will be judged by reviewer.";
+	 }
+	 
+	 
+	 @RequestMapping(value = "/uploadProjectDocs", method = RequestMethod.POST)
+	 public @ResponseBody String doUpload(@RequestParam("addimage") MultipartFile addimage,HttpServletRequest request, HttpServletResponse response, @RequestParam String qMapperInstanceId) throws Exception {     
+		 String docUrl = "";
+		 ModelAndView mav = null;
+			User user = (User) request.getSession().getAttribute("user");
+			List<Question> questions = new ArrayList<Question>();
+			if(addimage != null){
+				String fileName = qMapperInstanceId+(user.getFirstName()+user.getLastName()+System.currentTimeMillis())+addimage.getOriginalFilename();
+				 String destination = propertyConfig.getFileServerLocation()+File.separator+"docs"+File.separator+fileName;
+				 File file = new File(destination);
+				 	if( file.exists()){
+				 		if(addimage.getOriginalFilename() != null && addimage.getOriginalFilename().trim().length() > 0){
+				 			FileUtils.forceDelete(file);
+				 		}
+				 		
+				 	}
+				 	if(addimage.getOriginalFilename() != null && addimage.getOriginalFilename().trim().length() > 0){
+				 		 docUrl = propertyConfig.getFileServerWebUrl()+"docs/"+fileName;
+						
+				 		 addimage.transferTo(file);
+				 	}
+				
+				
+			}
+			
+			QuestionMapperInstance questionMapperInstance = questionMapperInstanceRep.findById(Long.parseLong(qMapperInstanceId)).get();
+			questionMapperInstance.setUsageDocumentUrl(docUrl);
+			questionMapperInstanceRep.save(questionMapperInstance);
+	     return docUrl;
 	 }
 	
 	

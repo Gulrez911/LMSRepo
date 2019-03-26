@@ -1144,6 +1144,21 @@ public class StudentController {
 				 	Thread th = new Thread(client);
 					th.start();
 			 }
+			 else if(test.getTestName().equalsIgnoreCase("Chenova_Exp_MicrosoftTech_Test") || test.getTestName().equalsIgnoreCase("Chenova_Exp_JavaTech_Test")){
+				 String file = reportsService.generatedetailedReportForCompositeTest(user.getCompanyId(), test.getTestName(), user.getEmail());
+				 String email = "";
+				 	if(user.getEmail().lastIndexOf("[") > 0 ){
+				 		email = user.getEmail().substring(0, user.getEmail().lastIndexOf("["));
+				 	}
+				 	else{
+				 		email = user.getEmail();
+				 	}
+				 String cc[] = {"VKotian@chenoainc.com", email};
+				 EmailGenericMessageThread client = new EmailGenericMessageThread(test.getCreatedBy(), "Test Results for "+user.getFirstName()+" "+user.getLastName()+" for test- "+test.getTestName(), html, propertyConfig);
+						client.setCcArray(cc);
+				 	Thread th = new Thread(client);
+					th.start();
+			 }
 			 else if(test.getSentToStudent()){
 				// String file = reportsService.generatedetailedReportForCompositeTest(user.getCompanyId(), test.getTestName(), user.getEmail());
 				 String email = "";

@@ -48,6 +48,9 @@ public class QuestionMapperInstance extends Base{
 	@Column(length=200)
 	String workSpaceId;
 	
+	@Column(length=400)
+	String usageDocumentUrl;
+	
 	
 	//Long userTestSessionId;
 
@@ -176,6 +179,14 @@ public class QuestionMapperInstance extends Base{
 
 	public void setWorkSpaceId(String workSpaceId) {
 		this.workSpaceId = workSpaceId;
+	}
+
+	public String getUsageDocumentUrl() {
+		return usageDocumentUrl;
+	}
+
+	public void setUsageDocumentUrl(String usageDocumentUrl) {
+		this.usageDocumentUrl = usageDocumentUrl;
 	}
 	
 	

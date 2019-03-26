@@ -36,6 +36,7 @@ import com.assessment.data.ProgrammingLanguage;
 import com.assessment.data.Question;
 import com.assessment.data.QuestionType;
 import com.assessment.data.User;
+import com.assessment.data.UserType;
 import com.assessment.services.CompanyService;
 import com.assessment.services.QuestionService;
 import com.assessment.services.UserService;
@@ -244,6 +245,7 @@ public class QuestionController {
 			mav.addObject("types", QuestionType.values());
 			mav.addObject("qs", questions);
 			mav.addObject("levels", DifficultyLevel.values());
+			mav.addObject("stacks", FullStackOptions.values());
 			return mav;
 		}
 		question.setCompanyId(user.getCompanyId());
@@ -258,6 +260,45 @@ public class QuestionController {
 			
 			if(question.getQuestionType().getType().equals(QuestionType.CODING.getType()) || question.getQuestionType().getType().equals(QuestionType.MCQ.getType())){
 				question.setFullstack(FullStackOptions.NONE);
+			}
+			else{
+				String reviewer = question.getReviewerEmail();
+					if(reviewer == null || reviewer.trim().length() == 0){
+						questions = questionService.findQuestions(user.getCompanyId());
+						mav = new ModelAndView("add_question");
+						mav.addObject("question", question);
+						mav.addObject("message", "Select a Reviewer for the Full Stack Problem statement");// later put it as label
+						mav.addObject("msgtype", "failure");
+						mav.addObject("types", QuestionType.values());
+						mav.addObject("qs", questions);
+						mav.addObject("levels", DifficultyLevel.values());
+						mav.addObject("stacks", FullStackOptions.values());
+						return mav;
+					}
+				User usr = userService.findByPrimaryKey(reviewer, user.getCompanyId());
+					if(usr != null && (!usr.getUserType().getType().equals(UserType.REVIEWER.getType()))){
+						questions = questionService.findQuestions(user.getCompanyId());
+						mav = new ModelAndView("add_question");
+						mav.addObject("question", question);
+						mav.addObject("message", "The reviewer email selected does have privileges to be a Reviewer. Enter some other Reviewer email id");// later put it as label
+						mav.addObject("msgtype", "failure");
+						mav.addObject("types", QuestionType.values());
+						mav.addObject("qs", questions);
+						mav.addObject("levels", DifficultyLevel.values());
+						mav.addObject("stacks", FullStackOptions.values());
+						return mav;
+					}
+					else if(usr == null){
+						User user2 = new User();
+						user2.setUserType(UserType.REVIEWER);
+						user2.setEmail(reviewer);
+						user2.setPassword(""+reviewer.hashCode());
+						user2.setCompanyId(user.getCompanyId());
+						user2.setCompanyName(user.getCompanyName());
+						userService.saveOrUpdate(user2);
+					}
+					
+				
 			}
 			
 			if(question.getId() != null) {
@@ -286,6 +327,7 @@ public class QuestionController {
 		mav.addObject("levels", DifficultyLevel.values());
 		mav.addObject("types", QuestionType.values());
   		mav.addObject("languages", ProgrammingLanguage.values());
+  		mav.addObject("stacks", FullStackOptions.values());
 		CommonUtil.setCommonAttributesOfPagination(questions2, mav.getModelMap(), 0, "addQuestion", null);
 		return mav;
 	}
