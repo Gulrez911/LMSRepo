@@ -180,6 +180,7 @@ QuestionMapperInstanceRepository  questionMapperInstanceRep;
 			
 			QuestionMapperInstance questionMapperInstance = questionMapperInstanceRep.findById(Long.parseLong(qMapperInstanceId)).get();
 			questionMapperInstance.setUsageDocumentUrl(docUrl);
+			questionMapperInstance.setWorkspaceSubmitted(true);
 			questionMapperInstanceRep.save(questionMapperInstance);
 	     return docUrl;
 	 }

@@ -121,7 +121,7 @@
                             <div class="rightdiv" >
                                 <h4 class="heading">${question_label}</h4>
                                 <div class="addqueform" >
-                                     <form name="questionForm"  method="post" modelAttribute="question" action="saveQuestion">
+                                     <form name="questionForm"  method="post" modelAttribute="question" action="saveQuestion" enctype="multipart/form-data">
                                         <div class="formfield">
                                             <label>Question</label>
                                             
@@ -162,7 +162,12 @@
 					    </c:when>    
 					    <c:when test="${question.type=='CODING'}">
 						<div id="mcqDiv" class="formfield"  style="display:none">
-					    </c:when>   
+						
+					    </c:when> 
+						<c:when test="${question.type=='FULL_STACK_JAVA'}">
+						<div id="mcqDiv" class="formfield"  style="display:none">
+						
+					    </c:when> 						
 					</c:choose>
 
                                         
@@ -226,7 +231,11 @@
 					    </c:when>    
 					    <c:when test="${question.type=='CODING'}">
 						<div id="codingDiv" class="formfield" >
-					    </c:when>   
+					    </c:when>  
+						<c:when test="${question.type=='FULL_STACK_JAVA'}">
+						<div id="codingDiv" class="formfield"  style="display:none">
+						
+					    </c:when> 							
 					</c:choose>
 					
 					
@@ -277,6 +286,49 @@
 					    
                                           </div>
 					</div>
+					
+					
+					<!--Support for full Stack Programs -->
+					<c:choose>
+					    <c:when test="${question.type=='FULL_STACK_JAVA'}">
+						<div id="fullstackDiv" class="formfield">
+					    </c:when>    
+					     <c:otherwise>
+							<div id="fullstackDiv" class="formfield" style="display:none">
+						</c:otherwise> 
+					</c:choose>
+					
+					
+					    <div class="formfield">
+						 <label>Select Stack</label>
+						<form:select path="question.stack">
+							  
+							     <form:options items="${stacks}" itemValue="stack" itemLabel="stack" />
+							</form:select>
+					    </div>
+						
+						<div class="formfield">
+						 <label>Reviewer Email</label>
+						<form:input path="question.reviewerEmail" name="reviewerEmail" id="reviewerEmail" />
+					    </div>
+						
+						
+					  
+					   <div class="formfield">
+                                            <label>Problem Statement In Depth</label>
+                                            
+					    <form:textarea path="question.stackProblemDetails"  style="height:100px" />
+					    
+                                          </div>
+					  
+					  <div class="formfield">
+                                            <label>Constraints</label>
+                                            
+					    <form:textarea path="question.constrnt"  style="height:100px" />
+					    
+                                          </div>
+					</div>
+					<!-- End full stack -->
 
 
                                         <div class="formfield addimagevideo">
@@ -311,10 +363,11 @@
 					</div>
                                         
                                         <label class="queimage"></label>
+										 
                                         <label class="queaudio"></label>
                                         <label class="quevideo"></label>
                                         
-                                        <input type="file" name="addimage" id="addimage" style="display: none;">
+                                       <input type="file" name="addimage" id="addimage" style="display: none;">
                                         <input type="file" name="addaudio" id="addaudio" style="display: none;">
                                         <input type="file" name="addvideo" id="addvideo" style="display: none;">
 
@@ -368,15 +421,24 @@
 			document.getElementById("input").required = true;
 			document.getElementById("output").required = true;
 			}
-			else{
-			document.getElementById("choice1").required = true;
-			document.getElementById("choice2").required = true;
+			else if(qtype == 'FULL_STACK_JAVA'){
+			document.getElementById("choice1").required = false;
+			document.getElementById("choice2").required = false;
 			
 			document.getElementById("input").required = false;
 			document.getElementById("output").required = false;
 			
 			}
+			else{
+				document.getElementById("choice1").required = true;
+			document.getElementById("choice2").required = true;
+			
+			document.getElementById("input").required = false;
+			document.getElementById("output").required = false;
+			}
+		
 	    }
+		
 	
             $(document).on('click', '#addanother', function () {
                 var alphabet = nextString($("#maindivforaddmore").children().last().children().first().text());
@@ -496,6 +558,15 @@
 			
 			document.getElementById("input").required = true;
 			document.getElementById("output").required = true;
+		}
+		else if(selectedValue == 'FULL_STACK_JAVA'){
+			document.getElementById("mcqDiv").style.display = 'none';
+			document.getElementById("codingDiv").style.display = 'none';
+			document.getElementById("fullstackDiv").style.display = '';
+			document.getElementById("choice1").required = false;
+			document.getElementById("choice2").required = false;
+			document.getElementById("input").required = false;
+			document.getElementById("output").required = false;
 		}
 		else{
 			document.getElementById("mcqDiv").style.display = '';

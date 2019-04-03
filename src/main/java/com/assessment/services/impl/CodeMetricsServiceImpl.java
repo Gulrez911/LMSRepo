@@ -23,7 +23,7 @@ public class CodeMetricsServiceImpl implements CodeMetricsService {
 	@Override
 	public void saveOrUpdate(CodeMetrics codeMetrics) {
 		// TODO Auto-generated method stub
-		CodeMetrics codeMetrics2 = findByPrimaryKey(codeMetrics.getCompanyId(), codeMetrics.getTestName(), codeMetrics.getEmail(), codeMetrics.getQuestionId());
+		CodeMetrics codeMetrics2 = findByPrimaryKey(codeMetrics.getCompanyId(), codeMetrics.getTestName(), codeMetrics.getEmail(), codeMetrics.getQuestionMapperInstanceId());
 		if(codeMetrics2 == null){
 			//create
 			codeMetrics.setCreateDate(new Date());

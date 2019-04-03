@@ -26,14 +26,17 @@ import com.assessment.common.util.EmailGenericMessageThread;
 import com.assessment.data.Company;
 import com.assessment.data.DifficultyLevel;
 import com.assessment.data.Question;
+import com.assessment.data.QuestionMapperInstance;
 import com.assessment.data.Test;
 import com.assessment.data.TestScheduler;
 import com.assessment.data.User;
 import com.assessment.data.UserTestSession;
+import com.assessment.data.UserType;
 import com.assessment.repositories.TestSchedulerRepository;
 import com.assessment.repositories.UserTestSessionRepository;
 import com.assessment.scheduler.ScheduleTaskService;
 import com.assessment.services.CompanyService;
+import com.assessment.services.QuestionMapperInstanceService;
 import com.assessment.services.QuestionService;
 import com.assessment.services.TestService;
 import com.assessment.services.UserService;
@@ -64,6 +67,9 @@ ScheduleTaskService schedulerService;
 PropertyConfig config;
 @Autowired
 UserTestSessionRepository testSessionRepository;
+
+@Autowired
+QuestionMapperInstanceService qminService;
 	
 	private final String prefixURL = "iiht_html";
 	
@@ -223,6 +229,18 @@ UserTestSessionRepository testSessionRepository;
 		 	    mav.addObject("message", "Invalid Credentials ");// later put it as label
 				mav.addObject("msgtype", "Failure");
 		 	    return mav;
+		  	}
+		  	else if(user.getUserType().getType().equals(UserType.REVIEWER.getType())){
+		  		 mav = new ModelAndView("java_fullstack");
+		  		request.getSession().setAttribute("user", user);
+		  		request.getSession().setAttribute("companyId", user.getCompanyId());
+				 List<QuestionMapperInstance> instances = qminService.findFullStackQuestionMapperInstancesForJava(user.getCompanyId());
+				 	for(QuestionMapperInstance ins : instances){
+				 		User u = userService.findByPrimaryKey(ins.getUser(), user.getCompanyId());
+				 		ins.setUerFullName(u.getFirstName()+" "+u.getLastName());
+				 	}
+				 mav.addObject("instances", instances);
+				 return mav;
 		  	}
 		  	else {
 		  		//to dashboard

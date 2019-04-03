@@ -27,7 +27,7 @@
 	 <h1 style="color:red">Sorry! ${studentTestForm.firstName} ${studentTestForm.lastName} - You can't apear for this test again</h1>
     <h2>Your have last appeared for this test on - ${studentTestForm.lastUpdated}</h2>
     <h2>You have attempted this test - ${studentTestForm.noOfAttempts} times</h2>
-    
+    <h2> If you want to appear for the test again, contact your Administrator and get a public link for the test. That way you can reappear for the test. </h2>
     </div>
 <div class="container">
   <div class="page-header" style="background-color:#DAA300;color:#fff">

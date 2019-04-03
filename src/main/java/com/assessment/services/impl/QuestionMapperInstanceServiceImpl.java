@@ -142,4 +142,22 @@ public class QuestionMapperInstanceServiceImpl implements
 		return list;
 	}
 
+	@Override
+	public List<QuestionMapperInstance> findFullStackQuestionMapperInstancesForJava(String companyId) {
+		// TODO Auto-generated method stub
+		return questionMapperInstanceRepository.findFullStackQuestionMapperInstancesForJava(companyId);
+	}
+
+	@Override
+	public List<QuestionMapperInstance> findFullStackQuestionMapperInstancesForDotNet(String companyId) {
+		// TODO Auto-generated method stub
+		return questionMapperInstanceRepository.findFullStackQuestionMapperInstancesForDotNet(companyId);
+	}
+
+	@Override
+	public List<QuestionMapperInstance> findFullStackQuestionMapperInstancesForJavaScript(String companyId) {
+		// TODO Auto-generated method stub
+		return questionMapperInstanceRepository.findFullStackQuestionMapperInstancesForJavaScript(companyId);
+	}
+
 }

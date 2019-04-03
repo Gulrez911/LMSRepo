@@ -16,9 +16,12 @@ public class CompilerService {
 
 	
 	public CompileOutput compile(CompileData compileData){
+		URL url = null; 
+	    HttpURLConnection connection = null; 
+	    InputStream is = null;
 		 try {
-			URL url = new URL("http://13.233.2.169:8088/compile"); 
-			    HttpURLConnection connection = (HttpURLConnection) url.openConnection(); 
+			    url = new URL("http://13.233.2.169:8088/compile"); 
+			    connection = (HttpURLConnection) url.openConnection(); 
 			    connection.setDoOutput(true); 
 			    connection.setInstanceFollowRedirects(false); 
 			    connection.setRequestMethod("POST"); 
@@ -30,12 +33,13 @@ public class CompilerService {
 				String str = mapper.writeValueAsString(compileData);
 				os.write(str.getBytes());
 				os.flush();
-				InputStream is = connection.getInputStream();
+				is = connection.getInputStream();
 				byte bat[] = new byte[is.available()];
 				is.read(bat);
 				String op = new String(bat);
 				CompileOutput compileOutput = mapper.readValue(op.getBytes(), CompileOutput.class);
 			    int resCode = connection.getResponseCode(); 
+			    is.close();
 			    compileOutput.setCode(""+resCode);
 			    connection.disconnect();
 			    return compileOutput;
@@ -46,5 +50,16 @@ public class CompilerService {
 			compileOutput.setResponseCode("Unreachable");
 			return compileOutput;
 		} 
+		 finally{
+			 if(connection != null){
+				 try {
+					 is.close();
+					connection.disconnect();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			 }
+		 }
 	}
 }

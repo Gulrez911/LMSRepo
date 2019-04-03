@@ -111,7 +111,7 @@
 			
 			<div class="logincopyright">
 				<div class="col-md-12">
-					<p>Copyrigh Â© 2018 IIHT. All Rights Reserved â Privacy Policy For enterprise solutions</p>
+					<p>Copyright 2018 IIHT. All Rights Reserved. Privacy Policy For Enterprise Solutions</p>
 				</div>
 			</div>
 

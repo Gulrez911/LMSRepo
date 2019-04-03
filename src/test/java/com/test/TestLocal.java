@@ -56,7 +56,9 @@ public class TestLocal {
 	
 	@Test
 	public void testCompilerWebservice(){
-		 try { 
+		for(int i=0;i<5;i++){
+			try { 
+				System.out.println(i);
 		        URL url = new URL("http://13.233.2.169:8088/compile"); 
 		        HttpURLConnection connection = (HttpURLConnection) url.openConnection(); 
 		        connection.setDoOutput(true); 
@@ -83,6 +85,8 @@ public class TestLocal {
 		    } catch(Exception e) { 
 		        throw new RuntimeException(e); 
 		    } 
+		}
+		 
 	}
 
 }

@@ -278,13 +278,13 @@
 									  Your browser does not support the video tag.
 									</video>
 							  </c:if>
-								<br/><br/><br/><br/>
+								
 								<div class="answers">
 									<ul>
 										<li
 											style="${currentQuestion.questionMapperInstance.questionMapper.question.choice1 == null || 
 
-			currentQuestion.questionMapperInstance.questionMapper.question.choice1.trim().length() == 0? 'display: none;':'clear:left; font-size: 14px;'}">
+			currentQuestion.questionMapperInstance.questionMapper.question.choice1.trim().length() == 0? 'display: none;':'clear:left; font-size: 17px;'}">
 
 											<form:checkbox path="one" />
 											${currentQuestion.questionMapperInstance.questionMapper.question.choice1}
@@ -292,7 +292,7 @@
 										<li
 											style="${currentQuestion.questionMapperInstance.questionMapper.question.choice2 == null || 
 
-			currentQuestion.questionMapperInstance.questionMapper.question.choice2.trim().length() == 0? 'display: none;':'clear:left;font-size: 14px;'}">
+			currentQuestion.questionMapperInstance.questionMapper.question.choice2.trim().length() == 0? 'display: none;':'clear:left;font-size: 17px;'}">
 
 											<form:checkbox path="two" />
 											${currentQuestion.questionMapperInstance.questionMapper.question.choice2}
@@ -300,7 +300,7 @@
 										<li
 											style="${currentQuestion.questionMapperInstance.questionMapper.question.choice3 == null || 
 
-			currentQuestion.questionMapperInstance.questionMapper.question.choice3.trim().length() == 0? 'display: none;':'clear:left;font-size: 14px;'}">
+			currentQuestion.questionMapperInstance.questionMapper.question.choice3.trim().length() == 0? 'display: none;':'clear:left;font-size: 17px;'}">
 											<form:checkbox path="three" />
 											${currentQuestion.questionMapperInstance.questionMapper.question.choice3}
 										</li>
@@ -308,21 +308,21 @@
 										<li
 											style="${currentQuestion.questionMapperInstance.questionMapper.question.choice4 == null || 
 
-			currentQuestion.questionMapperInstance.questionMapper.question.choice4.trim().length() == 0? 'display: none;':'clear:left;font-size: 14px;'}">
+			currentQuestion.questionMapperInstance.questionMapper.question.choice4.trim().length() == 0? 'display: none;':'clear:left;font-size: 17px;'}">
 											<form:checkbox path="four" />
 											${currentQuestion.questionMapperInstance.questionMapper.question.choice4}
 										</li>
 										<li
 											style="${currentQuestion.questionMapperInstance.questionMapper.question.choice5 == null || 
 
-			currentQuestion.questionMapperInstance.questionMapper.question.choice5.trim().length() == 0? 'display: none;':'clear:left;font-size: 14px;'}">
+			currentQuestion.questionMapperInstance.questionMapper.question.choice5.trim().length() == 0? 'display: none;':'clear:left;font-size: 17px;'}">
 											<form:checkbox path="five" />
 											${currentQuestion.questionMapperInstance.questionMapper.question.choice5}
 										</li>
 										<li
 											style="${currentQuestion.questionMapperInstance.questionMapper.question.choice6 == null || 
 
-			currentQuestion.questionMapperInstance.questionMapper.question.choice6.trim().length() == 0? 'display: none;':'clear:left;font-size: 14px;'}">
+			currentQuestion.questionMapperInstance.questionMapper.question.choice6.trim().length() == 0? 'display: none;':'clear:left;font-size: 17px;'}">
 											<form:checkbox path="six" />
 											${currentQuestion.questionMapperInstance.questionMapper.question.choice6}
 										</li>
@@ -389,6 +389,73 @@
 
 						
 					    </c:when>   
+						
+						<c:when test="${currentQuestion.questionMapperInstance.questionMapper.question.type=='FULL_STACK_JAVA'}">
+						
+						
+						
+						<div class="queanscenter" id="section3_content" >
+
+						<div class="col-md-12">
+						    <div class="col-md-7 leftside">
+							<b>${currentQuestion.questionMapperInstance.questionMapper.question.qualifier1} ${currentQuestion.questionMapperInstance.questionMapper.question.qualifier2} ${currentQuestion.questionMapperInstance.questionMapper.question.qualifier3} ${currentQuestion.questionMapperInstance.questionMapper.question.qualifier4} ${currentQuestion.questionMapperInstance.questionMapper.question.qualifier5}</b>
+							&nbsp; &nbsp; &nbsp;   <c:if test = "${currentQuestion.questionMapperInstance.questionMapper.question.imageUrl != null && currentQuestion.questionMapperInstance.questionMapper.question.imageUrl.trim().length() > 0}">
+								<img src="${currentQuestion.questionMapperInstance.questionMapper.question.imageUrl}" height="400" width="500">
+							  </c:if>
+							  
+							  <c:if test = "${currentQuestion.questionMapperInstance.questionMapper.question.audioURL != null && currentQuestion.questionMapperInstance.questionMapper.question.audioURL.trim().length() > 0}">
+							   &nbsp; &nbsp; &nbsp;  <audio controls src="${currentQuestion.questionMapperInstance.questionMapper.question.audioURL}">
+										Your browser does not support the
+										<code>audio</code> element.
+								</audio>
+								
+							  </c:if>
+							  
+							  <c:if test = "${currentQuestion.questionMapperInstance.questionMapper.question.videoURL != null && currentQuestion.questionMapperInstance.questionMapper.question.videoURL.trim().length() > 0}">
+								&nbsp; &nbsp; &nbsp; <video width="400" height="300" controls>
+									  <source src="${currentQuestion.questionMapperInstance.questionMapper.question.videoURL}" >
+									 
+									  Your browser does not support the video tag.
+									</video>
+							  </c:if>
+							   
+							<br/>
+							<label>Click to Open</label>
+							<a href="javascript:showAndNavigate();">Open Project Documentation Template</a>
+							<br/>
+							<label>Click to Open</label>
+							 <a href="${currentQuestion.questionMapperInstance.workspaceUrl}" target="_blank">Open Code IDE in new Window</a>
+							 <br/>
+							<label>Upload Project Documentation</label>
+							<a class="addimage" href="#">Upload Documentation</a>
+							 <input type="file" name="addimage" id="addimage" style="display: none;">
+							 <label class="queimage"></label>
+							<br/>
+							
+							<a class="runcode" href="javascript:confirmWorkspace('${currentQuestion.questionMapperInstance.id}');">Submit my Workspace  </a>
+						    </div>
+						    <div class="col-md-5 rightside">
+							<div class="description">
+							    <label>DESCRIPTION</label>
+							    <p>${currentQuestion.questionMapperInstance.questionMapper.question.questionText}</p>
+							    <code>
+								Click on 'Open Code IDE..' to start coding.
+							    </code>
+							    <p>${currentQuestion.questionMapperInstance.questionMapper.question.instructionsIfAny}</p>
+							    <h4>Constraint</h4>
+							    <p>${currentQuestion.questionMapperInstance.questionMapper.question.constrnt}</p>
+
+							    
+							   
+							</div>
+						    </div>
+						</div>
+
+					    </div>
+
+						
+					    </c:when>   
+						
 					</c:choose>
 			
 			
@@ -440,8 +507,8 @@
 	</form:form>
 	<div class="logincopyright">
 		<div class="col-md-12">
-			<p>Copyrigh Â© 2018 IIHT. All Rights Reserved â Privacy Policy
-				For enterprise solutions</p>
+			<p>Copyright 2018 IIHT. All Rights Reserved. Privacy Policy
+				For Enterprise Solutions</p>
 		</div>
 	</div>
 
@@ -518,6 +585,20 @@
 	</style>
 		
 <script>
+	$(function () {
+                $(".addimage").on('click', function (e) {
+                    e.preventDefault();
+                    $("#addimage").trigger('click');
+                });
+               
+            });
+	
+	 $('#addimage').change(function () {
+                var file = $('#addimage')[0].files[0].name;
+                $('.queimage').text('Document to upload: '+file);
+				uploadProjectDocs();
+            });
+
 	function changeSection(sectionName){
 		//window.location = 'changeSection?sectionName='+sectionName+"&timeCounter="+timeCounter;
 		//localStorage.setItem('timeCounter', timeCounter);
@@ -753,6 +834,107 @@
 	localStorage.setItem('timeCounter-${studentTestForm.firstName}${studentTestForm.lastName}', 0);
 	}
 	
+	function confirmWorkspace(qMapperInstanceId){
+		(new PNotify({
+		    title: 'Confirmation Needed',
+		    text: 'Are you sure you have uploaded the project documentation. Your reviewer may take a dim view of your efforts if no documentation is found? If yes you can submit the workspace?',
+		    icon: 'glyphicon glyphicon-question-sign',
+		    hide: false,
+		    confirm: {
+			confirm: true
+		    },
+		    buttons: {
+			closer: false,
+			sticker: false
+		    },
+		    history: {
+			history: false
+		    }
+		})).get().on('pnotify.confirm', function() {
+		    submitFullStackCode(qMapperInstanceId);
+		}).on('pnotify.cancel', function() {
+		   
+		});
+	}
+	
+	function showAndNavigate(){
+		(new PNotify({
+		    title: 'About this',
+		    text: 'Yes to this will download a Project Documentation template that you are expected to update and then upload. Kindly make sure the How-to use part is crystal clear for your reviewer to gro through and start your app. Do you want to proceed now?',
+		    icon: 'glyphicon glyphicon-question-sign',
+		    hide: false,
+		    confirm: {
+			confirm: true
+		    },
+		    buttons: {
+			closer: false,
+			sticker: false
+		    },
+		    history: {
+			history: false
+		    }
+		})).get().on('pnotify.confirm', function() {
+		    window.open('http://159.65.148.176/file-server/assessment/docs/Project_ReadMe.docx', '_blank');
+		}).on('pnotify.cancel', function() {
+		   
+		});
+	}
+	
+	
+	function submitFullStackCode(qMapperInstanceId){
+		
+		
+		
+		var url = 'submitFullStackCode?qMapperInstanceId='+qMapperInstanceId;
+	
+	var data = {}; 
+	
+	
+		$.ajax({
+				type : 'GET',
+				url : url,
+				contentType: "application/json; charset=utf-8",
+				data: data,
+				success : function(data) {
+					console.log("SUCCESS: ", data);
+					notify('Information', data);
+					
+				},
+				error : function(e) {
+					console.log("ERROR: ", e);
+					
+				}
+			});
+	}
+	
+	function uploadProjectDocs(){
+		qMapperInstanceId = '${currentQuestion.questionMapperInstance.id}';
+		 var formData = new FormData();
+		  var file = $('#addimage')[0].files[0];
+		  console.log('1 file is '+file);
+		  if(file != null){
+			formData.append('addimage', file);
+            console.log("form data " + formData);
+            $.ajax({
+                url : 'uploadProjectDocs?qMapperInstanceId='+qMapperInstanceId,
+				enctype: 'multipart/form-data',
+                data : formData,
+                processData : false,
+                contentType : false,
+                type : 'POST',
+                success : function(data) {
+                     notify('Information','Your file has been uploaded. Check this link <br\>-<a href="'+data+'" >Click here</a> ');
+                },
+                error : function(err) {
+                   notify('Information',err);
+                }
+            });
+		  }
+		  else{
+			  notify('Information', 'Kindly upload the Project Documentations word file');
+		  }
+            
+	}
 
 	</script>
 	
@@ -789,6 +971,7 @@
 				 title: notification,
 				 text: message,
 				 type: messageType,
+				 width: '60%',
 				 styling: 'bootstrap3',
 				 hide: false
 			     });

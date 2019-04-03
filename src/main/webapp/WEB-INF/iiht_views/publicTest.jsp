@@ -20,6 +20,7 @@
          <link href="css/font-awesome_new.css" rel="stylesheet" type="text/css">
          <link href="css/style_new.css" rel="stylesheet" type="text/css">
         <link href="css/responsive_new.css" rel="stylesheet" type="text/css">
+	
         
         
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -40,7 +41,7 @@
                     <div class="userheader headerinfos">
                         <ul>
                             <li><i class="fa fa-envelope"></i>reachus@iiht.com</li>
-                            <li><i class="fa fa-phone"></i>1800-123-321-5</li>
+                           <!-- <li><i class="fa fa-phone"></i>1800-123-321-5</li> -->
                         </ul>
                     </div>
                 </div>
@@ -54,9 +55,11 @@
                     <img src="images/creationtimeline.png">
                     <div class="col-md-12">
                         <div class="creationcontent">
-                            <h3>Creation timelines for the standard lorem ipsum</h3>
-                            <p>McClintock's eye for detail certainly helped narrow the whereabouts of lorem ipsum's origin, 
-                                however, the “how and when” still remain something of a mystery, with competing theories and timelines.</p>
+                            <h3>Yaksha is ready to ask what you already know best!</h3>
+				<h2>Fillout data in the fields to your right - Lock, Stock, and Crack.
+                           	    Employers want Air Worthy Employees. Yaksha is here to engage,
+  				    evaluate & enable you for it.</h2>
+
                         </div>
                     </div>
                 </div>
@@ -78,6 +81,98 @@
                           
                             <label>Company</label>
                              <form:input path="testUserData.user.companyName" name="companyName" id="companyName"  disabled="true"/>
+							 
+							 <label>Mobile</label>
+						 <form:input path="testUserData.user.mobileNumber" name="mobileNumber" id="mobileNumber"  placeholder="Contact No" required="true" /> 
+							 
+							  <label>Aadhar No</label>
+                             <form:input path="testUserData.user.aadharNo" name="aadharNo" id="aadharNo" placeholder="Aadhar" required="true"/>
+							 
+							   <label>Date of Birth</label>
+                             <form:input path="testUserData.user.dateOfBirth" name="dateOfBirth" id="dateOfBirth" placeholder="DD/MM/YYYY" required="true" />
+							 
+							   <label>Gender -    &nbsp &nbsp &nbsp &nbsp   <form:select path="testUserData.user.gender">
+							   <form:option value="Male" label="Male" selected="true"/>
+							   <form:option value="Female" label="Female"/>
+							</form:select>
+							   
+							   </label>
+                             
+							
+							 <label>Permanent Address</label>
+                             <form:input  path="testUserData.user.permanentAddress" name="permanentAddress" id="permanentAddress" placeholder="Enter Address" required="true"/>
+							 
+							  <label>Address for Communication</label>
+                             <form:input  path="testUserData.user.addressCommunication" name="addressCommunication" id="addressCommunication" placeholder="Enter Address" required="true"/>
+							 
+							  <label>College Name</label>
+                             <form:input path="testUserData.user.collegeName" name="collegeName" id="collegeName" placeholder="College Name" required="true" />
+							 
+							  <label>10th Percentage</label>
+                             <form:input path="testUserData.user.tenPercentage" name="tenPercentage" id="tenPercentage" placeholder="Enter Percentage" required="true"/>
+							 
+							  <label>10th Year of Passing</label>
+                             <form:input path="testUserData.user.tenYearOfPassing" name="tenYearOfPassing" id="tenYearOfPassing" placeholder="Enter YYYY" required="true"/>
+							 
+							  <label>12th/Diploma Percentage</label>
+                             <form:input path="testUserData.user.twelveDiplomaPercentage" name="twelveDiplomaPercentage" id="twelveDiplomaPercentage" placeholder="Enter Percentage" required="true"/>
+							 
+							  <label>12th/Diploma Year of Passing</label>
+                             <form:input path="testUserData.user.twelveDiplomaYearOfPassing" name="twelveDiplomaYearOfPassing" id="twelveDiplomaYearOfPassing" placeholder="Enter YYYY" required="true" />
+							 
+							  <label>Under Grad Degree -    &nbsp &nbsp &nbsp &nbsp   <form:select path="testUserData.user.underGradDegree">
+							   <form:option value="BE/B.Tech" label="BE/B.Tech" selected="true"/>
+							   <form:option value="BCA" label="BCA"/>
+							    <form:option value="Bsc" label="Bsc"/>
+							   <form:option value="Others" label="Others"/>
+							</form:select></label>
+                            
+							 
+							  <label>Under Grad Specialization -    <form:select  path="testUserData.user.underGradDegreeSpec">
+							   <form:option value="CSE" label="CSE" selected="true"/>
+							   <form:option value="ISC" label="ISC"/>
+							    <form:option value="IT" label="IT"/>
+								 <form:option value="ECE" label="ECE"/>
+							   <form:option value="TCE" label="TCE"/>
+							    <form:option value="ETE" label="ETE"/>
+							   <form:option value="Others" label="Others"/></form:select>
+							  </label>
+                             
+							 
+							  <label>Under Graduation Year of Passing</label>
+                             <form:input path="testUserData.user.underGradYearOfPassing" name="underGradYearOfPassing" id="underGradYearOfPassing" placeholder="Enter YYYY" required="true"/>
+							 
+							  <label>Under Graduation Percentage</label>
+                             <form:input path="testUserData.user.underGradPercentage" name="underGradPercentage" id="underGradPercentage" placeholder="Enter Percentage" required="true"/>
+							 
+							 <label>Post Grad Degree -    &nbsp &nbsp &nbsp &nbsp   <form:select path="testUserData.user.postGradDegree">
+							   <form:option value="ME/M.Tech" label="ME/M.Tech" selected="true"/>
+							   <form:option value="MCA" label="MCA"/>
+							    <form:option value="M.sc" label="M.sc"/>
+								<form:option value="Others" label="Others"/>
+								<form:option value="Not Applicable" label="Not Applicable"/></form:select></label>
+							 
+							   <label>Post Grad Specialization -<form:select path="testUserData.user.postGradDegreeSpec">
+							  <form:option value="CSE" label="CSE" selected="true"/>
+							   <form:option value="ISC" label="ISC"/>
+							    <form:option value="IT" label="IT"/>
+								 <form:option value="ECE" label="ECE"/>
+							   <form:option value="TCE" label="TCE"/>
+							    <form:option value="ETE" label="ETE"/>
+							   <form:option value="Others" label="Others"/>
+							    <form:option value="Not Applicable" label="Not Applicable"/></form:select></label>
+                             
+							 
+							    <label>Post Graduation Year of Passing</label>
+                             <form:input path="testUserData.user.postGradYearOfPassing" name="postGradYearOfPassing" id="postGradYearOfPassing" placeholder="Enter YYYY" required="true" />
+							 
+							  <label>Post Graduation Percentage</label>
+                             <form:input path="testUserData.user.postGradPercentage" name="postGradPercentage" id="postGradPercentage" placeholder="Enter Percentage" required="true"/>
+                             
+							 
+							 <label>Active Backlogs</label>
+                             <form:input path="testUserData.user.activeBackLogs" name="activeBackLogs" id="activeBackLogs" placeholder="Backlogs if any" required="true"/>
+							 
                             <input type="submit" value="SIGN IN">
                       
                         </form>
@@ -89,31 +184,41 @@
         <div class="loginservices">
             <div class="col-md-12">
                 <div class="item col-md-3">
-                    <img src="images/serviceicon1.png">
-                    <h3>Lorem ipsum</h3>
-                    <p>McClintock's eye for detail certainly helped narrow the whereabouts of lorem	</p>
+                  <h3> <img src="images/serviceicon1.png">
+                    Instructions</h3>
+
+
+       		    <p>&#8226;  Test Results will be sent to you on Completion</p>
+		    <p>&#8226; Click Submit for Submission of your Test </p>
+		    <p>&#8226; System will auto Submit Test if Timer Expires	 </p>
                 </div>
                 <div class="item col-md-3">
-                    <img src="images/serviceicon2.png">
-                    <h3>Color sit amet</h3>
-                    <p>McClintock's eye for detail certainly helped narrow the whereabouts of lorem	</p>
+                    <h3> <img src="images/serviceicon4.png">
+                    Web Proctoring</h3>
+                    <p><p>&#8226; Do not move mouse pointer to a different tab  </p>
+		   <p>&#8226; Use F11 windows for Test if required   </p>
+		   <p>&#8226; Non Compliance can result in your Test Declared Invalid   </p>
                 </div>
                 <div class="item col-md-3">
-                    <img src="images/serviceicon3.png">
-                    <h3>Consectetur</h3>
-                    <p>McClintock's eye for detail certainly helped narrow the whereabouts of lorem	</p>
+                   <h3> <img src="images/serviceicon3.png">
+                    Tenants</h3>
+                    <p>&#8226; Domain specific Users are advise to login using Corporate Credentials  </p>
+		   <p>&#8226; Every User is directed to provide Login data for Individual Reporting   </p>
                 </div>
                 <div class="item col-md-3">
-                    <img src="images/serviceicon4.png">
-                    <h3>Eiusmod tempor</h3>
-                    <p>McClintock's eye for detail certainly helped narrow the whereabouts of lorem	</p>
+                    <h3> <img src="images/serviceicon2.png">
+                    Yaksha</h3>
+		          <p>&#8226; Multi Technology Assessments </p>
+		          <p>&#8226; Test Cases Based Evaluation </p>
+		          <p>&#8226; Weighted Adaptive Assessments	</p>
+			
                 </div>
             </div>
         </div>
 
         <div class="logincopyright">
             <div class="col-md-12">
-                <p>Copyrigh © 2018 IIHT. All Rights Reserved – Privacy Policy For enterprise solutions</p>
+                <p>Copyright 2018 IIHT. All Rights Reserved Privacy Policy For Enterprise Solutions</p>
             </div>
         </div>
 

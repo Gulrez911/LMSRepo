@@ -10,8 +10,8 @@ import com.assessment.data.CodeMetrics;
 
 public interface CodeMetricsRepository extends JpaRepository<CodeMetrics, Long> {
 
-	@Query("SELECT q FROM CodeMetrics q WHERE q.testName=:testName and q.email=:email and q.questionId=:questionId and q.companyId=:companyId")
-	public CodeMetrics getUniqueCodeMetrics(@Param("companyId") String companyId, @Param("testName") String testName, @Param("email") String email, @Param("questionId") Long questionId);
+	@Query("SELECT q FROM CodeMetrics q WHERE q.testName=:testName and q.email=:email and q.questionMapperInstanceId=:questionMapperInstanceId and q.companyId=:companyId")
+	public CodeMetrics getUniqueCodeMetrics(@Param("companyId") String companyId, @Param("testName") String testName, @Param("email") String email, @Param("questionId") Long questionMapperInstanceId);
 	
 	@Query("SELECT q FROM CodeMetrics q WHERE q.testName=:testName and q.questionId=:qId and q.companyId=:companyId")
 	public List<CodeMetrics> findCodeMetricsForTestAndQuestion(@Param("companyId") String companyId, @Param("testName") String testName,@Param("qId") Long qId);

@@ -50,6 +50,12 @@ public class TestQuestion {
 	QuestionRepository questionRepository;
 	
 	@Test
+	public void testgetJavafullStackquestions(){
+		List<QuestionMapperInstance> ins = instanceRep.findFullStackQuestionMapperInstancesForJava("IH");
+		System.out.println(ins.size());
+	}
+	
+	@Test
 	public void testQMC(){
 		List<QuestionMapperInstance> ins = instanceRep.findCodingQuestionMapperInstances("Test");
 		System.out.println(ins.size());

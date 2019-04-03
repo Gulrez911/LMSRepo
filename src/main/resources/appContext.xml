@@ -76,13 +76,13 @@
 <!--         <property name="user" value="digital_user" />  -->
 <!--         <property name="password" value="Welcome@123" />   -->
 
-<!--     <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/assessment" />   -->
-<!--         <property name="user" value="root" />  -->
-<!--         <property name="password" value="" />  -->
+    <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/assessment" />  
+        <property name="user" value="root" /> 
+        <property name="password" value="" /> 
 
-	<property name="jdbcUrl" value="jdbc:mysql://13.233.2.169:3306/yaksha" />   
-	        <property name="user" value="user_yaksha" /> 
-	        <property name="password" value="yaksha123" /> 
+<!-- 	<property name="jdbcUrl" value="jdbc:mysql://13.233.2.169:3306/yaksha" />    -->
+<!-- 	        <property name="user" value="user_yaksha" />  -->
+<!-- 	        <property name="password" value="yaksha123" />  -->
 
         <!-- Pooling Details-->
         <property name="initialPoolSize" value="3" />

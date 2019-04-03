@@ -24,6 +24,16 @@ public interface QuestionMapperInstanceRepository extends JpaRepository<Question
 	
 	@Query("SELECT q FROM QuestionMapperInstance q WHERE q.companyId=:companyId AND q.codeByUser IS NOT NULL GROUP BY q.questionMapper.id, q.user order by q.createDate desc")
 	List<QuestionMapperInstance> findCodingQuestionMapperInstances(@Param("companyId") String companyId);
+	
+	
+	@Query("SELECT q FROM QuestionMapperInstance q WHERE q.companyId=:companyId AND q.workspaceUrl IS NOT NULL AND q.workSpaceId IS NOT NULL AND q.questionMapper.question.fullstack = 'JAVA_FULLSTACK' AND q.workspaceSubmitted = true GROUP BY q.questionMapper.id, q.user order by q.createDate desc")
+	List<QuestionMapperInstance> findFullStackQuestionMapperInstancesForJava(@Param("companyId") String companyId);
+	
+	@Query("SELECT q FROM QuestionMapperInstance q WHERE q.companyId=:companyId AND q.workspaceUrl IS NOT NULL AND q.workSpaceId IS NOT NULL AND q.questionMapper.question.fullstack = 'DOTNET_FULLSTACK' AND q.workspaceSubmitted = true  GROUP BY q.questionMapper.id, q.user order by q.createDate desc")
+	List<QuestionMapperInstance> findFullStackQuestionMapperInstancesForDotNet(@Param("companyId") String companyId);
+	
+	@Query("SELECT q FROM QuestionMapperInstance q WHERE q.companyId=:companyId AND q.workspaceUrl IS NOT NULL AND q.workSpaceId IS NOT NULL AND q.questionMapper.question.fullstack = 'JAVASCRIPT_FULLSTACK' AND q.workspaceSubmitted = true  GROUP BY q.questionMapper.id, q.user order by q.createDate desc")
+	List<QuestionMapperInstance> findFullStackQuestionMapperInstancesForJavaScript(@Param("companyId") String companyId);
 
 }
 
