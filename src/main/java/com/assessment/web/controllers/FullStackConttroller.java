@@ -72,6 +72,8 @@ QuestionMapperInstanceRepository  questionMapperInstanceRep;
 		 User user = (User) request.getSession().getAttribute("user");
 		 Test test = (Test) request.getSession().getAttribute("test");
 		 QuestionMapperInstance questionMapperInstance = questionMapperInstanceRep.findById(Long.parseLong(qMapperInstanceId)).get();
+		 questionMapperInstance.setWorkspaceSubmitted(true);
+		 questionMapperInstanceRep.save(questionMapperInstance);
 		 String workSpaceId = questionMapperInstance.getWorkSpaceId();
 		 //String projname = 
 		 String workSpaceFolder = questionMapperInstance.getWorkspaceUrl().substring(questionMapperInstance.getWorkspaceUrl().indexOf("che/")+4, questionMapperInstance.getWorkspaceUrl().length());
@@ -180,7 +182,7 @@ QuestionMapperInstanceRepository  questionMapperInstanceRep;
 			
 			QuestionMapperInstance questionMapperInstance = questionMapperInstanceRep.findById(Long.parseLong(qMapperInstanceId)).get();
 			questionMapperInstance.setUsageDocumentUrl(docUrl);
-			questionMapperInstance.setWorkspaceSubmitted(true);
+			//questionMapperInstance.setWorkspaceSubmitted(true);
 			questionMapperInstanceRep.save(questionMapperInstance);
 	     return docUrl;
 	 }

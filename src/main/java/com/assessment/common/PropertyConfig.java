@@ -44,6 +44,8 @@ public class PropertyConfig {
 	
 	String sonarAnalysisFileLocation;
 	
+	String fullStackReviewTemplate;
+	
 	public String getBaseUrl() {
 		return baseUrl;
 	}
@@ -213,6 +215,14 @@ public class PropertyConfig {
 
 	public void setSonarAnalysisFileLocation(String sonarAnalysisFileLocation) {
 		this.sonarAnalysisFileLocation = sonarAnalysisFileLocation;
+	}
+
+	public String getFullStackReviewTemplate() {
+		return fullStackReviewTemplate;
+	}
+
+	public void setFullStackReviewTemplate(String fullStackReviewTemplate) {
+		this.fullStackReviewTemplate = fullStackReviewTemplate;
 	}
 
 	

@@ -1,5 +1,6 @@
 package com.assessment.data;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -70,20 +71,27 @@ public class CodeMetrics extends Base{
 	@Transient
 	String sts;
 	
+	@Column(length=3000)
 	String functionalComplianceComments;
 	
+	@Column(length=3000)
 	String performanceComments;
 	
+	@Column(length=3000)
 	String scalabilityComments;
 	
+	@Column(length=3000)
 	String securityComments;
 	
+	@Column(length=3000)
 	String flexibilityComments;
 	
+	@Column(length=3000)
 	String adaptibilityComments;
 	
+	@Column(length=3000)
 	String testCasesComments;
-	
+	@Column(length=3000)
 	String overAll;
 	
 	@Enumerated(EnumType.STRING)
