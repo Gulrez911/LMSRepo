@@ -7,6 +7,8 @@ import java.util.List;
 
 import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -27,6 +29,8 @@ import com.assessment.services.QuestionService;
 @Service
 @Transactional
 public class QuestionServiceImpl implements QuestionService {
+	
+	Logger logger = LoggerFactory.getLogger(QuestionServiceImpl.class);
 	@Autowired
 	QuestionRepository questionRepository;
 	
@@ -201,6 +205,7 @@ public class QuestionServiceImpl implements QuestionService {
 
 	@Override
 	public void updateQuestion(Question q) {
+		logger.info("In updateQuestion");
 		// TODO Auto-generated method stub
 		if(q.getId() == null) {
 			throw new AssessmentGenericException("QUESTION_WITHOUT_ID_CAN_NOT_BE_UPDATED");
@@ -210,7 +215,8 @@ public class QuestionServiceImpl implements QuestionService {
 		if(q2 == null) {
 			throw new AssessmentGenericException("QUESTION_TO_BE_UPDATED_DOESNT_EXIST");
 		}
-		
+		logger.info("database q constr "+q2.getConstrnt());
+		logger.info("q constr "+q.getConstrnt());
 		Mapper mapper = new DozerBeanMapper();
 		mapper.map(q, q2);
 		q2.setUpdateDate(new Date());

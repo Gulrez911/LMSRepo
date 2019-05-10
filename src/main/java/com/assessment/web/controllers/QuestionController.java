@@ -177,6 +177,7 @@ public class QuestionController {
 	@RequestMapping(value = "/saveQuestion", method = RequestMethod.POST)
 	public ModelAndView saveQuestion(@RequestParam(name="addimage", required=false) MultipartFile addimage,@RequestParam(name="addaudio", required=false) MultipartFile addaudio,@RequestParam(name="addvideo", required=false) MultipartFile addvideo ,HttpServletRequest request, HttpServletResponse response,
 			@ModelAttribute("question") Question question) throws Exception {
+		logger.info("in save Q q.getconstr "+question.getConstrnt());
 		ModelAndView mav = null;
 		User user = (User) request.getSession().getAttribute("user");
 		List<Question> questions = new ArrayList<Question>();
@@ -518,6 +519,13 @@ public class QuestionController {
 				System.out.println(q.getQuestionText());
 				q.setCompanyId(company.getCompanyId());
 				q.setCompanyName(company.getCompanyName());
+				q.setChoice1(q.getChoice1().trim());
+				q.setChoice2(q.getChoice2().trim());
+				q.setChoice3(q.getChoice3().trim());
+				q.setChoice4(q.getChoice4().trim());
+				q.setChoice5(q.getChoice5().trim());
+				q.setChoice6(q.getChoice6().trim());
+				q.setRightChoices(q.getRightChoices().trim());
 				questionService.createQuestion(q);
 			}
 			logger.info("upload qs in db complete");

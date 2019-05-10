@@ -10,8 +10,10 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.assessment.data.User;
 
@@ -31,6 +33,16 @@ public class SessionFilter implements Filter {
 	public void doFilter(ServletRequest request, 
                ServletResponse response, FilterChain chain)
 		throws IOException, ServletException {
+		
+//		HttpSession session = ((HttpServletRequest) request).getSession();
+//		if (request.getParameter("JSESSIONID") != null) {
+//		    Cookie userCookie = new Cookie("JSESSIONID", request.getParameter("JSESSIONID"));
+//		    ((HttpServletResponse) response).addCookie(userCookie);
+//		} else {
+//		    String sessionId = session.getId();
+//		    Cookie userCookie = new Cookie("JSESSIONID", sessionId);
+//		    ((HttpServletResponse) response).addCookie(userCookie);
+//		}
 
 		try {
 			String page = ((HttpServletRequest)request).getRequestURI();

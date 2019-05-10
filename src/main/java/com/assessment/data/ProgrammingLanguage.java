@@ -2,7 +2,7 @@ package com.assessment.data;
 
 public enum ProgrammingLanguage {
 	
-JAVA("JAVA"), C("C"), CPLUSPLUS("CPLUSPLUS"),  DotNet("DotNet"), CHASH("CHASH"), PYTHON("PYTHON");
+JAVA("JAVA"), C("C"), CPLUSPLUS("CPLUSPLUS"),  DotNet("DotNet"), CHASH("CHASH"), PYTHON("PYTHON"), PHP("PHP"), JAVASCRIPT("JAVASCRIPT");
 	
 	String language;
 	private ProgrammingLanguage(String language) {

@@ -26,6 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.assessment.common.PropertyConfig;
 import com.assessment.common.util.EmailGenericMessageThread;
+import com.assessment.data.FullStackOptions;
 import com.assessment.data.Question;
 import com.assessment.data.QuestionMapperInstance;
 import com.assessment.data.Test;
@@ -84,7 +85,20 @@ QuestionMapperInstanceRepository  questionMapperInstanceRep;
 		  * step 1 create a file called sonar-project.properties in workspace foldewr
 		  * 
 		  * */
-		String analysisFile = FileUtils.readFileToString(new File(propertyConfig.getSonarAnalysisFileLocation()));
+		 String analysisFile = "";
+		 if(questionMapperInstance.getQuestionMapper().getQuestion().getFullstack().getStack().equalsIgnoreCase(FullStackOptions.JAVA_FULLSTACK.getStack())){
+			System.out.println("doing code quality on java stack");
+			 analysisFile = FileUtils.readFileToString(new File(propertyConfig.getSonarAnalysisFileLocation()));
+		 }
+		 else if(questionMapperInstance.getQuestionMapper().getQuestion().getFullstack().getStack().equalsIgnoreCase(FullStackOptions.PHP_FULLSTACK.getStack())) {
+			 System.out.println("doing code quality on php stack");
+			 analysisFile = FileUtils.readFileToString(new File(propertyConfig.getSonalAnalysisFilePHPLocation()));
+		 }
+		 else{
+			 System.out.println("doing code quality on others stack");
+			 analysisFile = FileUtils.readFileToString(new File(propertyConfig.getSonarAnalysisFileLocation()));
+		 }
+	
 		analysisFile = analysisFile.replace("${key}", workSpaceFolder);
 		String writeLoc = codebasePath+File.separator+"sonar-project.properties";
 		System.out.println(" writeLoc is "+writeLoc);
@@ -139,7 +153,7 @@ QuestionMapperInstanceRepository  questionMapperInstanceRep;
 		 html = html.replace("{CODE_QUALITY_URL}", url);
 		 
 		 String reviewer = questionMapperInstance.getQuestionMapper().getQuestion().getReviewerEmail();
-		 html = html.replace("{PROJECT_URL}", questionMapperInstance.getUsageDocumentUrl());
+		 html = html.replace("{PROJECT_URL}", questionMapperInstance.getUsageDocumentUrl()==null?"":questionMapperInstance.getUsageDocumentUrl());
 		 html = html.replace("{REVIEWER_EMAIL}", reviewer);
 		 html = html.replace("{PASSWORD}", ""+reviewer.hashCode());
 		 html = html.replace("{Company}", user.getCompanyName());

@@ -78,6 +78,8 @@ public class Test extends Base {
 	
 	String testType = "Java";
 	
+	Boolean sendRecommReport = false;
+	
 	public Boolean getSentToStudent() {
 		return sentToStudent;
 	}
@@ -312,6 +314,12 @@ public class Test extends Base {
 	}
 	public void setTestType(String testType) {
 		this.testType = testType;
+	}
+	public Boolean getSendRecommReport() {
+		return sendRecommReport;
+	}
+	public void setSendRecommReport(Boolean sendRecommReport) {
+		this.sendRecommReport = sendRecommReport;
 	}
 	
 	

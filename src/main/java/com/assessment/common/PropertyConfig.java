@@ -42,9 +42,21 @@ public class PropertyConfig {
 	
 	String codeQualityEmailTemplateLocation;
 	
+	/**
+	 * Java projects
+	 */
 	String sonarAnalysisFileLocation;
 	
+	/**
+	 * PhP projects
+	 */
+	String sonalAnalysisFilePHPLocation;
+	
+	String sonarAnalysisFileAngularLocation;
+	
 	String fullStackReviewTemplate;
+	
+	
 	
 	public String getBaseUrl() {
 		return baseUrl;
@@ -223,6 +235,22 @@ public class PropertyConfig {
 
 	public void setFullStackReviewTemplate(String fullStackReviewTemplate) {
 		this.fullStackReviewTemplate = fullStackReviewTemplate;
+	}
+
+	public String getSonalAnalysisFilePHPLocation() {
+		return sonalAnalysisFilePHPLocation;
+	}
+
+	public void setSonalAnalysisFilePHPLocation(String sonalAnalysisFilePHPLocation) {
+		this.sonalAnalysisFilePHPLocation = sonalAnalysisFilePHPLocation;
+	}
+
+	public String getSonarAnalysisFileAngularLocation() {
+		return sonarAnalysisFileAngularLocation;
+	}
+
+	public void setSonarAnalysisFileAngularLocation(String sonarAnalysisFileAngularLocation) {
+		this.sonarAnalysisFileAngularLocation = sonarAnalysisFileAngularLocation;
 	}
 
 	

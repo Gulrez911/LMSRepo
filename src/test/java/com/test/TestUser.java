@@ -32,8 +32,8 @@ public class TestUser {
 		user.setFirstName("Tikam");
 		user.setLastName("Singh");
 		user.setPassword("12345");
-		user.setCompanyId("Yaksha");
-		user.setCompanyName("Yaksha");
+		user.setCompanyId("ALS2019");
+		user.setCompanyName("ALS2019");
 		user.setDepartment("IT");
 		user.setUserType(UserType.ADMIN);
 		userService.addUser(user);

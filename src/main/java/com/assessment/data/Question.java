@@ -99,7 +99,7 @@ public class Question extends Base{
 	private ProgrammingLanguage language = ProgrammingLanguage.JAVA;
 	
 	@Enumerated(EnumType.STRING)
-	private FullStackOptions fullstack = FullStackOptions.JAVA_FULLSTACK;
+	private FullStackOptions fullstack = FullStackOptions.NONE;
 	
 	@Transient
 	String lang;
@@ -601,6 +601,9 @@ public class Question extends Base{
 			
 			rightChoices = rightChoices.substring(0, rightChoices.lastIndexOf("-"));
 		}
+		else if(getQuestionType().getType().equalsIgnoreCase(QuestionType.FULL_STACK_JAVA.getType())){
+			setFullstack(FullStackOptions.JAVA_FULLSTACK);
+		}
 		
 	}
 	
@@ -769,6 +772,7 @@ public class Question extends Base{
 		return stack;
 	}
 	public void setStack(String stack) {
+		setFullstack(FullStackOptions.valueOf(stack));
 		this.stack = stack;
 	}
 	public String getStackProblemDetails() {

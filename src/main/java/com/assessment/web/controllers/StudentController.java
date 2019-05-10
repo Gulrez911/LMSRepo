@@ -15,6 +15,8 @@ import javax.xml.bind.DatatypeConverter;
 import org.apache.commons.io.FileUtils;
 import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -64,6 +66,8 @@ import com.assessment.web.forms.StudentTestForm;
 @Controller
 public class StudentController {
 	
+	//Logger logger = LoggerFactory.getLogger(StudentController.class);
+	
 	@Autowired
 	StudentService studentService;
 	
@@ -104,6 +108,8 @@ public class StudentController {
 	ReportsService reportsService;
 	@Autowired
 	QuestionMapperInstanceRepository  questionMapperInstanceRep;
+	
+	Logger logger = LoggerFactory.getLogger(StudentController.class);
 	
 	 @RequestMapping(value = "/startTestSession", method = RequestMethod.GET)
 	  public ModelAndView studentHome(@RequestParam(required=false) String sharedDirect,@RequestParam(required=false) String inviteSent, @RequestParam String userId, @RequestParam String companyId, @RequestParam String testId, HttpServletRequest request, HttpServletResponse response) {
@@ -457,7 +463,7 @@ public class StudentController {
 		 				
 		 				
 		 				if(questionInstanceDto.getQuestionMapperInstance().getQuestionMapper().getId().equals(Long.valueOf(questionMapperId))) {
-		 					/**
+		 					/**	
 				 			 * Add code for evaluating coding engine Q
 				 			 */
 		 					if(questionInstanceDto.getQuestionMapperInstance().getQuestionMapper().getQuestion().getQuestionType() == null){
@@ -467,6 +473,8 @@ public class StudentController {
 				 			Question q = questionInstanceDto.getQuestionMapperInstance().getQuestionMapper().getQuestion();
 				 			if(type != null && type.equals(QuestionType.CODING.getType())){
 				 				String lang = LanguageCodes.getLanguageCode(questionInstanceDto.getQuestionMapperInstance().getQuestionMapper().getQuestion().getLanguage().getLanguage());
+				 				logger.info("compiling lang is "+lang);
+				 				System.out.println("compiling lang is "+lang);
 				 				CompileData compileData = new CompileData();
 				 				compileData.setLanguage(lang);
 				 				String code = currentQuestion.getCode();
@@ -785,7 +793,8 @@ public class StudentController {
 	 }
 	 
 	 private void setWorkspaceIDEForFullStackQ(HttpServletRequest request, QuestionInstanceDto currentQuestion) throws Exception{
-		if(currentQuestion.getQuestionMapperInstance().getQuestionMapper().getQuestion().getFullstack().getStack().equals(FullStackOptions.JAVA_FULLSTACK.getStack())){
+		logger.info("in setWorkspaceIDEForFullStackQ "+currentQuestion.getQuestionMapperInstance().getQuestionMapper().getQuestion().getFullstack().getStack());
+		 if(currentQuestion.getQuestionMapperInstance().getQuestionMapper().getQuestion().getFullstack().getStack().equals(FullStackOptions.JAVA_FULLSTACK.getStack()) || currentQuestion.getQuestionMapperInstance().getQuestionMapper().getQuestion().getFullstack().getStack().equals(FullStackOptions.PHP_FULLSTACK.getStack()) || currentQuestion.getQuestionMapperInstance().getQuestionMapper().getQuestion().getFullstack().getStack().equals(FullStackOptions.ANGULARJS_FULLSTACK.getStack()) || currentQuestion.getQuestionMapperInstance().getQuestionMapper().getQuestion().getFullstack().getStack().equals(FullStackOptions.JAVASCRIPT_FULLSTACK.getStack()) || currentQuestion.getQuestionMapperInstance().getQuestionMapper().getQuestion().getFullstack().getStack().equals(FullStackOptions.DOTNET_FULLSTACK.getStack())){
 			
 			User user = (User) request.getSession().getAttribute("user");
 			String fullName = user.getFirstName()+user.getLastName();
@@ -795,7 +804,7 @@ public class StudentController {
 			QuestionMapperInstance qms = questionMapperInstanceRep.findUniqueQuestionMapperInstanceForUser(currentQuestion.getQuestionMapperInstance().getQuestionMapper().getQuestion().getQuestionText(), test.getTestName(), secName, user.getEmail(), user.getCompanyId());
 		    String workspace = "";
 		    if(qms == null){
-		    	WorkspaceResponse workspaceResponse = generateWorkspace(currentQuestion, test.getId(), currentQuestion.getQuestionMapperInstance().getQuestionMapper().getQuestion().getId(), fullName);
+		    	WorkspaceResponse workspaceResponse = generateWorkspace(currentQuestion, test.getId(), currentQuestion.getQuestionMapperInstance().getQuestionMapper().getQuestion().getId(), fullName, currentQuestion.getQuestionMapperInstance().getQuestionMapper().getQuestion().getFullstack());
 		    	workspace = workspaceResponse.getLinks().getIde();
 		    	qms = currentQuestion.getQuestionMapperInstance();
 		 		qms.setCompanyId(test.getCompanyId());
@@ -813,7 +822,7 @@ public class StudentController {
 		    	if(qms.getWorkspaceUrl() == null || qms.getWorkspaceUrl().trim().length() == 0){
 			    	// if(stackName.equals("Java")){
 		    		//workspace = generateWorkspace(currentQuestion, test.getId(), currentQuestion.getQuestionMapperInstance().getQuestionMapper().getQuestion().getId(), fullName);
-		    		WorkspaceResponse workspaceResponse = generateWorkspace(currentQuestion, test.getId(), currentQuestion.getQuestionMapperInstance().getQuestionMapper().getQuestion().getId(), fullName);
+		    		WorkspaceResponse workspaceResponse = generateWorkspace(currentQuestion, test.getId(), currentQuestion.getQuestionMapperInstance().getQuestionMapper().getQuestion().getId(), fullName, currentQuestion.getQuestionMapperInstance().getQuestionMapper().getQuestion().getFullstack());
 			    	workspace = workspaceResponse.getLinks().getIde();
 		    		//return workspaceResponse.getLinks().getIde();
 			    	qms.setWorkSpaceId(workspaceResponse.getId());
@@ -834,8 +843,28 @@ public class StudentController {
 	 	
 	 }
 	 
-	 private WorkspaceResponse generateWorkspace(QuestionInstanceDto currentQuestion, Long tid, Long qid, String fullName) throws Exception{
-		 String json = FileUtils.readFileToString(new File("assessment"+File.separator+"eclipseChe"+File.separator+"Java_FullStack.json"));
+	 private WorkspaceResponse generateWorkspace(QuestionInstanceDto currentQuestion, Long tid, Long qid, String fullName, FullStackOptions fullStackOptions) throws Exception{
+		
+		 logger.info("in generate workspace "+fullStackOptions.getStack());
+		 String json = "";
+			if(fullStackOptions == null || fullStackOptions.getStack().equals(FullStackOptions.JAVA_FULLSTACK.getStack())){
+				System.out.println("generatin workspace for java");
+				json = FileUtils.readFileToString(new File("assessment"+File.separator+"eclipseChe"+File.separator+"Java_FullStack.json"));
+			}
+			else if(fullStackOptions.getStack().equals(FullStackOptions.PHP_FULLSTACK.getStack())){
+				System.out.println("generatin workspace for php");
+				json = FileUtils.readFileToString(new File("assessment"+File.separator+"eclipseChe"+File.separator+"PHP_MySQL.json"));
+			}
+			else if(fullStackOptions.getStack().equals(FullStackOptions.ANGULARJS_FULLSTACK.getStack())){
+				System.out.println("generatin workspace for angular");
+				json = FileUtils.readFileToString(new File("assessment"+File.separator+"eclipseChe"+File.separator+"ANGULAR_JAVASCRIPT_MYSQL.json"));
+			}
+			else{
+				System.out.println("generatin workspace for others");
+				json = FileUtils.readFileToString(new File("assessment"+File.separator+"eclipseChe"+File.separator+"Java_FullStack.json"));
+			}
+		 
+		 
 	 		//String qid = ""+currentQuestion.getQuestionMapperInstance().getQuestionMapper().getQuestion().getId();
 	 		json = json.replace("${APP_USER}", fullName+"-"+tid+"-"+qid+"-"+System.currentTimeMillis());
 	 		//json = json.replace("${APP_USER}", "a01");
@@ -1109,7 +1138,14 @@ public class StudentController {
 			 
 			 if(test.getTestName().equals("General_Technology_Comprehensive") || test.getTestName().equals("Java_Technology_Behaviour_Experienced") || test.getTestName().equals("Java_Technology_Behaviour_Freshers")){
 				 String file = reportsService.generatedetailedReportForCompositeTest(user.getCompanyId(), test.getTestName(), user.getEmail());
-				 EmailGenericMessageThread client = new EmailGenericMessageThread(test.getCreatedBy(), "Test Results for "+user.getFirstName()+" "+user.getLastName()+" for test- "+test.getTestName(), html, user.getEmail(), propertyConfig, file, user.getFirstName()+" "+user.getLastName()+"-"+test.getTestName());
+				 String email = "";
+				 if(user.getEmail().lastIndexOf("[") > 0 ){
+				 		email = user.getEmail().substring(0, user.getEmail().lastIndexOf("["));
+				 	}
+				 	else{
+				 		email = user.getEmail();
+				 	}
+				 EmailGenericMessageThread client = new EmailGenericMessageThread(test.getCreatedBy(), "Test Results for "+user.getFirstName()+" "+user.getLastName()+" for test- "+test.getTestName(), html, email, propertyConfig, file, user.getFirstName()+" "+user.getLastName()+"-"+test.getTestName());
 					
 				 	Thread th = new Thread(client);
 					th.start();
@@ -1124,7 +1160,7 @@ public class StudentController {
 				 		email = user.getEmail();
 				 	}
 				 String cc[] = {"abbas.meghani@gmail.com", email};
-				 EmailGenericMessageThread client = new EmailGenericMessageThread(test.getCreatedBy(), "Test Results for "+user.getFirstName()+" "+user.getLastName()+" for test- "+test.getTestName(), html, user.getEmail(), propertyConfig, file, user.getFirstName()+" "+user.getLastName()+"-"+test.getTestName());
+				 EmailGenericMessageThread client = new EmailGenericMessageThread(test.getCreatedBy(), "Test Results for "+user.getFirstName()+" "+user.getLastName()+" for test- "+test.getTestName(), html, email, propertyConfig, file, user.getFirstName()+" "+user.getLastName()+"-"+test.getTestName());
 					client.setCcArray(cc);
 				 	Thread th = new Thread(client);
 					th.start();
@@ -1139,12 +1175,12 @@ public class StudentController {
 				 		email = user.getEmail();
 				 	}
 				 String cc[] = {"sreeram.gopal@iiht.com", email};
-				 EmailGenericMessageThread client = new EmailGenericMessageThread(test.getCreatedBy(), "Test Results for "+user.getFirstName()+" "+user.getLastName()+" for test- "+test.getTestName(), html, user.getEmail(), propertyConfig, file, user.getFirstName()+" "+user.getLastName()+"-"+test.getTestName());
+				 EmailGenericMessageThread client = new EmailGenericMessageThread(test.getCreatedBy(), "Test Results for "+user.getFirstName()+" "+user.getLastName()+" for test- "+test.getTestName(), html, email, propertyConfig, file, user.getFirstName()+" "+user.getLastName()+"-"+test.getTestName());
 					client.setCcArray(cc);
 				 	Thread th = new Thread(client);
 					th.start();
 			 }
-			 else if(test.getTestName().equalsIgnoreCase("Chenova_Exp_MicrosoftTech_Test") || test.getTestName().equalsIgnoreCase("Chenova_Exp_JavaTech_Test")){
+			 else if(test.getTestName().equalsIgnoreCase("Java Developer Infrasoft Intermediate 1.0 ")){
 				 String file = reportsService.generatedetailedReportForCompositeTest(user.getCompanyId(), test.getTestName(), user.getEmail());
 				 String email = "";
 				 	if(user.getEmail().lastIndexOf("[") > 0 ){
@@ -1153,9 +1189,42 @@ public class StudentController {
 				 	else{
 				 		email = user.getEmail();
 				 	}
-				 String cc[] = {"VKotian@chenoainc.com", email};
-				 EmailGenericMessageThread client = new EmailGenericMessageThread(test.getCreatedBy(), "Test Results for "+user.getFirstName()+" "+user.getLastName()+" for test- "+test.getTestName(), html, propertyConfig);
-						client.setCcArray(cc);
+				 String cc[] = {"akansha.gupta@infrasofttech.com", email};
+				 EmailGenericMessageThread client = new EmailGenericMessageThread(test.getCreatedBy(), "Test Results for "+user.getFirstName()+" "+user.getLastName()+" for test- "+test.getTestName(), html, email, propertyConfig, file, user.getFirstName()+" "+user.getLastName()+"-"+test.getTestName());
+					client.setCcArray(cc);
+				 	Thread th = new Thread(client);
+					th.start();
+			 }
+//			 else if(test.getTestName().equalsIgnoreCase("Chenova_Exp_MicrosoftTech_Test") || test.getTestName().equalsIgnoreCase("Chenova_Exp_JavaTech_Test")){
+//				 String file = reportsService.generatedetailedReportForCompositeTest(user.getCompanyId(), test.getTestName(), user.getEmail());
+//				 String email = "";
+//				 	if(user.getEmail().lastIndexOf("[") > 0 ){
+//				 		email = user.getEmail().substring(0, user.getEmail().lastIndexOf("["));
+//				 	}
+//				 	else{
+//				 		email = user.getEmail();
+//				 	}
+//				 String cc[] = {"VKotian@chenoainc.com", email};
+//				 EmailGenericMessageThread client = new EmailGenericMessageThread(test.getCreatedBy(), "Test Results for "+user.getFirstName()+" "+user.getLastName()+" for test- "+test.getTestName(), html, propertyConfig);
+//						client.setCcArray(cc);
+//				 	Thread th = new Thread(client);
+//					th.start();
+//			 }
+			 else if(test.getSendRecommReport() != null && test.getSendRecommReport()){
+				 String file = reportsService.generatedetailedReportForCompositeTest(user.getCompanyId(), test.getTestName(), user.getEmail());
+				 String email = "";
+				 	if(user.getEmail().lastIndexOf("[") > 0 ){
+				 		email = user.getEmail().substring(0, user.getEmail().lastIndexOf("["));
+				 	}
+				 	else{
+				 		email = user.getEmail();
+				 	}
+				 String cc[] = { email};
+				 EmailGenericMessageThread client = new EmailGenericMessageThread(test.getCreatedBy(), "Test Results for "+user.getFirstName()+" "+user.getLastName()+" for test- "+test.getTestName(), html, email, propertyConfig, file, user.getFirstName()+" "+user.getLastName()+"-"+test.getTestName());
+						if(test.getSentToStudent() != null && test.getSentToStudent()){
+							client.setCcArray(cc);
+						}
+				 	
 				 	Thread th = new Thread(client);
 					th.start();
 			 }

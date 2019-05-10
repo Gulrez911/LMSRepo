@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.assessment.common.ExcelReader;
 import com.assessment.common.Qualifiers;
 import com.assessment.data.Company;
+import com.assessment.data.DifficultyLevel;
 import com.assessment.data.Question;
 import com.assessment.data.QuestionMapper;
 import com.assessment.data.QuestionMapperInstance;
@@ -108,9 +109,14 @@ public class TestQuestion {
 	@Rollback(value=false)
 	public void testCreateQuestion() {
 		Question q = new Question();
-		q.setCompanyId("V2");
-		q.setCompanyName("V2 Technologies");
-		q.setQuestionText("Qhat is your name");
+		q.setCompanyId("ALS2019");
+		q.setCompanyName("ALS2019");
+		q.setQuestionText("以下哪个标记代表HTML5中某个部分的标题？");
+		q.setDifficultyLevel(DifficultyLevel.EASY);
+		q.setQualifier1("dirty1");
+		q.setChoice1("c1");
+		q.setChoice2("c2");
+		q.setRightChoices("Choice 1");
 		questionService.createQuestion(q);
 	}
 	

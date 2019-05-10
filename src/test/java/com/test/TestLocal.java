@@ -41,10 +41,88 @@ public class TestLocal {
 		ObjectMapper mapper = new ObjectMapper();
 		CompileData  data2 = mapper.readValue(data.getBytes(), CompileData.class);
 		System.out.println(data2);
+		 URL url = new URL("http://13.233.2.169:8088/compile"); 
+	        HttpURLConnection connection = (HttpURLConnection) url.openConnection(); 
+	        connection.setDoOutput(true); 
+	        connection.setInstanceFollowRedirects(false); 
+	        connection.setRequestMethod("POST"); 
+	        connection.setRequestProperty("Content-Type", "application/json"); 
+
+	        OutputStream os = connection.getOutputStream(); 
+	        os.write(str.getBytes());
+			os.flush();
+			InputStream is = connection.getInputStream();
+			byte bat[] = new byte[is.available()];
+			is.read(bat);
+			String op = new String(bat);
+	        connection.getResponseCode(); 
+	        connection.disconnect(); 
+	        System.out.println(op);
+	}
+	
+	
+	@Test
+	public void testJavascriptProgram() throws Exception{
+		String pg = FileUtils.readFileToString(new File("javascript_prg.txt"));
+		CompileData data = new CompileData();
+		data.setLanguage("4");
+		data.setCode(pg);
+		data.setStdin("44");
+		ObjectMapper mapper = new ObjectMapper();
+		String str = mapper.writeValueAsString(data);
+		System.out.println(str);
+		 URL url = new URL("http://13.233.2.169:8088/compile"); 
+	        HttpURLConnection connection = (HttpURLConnection) url.openConnection(); 
+	        connection.setDoOutput(true); 
+	        connection.setInstanceFollowRedirects(false); 
+	        connection.setRequestMethod("POST"); 
+	        connection.setRequestProperty("Content-Type", "application/json"); 
+
+	        OutputStream os = connection.getOutputStream(); 
+	      
+			os.write(str.getBytes());
+			os.flush();
+			InputStream is = connection.getInputStream();
+			byte bat[] = new byte[is.available()];
+			is.read(bat);
+			String op = new String(bat);
+	        connection.getResponseCode(); 
+	        connection.disconnect(); 
+	        System.out.println(op);
 	}
 	
 	@Test
-	public void testGetJson() throws JsonProcessingException {
+	public void testPHPProgram() throws Exception{
+		String pg = FileUtils.readFileToString(new File("prime_php.txt"));
+		CompileData data = new CompileData();
+		data.setLanguage("3");
+		data.setCode(pg);
+		data.setStdin("29");
+		ObjectMapper mapper = new ObjectMapper();
+		String str = mapper.writeValueAsString(data);
+		System.out.println(str);
+		 URL url = new URL("http://13.233.2.169:8088/compile"); 
+	        HttpURLConnection connection = (HttpURLConnection) url.openConnection(); 
+	        connection.setDoOutput(true); 
+	        connection.setInstanceFollowRedirects(false); 
+	        connection.setRequestMethod("POST"); 
+	        connection.setRequestProperty("Content-Type", "application/json"); 
+
+	        OutputStream os = connection.getOutputStream(); 
+	      
+			os.write(str.getBytes());
+			os.flush();
+			InputStream is = connection.getInputStream();
+			byte bat[] = new byte[is.available()];
+			is.read(bat);
+			String op = new String(bat);
+	        connection.getResponseCode(); 
+	        connection.disconnect(); 
+	        System.out.println(op);
+	}
+	
+	@Test
+	public void testGetJson() throws Exception {
 		CompileData data = new CompileData();
 		data.setLanguage("7");
 		data.setCode(code);
@@ -52,6 +130,8 @@ public class TestLocal {
 		ObjectMapper mapper = new ObjectMapper();
 		String str = mapper.writeValueAsString(data);
 		System.out.println(str);
+		
+		
 	}
 	
 	@Test

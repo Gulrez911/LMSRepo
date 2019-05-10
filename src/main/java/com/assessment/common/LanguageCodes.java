@@ -16,6 +16,8 @@ public class LanguageCodes {
 		map.put(ProgrammingLanguage.CPLUSPLUS.getLanguage(), "7");
 		map.put(ProgrammingLanguage.CHASH.getLanguage(), "10");
 		map.put(ProgrammingLanguage.PYTHON.getLanguage(), "0");
+		map.put(ProgrammingLanguage.PHP.getLanguage(), "3");
+		map.put(ProgrammingLanguage.JAVASCRIPT.getLanguage(), "4");
 	}
 	
 	public static String getLanguageCode(String prog){

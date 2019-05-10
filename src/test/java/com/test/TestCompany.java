@@ -22,8 +22,8 @@ public class TestCompany {
 	@Rollback(value=false)
 	public void testCreateCompany() {
 		Company company = new Company();
-		company.setCompanyId("Yaksha");
-		company.setCompanyName("Yaksha");
+		company.setCompanyId("ALS2019");
+		company.setCompanyName("ALS2019");
 		company.setCompanyLocation("Bangalore");
 		company.setSinglePointOfContactEmail("contact@thev2technologies.com");
 		companyService.saveOrUpdate(company);

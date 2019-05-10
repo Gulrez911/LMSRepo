@@ -6,7 +6,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class AssessmentUserPerspectiveData {
+	
+	Logger logger = LoggerFactory.getLogger(AssessmentUserPerspectiveData.class);
 
 	String firstName;
 	
@@ -98,7 +103,22 @@ public class AssessmentUserPerspectiveData {
 			String secs[] = sectionWiseScore.split(",");
 			for(String s : secs) {
 				String s0[] = s.split("-");
-				sections_score.put(s0[0], s0[1]);
+				if(s0.length == 1){
+					String s1[] = new String[2];
+					s1[0] = s0[0];
+					s1[1] = "0.0";
+					s0 = s1;
+				}
+				try {
+					sections_score.put(s0[0], s0[1]);
+				} catch (ArrayIndexOutOfBoundsException e) {
+					// TODO Auto-generated catch block
+					logger.error("problem ..."+s0, e);
+					System.out.println(s0);
+					e.printStackTrace();
+					throw e;
+					
+				}
 			}
 		}
 	}
@@ -174,7 +194,22 @@ public class AssessmentUserPerspectiveData {
 			String secs[] = (noOfQuestionsNotAnswered+"").split(",");
 			for(String s : secs) {
 				String s0[] = s.split("-");
-				sections_noOfQuestionsNotAnswered.put(s0[0], s0[1]);
+				if(s0.length == 1){
+					String s1[] = new String[2];
+					s1[0] = s0[0];
+					s1[1] = "0.0";
+					s0 = s1;
+				}
+				try {
+					sections_noOfQuestionsNotAnswered.put(s0[0], s0[1]);
+				} catch (ArrayIndexOutOfBoundsException e) {
+					// TODO Auto-generated catch block
+					logger.error("problem ..."+s0, e);
+					System.out.println(s0);
+					e.printStackTrace();
+					throw e;
+					
+				}
 			}
 		}
 		

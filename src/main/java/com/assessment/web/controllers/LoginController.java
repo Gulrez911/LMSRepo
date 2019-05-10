@@ -85,7 +85,7 @@ QuestionMapperInstanceService qminService;
 
 	  @RequestMapping(value = "/login", method = RequestMethod.GET)
 	  public ModelAndView showLogin(HttpServletRequest request, HttpServletResponse response) {
-	    ModelAndView mav = new ModelAndView("index");
+	    ModelAndView mav = new ModelAndView("login_new");
 	    User user = new User();
 	   // user.setEmail("system@iiht.com");
 	  //  user.setPassword("1234");
@@ -208,7 +208,8 @@ QuestionMapperInstanceService qminService;
 	  @RequestMapping(value = "/signoff", method = RequestMethod.GET)
 	  public ModelAndView signoff(HttpServletRequest request, HttpServletResponse response) {
 	    request.getSession().invalidate();
-		 ModelAndView mav = new ModelAndView("index");
+		// ModelAndView mav = new ModelAndView("index");
+	    ModelAndView mav = new ModelAndView("login_new");
 	    User user = new User();
 	    //user.setEmail("system@iiiht.com");
 	   // user.setPassword("1234");
@@ -223,7 +224,8 @@ QuestionMapperInstanceService qminService;
 		  user = userService.authenticate(user.getEmail(), user.getPassword(), user.getCompanyName());
 		  	if(user == null) {
 		  		//navigate to exception page
-		  		mav = new ModelAndView("index");
+		  		//mav = new ModelAndView("index");
+		  		mav = new ModelAndView("login_new");
 		 	    user = new User();
 		 	    mav.addObject("user", user);
 		 	    mav.addObject("message", "Invalid Credentials ");// later put it as label

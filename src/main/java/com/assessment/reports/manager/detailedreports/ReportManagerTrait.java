@@ -6,11 +6,8 @@ import static net.sf.dynamicreports.report.builder.DynamicReports.type;
 
 import java.awt.Color;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.net.MalformedURLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,15 +19,14 @@ import com.assessment.reports.manager.UserTrait;
 
 import ar.com.fdvs.dj.core.DynamicJasperHelper;
 import ar.com.fdvs.dj.domain.DynamicReport;
-import ar.com.fdvs.dj.domain.StringExpression;
 import ar.com.fdvs.dj.domain.Style;
 import ar.com.fdvs.dj.domain.builders.ColumnBuilder;
 import ar.com.fdvs.dj.domain.builders.DynamicReportBuilder;
 import ar.com.fdvs.dj.domain.builders.StyleBuilder;
 import ar.com.fdvs.dj.domain.chart.DJChart;
 import ar.com.fdvs.dj.domain.chart.DJChartOptions;
-import ar.com.fdvs.dj.domain.chart.builder.DJBarChartBuilder;
-import ar.com.fdvs.dj.domain.chart.builder.DJPieChartBuilder;
+import ar.com.fdvs.dj.domain.chart.builder.DJBar3DChartBuilder;
+import ar.com.fdvs.dj.domain.chart.builder.DJPie3DChartBuilder;
 import ar.com.fdvs.dj.domain.chart.plot.DJAxisFormat;
 import ar.com.fdvs.dj.domain.constants.Border;
 import ar.com.fdvs.dj.domain.constants.Font;
@@ -41,12 +37,9 @@ import ar.com.fdvs.dj.domain.entities.columns.AbstractColumn;
 import ar.com.fdvs.dj.domain.entities.columns.PropertyColumn;
 import net.sf.dynamicreports.jasper.builder.JasperReportBuilder;
 import net.sf.dynamicreports.report.definition.datatype.DRIDataType;
-import net.sf.dynamicreports.report.exception.DRException;
-import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.xml.JRExpressionFactory.StringExpressionFactory;
 
 public class ReportManagerTrait {
 	
@@ -85,7 +78,7 @@ public class ReportManagerTrait {
 		   }
 
 	   private DJChart createPieChart() {
-		      DJChart chart = new DJPieChartBuilder()
+		      DJChart chart = new DJPie3DChartBuilder()
 		     .setX(20).setY(10).setWidth(500)
 		    	//.set	  
 		      .setHeight(500).setCentered(false)
@@ -180,7 +173,7 @@ public class ReportManagerTrait {
 	      
 	    
 
-	      DJChart chart = new DJBarChartBuilder()
+	      DJChart chart = new DJBar3DChartBuilder()
 	      .setX(10).setY(10).setWidth(550)
 	      .setHeight(420).setCentered(false)
 	      .setPosition(DJChartOptions.EDGE_TOP)
@@ -197,7 +190,7 @@ public class ReportManagerTrait {
 	      .setLegendFont(Font.COMIC_SANS_BIG_BOLD)
 	      .setLegendBackgroundColor(Color.WHITE)
 	      .setLegendPosition(DJChartOptions.EDGE_TOP)
-	      .setShowTickLabels(true)
+	     // .setShowTickLabels(true)
 	     //.set
 	      .setTitlePosition(DJChartOptions.EDGE_TOP)
 	      .setLineStyle(DJChartOptions.LINE_STYLE_SOLID)
@@ -217,8 +210,8 @@ public class ReportManagerTrait {
 	public String buildComprehensiveReport(List<UserTrait> traits, List<UserSkillArea> areas, String testName, String canddateName) throws Exception{
 		try {
 			JasperReportBuilder report = report();
-			report.addColumn(col.column("Trait/Skill", "trait", (DRIDataType) type.stringType()).setWidth(100));
-			report.addColumn(col.column("Know More..", "description", (DRIDataType) type.stringType()).setWidth(450));
+			report.addColumn(col.column("Profiling Param", "trait", (DRIDataType) type.stringType()).setWidth(100));
+			report.addColumn(col.column("Detail", "description", (DRIDataType) type.stringType()).setWidth(450));
 			
 			
 			JasperReportBuilder builder = report
@@ -241,13 +234,13 @@ public class ReportManagerTrait {
 			
 			JasperPrint jasperPrint  = builder.toJasperPrint();
 			jasperPrint.setPageHeight(600);
-			DynamicReport dynamicReport = buildPieChart(canddateName, testName);
+			DynamicReport dynamicReport = buildBarReport(canddateName, testName);
 			Map<String, String> properties = new HashMap<>();
 			properties.put("net.sf.jasperreports.awt.ignore.missing.font", "true");
 			dynamicReport.setProperties(properties);
 			
 			JasperPrint jp1 = DynamicJasperHelper.generateJasperPrint(	dynamicReport, new NoTableLayoutManager(),areas);
-			DynamicReport dynamicReport2 = buildBarReport(canddateName, testName);
+			DynamicReport dynamicReport2 = buildPieChart(canddateName, testName);
 			jp1.setPageHeight(600);
 			dynamicReport2.setProperties(properties);
 			
