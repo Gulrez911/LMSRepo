@@ -146,6 +146,15 @@ QuestionMapperInstanceService qminService;
 			   * Step 2 - find out how many sessions for the given test the user has taken
 			   */
 			  List<UserTestSession> sessions = testSessionRepository.findByTestNamePart(testUserData.getUser().getEmail()+"["+test.getId(), test.getTestName(), test.getCompanyId());
+			  int noOfConfAttempts = test.getNoOfConfigurableAttempts() ==null?50:test.getNoOfConfigurableAttempts();
+			  	if(noOfConfAttempts <= (sessions.size()+1)){
+			  		ModelAndView mav = new ModelAndView("studentNoTest_ExceededAttempts");
+			  		mav.addObject("firstName", testUserData.getUser().getFirstName());
+			  		mav.addObject("lastName", testUserData.getUser().getLastName());
+			  		mav.addObject("attempts", sessions.size()+1);
+			  		return mav;
+			  	}
+			  
 			  userNameNew = testUserData.getUser().getEmail()+"["+test.getId()+"-"+(sessions.size()+1+"]");
 		  }
 		  

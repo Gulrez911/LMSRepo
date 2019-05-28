@@ -114,6 +114,16 @@
                                            <form:checkbox path="test.sentToStudent" />
                                             Email a copy of the student's results to above contact
                                         </div>
+										
+										<div class="formfield">
+                                            <label>Share Recommendation Engine by Email </label>
+                                            <form:checkbox path="test.sendRecommReport" id="sendRecommReport"/>
+                                           
+                                        </div>
+										<div class="formfield">
+                                            <label>No of Attempts Allowed </label>
+                                             <form:input path="test.noOfConfigurableAttempts" name="noOfConfigurableAttempts" id="noOfConfigurableAttempts"  style="width: 25%;" value="" onkeypress='validate(event)' />
+                                        </div>
 					
 					 <div class="formfield">
                                             <label>Shuffle Questions in Test</label>
@@ -124,6 +134,13 @@
 										<div class="formfield">
                                             <label>Email Domain for Test Givers </label>
 					   <form:input path="test.domainEmailSupported" name="domainEmailSupported" id="domainEmailSupported"  style="width: 25%;" value="" placeholder="Enter an email domain" />
+                                             
+                                        </div>
+										
+										<div class="formfield">
+                                            <label>Confidence Based Assessment Flag </label>
+					   
+					   <form:checkbox path="test.considerConfidence" id="considerConfidence"/>
                                              
                                         </div>
 
@@ -186,6 +203,24 @@
 	   //addteststep2
 	   document.getElementById("step1").submit();
 	    });
+		
+		function validate(evt) {
+		  var theEvent = evt || window.event;
+
+		  // Handle paste
+		  if (theEvent.type === 'paste') {
+			  key = event.clipboardData.getData('text/plain');
+		  } else {
+		  // Handle key press
+			  var key = theEvent.keyCode || theEvent.which;
+			  key = String.fromCharCode(key);
+		  }
+		  var regex = /[0-9]|\./;
+		  if( !regex.test(key) ) {
+			theEvent.returnValue = false;
+			if(theEvent.preventDefault) theEvent.preventDefault();
+		  }
+		}
        </script>
         <script src="scripts/custom.js"></script>
     </body>

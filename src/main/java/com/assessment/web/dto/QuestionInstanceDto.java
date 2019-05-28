@@ -28,6 +28,12 @@ public class QuestionInstanceDto {
 	String output;
 	
 	Integer position;
+	
+	Boolean confidence;
+	
+	Boolean confidentYes;
+	
+	Boolean confidentNo;
 
 	public QuestionMapperInstance getQuestionMapperInstance() {
 		return questionMapperInstance;
@@ -131,6 +137,43 @@ public class QuestionInstanceDto {
 		this.output = output;
 	}
 
+	public Boolean getConfidence() {
+		return confidence;
+	}
+
+	public void setConfidence(Boolean confidence) {
+		this.confidence = confidence;
+	}
+
+	public Boolean getConfidentYes() {
+		return confidentYes;
+	}
+
+	public void setConfidentYes(Boolean confidentYes) {
+		this.confidentYes = confidentYes;
+		if(confidentYes){
+			setConfidence(true);
+		}
+		else{
+			setConfidence(false);
+		}
+	}
+
+	public Boolean getConfidentNo() {
+		return confidentNo;
+	}
+
+	public void setConfidentNo(Boolean confidentNo) {
+		this.confidentNo = confidentNo;
+		if(confidentNo){
+			setConfidence(false);
+		}
+		else{
+			setConfidence(true);
+		}
+	}
+
+	
 	
 	
 	

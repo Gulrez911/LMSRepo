@@ -239,13 +239,48 @@
 			document.getElementById("workspace").href = workspaceurl;
 			document.getElementById("docurl").href = projectdoc;
 			
-			
+			$.ajax({
+				url : "getCodeMetrics?qMapperInstanceId="+id,
+				type : "GET",
+				data : null,
+				success : function(res) {
+					console.log("SUCCESS: ", res);
+					
+					if(res != null && res != ''){
+						console.log("111 res is "+res);
+						document.getElementById("fun1").value = res.fc;
+						
+						document.getElementById("per1").value = res.per;
+						document.getElementById("sca1").value = res.sca;
+						document.getElementById("sec1").value = res.sec;
+						document.getElementById("fle1").value = res.flex;
+						document.getElementById("ada1").value = res.ada;
+						document.getElementById("tes1").value = res.tes;
+						document.getElementById("over1").value = res.sts;
+						
+						document.getElementById('functional').value = res.functionalComplianceComments;
+						document.getElementById('performance').value = res.performanceComments;
+						document.getElementById('scalability').value = res.scalabilityComments;
+						document.getElementById('security').value = res.securityComments;
+						document.getElementById('flexibility').value = res.flexibilityComments;
+						document.getElementById('adaptability').value = res.adaptibilityComments;
+						document.getElementById('testCasesQuality').value = res.testCasesComments;
+						document.getElementById('overAll').value = res.overAll;
+					}
+					
+					
+				},
+				error : function(e) {
+					console.log("error is: ", e);
+				}
+			});
 		}
+		
 		
 		function submitReview(){
 			var url = "saveFullstackReview";
-		console.log('here url '+url);
-		var fun1 = document.getElementById("fun1");
+			console.log('here url '+url);
+			var fun1 = document.getElementById("fun1");
 			var fun1Select = fun1.options[fun1.selectedIndex].value;
 			
 			var per1 = document.getElementById("per1");
@@ -268,7 +303,7 @@
 			
 			var over1 = document.getElementById("over1");
 			var over1Select = over1.options[over1.selectedIndex].value;
-		var data = {
+			var data = {
 			"questionMapperInstanceId":document.getElementById('qmsid').value,
 			"fullName":document.getElementById('fullname').value,
 			"fc": fun1Select,

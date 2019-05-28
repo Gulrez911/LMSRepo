@@ -62,6 +62,8 @@ public class QuestionMapperInstance extends Base{
 	
 	@Transient
 	String workspaceDateOfSubmission;
+	
+	Boolean confidence;
 
 	public QuestionMapper getQuestionMapper() {
 		return questionMapper;
@@ -233,6 +235,14 @@ public class QuestionMapperInstance extends Base{
 
 	public void setWorkspaceDateOfSubmission(String workspaceDateOfSubmission) {
 		this.workspaceDateOfSubmission = workspaceDateOfSubmission;
+	}
+
+	public Boolean getConfidence() {
+		return confidence;
+	}
+
+	public void setConfidence(Boolean confidence) {
+		this.confidence = confidence;
 	}
 	
 	

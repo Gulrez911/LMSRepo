@@ -164,7 +164,7 @@
 						<div id="mcqDiv" class="formfield"  style="display:none">
 						
 					    </c:when> 
-						<c:when test="${question.type=='FULL_STACK_JAVA'}">
+						<c:when test="${question.type=='FULL_STACK_JAVA' || question.type=='FULLSTACK'}">
 						<div id="mcqDiv" class="formfield"  style="display:none">
 						
 					    </c:when> 						
@@ -232,7 +232,7 @@
 					    <c:when test="${question.type=='CODING'}">
 						<div id="codingDiv" class="formfield" >
 					    </c:when>  
-						<c:when test="${question.type=='FULL_STACK_JAVA'}">
+						<c:when test="${question.type=='FULL_STACK_JAVA' || question.type=='FULLSTACK' }">
 						<div id="codingDiv" class="formfield"  style="display:none">
 						
 					    </c:when> 							
@@ -290,7 +290,7 @@
 					
 					<!--Support for full Stack Programs -->
 					<c:choose>
-					    <c:when test="${question.type=='FULL_STACK_JAVA'}">
+					    <c:when test="${question.type=='FULL_STACK_JAVA'  || question.type=='FULLSTACK'}"> 
 						<div id="fullstackDiv" class="formfield">
 					    </c:when>    
 					     <c:otherwise>
@@ -421,7 +421,7 @@
 			document.getElementById("input").required = true;
 			document.getElementById("output").required = true;
 			}
-			else if(qtype == 'FULL_STACK_JAVA'){
+			else if(qtype == 'FULL_STACK_JAVA' || qtype == 'FULLSTACK'){
 			document.getElementById("choice1").required = false;
 			document.getElementById("choice2").required = false;
 			
@@ -559,7 +559,7 @@
 			document.getElementById("input").required = true;
 			document.getElementById("output").required = true;
 		}
-		else if(selectedValue == 'FULL_STACK_JAVA'){
+		else if(selectedValue == 'FULL_STACK_JAVA' || selectedValue == 'FULLSTACK'){
 			document.getElementById("mcqDiv").style.display = 'none';
 			document.getElementById("codingDiv").style.display = 'none';
 			document.getElementById("fullstackDiv").style.display = '';

@@ -94,6 +94,14 @@ QuestionMapperInstanceRepository  questionMapperInstanceRep;
 			 System.out.println("doing code quality on php stack");
 			 analysisFile = FileUtils.readFileToString(new File(propertyConfig.getSonalAnalysisFilePHPLocation()));
 		 }
+		 else if(questionMapperInstance.getQuestionMapper().getQuestion().getFullstack().getStack().equalsIgnoreCase(FullStackOptions.ANGULARJS_FULLSTACK.getStack()) ) {
+			 System.out.println("doing code quality on php stack");
+			 analysisFile = FileUtils.readFileToString(new File(propertyConfig.getSonarAnalysisFileAngularLocation()));
+		 }
+		 else if(questionMapperInstance.getQuestionMapper().getQuestion().getFullstack().getStack().equalsIgnoreCase(FullStackOptions.JAVASCRIPT_FULLSTACK.getStack()) ) {
+			 System.out.println("doing code quality on php stack");
+			 analysisFile = FileUtils.readFileToString(new File(propertyConfig.getSonarAnalysisFileAngularLocation()));
+		 }
 		 else{
 			 System.out.println("doing code quality on others stack");
 			 analysisFile = FileUtils.readFileToString(new File(propertyConfig.getSonarAnalysisFileLocation()));

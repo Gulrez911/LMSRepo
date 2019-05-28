@@ -769,6 +769,9 @@ public class Question extends Base{
 		this.fullstack = fullstack;
 	}
 	public String getStack() {
+		if(this.fullstack != null){
+			return this.fullstack.getStack();
+		}
 		return stack;
 	}
 	public void setStack(String stack) {

@@ -43,7 +43,7 @@ public class SessionFilter implements Filter {
 //		    Cookie userCookie = new Cookie("JSESSIONID", sessionId);
 //		    ((HttpServletResponse) response).addCookie(userCookie);
 //		}
-
+		System.out.println("123 ");
 		try {
 			String page = ((HttpServletRequest)request).getRequestURI();
 			System.out.println("page is "+page);

@@ -13,9 +13,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>IIHT</title>
-<link href='http://fonts.googleapis.com/css?family=Roboto:300,400,700'
+<link href='https://fonts.googleapis.com/css?family=Roboto:300,400,700'
 	rel='stylesheet' type='text/css'>
-<link href='http://fonts.googleapis.com/css?family=Muli:300,400,700'
+<link href='https://fonts.googleapis.com/css?family=Muli:300,400,700'
 	rel='stylesheet' type='text/css'>
 <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
 <link href="css/font-awesome.css" rel="stylesheet" type="text/css">
@@ -28,17 +28,23 @@
 <link href="css/style_new.css" rel="stylesheet" type="text/css">
 <link href="css/responsive_new.css" rel="stylesheet" type="text/css">
 <link href="css/style_testjourney.css" rel="stylesheet" type="text/css">
-<link href="css/pnotify.custom.min.css" rel="stylesheet" type="text/css">
+
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script type="text/javascript" src="scripts/custom.js"></script>
 <script type="text/javascript" src="scripts/pnotify.custom.min.js"></script>
+
+<script type="text/javascript" src="scripts/pnotify.nonblock.js"></script>
+<script type="text/javascript" src="scripts/pnotify.buttons.js"></script>
+
+<link href="css/pnotify.custom.min.css" media="all" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="scripts/html2canvas.js"></script>
 <script src="scripts/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
 
 
 
 <script type="text/javascript">
+               // PNotify.prototype.options.styling = "fontawesome";
 		var active = 'true';
 		var studentNameTaken = localStorage.getItem('${studentTestForm.firstName}${studentTestForm.lastName}');
 		var testNameTaken = localStorage.getItem('testName-${studentTestForm.firstName}${studentTestForm.lastName}');
@@ -328,6 +334,21 @@
 										</li>
 									</ul>
 								</div>
+								<br/>
+								<br/>
+								<br/>
+								<br/>
+								<br/>
+								<br/>
+								
+								<c:if test = "${confidenceFlag != null && confidenceFlag == true}">
+								
+								&nbsp; &nbsp; &nbsp; <div class="answers">
+								<label style="clear:left;font-size: 17px;color:red"><br/> Are you confident of your answer? <label>
+								<form:radiobutton path = "confidence" value = "yes" label = "Yes"  style="width: 15px;border-radius: 15px;visibility: visible;position: relative;opacity:1"/>
+								<form:radiobutton path = "confidence" value = "no" label = "No" style="width: 15px;border-radius: 15px;visibility: visible;position: relative;opacity:1" />
+									
+							  </c:if>
 
 								
 
@@ -495,7 +516,7 @@
 				<c:choose>
 					<c:when test="${currentSection.last==true}">
 					
-					<a class="next" href="javascript:submitTest();" id="next">SUBMIT TEST</a>
+					<a class="next" href="javascript:submitTestCheckNoAnswer();" id="next">SUBMIT TEST</a>
 					</c:when>
 					<c:otherwise>
 						<a class="next" href="javascript:next();" id="next">Next</a>
@@ -546,6 +567,14 @@
 		else if(language == 'PYTHON'){
 			editor.session.setMode("ace/mode/python");
 		}
+		else if(language == 'PHP'){
+			editor.session.setMode("ace/mode/php");
+			
+		}
+		else if(language == 'JAVASCRIPT'){
+			editor.session.setMode("ace/mode/javascript");
+		}
+		
 	    
 		
 		editor.setValue('${currentQuestion.code}');
@@ -676,6 +705,12 @@
 		else if(language == 'PYTHON'){
 			lang = '0';
 		}
+		else if(language == 'PHP'){
+			lang = '3';
+		}
+		else if(language == 'JAVASCRIPT'){
+			lang = '4';
+		}
 	
 	var url = 'compile';
 	var data = {}; 
@@ -732,6 +767,12 @@
 		else if(language == 'PYTHON'){
 			lang = '0';
 		}
+		else if(language == 'PHP'){
+			lang = '3';
+		}
+		else if(language == 'JAVASCRIPT'){
+			lang = '4';
+		}
 	
 	var url = 'compileAndRunSystemTest';
 	
@@ -768,7 +809,57 @@
 	}
 	
 	function next(){
-	var qType = '${currentQuestion.questionMapperInstance.questionMapper.question.type}';
+		//$('input[name="one"]').not(':checked').val(0);
+		var qType = '${currentQuestion.questionMapperInstance.questionMapper.question.type}';
+		if(qType == 'MCQ'){
+			var one = $( 'input[name="one"]:checked' ).val();
+			var two = $( 'input[name="two"]:checked' ).val();
+			var three = $( 'input[name="three"]:checked' ).val();
+			var four = $( 'input[name="four"]:checked' ).val();
+			var five = $( 'input[name="five"]:checked' ).val();
+			var six = $( 'input[name="six"]:checked' ).val();
+			count = 0;
+			if(one != null){
+				count ++;
+			}
+			
+			if(two != null){
+				count ++;
+			}
+			
+			if(three != null){
+				count ++;
+			}
+			
+			if(four != null){
+				count ++;
+			}
+			
+			if(five != null){
+				count ++;
+			}
+			if(six != null){
+				count ++;
+			}
+			
+			var correctNo = ('${currentQuestion.questionMapperInstance.questionMapper.question.rightChoices}'.match(/-/g) || []).length  + 1;
+			
+
+			console.log('${currentQuestion.questionMapperInstance.questionMapper.question.rightChoices}');
+			console.log('correct choices'+correctNo);
+			console.log('no of chosen choices'+count);
+			if(count == correctNo){
+				//notify('INFO', 'go ahead');
+			}
+			else{
+			notify('INFO', 'No of Answers chosen are not equal to no of correct answers. Please select '+correctNo+' option(s)');
+			return;
+			}
+			
+			
+		}
+		
+	
 	if(qType == 'CODING'){
 		var textarea = document.getElementById('codeOfEditor');
  		edt = editor.getSession().getValue();
@@ -788,8 +879,59 @@
 	
 	}
 	
+	
+	
 	function prev(){
 	var qType = '${currentQuestion.questionMapperInstance.questionMapper.question.type}';
+	//var qType = '${currentQuestion.questionMapperInstance.questionMapper.question.type}';
+		if(qType == 'MCQ'){
+			var one = $( 'input[name="one"]:checked' ).val();
+			var two = $( 'input[name="two"]:checked' ).val();
+			var three = $( 'input[name="three"]:checked' ).val();
+			var four = $( 'input[name="four"]:checked' ).val();
+			var five = $( 'input[name="five"]:checked' ).val();
+			var six = $( 'input[name="six"]:checked' ).val();
+			count = 0;
+			if(one != null){
+				count ++;
+			}
+			
+			if(two != null){
+				count ++;
+			}
+			
+			if(three != null){
+				count ++;
+			}
+			
+			if(four != null){
+				count ++;
+			}
+			
+			if(five != null){
+				count ++;
+			}
+			if(six != null){
+				count ++;
+			}
+			
+			var correctNo = ('${currentQuestion.questionMapperInstance.questionMapper.question.rightChoices}'.match(/-/g) || []).length  + 1;
+			
+
+			console.log('${currentQuestion.questionMapperInstance.questionMapper.question.rightChoices}');
+			console.log('correct choices'+correctNo);
+			console.log('no of chosen choices'+count);
+			if(count == correctNo){
+				//notify('INFO', 'go ahead');
+			}
+			else{
+			notify('INFO', 'No of Answers chosen are not equal to no of correct answers. Please select '+correctNo+' option(s)');
+			return;
+			}
+			
+			
+		}
+	
 	if(qType == 'CODING'){
 		var textarea = document.getElementById('codeOfEditor');
  		edt = editor.getSession().getValue();
@@ -803,6 +945,55 @@
 	
 	function submitTest(){
 	var qType = '${currentQuestion.questionMapperInstance.questionMapper.question.type}';
+//	var qType = '${currentQuestion.questionMapperInstance.questionMapper.question.type}';
+		if(qType == 'MCQ'){
+			var one = $( 'input[name="one"]:checked' ).val();
+			var two = $( 'input[name="two"]:checked' ).val();
+			var three = $( 'input[name="three"]:checked' ).val();
+			var four = $( 'input[name="four"]:checked' ).val();
+			var five = $( 'input[name="five"]:checked' ).val();
+			var six = $( 'input[name="six"]:checked' ).val();
+			count = 0;
+			if(one != null){
+				count ++;
+			}
+			
+			if(two != null){
+				count ++;
+			}
+			
+			if(three != null){
+				count ++;
+			}
+			
+			if(four != null){
+				count ++;
+			}
+			
+			if(five != null){
+				count ++;
+			}
+			if(six != null){
+				count ++;
+			}
+			
+			var correctNo = ('${currentQuestion.questionMapperInstance.questionMapper.question.rightChoices}'.match(/-/g) || []).length  + 1;
+			
+
+			console.log('${currentQuestion.questionMapperInstance.questionMapper.question.rightChoices}');
+			console.log('correct choices'+correctNo);
+			console.log('no of chosen choices'+count);
+			if(count == correctNo){
+				//notify('INFO', 'go ahead');
+			}
+			else{
+			notify('INFO', 'No of Answers chosen are not equal to no of correct answers. Please select '+correctNo+' option(s)');
+			return;
+			}
+			
+			
+		}
+		
 	if(qType == 'CODING'){
 		var textarea = document.getElementById('codeOfEditor');
  		edt = editor.getSession().getValue();
@@ -834,6 +1025,37 @@
 	localStorage.setItem('timeCounter-${studentTestForm.firstName}${studentTestForm.lastName}', 0);
 	}
 	
+	function submitTestCheckNoAnswer(){
+	var uanswered = '${totalQuestions - (noAnswered+1)}';
+		if(uanswered == '0'){
+			submitTest();
+		}
+		else{
+			(new PNotify({
+		    title: 'Confirmation Needed',
+		    text: 'Are you sure you want to submit the test? You still have unanswered Questions?',
+		    icon: 'glyphicon glyphicon-question-sign',
+		    hide: false,
+		    confirm: {
+			confirm: true
+		    },
+		    buttons: {
+			closer: true,
+			sticker: true
+		    },
+		    history: {
+			history: false
+		    }
+		})).get().on('pnotify.confirm', function() {
+		   submitTest();
+		}).on('pnotify.cancel', function() {
+		   
+		});
+			
+		}
+		
+	}
+	
 	function confirmWorkspace(qMapperInstanceId){
 		(new PNotify({
 		    title: 'Confirmation Needed',
@@ -844,8 +1066,8 @@
 			confirm: true
 		    },
 		    buttons: {
-			closer: false,
-			sticker: false
+			closer: true,
+			sticker: true
 		    },
 		    history: {
 			history: false
@@ -966,15 +1188,23 @@
 		
 		function notify(messageType, message){
 		 var notification = 'Information';
+		 //PNotify.prototype.options.styling = "jqueryui";
 			 $(function(){
 				 new PNotify({
 				 title: notification,
 				 text: message,
 				 type: messageType,
 				 width: '60%',
-				 styling: 'bootstrap3',
-				 hide: false
-			     });
+				 hide: false,
+				 buttons: {
+            				closer: true,
+            				sticker: false
+       					 },
+				 history: {
+            				history: false
+        			 }
+			 });
+				 
 			 }); 	
 		}
 

@@ -36,6 +36,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.assessment.common.PropertyConfig;
 import com.assessment.common.Qualifiers;
 import com.assessment.data.QuestionMapperInstance;
+import com.assessment.data.Test;
 import com.assessment.data.User;
 import com.assessment.reports.manager.AssessmentReportDataManager;
 import com.assessment.reports.manager.AssessmentReportsManager;
@@ -46,6 +47,7 @@ import com.assessment.repositories.QuestionRepository;
 import com.assessment.repositories.UserTestSessionRepository;
 import com.assessment.services.QuestionMapperInstanceService;
 import com.assessment.services.SectionService;
+import com.assessment.services.TestService;
 import com.assessment.services.UserService;
 import com.assessment.web.dto.TestAnswerData;
 import com.assessment.web.dto.UserBySkillDTO;
@@ -78,6 +80,9 @@ public class ReportsController {
 	
 	@Autowired
 	QuestionRepository questionRepository;
+	
+	@Autowired
+	TestService testService;
 	
 	@RequestMapping(value = "/showReports", method = RequestMethod.GET)
 	public ModelAndView showReports(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -139,9 +144,17 @@ public class ReportsController {
         {
         	User user = userService.findByPrimaryKey(email, companyId);
         	List<QuestionMapperInstance> instances = rep.findQuestionMapperInstancesForUserForTest(testName, email, companyId);
+        	Test test = testService.findbyTest(testName, companyId);
         	List<TestAnswerData> testAnswerDatas = new ArrayList<>();
         	for(QuestionMapperInstance instance : instances){
         		TestAnswerData answerData = new TestAnswerData();
+        			if(test.getConsiderConfidence() == null || !test.getConsiderConfidence()){
+        				answerData.setConfidentAboutAnswer("NA");
+        			}
+        			else{
+        				answerData.setConfidentAboutAnswer(instance.getConfidence() == null?"No":(instance.getConfidence()?"Yes":"No"));
+        			}
+        		
         		answerData.setFirstName(user.getFirstName());
         		answerData.setLastName(user.getLastName());
         		answerData.setEmail(email);

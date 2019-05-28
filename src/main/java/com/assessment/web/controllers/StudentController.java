@@ -338,6 +338,7 @@ public class StudentController {
 		 	model.addObject("percentage", "0");
 		 	model.addObject("totalQuestions", ""+totalQuestions);
 		 	model.addObject("noAnswered", "0");
+		 	model.addObject("confidenceFlag", test.getConsiderConfidence());
 		    return model;
 	 }
 	 
@@ -579,6 +580,11 @@ public class StudentController {
 		 					
 		 					
 		 					questionInstanceDto.getQuestionMapperInstance().setUserChoices(userChoices);
+		 					/**
+		 					 * Confidence based assessment
+		 					 */
+		 					questionInstanceDto.getQuestionMapperInstance().setConfidence(currentQuestion.getConfidence());
+		 					questionInstanceDto.setConfidence(currentQuestion.getConfidence());
 		 					sectionInstanceDto.setQuestionInstanceDtos(currentSection.getQuestionInstanceDtos());
 		 					break;
 		 				}
@@ -707,6 +713,7 @@ public class StudentController {
 				 nextSection.setCurrent(true);
 				 currentSection.setCurrent(false);
 				 model.addObject("currentQuestion", currentQuestion);
+				 model.addObject("confidenceFlag", test.getConsiderConfidence());
 				 request.getSession().setAttribute("currentSection", nextSection);
 				 putMiscellaneousInfoInModel(model, request);
 				 processPercentages(model, sectionInstanceDtos, test.getTotalMarks());
@@ -767,6 +774,7 @@ public class StudentController {
 			 /**
 			  * End full stack check
 			  */
+			 model.addObject("confidenceFlag", test.getConsiderConfidence());
 			 return model;
 		}
 		    
@@ -946,6 +954,7 @@ public class StudentController {
 				 /**
 				  * End full stack check
 				  */
+				 model.addObject("confidenceFlag", test.getConsiderConfidence());
 				 return model;
 			}
 			else {
@@ -993,6 +1002,7 @@ public class StudentController {
 			 /**
 			  * End full stack check
 			  */
+			 model.addObject("confidenceFlag", test.getConsiderConfidence());
 			 return model;
 		}
 		    

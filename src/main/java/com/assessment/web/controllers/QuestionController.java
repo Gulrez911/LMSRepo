@@ -521,10 +521,10 @@ public class QuestionController {
 				q.setCompanyName(company.getCompanyName());
 				q.setChoice1(q.getChoice1().trim());
 				q.setChoice2(q.getChoice2().trim());
-				q.setChoice3(q.getChoice3().trim());
-				q.setChoice4(q.getChoice4().trim());
-				q.setChoice5(q.getChoice5().trim());
-				q.setChoice6(q.getChoice6().trim());
+				q.setChoice3(q.getChoice3() == null ?"":q.getChoice3().trim());
+				q.setChoice4(q.getChoice4() == null ?"":q.getChoice4().trim());
+				q.setChoice5(q.getChoice5() == null ?"":q.getChoice5().trim());
+				q.setChoice6(q.getChoice6() == null ?"":q.getChoice6().trim());
 				q.setRightChoices(q.getRightChoices().trim());
 				questionService.createQuestion(q);
 			}

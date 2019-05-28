@@ -87,16 +87,17 @@ public class AssessmentReportsManager {
 		report.addColumn(col.column("Choice 1", "choice1", (DRIDataType) type.stringType()).setWidth(40));
 		report.addColumn(col.column("Choice 2", "choice2", (DRIDataType) type.stringType()).setWidth(40));
 		report.addColumn(col.column("Choice 3", "choice3", (DRIDataType) type.stringType()).setWidth(40));
-		report.addColumn(col.column("Choice 4", "choice4", (DRIDataType) type.stringType()).setWidth(40));
-		report.addColumn(col.column("Choice 5", "choice5", (DRIDataType) type.stringType()).setWidth(40));
+		report.addColumn(col.column("Choice 4", "choice4", (DRIDataType) type.stringType()).setWidth(30));
+		report.addColumn(col.column("Choice 5", "choice5", (DRIDataType) type.stringType()).setWidth(30));
 		report.addColumn(col.column("Choice 6", "choice6", (DRIDataType) type.stringType()).setWidth(20));
 		report.addColumn(col.column("Correct Choice", "correctChoice", (DRIDataType) type.stringType()).setWidth(40));
 		
 		
 		
 		report.addColumn(col.column("User Choice", "userChoice", (DRIDataType) type.stringType()).setWidth(40));
-		report.addColumn(col.column("User Code(In case of Coding Q)", "userProgram", (DRIDataType) type.stringType()).setWidth(80));
+		report.addColumn(col.column("User Code(In case of Coding Q)", "userProgram", (DRIDataType) type.stringType()).setWidth(70));
 		report.addColumn(col.column("Is Correct?", "correct", (DRIDataType) type.stringType()).setWidth(30));
+		report.addColumn(col.column("Confident about Answer?", "confidentAboutAnswer", (DRIDataType) type.stringType()).setWidth(30));
 		
 		JasperReportBuilder builder = report
 				  .setTemplate(com.assessment.reports.manager.Templates.reportTemplate)

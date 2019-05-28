@@ -38,6 +38,8 @@ public class TestAnswerData {
 	String questionCategory;
 	
 	String correctChoice;
+	
+	String confidentAboutAnswer;
 
 	public String getEmail() {
 		return email;
@@ -165,6 +167,14 @@ public class TestAnswerData {
 
 	public void setCorrectChoice(String correctChoice) {
 		this.correctChoice = correctChoice;
+	}
+
+	public String getConfidentAboutAnswer() {
+		return confidentAboutAnswer;
+	}
+
+	public void setConfidentAboutAnswer(String confidentAboutAnswer) {
+		this.confidentAboutAnswer = confidentAboutAnswer;
 	}
 	
 	

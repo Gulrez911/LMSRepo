@@ -80,6 +80,10 @@ public class Test extends Base {
 	
 	Boolean sendRecommReport = false;
 	
+	Integer noOfConfigurableAttempts = 1;
+	
+	Boolean considerConfidence;
+	
 	public Boolean getSentToStudent() {
 		return sentToStudent;
 	}
@@ -320,6 +324,18 @@ public class Test extends Base {
 	}
 	public void setSendRecommReport(Boolean sendRecommReport) {
 		this.sendRecommReport = sendRecommReport;
+	}
+	public Integer getNoOfConfigurableAttempts() {
+		return noOfConfigurableAttempts;
+	}
+	public void setNoOfConfigurableAttempts(Integer noOfConfigurableAttempts) {
+		this.noOfConfigurableAttempts = noOfConfigurableAttempts;
+	}
+	public Boolean getConsiderConfidence() {
+		return considerConfidence;
+	}
+	public void setConsiderConfidence(Boolean considerConfidence) {
+		this.considerConfidence = considerConfidence;
 	}
 	
 	
