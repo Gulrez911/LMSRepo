@@ -436,6 +436,10 @@ a:focus{
 .examquestions .queanscenter#section1_content{
 	width:80%;
 }
+.examquestions .queanscenter#section3_content{
+	width:80%;
+}
+
 .examquestions .questionname {
     float:left;
     width:100%;

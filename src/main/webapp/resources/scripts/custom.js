@@ -42,17 +42,17 @@ function nextString(str) {
 
 $(function () {
     $(".addimage").on('click', function (e) {
-        alert('dsdsd');
+        //alert('dsdsd');
         e.preventDefault();
-        $("#addimage").trigger('click');
+       // $("#addimage").trigger('click');
     });
     $(".addaudio").on('click', function (e) {
         e.preventDefault();
-        $("#addaudio").trigger('click');
+      //  $("#addaudio").trigger('click');
     });
     $(".addvideo").on('click', function (e) {
         e.preventDefault();
-        $("#addvideo").trigger('click');
+       // $("#addvideo").trigger('click');
     });
 });
 $('#addimage').change(function () {
