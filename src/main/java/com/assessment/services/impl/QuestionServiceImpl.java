@@ -193,6 +193,12 @@ public class QuestionServiceImpl implements QuestionService {
 		return questionRepository.getAllLevel1Questions(companyId);
 	}
 	
+	@Override
+	public Page<Question> getAllLevel1Questions(String companyId, Integer pageNumber){
+		return questionRepository.getAllLevel1Questions(companyId, PageRequest.of(pageNumber, 10));
+		
+	}
+	
 	public boolean canDeleteQuestion(Long qid) {
 		List<QuestionMapper> mappers = questionMapperRepository.findByQuestion_id(qid);
 			if(mappers.size() > 0) {

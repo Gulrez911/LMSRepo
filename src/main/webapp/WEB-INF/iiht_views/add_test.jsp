@@ -115,6 +115,8 @@
                                             Email a copy of the student's results to above contact
                                         </div>
 										
+										
+										
 										<div class="formfield">
                                             <label>Share Recommendation Engine by Email </label>
                                             <form:checkbox path="test.sendRecommReport" id="sendRecommReport"/>
@@ -138,9 +140,16 @@
                                         </div>
 										
 										<div class="formfield">
-                                            <label>Confidence Based Assessment Flag </label>
+                                            <label>Confidence Based Assessment Flag</label>
 					   
 					   <form:checkbox path="test.considerConfidence" id="considerConfidence"/>
+                                             
+                                        </div>
+										
+										<div class="formfield">
+                                            <label>Is this a full stack Test?</label>
+					   
+					   <form:checkbox path="test.fullStackTest" id="fullStackTest"/>
                                              
                                         </div>
 

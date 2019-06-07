@@ -1,10 +1,10 @@
 package com.assessment.web.dto;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import com.assessment.data.Question;
+import com.assessment.data.QuestionMapperInstance;
 
 public class SectionDto {
 	
@@ -17,6 +17,8 @@ public class SectionDto {
 	Long sectionId;
 	
 	Set<Question> questions = new HashSet<>();
+	
+	//Set<QuestionMapperInstance> questionInstances = new HashSet<>();
 
 	
 	Integer sectionNo;
@@ -142,6 +144,8 @@ public class SectionDto {
 	public void setNoOfQuestions(Integer noOfQuestions) {
 		this.noOfQuestions = noOfQuestions;
 	}
+
+	
 	
 	
 }

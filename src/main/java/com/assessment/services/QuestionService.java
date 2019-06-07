@@ -39,6 +39,7 @@ public interface QuestionService {
 	public Page<Question> findQuestionsByPage(String companyId, Integer pageNumber);
 	
 	public List<Question> getAllLevel1Questions(String companyId);
+	public Page<Question> getAllLevel1Questions(String companyId, Integer pageNumber);
 	
 	public boolean canDeleteQuestion(Long qid);
 	

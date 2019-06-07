@@ -167,6 +167,9 @@ public class Question extends Base{
 	
 	String reviewerEmail;
 	
+	@Column(length=2000)
+	String justification;
+	
 	public String getQualifier1() {
 		return qualifier1;
 	}
@@ -789,6 +792,12 @@ public class Question extends Base{
 	}
 	public void setReviewerEmail(String reviewerEmail) {
 		this.reviewerEmail = reviewerEmail;
+	}
+	public String getJustification() {
+		return justification;
+	}
+	public void setJustification(String justification) {
+		this.justification = justification;
 	}
 	
 	

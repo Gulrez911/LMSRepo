@@ -92,7 +92,8 @@ public class QuestionController {
 		}
 		
 		
-		Page<Question> questions = questionService.findQuestionsByPage(user.getCompanyId(), pageNumber);
+		//Page<Question> questions = questionService.findQuestionsByPage(user.getCompanyId(), pageNumber);
+		Page<Question> questions = questionService.getAllLevel1Questions(user.getCompanyId(), pageNumber);
 		mav.addObject("qs", questions.getContent());
 		mav.addObject("levels", DifficultyLevel.values());
 		mav.addObject("types", QuestionType.values());
@@ -129,7 +130,8 @@ public class QuestionController {
 		if(pageNumber == null) {
 			pageNumber = 0;
 		}
-		Page<Question> questions = questionService.findQuestionsByPage(user.getCompanyId(), pageNumber);
+		//Page<Question> questions = questionService.findQuestionsByPage(user.getCompanyId(), pageNumber);
+		Page<Question> questions = questionService.getAllLevel1Questions(user.getCompanyId(), pageNumber);
 		mav.addObject("qs", questions.getContent());
 		mav.addObject("levels", DifficultyLevel.values());
 		mav.addObject("types", QuestionType.values());
@@ -165,7 +167,8 @@ public class QuestionController {
 		if(pageNumber == null) {
 			pageNumber = 0;
 		}
-		Page<Question> questions = questionService.findQuestionsByPage(user.getCompanyId(), pageNumber);
+		//Page<Question> questions = questionService.findQuestionsByPage(user.getCompanyId(), pageNumber);
+		Page<Question> questions = questionService.getAllLevel1Questions(user.getCompanyId(), pageNumber);
 		mav.addObject("qs", questions.getContent());
 		mav.addObject("levels", DifficultyLevel.values());
 		mav.addObject("types", QuestionType.values());
@@ -544,7 +547,8 @@ public class QuestionController {
 		if(pageNumber == null) {
 			pageNumber = 0;
 		}
-		Page<Question> questions = questionService.findQuestionsByPage(user.getCompanyId(), pageNumber);
+		//Page<Question> questions = questionService.findQuestionsByPage(user.getCompanyId(), pageNumber);
+		Page<Question> questions = questionService.getAllLevel1Questions(user.getCompanyId(), pageNumber);
 		mav.addObject("qs", questions.getContent());
 		mav.addObject("levels", DifficultyLevel.values());
 		mav.addObject("types", QuestionType.values());

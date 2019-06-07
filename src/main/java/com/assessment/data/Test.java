@@ -11,6 +11,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Transient;
 
 import com.assessment.web.dto.SectionDto;
+import com.assessment.web.dto.SectionInstanceDto;
 /**
  * pk - testName & companyId
  * @author jsutaria
@@ -83,6 +84,10 @@ public class Test extends Base {
 	Integer noOfConfigurableAttempts = 1;
 	
 	Boolean considerConfidence;
+	
+	Boolean fullStackTest;
+	
+	
 	
 	public Boolean getSentToStudent() {
 		return sentToStudent;
@@ -336,6 +341,12 @@ public class Test extends Base {
 	}
 	public void setConsiderConfidence(Boolean considerConfidence) {
 		this.considerConfidence = considerConfidence;
+	}
+	public Boolean getFullStackTest() {
+		return fullStackTest;
+	}
+	public void setFullStackTest(Boolean fullStackTest) {
+		this.fullStackTest = fullStackTest;
 	}
 	
 	

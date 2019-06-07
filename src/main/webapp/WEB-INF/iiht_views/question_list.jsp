@@ -60,8 +60,9 @@
 	                                    <a href="${callingMethod}?page=${nextPage}${queryParam}"><i class="fa fa-arrow-right"></i></a>
                                     </c:if>
                                 </div>
+								
                             </div>
-
+							
 
                             <div class="questiontable">
                                 <div class="questionheading">
@@ -77,6 +78,7 @@
                                         <div class="filter">
                                             <a href="javascript:notify('Information', 'Feature coming soon')"><img src="images/ic_sort.png">Sort</a>
                                             <a href="javascript:notify('Information', 'Feature coming soon')"><img src="images/ic_filter.png">Filter</a>
+											 &nbsp; <a href="question_list" title="Click to view all Question Categories"><i class="fa fa-mail-reply-all"></i> </a>
                                         </div>
 
                                     </div>

@@ -43,6 +43,7 @@ import com.assessment.data.SkillLevel;
 import com.assessment.data.Test;
 import com.assessment.data.User;
 import com.assessment.data.UserType;
+import com.assessment.repositories.QuestionRepository;
 import com.assessment.repositories.SkillRepository;
 import com.assessment.services.CompanyService;
 import com.assessment.services.QuestionMapperInstanceService;
@@ -82,6 +83,9 @@ public class TestController {
 	
 	@Autowired
 	QuestionMapperInstanceService questionMapperInstanceService;
+	
+	@Autowired
+	QuestionRepository questionRepository;
 	
 	 @RequestMapping(value = "/testlist", method = RequestMethod.GET)
 	  public ModelAndView testlist(@RequestParam(name= "page", required = false) Integer pageNumber, HttpServletRequest request, HttpServletResponse response) {
@@ -331,7 +335,13 @@ public class TestController {
 		    request.getSession().setAttribute("sectionDTO", sectionDto);
 		    mav.addObject("sectionDto", sectionDto);//added here
 		  //List<Question> qs = questionService.findQuestions(user.getCompanyId());
-		    List<Question> qs = questionService.getAllLevel1Questions(user.getCompanyId());
+		    List<Question> qs = null;
+		    	if(test.getFullStackTest() == null || (!test.getFullStackTest())){
+		    		qs = questionService.getAllLevel1Questions(user.getCompanyId());
+		    	}
+		    	else{
+		    		qs = questionRepository.findFullStackQuestionsByCompanyId(user.getCompanyId());
+		    	}
 		   
 	  		mav.addObject("qs", process(qs,  sectionDto));
 	  		mav.addObject("levels", DifficultyLevel.values());

@@ -11,5 +11,7 @@ public interface TenantService {
 	public void saveOrUpdate(Tenant t);
 	
 	public Page<Tenant> findAllTenants(Integer pageNumber);
+	
+	public void removeTenant(Tenant tenant);
 
 }

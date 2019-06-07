@@ -221,9 +221,14 @@
                                                     </div>
                                                 </div>
                                             </div>
-				
+										<div class="formfield">
+										 <label>Justification for Answer</label>
+										<form:textarea path="question.justification" required="true" />
+									</div>
                                             
                                         </div>
+										
+									
 					
 					<c:choose>
 					    <c:when test="${question.type=='MCQ'}">

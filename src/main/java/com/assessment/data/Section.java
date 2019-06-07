@@ -1,8 +1,12 @@
 package com.assessment.data;
 
+import java.util.Collections;
+
 import javax.persistence.Entity;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
+
+import org.apache.lucene.search.CollectionTerminatedException;
 /**
  * pk - sectionName & testName & companyId
  * @author jsutaria

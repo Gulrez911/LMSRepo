@@ -58,9 +58,42 @@ window.onhashchange=function(){window.location.hash="no-back-button";}
 		  </tbody>
 	   </table>
 		</p>
-	</c:if>
+	</div>
+	
+	<br/><br/>
+	<p style="font-size: large"><b> Detailed Answer Summary </b></p>
+		    <div class="accordiansections">
+		<c:forEach var="section"  items="${sectionInstanceDtos}" >
+                    <label>${section.section.sectionName}</label>
+				<div class="panel">
+					<%
+					int count = 1;
+					%>
+				<c:forEach var="ques" varStatus="status" items="${section.questionInstanceDtos}" >
+						<div class="title">
+							<span><%= count %></span>
+							<p>Question - <br/> ${ques.questionMapperInstance.questionMapper.question.questionText}  </p>
+						</div>
+                        <div class="options">
+                            <ul>
+								<li> Your Choice -${ques.questionMapperInstance.userChoices} </li>
+								<li><b> Correct Choice -${ques.questionMapperInstance.questionMapper.question.rightChoices} 
+<li style="${ques.questionMapperInstance.correct == true? "color:green":"color:red"}"> <i class="${ques.questionMapperInstance.correct == true? "fa fa-check":"fa fa-close"}"></i> ${ques.questionMapperInstance.correct == true? "Correct":"Not Correct"} </b></li>
+                                <li><b> ${ques.questionMapperInstance.questionMapper.question.justification}</b></li>
+								
+                            </ul>
+                            
+                        </div>
+					<%
+						count ++;
+					%>
+				</c:forEach>
+		        </div>
+		</c:forEach>           
+       </div>
+		</c:if>
+	</div>
     
-    </div>
 <div class="container">
   <div class="page-header" style="background-color:#DAA300;color:#fff">
     <h3>If you want to try this test again <a href="mailto:jatin.sutaria@thev2technologies.com">Write to Us</a></h3>      
@@ -70,7 +103,7 @@ window.onhashchange=function(){window.location.hash="no-back-button";}
 </div>
 
     
-</div>
+
 
 </body>
 </html>

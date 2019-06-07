@@ -14,6 +14,9 @@ import com.assessment.data.Question;
 
 public interface QuestionRepository extends JpaRepository<Question,Long>
 {
+	@Query("SELECT q FROM Question q WHERE q.companyId=:companyId AND fullstack != 'NONE'")
+	public List<Question> findFullStackQuestionsByCompanyId(@Param("companyId") String companyId);
+	
 	@Query("SELECT q FROM Question q WHERE q.companyId=:companyId")
 	public List<Question> findQuestionsByCompanyId(@Param("companyId") String companyId);
 
@@ -67,6 +70,12 @@ public interface QuestionRepository extends JpaRepository<Question,Long>
 	//@Query(value="SELECT q FROM Question q WHERE q.companyId=:companyId and (q.qualifier2 IS NULL or trim(q.qualifier2)='' ) GROUP BY q.qualifier1")
 	@Query(value="SELECT q FROM Question q WHERE q.companyId=:companyId  GROUP BY q.qualifier1")
 	public List<Question> getAllLevel1Questions(@Param("companyId") String companyId);
+	
+	@Query(value="SELECT q FROM Question q WHERE q.companyId=:companyId  GROUP BY q.qualifier1")
+	public Page<Question> getAllLevel1Questions(@Param("companyId") String companyId, Pageable pageable);
+	
+	
+	
 	
 	 @Query("SELECT " +
 	           "    new com.assessment.common.Qualifiers(q.qualifier1, q.qualifier2, q.qualifier3, q.qualifier4, q.qualifier5) " +

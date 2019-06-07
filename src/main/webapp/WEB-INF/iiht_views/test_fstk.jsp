@@ -41,128 +41,19 @@
 <script type="text/javascript" src="scripts/html2canvas.js"></script>
 <script src="scripts/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
 
-<style>
-.answers label label label:last-child{
-      position: relative !important;
-    left: -15px !important;
-    padding-left: 18px !important;
-}
-</style>
+
 
 <script type="text/javascript">
                // PNotify.prototype.options.styling = "fontawesome";
 		var active = 'true';
 		var studentNameTaken = localStorage.getItem('${studentTestForm.firstName}${studentTestForm.lastName}');
 		var testNameTaken = localStorage.getItem('testName-${studentTestForm.firstName}${studentTestForm.lastName}');
-		var tc= localStorage.getItem('timeCounter-${studentTestForm.firstName}${studentTestForm.lastName}');
-			
-			
-			if(studentNameTaken == 'yes' && testNameTaken == '${studentTestForm.firstName}${studentTestForm.lastName}-${studentTestForm.testName}'  && tc != null){
-			timeCounter=tc;
-			}
-			else{
-				timeCounter = 0;
-			}
-			
-			if(tc == null){
-				timeCounter= 0;
-			}
-			
-		function setTimeOnLoad(){
-		timeProcess();
-		}	
 		
-		function timeProcess(){
-		timeCounter = parseInt(timeCounter) + 1;
-		var end = new Date();
-		var hours =  (${studentTestForm.duration}/60) % 60;
-		var minutes = (${studentTestForm.duration}) % 60;
-		var seconds = (${studentTestForm.duration} * 60) % 60;
-		
-		end.setMinutes(minutes);
-		end.setHours(hours);
-		end.setSeconds(seconds);
-		
-		var start = new Date();
-		start.setMinutes((timeCounter/60) % 60);
-		start.setHours((timeCounter/(60*60)) % 60);
-		start.setSeconds(timeCounter % 60);
-		
-		var t = Date.parse(end) - Date.parse(start);
-		seconds = Math.floor( (t/1000) % 60 );
-		minutes = Math.floor( (t/1000/60) % 60 );
-		hours = Math.floor( (t/(1000*60*60)) % 24 );
-		
-		 if (hours   < 10) {hours   = "0"+hours;}
-		 
-		  if (minutes < 10) {minutes = "0"+minutes;}
-		  
-		   if (seconds < 10) {seconds = "0"+seconds;}
-		
-		//document.getElementById("examTimer").innerHTML = hours+":"+minutes+":"+seconds;
-		document.getElementById("hours").innerHTML = hours;
-		document.getElementById("min").innerHTML = minutes;
-		document.getElementById("sec").innerHTML = seconds;
-			
-		}
 		 	
 		var submitTest = 'false';
 		
-		function examTimer(){
-			if(submitTest == 'true'){
-				return;
-			}
-			timeProcess();
-		
-			if((${studentTestForm.duration} * 60) - timeCounter <= 3 ){
-				notify('Info', 'Test Time exceeding shortly! Your test will be auto submitted');
-			}		
-				
-			if( timeCounter >= (${studentTestForm.duration} * 60)  ){
-			submitTest();
-			}
-		}
-		
-		function takeScreenShot(){
-			if(active == 'false'){
-				notify('Info', 'The exam window looks to be in the background. This is a non-compliance. We are recording it in our system. If number of non-'+
-
-	'compliances exceed a threshold, the Test Admin may mark this attempt as void. Please beware! ');
-				var datasend="user=${studentTestForm.emailId}\ntestName=${studentTestForm.testName}\ncompanyId=${studentTestForm.companyId}";
-				$.ajax({
-				    type: "POST",
-				    url: "registerNonCompliance",
-				    data: { 
-					data:datasend
-				    }
-				}).done(function(fileName) {
-					//alert("done");
-
-				}); 
-			}
-			else if(active == 'true'){
-				this.window.focus();
-				 html2canvas(document.querySelector("#screenShotId"), {
-				logging: true,
-				allowTaint: true
-			    }).then(function(canvas) {
-				var dataImage = canvas.toDataURL("image/png");
-				var testname = encodeURIComponent('${studentTestForm.testName}');
-				$.ajax({
-				    type: "POST",
-				    url: "uploadScreenSnapShot?testName="+testname,
-				    data: { 
-					data:dataImage
-				    }
-				}).done(function(fileName) {
-					alert("done");
-
-				}); 
-			    });
-			}
 		
 		
-		}
 		
 		function activeScreen(){
 		active = 'true';
@@ -177,8 +68,8 @@
 		window.addEventListener('blur', passiveScreen);
 
 		
-		var myVar = setInterval(examTimer, 1000);
-		var myVar2 = setInterval(takeScreenShot, 45000);
+		//var myVar = setInterval(examTimer, 1000);
+		//var myVar2 = setInterval(takeScreenShot, 45000);
 		
 		</script>
 		
@@ -186,7 +77,7 @@
 		body * { font-family: monospace !important }
 		</style>
 </head>
-<body onload="setTimeOnLoad()">
+<body>
 
 
 
@@ -222,20 +113,7 @@
 					<span>Assessment</span>
 				</div>
 			</div>
-			<div class="durationinfo">
-				<span>Timer - <!-- <i class="fa fa-clock-o"> -->
-				<span class="time" id="timer"><i id="hours"></i><sub>h</sub><i id="min"></i><sub> min</sub><i id="sec"></i> <sub> sec</sub></span> </i>
-				   <!-- <c:choose>
-						 <c:when test="${currentSection.last==true}">
-						<span class="finish"><a href="javascript:submitTest();"><i></i>END</a></span>
-						 </c:when>    
-				    <c:otherwise>
-				   		 <span class="finish">
-						<a href="javascript:next();"><iclass="fa fa-flag-checkered"></i>FINISH</a></span>
-				    </c:otherwise>
-						</c:choose>
-						-->
-			</div>
+			
 		</div>
 
 

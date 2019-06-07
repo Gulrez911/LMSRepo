@@ -258,9 +258,16 @@ public class StudentController {
 	 
 	 @RequestMapping(value = "/studentJourney", method = RequestMethod.POST)
 	 public ModelAndView studentStartExam(HttpServletRequest request, HttpServletResponse response,@ModelAttribute("studentTestForm") StudentTestForm studentForm) throws Exception {
-		 ModelAndView model= new ModelAndView("test");
+		// ModelAndView model= new ModelAndView("test");
+		 ModelAndView model;
 		 User user = (User) request.getSession().getAttribute("user");
 		 Test test = (Test) request.getSession().getAttribute("test");
+		 	if(test.getFullStackTest() != null && test.getFullStackTest()){
+		 		model= new ModelAndView("test_fstk");
+		 	}
+		 	else{
+		 		model= new ModelAndView("test");
+		 	}
 		 request.getSession().setAttribute("testStartDate", new Date());
 		 List<Section> sections = sectionService.getSectionsForTest(test.getTestName(),test.getCompanyId());
 		
@@ -369,9 +376,16 @@ public class StudentController {
 	 
 	 @RequestMapping(value = "/changeSection", method = RequestMethod.GET)
 	  public ModelAndView changeSection(@RequestParam String sectionName, @RequestParam String timeCounter, HttpServletRequest request, HttpServletResponse response,@ModelAttribute("studentTestForm") StudentTestForm studentForm) {
-		 ModelAndView model= new ModelAndView("test");
+		// ModelAndView model= new ModelAndView("test");
 		 User user = (User) request.getSession().getAttribute("user");
 		 Test test = (Test) request.getSession().getAttribute("test");
+		 ModelAndView model;
+		 if(test.getFullStackTest() != null && test.getFullStackTest()){
+		 		model= new ModelAndView("test_fstk");
+		 	}
+		 	else{
+		 		model= new ModelAndView("test");
+		 	}
 		 
 		 List<SectionInstanceDto> sectionInstanceDtos = (List<SectionInstanceDto>) request.getSession().getAttribute("sectionInstanceDtos");
 		 
@@ -651,9 +665,17 @@ public class StudentController {
 	 
 	 @RequestMapping(value = "/nextQuestion", method = RequestMethod.POST)
 	  public ModelAndView nextQuestion(@RequestParam String questionId, @RequestParam String timeCounter,HttpServletRequest request, HttpServletResponse response,@ModelAttribute("currentQuestion") QuestionInstanceDto currentQuestion) throws Exception {
-		 ModelAndView model= new ModelAndView("test");
+		// ModelAndView model= new ModelAndView("test");
 		 User user = (User) request.getSession().getAttribute("user");
 		 Test test = (Test) request.getSession().getAttribute("test");
+		 ModelAndView model;
+		 if(test.getFullStackTest() != null && test.getFullStackTest()){
+		 		model= new ModelAndView("test_fstk");
+		 	}
+		 	else{
+		 		model= new ModelAndView("test");
+		 	}
+		 
 		 List<SectionInstanceDto> sectionInstanceDtos = (List<SectionInstanceDto>) request.getSession().getAttribute("sectionInstanceDtos");
 		 model.addObject("sectionInstanceDtos", sectionInstanceDtos);
 		 SectionInstanceDto currentSection = (SectionInstanceDto) request.getSession().getAttribute("currentSection");
@@ -886,9 +908,17 @@ public class StudentController {
 	 
 	 @RequestMapping(value = "/prevQuestion", method = RequestMethod.POST)
 	  public ModelAndView prevQuestion(@RequestParam String questionId, @RequestParam String timeCounter,HttpServletRequest request, HttpServletResponse response,@ModelAttribute("currentQuestion") QuestionInstanceDto currentQuestion) throws Exception {
-		 ModelAndView model= new ModelAndView("test");
+		 //ModelAndView model= new ModelAndView("test");
 		 User user = (User) request.getSession().getAttribute("user");
 		 Test test = (Test) request.getSession().getAttribute("test");
+		 ModelAndView model;
+		 if(test.getFullStackTest() != null && test.getFullStackTest()){
+		 		model= new ModelAndView("test_fstk");
+		 	}
+		 	else{
+		 		model= new ModelAndView("test");
+		 	}
+		 
 		 List<SectionInstanceDto> sectionInstanceDtos = (List<SectionInstanceDto>) request.getSession().getAttribute("sectionInstanceDtos");
 		 model.addObject("sectionInstanceDtos", sectionInstanceDtos);
 		 
@@ -1085,6 +1115,11 @@ public class StudentController {
 					model.addObject("PASS_PERCENTAGE", test.getPassPercent());
 					model.addObject("RESULT_PERCENTAGE", userTestSession.getPercentageMarksRecieved());
 					model.addObject("STATUS", test.getPassPercent() > userTestSession.getPercentageMarksRecieved()?"Fail":"Success");
+					/**
+					 * Add code for showing justification grid
+					 */
+					model.addObject("sectionInstanceDtos", sectionInstanceDtos);
+					
 				}
 			
 		} catch (Exception e) {

@@ -20,6 +20,8 @@
 	<script type="text/javascript" src="scripts/pnotify.custom.min.js"></script>
 	<script type="text/javascript" src="scripts/custom.js"></script>
 	
+	<script type="text/javascript" src="scripts/jquery.base64.js"></script>
+	
 	 <link href="css/font-awesome.css" rel="stylesheet" type="text/css">
 	<script>
 	function goback(){
@@ -94,12 +96,14 @@
 						<th>Mobile</th>
                                                 <th  >Schema</th>
 						<th  >User</th>
+						<th  >Delete Tenant</th>
                                             </tr>
                                         </thead>
                                         <tbody>
 					<tbody>
 						                     
-						                       <c:forEach  items="${tenants}" var="ten" varStatus="loop">   
+						                       <c:forEach  items="${tenants}" var="ten" varStatus="loop">  
+												
 						                      	<tr>
 
 										<td>${loop.count}</td>		
@@ -112,6 +116,8 @@
 										
 										<td>${ten.databaseSchema} </td>
 										<td>${ten.schemaUser} </td>
+										
+										<td><a  href="javascript:confirmDelete('${ten.id}')">Click </a> </td>
 						                      	</tr>
 						                      	</c:forEach>   
 						                      </tbody>
@@ -196,10 +202,11 @@
 			 }); 	
 		}
 		
-		function confirm(id) {
+		function confirmDelete(id) {
+			id = btoa(id);
            (new PNotify({
 		    title: 'Confirmation Needed',
-		    text: 'Are you sure? Do you really want to delete this Q?',
+		    text: 'Are you sure? Do you really want to delete this tenant. This is a non-recoverable option. This will delete the database/app & config folders for the application ?',
 		    icon: 'glyphicon glyphicon-question-sign',
 		    hide: false,
 		    confirm: {
@@ -213,7 +220,7 @@
 			history: false
 		    }
 		})).get().on('pnotify.confirm', function() {
-		    window.location = "removeQuestion?qid="+id;
+		    window.location = "deleteTenant?tenantId="+id;
 		}).on('pnotify.cancel', function() {
 		   
 		});

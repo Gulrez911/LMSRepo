@@ -41,4 +41,10 @@ TenantRepository tenantRepository;
 	public Page<Tenant> findAllTenants(Integer pageNumber){
 		return tenantRepository.findAllTenants(PageRequest.of(pageNumber, 10));
 	}
+
+	@Override
+	public void removeTenant(Tenant tenant) {
+		// TODO Auto-generated method stub
+		tenantRepository.delete(tenant);
+	}
 }

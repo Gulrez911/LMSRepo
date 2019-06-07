@@ -1,6 +1,7 @@
 package com.assessment.web.controllers;
 
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +22,7 @@ import com.assessment.data.DifficultyLevel;
 import com.assessment.data.Question;
 import com.assessment.data.Tenant;
 import com.assessment.data.User;
+import com.assessment.repositories.TenantRepository;
 import com.assessment.services.CompanyService;
 import com.assessment.services.QuestionService;
 import com.assessment.services.TenantService;
@@ -41,6 +43,9 @@ public class TenantController {
 	@Autowired
 	UserController userController;
 	
+	@Autowired
+	TenantRepository tenantRepository;
+	
 	@RequestMapping(value = "/listTenants", method = RequestMethod.GET)
 	public ModelAndView listTenants(@RequestParam(name= "page", required = false) Integer pageNumber, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView("list_tenant");
@@ -60,6 +65,22 @@ public class TenantController {
 		
 		mav.addObject("tenant", new Tenant());
 		return mav;
+	}
+	
+	@RequestMapping(value = "/deleteTenant", method = RequestMethod.GET)
+	public ModelAndView deleteTenant( HttpServletRequest request, HttpServletResponse response, @RequestParam(name= "tenantId", required = true) String tenantId) throws Exception {
+		ModelAndView mav = new ModelAndView("add_tenant");
+		tenantId = new String(Base64.getDecoder().decode(tenantId));
+		Tenant tenant = tenantRepository.findById(Long.parseLong(tenantId)).get();
+		/**
+		 * Delete tenant here
+		 */
+		userController.removeTenant(tenant.getSpoc(), tenant.getCompanyId(), tenant.getCompanyName(), response, request);
+		
+		//delete tenant record from dataase
+		tenantService.removeTenant(tenant);
+		
+		return listTenants(null, request, response);
 	}
 
 	@RequestMapping(value = "/saveTenant", method = RequestMethod.POST)

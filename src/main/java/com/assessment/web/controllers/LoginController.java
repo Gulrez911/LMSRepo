@@ -73,6 +73,12 @@ QuestionMapperInstanceService qminService;
 	
 	private final String prefixURL = "iiht_html";
 	
+	@RequestMapping(value = "/removelater", method = RequestMethod.GET)
+	  public ModelAndView removelater(HttpServletRequest request, HttpServletResponse response) {
+	    ModelAndView mav = new ModelAndView("ecl");
+	    return mav;
+	  }
+	
 	public void init(String companyId){
 		List<TestScheduler> schedulers = rep.findByCompanyId(companyId);
 		for(TestScheduler scheduler : schedulers){
@@ -263,7 +269,8 @@ QuestionMapperInstanceService qminService;
 		  			init(user.getCompanyId());
 		  			first = true;
 		  		}
-		  		Page<Question> questions = questionService.findQuestionsByPage(user.getCompanyId(), 0);
+		  		//Page<Question> questions = questionService.findQuestionsByPage(user.getCompanyId(), 0);
+		  		Page<Question> questions = questionService.getAllLevel1Questions(user.getCompanyId(), 0);
 		  		request.getSession().setAttribute("user", user);
 		  		request.getSession().setAttribute("companyId", user.getCompanyId());
 		  		//request.getSession().setAttribute("questions", questions);

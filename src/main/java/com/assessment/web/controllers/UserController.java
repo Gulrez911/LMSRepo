@@ -278,6 +278,48 @@ Logger logger =LoggerFactory.getLogger(UserController.class);
 			th.start(); 
 		}
 	
+	public void removeTenant(String tenantEmailId, String tenantId, String companyName, HttpServletResponse response, HttpServletRequest request ) throws Exception {
+		/**
+		 * Step 1 - Delete folder in tomcat_bin/assessment location
+		 */
+		String op = propertyConfig.getTenantsConfigLocation()+File.separator+tenantId;
+		File output = new File(op);
+		if(output.exists()){
+			FileUtils.deleteDirectory(output);
+		}
+		
+		/**
+		 * Step 2- Remote web apps folder
+		 */
+		File webapps = new File(propertyConfig.getTomcatDeployLocation()+File.separator+tenantId);
+		if(webapps.exists()){
+			FileUtils.deleteDirectory(webapps);
+		}
+		
+		/**
+		 * Step 3 - Delete schema and database user
+		 */
+		try {
+			dataSourceRoot.getConnection().createStatement().execute("drop schema IF EXISTS "+tenantId);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			logger.error("can't delete schema "+tenantId, e);
+			e.printStackTrace();
+		}
+		try {
+			dataSourceRoot.getConnection().createStatement().execute("drop user 'User_"+tenantId+"'");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			logger.error("can't delete user User_"+tenantId, e);
+			e.printStackTrace();
+		}
+		
+		String message = "Hello,\n\nYour application [Assessment Engine Platform) account has been deleted. \n\nThanks and Regards\nSuper Admin - Yaksha ";
+		EmailGenericMessageThread runnable = new EmailGenericMessageThread(tenantEmailId, "Asessment Platform Account Deletion", message, propertyConfig);
+		Thread th = new Thread(runnable);
+		th.start(); 
+	}
+	
 	@RequestMapping(value = "/goscreen", method = RequestMethod.GET)
 	  public ModelAndView goscreen(HttpServletResponse response, HttpServletRequest request ) throws Exception {
 		 return new ModelAndView("screen_capture_demo");
