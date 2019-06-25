@@ -16,6 +16,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.assessment.common.AssessmentGenericException;
@@ -30,6 +32,7 @@ import com.assessment.data.QuestionMapperInstance;
 import com.assessment.data.Test;
 import com.assessment.data.TestScheduler;
 import com.assessment.data.User;
+import com.assessment.data.UserOtp;
 import com.assessment.data.UserTestSession;
 import com.assessment.data.UserType;
 import com.assessment.repositories.TestSchedulerRepository;
@@ -39,7 +42,9 @@ import com.assessment.services.CompanyService;
 import com.assessment.services.QuestionMapperInstanceService;
 import com.assessment.services.QuestionService;
 import com.assessment.services.TestService;
+import com.assessment.services.UserOtpService;
 import com.assessment.services.UserService;
+import com.assessment.web.dto.SectionDto;
 import com.assessment.web.dto.TestUserData;
 
 @Controller
@@ -70,6 +75,9 @@ UserTestSessionRepository testSessionRepository;
 
 @Autowired
 QuestionMapperInstanceService qminService;
+
+@Autowired
+UserOtpService userOtpService;
 	
 	private final String prefixURL = "iiht_html";
 	
@@ -296,4 +304,70 @@ QuestionMapperInstanceService qminService;
 	  
 	    return mav;
 	  }
+	  
+	  @RequestMapping(value = "/getotp", method = RequestMethod.GET)
+	    public @ResponseBody String  getotp(@RequestParam String email, @RequestParam String companyName, HttpServletRequest request, HttpServletResponse response) {
+		  companyName = companyName.trim();
+		  Company company = companyService.findByCompanyName(companyName);
+		  	if(company == null){
+		  		return "Company Does not Exist";
+		  	}
+		  
+		  UserOtp userOtp = userOtpService.getOtpForUser(email, company.getCompanyId());
+		  	if(userOtp == null){
+		  		return "User Does not Exist";
+		  	}
+		  	/**
+		  	 * Send Email
+		  	 */
+		  	String message = "Hello "+userOtp.getFirstName()+",\n\n<br><br>"+
+					"To re-generate your password - use following OTP - \n<br>\n<br>"+
+					"<b><h3>OTP - "+userOtp.getOtp()+"</h3></b>\n<br><br>"+
+					"Thanks and Regards\n<br>"
+					+ "System Admin - Yaksha\n<br>"
+					+"IIHT";
+		  	
+		  	EmailGenericMessageThread runnable = new EmailGenericMessageThread(email, "YAKHA - OTP for Password Regeneration", message, propertyConfig);
+			Thread th = new Thread(runnable);
+			th.start(); 
+		 return "success";
+	    }
+	  
+	  @RequestMapping(value = "/validateotp", method = RequestMethod.GET)
+	    public @ResponseBody String  validateotp(@RequestParam String otp, @RequestParam String email, @RequestParam String companyName, HttpServletRequest request, HttpServletResponse response) {
+		  companyName = companyName.trim();
+		  Company company = companyService.findByCompanyName(companyName);
+		  	if(company == null){
+		  		return "Company Does not Exist";
+		  	}
+		  
+		 UserOtp userOtp = userOtpService.findExistingUserOtp(email, company.getCompanyId());
+		 	if(userOtp == null){
+		 		return "failure";
+		 	}
+		 	
+		 	if(! userOtp.getOtp().equals(otp)){
+		 		return "failure";
+		 	}
+		 return "success";
+	    }
+	  
+	  @RequestMapping(value = "/savenewpassword", method = RequestMethod.GET)
+	    public @ResponseBody String  savenewpassword(@RequestParam String password, @RequestParam String email, @RequestParam String companyName, HttpServletRequest request, HttpServletResponse response) {
+		  companyName = companyName.trim();
+		  Company company = companyService.findByCompanyName(companyName);
+		  	if(company == null){
+		  		return "Company Does not Exist";
+		  	}
+		  
+		User user = userService.findByPrimaryKey(email, company.getCompanyId());
+			if(user == null){
+				return "failure";
+			}
+			else{
+				user.setPassword(password);
+				userService.saveOrUpdate(user);
+			}
+		 return "success";
+	    }
 }

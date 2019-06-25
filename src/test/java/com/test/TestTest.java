@@ -22,7 +22,9 @@ import com.assessment.data.Skill;
 import com.assessment.data.SkillLevel;
 import com.assessment.data.User;
 import com.assessment.data.UserTestSession;
+import com.assessment.repositories.QuestionMapperInstanceRepository;
 import com.assessment.repositories.QuestionMapperRepository;
+import com.assessment.repositories.TestRepository;
 import com.assessment.repositories.UserTestSessionRepository;
 import com.assessment.services.CompanyService;
 import com.assessment.services.QuestionService;
@@ -69,10 +71,19 @@ public class TestTest {
 	final String companyId = "IH";
 	final String companyName = "IIHT";
 	
+	@Autowired
+	UserTestSessionRepository userTestSessionRep;
+	
+	@Autowired
+	QuestionMapperInstanceRepository questionMapperInstanceRep;
+	
 //	company.setCompanyId("IH");
 //	company.setCompanyName("IIHT");
 	@Autowired
 	UserTestSessionRepository repository;
+	
+	@Autowired
+	TestRepository testRepository;
 //	
 	private  User user = null;
 	
@@ -80,6 +91,22 @@ public class TestTest {
 	@Before
 	public  void init() {
 		user = userService.findByPrimaryKey("ashutosh.dhurve@thev2technologies.com", companyId);
+	}
+	
+	@Test
+	@Rollback(value=false)
+	public void testUpdateQMIForTest(){
+		//[Fiserv] Introduction to Agile software development
+		String testName = "[Fiserv] Mastering Hibernate";
+		List<UserTestSession> list = userTestSessionRep.findUserSessionsForTest(testName, "IH");
+			for(UserTestSession session : list){
+				String user = session.getUser();
+				List<QuestionMapperInstance> instances = questionMapperInstanceRep.findQuestionMapperInstancesForUserForTest(testName, user, "IH");
+				for(QuestionMapperInstance instance : instances){
+					instance.setUserChoices(instance.getUserChoices());
+					questionMapperInstanceRep.save(instance);
+				}
+			}
 	}
 	
 	@Test
@@ -101,6 +128,12 @@ public class TestTest {
 		List<Skill> skills = skillService.getSkillsByCompanyId("V2");
 		test.setSkills(skills);
 		testService.saveOrUpdate(test);
+	}
+	@Test
+	@Rollback(value=false)
+	public void testFindTest(){
+		List<com.assessment.data.Test> tests = testRepository.findByMultiplr("[Fiserv]Agile mastering", "IH");
+		System.out.println(tests.get(0).getTestName());
 	}
 	
 	@Test

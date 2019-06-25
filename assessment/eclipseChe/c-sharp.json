@@ -1,0 +1,91 @@
+{
+  "defaultEnv": "default",
+  "environments": {
+    "default": {
+      "machines": {
+        "dev-machine": {
+          "attributes": {
+            "memoryLimitBytes": "2147483648"
+          },
+          "servers": {
+            "dotnet": {
+              "attributes": {},
+              "port": "5000",
+              "protocol": "http"
+            }
+          },
+          "volumes": {},
+          "installers": [
+            "org.eclipse.che.exec",
+            "org.eclipse.che.terminal",
+            "org.eclipse.che.ws-agent",
+            "org.eclipse.che.ls.csharp"
+          ],
+          "env": {}
+        }
+      },
+      "recipe": {
+        "type": "dockerimage",
+        "content": "eclipse/dotnet_core"
+      }
+    }
+  },
+  "projects": [
+    {
+      "links": [],
+      "name": "dotnet-web-simple",
+      "attributes": {},
+      "type": "csharp",
+      "source": {
+        "location": "https://github.com/che-samples/dotnet-web-simple.git",
+        "type": "git",
+        "parameters": {}
+      },
+      "path": "/${APP_USER}",
+      "description": "A simple .NET 2.0 web sample.",
+      "problems": [],
+      "mixins": []
+    }
+  ],
+  "commands": [
+    {
+      "commandLine": "cd ${current.project.path} && dotnet restore",
+      "name": "update dependencies",
+      "attributes": {
+        "goal": "Build",
+        "previewUrl": ""
+      },
+      "type": "custom"
+    },
+    {
+      "commandLine": "cd ${current.project.path} && dotnet run",
+      "name": "run",
+      "attributes": {
+        "goal": "Run",
+        "previewUrl": "${server.dotnet}"
+      },
+      "type": "custom"
+    },
+    {
+      "commandLine": "cd ${current.project.path} \ndotnet restore",
+      "name": "dotnet-web-simple:update dependencies",
+      "attributes": {
+        "goal": "Build",
+        "previewUrl": ""
+      },
+      "type": "custom"
+    },
+    {
+      "commandLine": "cd ${current.project.path} \ndotnet run",
+      "name": "dotnet-web-simple:run",
+      "attributes": {
+        "goal": "Run",
+        "previewUrl": "${server.dotnet}"
+      },
+      "type": "custom"
+    }
+  ],
+  "name": "${APP_USER}",
+  "attributes": {},
+  "links": []
+}

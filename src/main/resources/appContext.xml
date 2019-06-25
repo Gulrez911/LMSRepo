@@ -72,17 +72,17 @@
     <bean id="dataSource" class = "com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
         <property name="driverClass" value="com.mysql.jdbc.Driver" />
         <!-- Connection Details -->
-       <property name="jdbcUrl" value="jdbc:mysql://13.233.2.169:3306/utfdb?useUnicode=true&amp;connectionCollation=utf8_general_ci&amp;characterSetResults=utf8&amp;characterEncoding=utf-8" />   
-        <property name="user" value="utf8_user" /> 
-        <property name="password" value="Welcome@123" />  
+<!--        <property name="jdbcUrl" value="jdbc:mysql://13.233.2.169:3306/utfdb?useUnicode=true&amp;connectionCollation=utf8_general_ci&amp;characterSetResults=utf8&amp;characterEncoding=utf-8" />    -->
+<!--         <property name="user" value="utf8_user" />  -->
+<!--         <property name="password" value="Welcome@123" />   -->
 
 <!--     <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/assessment" />   -->
 <!--         <property name="user" value="root" />  -->
 <!--         <property name="password" value="" />  -->
 
-<!-- 	<property name="jdbcUrl" value="jdbc:mysql://13.233.2.169:3306/yaksha" />    -->
-<!-- 	        <property name="user" value="user_yaksha" />  -->
-<!-- 	        <property name="password" value="yaksha123" />  -->
+	<property name="jdbcUrl" value="jdbc:mysql://13.233.2.169:3306/assessment" />   
+	        <property name="user" value="iiht_user" /> 
+	        <property name="password" value="Welcome@123" /> 
 
         <!-- Pooling Details-->
         <property name="initialPoolSize" value="3" />

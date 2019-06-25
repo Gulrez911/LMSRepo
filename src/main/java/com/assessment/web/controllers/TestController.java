@@ -265,7 +265,40 @@ public class TestController {
 		    Test test2 = (Test) request.getSession().getAttribute("test");
 		    	if(test2.getId() != null) {
 		    		test.setId(test2.getId());
+		    		/**
+		    		 * Since this is not user entered and disabled from ui - ui sends this as null.
+		    		 */
+		    		test.setTestName(test2.getTestName());
 		    	}
+		    	else{
+		    		/**
+		    		 * Make sure no body creates a test with same name again.This scenario is only applicable for new tests only.
+		    		 */
+		    		Test test3 = testService.findbyTest(test.getTestName(), user.getCompanyId());
+		    			if(test3 != null){
+		    				 mav = new ModelAndView("add_test");
+		    				  
+		    				    mav.addObject("test", test);
+		    				  
+		    				    mav.addObject("user", user);
+		    				    request.getSession().setAttribute("test", test2);
+		    				    SectionDto sectionDto = new SectionDto();
+		    				    sectionDto.setCurrent(true);
+		    				    sectionDto.setSectionNo(1);
+		    				    sectionDto.setCompanyId(user.getCompanyId());
+		    				    sectionDto.setTestName(test.getTestName());
+		    				    request.getSession().setAttribute("sectionDTO", sectionDto);
+		    				    String testTypes[] = {"Java", "Microsoft technologies", "C/C++", "Python", "General Knowledge", "Composite Test"};
+		    				    mav.addObject("testTypes", testTypes);
+		    			  		//mav.addObject("qs", questions);
+		    				    List<Skill> skills = skillService.getSkillsByCompanyId(user.getCompanyId());
+		    				    mav.addObject("skls", skills);
+		    				    mav.addObject("message", "A test with the supplied test name exists! Please use a different name.");// later put it as label
+		    					mav.addObject("msgtype", "Information");
+		    				    return mav;
+		    			}
+		    	}
+		    	
 		    test.setCreatedBy(user.getEmail());
 		    test.setCompanyId(user.getCompanyId());
 		    test.setCompanyName(user.getCompanyName());

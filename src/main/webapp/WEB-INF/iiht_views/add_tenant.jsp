@@ -162,10 +162,16 @@
 							<form:input path="tenant.spocLastName" name="spocLastName" id="spocLastName" required="true"/>
                                                     </div>
 						      <div class="option">
-                                                         <label>SPOCEmail</label>
+                                                         <label>SPOC Email (Admin User)</label>
                                             
 							<form:input path="tenant.spoc" name="spoc" id="spoc" required="true"/>
                                                     </div>
+							<div class="option">
+													 <label>Password for Admin User</label>
+										
+						<form:input path="tenant.spocPassword" name="spocPassword" id="spocPassword" required="true"/>
+												</div>
+													
                                                     <div class="option">
                                                        <label>SPOC Mobile</label>
                                             

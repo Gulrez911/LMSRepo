@@ -28,4 +28,7 @@ public interface TestRepository extends JpaRepository<com.assessment.data.Test,L
 	
 	@Query("SELECT t FROM Test t WHERE t.id=:testId and t.companyId=:companyId")
 	com.assessment.data.Test findTestById(@Param("testId") Long TestId,@Param("companyId") String companyId);
+	
+	@Query("SELECT t FROM Test t WHERE t.testName=:testName and  t.companyId=:companyId")
+	List<com.assessment.data.Test> findByMultiplr( @Param("testName") String testName, @Param("companyId") String companyId);
 }

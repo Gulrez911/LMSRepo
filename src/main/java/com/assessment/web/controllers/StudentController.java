@@ -889,6 +889,10 @@ public class StudentController {
 				System.out.println("generatin workspace for angular");
 				json = FileUtils.readFileToString(new File("assessment"+File.separator+"eclipseChe"+File.separator+"ANGULAR_JAVASCRIPT_MYSQL.json"));
 			}
+			else if(fullStackOptions.getStack().equals(FullStackOptions.DOTNET_FULLSTACK.getStack())){
+				System.out.println("generatin workspace for dot net scharp");
+				json = FileUtils.readFileToString(new File("assessment"+File.separator+"eclipseChe"+File.separator+"c-sharp.json"));
+			}
 			else{
 				System.out.println("generatin workspace for others");
 				json = FileUtils.readFileToString(new File("assessment"+File.separator+"eclipseChe"+File.separator+"Java_FullStack.json"));
@@ -1109,6 +1113,7 @@ public class StudentController {
 			model= new ModelAndView("studentTestCompletion");
 			model.addObject("rows", rows);
 			model.addObject("showResults", test.getSentToStudent());
+			model.addObject("justification", test.getJustification());
 				if(test.getSentToStudent()){
 					model.addObject("TOTAL_QUESTIONS", userTestSession.getTotalMarks());
 					model.addObject("TOTAL_MARKS", userTestSession.getTotalMarksRecieved());
@@ -1120,6 +1125,13 @@ public class StudentController {
 					 */
 					model.addObject("sectionInstanceDtos", sectionInstanceDtos);
 					
+				}
+				
+				if(test.getJustification() != null && test.getJustification()){
+					/**
+					 * Add code for showing justification grid
+					 */
+					model.addObject("sectionInstanceDtos", sectionInstanceDtos);
 				}
 			
 		} catch (Exception e) {

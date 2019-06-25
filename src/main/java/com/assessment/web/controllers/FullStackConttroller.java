@@ -102,6 +102,10 @@ QuestionMapperInstanceRepository  questionMapperInstanceRep;
 			 System.out.println("doing code quality on php stack");
 			 analysisFile = FileUtils.readFileToString(new File(propertyConfig.getSonarAnalysisFileAngularLocation()));
 		 }
+		 else if(questionMapperInstance.getQuestionMapper().getQuestion().getFullstack().getStack().equalsIgnoreCase(FullStackOptions.DOTNET_FULLSTACK.getStack()) ) {
+			 System.out.println("doing code quality on dot net stack");
+			 analysisFile = FileUtils.readFileToString(new File(propertyConfig.getSonarAnalysisFileDotNetLocation()));
+		 }
 		 else{
 			 System.out.println("doing code quality on others stack");
 			 analysisFile = FileUtils.readFileToString(new File(propertyConfig.getSonarAnalysisFileLocation()));

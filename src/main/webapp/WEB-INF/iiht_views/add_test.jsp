@@ -67,7 +67,7 @@
                                         <div class="formfield">
                                             <label>Test Title</label>
                                             
-					    <form:input path="test.testName" name="testName" id="testName" required="true" placeholder="Test Name"/>
+<form:input path="test.testName" name="testName" id="testName" required="true" placeholder="Test Name" disabled='${(test.id == null) ? "false":"true"}'/>
                                         </div>
                                         <div class="formfield">
                                             <label>Category</label>
@@ -140,6 +140,13 @@
                                         </div>
 										
 										<div class="formfield">
+                                            <label>Display Justification for Answers</label>
+					   
+					   <form:checkbox path="test.justification" id="justification"/>
+                                             
+                                        </div>
+										
+										<div class="formfield">
                                             <label>Confidence Based Assessment Flag</label>
 					   
 					   <form:checkbox path="test.considerConfidence" id="considerConfidence"/>
@@ -207,6 +214,14 @@
                         </div>
             </div>
         </div>
+		<script src="scripts_login/jquery-3.1.1.min.js"></script>
+      <script src="scripts_login/popper.min.js"></script>
+      <script src="scripts_login/bootstrap.min.js"></script>
+      <script src="scripts_login/smooth-scroll.js"></script>
+      <script src="scripts_login/wow.js"></script>
+      <script src="scripts_login/custom.js"></script>
+       <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		
        <script>
 	 $('#next').on('click',function(){
 	   //addteststep2
@@ -232,5 +247,28 @@
 		}
        </script>
         <script src="scripts/custom.js"></script>
+		
+		<c:if test="${msgtype != null}">
+		 <script>
+		 
+			 var notification = 'Information';
+			 $(function(){
+				 new PNotify({
+						 title: notification,
+						 text: '${message}',
+						 type: '${msgtype}',
+						 width: '30%',
+						 hide: false,
+						 buttons: {
+									closer: true,
+									sticker: false
+								 },
+						 history: {
+									history: false
+							 }
+					 });
+			 }); 	 
+      </script>
+	</c:if>
     </body>
 </html>

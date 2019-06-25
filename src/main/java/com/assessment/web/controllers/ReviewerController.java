@@ -58,7 +58,7 @@ public class ReviewerController {
 	
 	
 	 @RequestMapping(value = "/showJavaFullStack", method = RequestMethod.GET)
-	 public ModelAndView showJavaFullStack(HttpServletRequest request, HttpServletResponse response,@RequestParam String qMapperInstanceId) throws Exception {
+	 public ModelAndView showJavaFullStack(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		 User user = (User) request.getSession().getAttribute("user");
 		 if(!(user != null && user.getUserType().getType().equals(UserType.REVIEWER.getType()))){
 			 ModelAndView mav = new ModelAndView("index");
@@ -77,7 +77,7 @@ public class ReviewerController {
 	 }
 	 
 	 @RequestMapping(value = "/showDotNetFullStack", method = RequestMethod.GET)
-	 public ModelAndView showDotNetFullStack(HttpServletRequest request, HttpServletResponse response,@RequestParam String qMapperInstanceId) throws Exception {
+	 public ModelAndView showDotNetFullStack(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		 User user = (User) request.getSession().getAttribute("user");
 		 if(!(user != null && user.getUserType().getType().equals(UserType.REVIEWER.getType()))){
 			 ModelAndView mav = new ModelAndView("index");
@@ -96,7 +96,7 @@ public class ReviewerController {
 	 }
 	 
 	 @RequestMapping(value = "/showJavascriptFullStack", method = RequestMethod.GET)
-	 public ModelAndView showJavascriptFullStack(HttpServletRequest request, HttpServletResponse response,@RequestParam String qMapperInstanceId) throws Exception {
+	 public ModelAndView showJavascriptFullStack(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		 User user = (User) request.getSession().getAttribute("user");
 		 if(!(user != null && user.getUserType().getType().equals(UserType.REVIEWER.getType()))){
 			 ModelAndView mav = new ModelAndView("index");
@@ -105,7 +105,7 @@ public class ReviewerController {
 			    return mav;
 		 }
 		 ModelAndView mav = new ModelAndView("javscript_fullstack");
-		 List<QuestionMapperInstance> instances = qminService.findFullStackQuestionMapperInstancesForDotNet(user.getCompanyId());
+		 List<QuestionMapperInstance> instances = qminService.findFullStackQuestionMapperInstancesForJavaScript(user.getCompanyId());
 		 for(QuestionMapperInstance ins : instances){
 		 		User u = userService.findByPrimaryKey(ins.getUser(), user.getCompanyId());
 		 		ins.setUerFullName(u.getFirstName()+" "+u.getLastName());

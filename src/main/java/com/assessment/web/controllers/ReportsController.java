@@ -236,7 +236,7 @@ public class ReportsController {
     			for(AssessmentUserPerspectiveData data : collection) {
     				if(data.getTestName().equals(testName)) {
     					data.setCompanyId(user.getCompanyId());
-    					data.setUrlForUserSession(propertyConfig.getBaseUrl()+"downloadUserSessionReportsForTest?testName="+testName+"&companyId="+user.getCompanyId()+"&email="+URLEncoder.encode(data.getEmail()));
+    					data.setUrlForUserSession(propertyConfig.getBaseUrl()+"downloadUserSessionReportsForTest?testName="+URLEncoder.encode(testName)+"&companyId="+user.getCompanyId()+"&email="+URLEncoder.encode(data.getEmail()));
     					collectionForTest.add(data);
     				}
     			}

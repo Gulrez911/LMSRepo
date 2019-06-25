@@ -87,7 +87,7 @@ public class Test extends Base {
 	
 	Boolean fullStackTest;
 	
-	
+	Boolean justification;
 	
 	public Boolean getSentToStudent() {
 		return sentToStudent;
@@ -347,6 +347,12 @@ public class Test extends Base {
 	}
 	public void setFullStackTest(Boolean fullStackTest) {
 		this.fullStackTest = fullStackTest;
+	}
+	public Boolean getJustification() {
+		return justification;
+	}
+	public void setJustification(Boolean justification) {
+		this.justification = justification;
 	}
 	
 	

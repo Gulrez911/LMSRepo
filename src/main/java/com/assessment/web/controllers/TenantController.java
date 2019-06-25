@@ -88,7 +88,7 @@ public class TenantController {
 		ModelAndView mav = null;
 		User user = (User) request.getSession().getAttribute("user");
 		try {
-			userController.setUpTenant(tenant.getSpoc(), tenant.getCompanyId(), tenant.getCompanyName(), response, request);
+			userController.setUpTenant(tenant.getSpoc(), tenant.getCompanyId(), tenant.getCompanyName(), tenant.getSpocPassword(), response, request);
 		} catch (Exception e) {
 			mav = new ModelAndView("add_tenant");
 			Page<Tenant> tenants = tenantService.findAllTenants(0);

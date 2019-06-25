@@ -6,6 +6,7 @@ import java.io.StringReader;
 import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
@@ -116,9 +117,9 @@ Logger logger =LoggerFactory.getLogger(UserController.class);
 		}
 	
 	@RequestMapping(value = "/init", method = RequestMethod.GET)
-	  public ModelAndView init(@RequestParam String tenantEmailId, @RequestParam String companyId, @RequestParam String companyName, HttpServletResponse response, HttpServletRequest request ) throws Exception {
+	  public ModelAndView init(@RequestParam String tenantEmailId, @RequestParam String companyId, @RequestParam String companyName, @RequestParam String pwd, HttpServletResponse response, HttpServletRequest request ) throws Exception {
 		try {
-			ModelAndView mav = new ModelAndView("index");
+			ModelAndView mav = new ModelAndView("login_new");
 			if(companyService.findByCompanyId(companyId) != null) {
 				 User user = new User();
 				 user.setCompanyId(companyId);
@@ -128,7 +129,9 @@ Logger logger =LoggerFactory.getLogger(UserController.class);
 				 user.setPassword("12345");
 				 return mav;
 			}
-			
+			System.out.println("pwd is ************* "+pwd);
+			 pwd = new URLDecoder().decode(new String(Base64.getDecoder().decode(pwd)));
+			 System.out.println("pwd is *************888 "+pwd);
 			 Company company = new Company();
 			 company.setCompanyId(companyId);
 			 company.setCompanyName(companyName);
@@ -152,7 +155,8 @@ Logger logger =LoggerFactory.getLogger(UserController.class);
 			 		user.setEmail(tenantEmailId);
 			 	}
 			 user.setUserType(UserType.ADMIN);
-			 user.setPassword("12345");
+			 //user.setPassword("12345");
+			 user.setPassword(pwd);
 			 userService.addUser(user);
 			 
 			 mav.addObject("user", user);
@@ -175,7 +179,7 @@ Logger logger =LoggerFactory.getLogger(UserController.class);
 		}
 	
 	@RequestMapping(value = "/setUpTenant", method = RequestMethod.GET)
-	  public void setUpTenant(@RequestParam String tenantEmailId, @RequestParam String tenantId, @RequestParam String companyName, HttpServletResponse response, HttpServletRequest request ) throws Exception {
+	  public void setUpTenant(@RequestParam String tenantEmailId, @RequestParam String tenantId, @RequestParam String companyName, String adminPassword, HttpServletResponse response, HttpServletRequest request ) throws Exception {
 		RuntimeMXBean bean = ManagementFactory.getRuntimeMXBean();
 		List<String> list = bean.getInputArguments();
 		boolean local = false;
@@ -258,16 +262,28 @@ Logger logger =LoggerFactory.getLogger(UserController.class);
 			logContents = logContents.replace("${LOG_FILE}", tenantId);
 			FileUtils.write(new File(logFile), logContents, false);
 			String message = "";
+			String pwd = URLEncoder.encode(Base64.getEncoder().encodeToString(adminPassword.getBytes()));
 				if(local) {
-					message = "Hello \n\n Please go to http://localhost/"+tenantId+"/init?companyId="+tenantId+"&companyName="+companyName+"&tenantEmailId="+tenantEmailId+"\n"+
-							"Thanks and Regards\n"
-							+ "System Admin - Assessment Platform\n"
+					message = "Hello \n\n Please go to https://localhost:8443/"+tenantId+"/init?companyId="+tenantId+"&companyName="+companyName+"&tenantEmailId="+tenantEmailId+"&pwd="+pwd+"\n"+
+							"After clicking on above link you can access your instance of Assessment platform by using following - \n<br>"+
+							"Web Link - https://localhost:8443/"+tenantId+"\n<br>"+
+							"User - "+tenantEmailId+"\n<br>"+
+							"Password - "+adminPassword+"\n<br>"+
+							"Company - "+companyName+"\n\n\n<br><br><br>"+
+							"Thanks and Regards\n<br>"
+							+ "System Admin - Yaksha\n<br>"
 							+"IIHT";
 				}
 				else {
-					message = "Hello \n\n Please go to "+(propertyConfig.getRemoteBaseUrl()+tenantId)+"/init?companyId="+tenantId+"&companyName="+companyName+"&tenantEmailId="+tenantEmailId+"\n"+
-							"Thanks and Regards\n"
-							+ "System Admin - Assessment Platform\n"
+					
+					message = "Hello \n\n Please go to "+(propertyConfig.getRemoteBaseUrl()+tenantId)+"/init?companyId="+tenantId+"&companyName="+companyName+"&tenantEmailId="+tenantEmailId+"&pwd="+pwd+"\n"+
+							"After clicking on above link you can access your instance of Assessment platform by using following - \n<br>"+
+							"Web Link - "+propertyConfig.getRemoteBaseUrl()+tenantId+"\n<br>"+
+							"User - "+tenantEmailId+"\n<br>"+
+							"Password - "+adminPassword+"\n<br>"+
+							"Company - "+companyName+"\n\n\n<br><br><br>"+
+							"Thanks and Regards\n<br>"
+							+ "System Admin - Yaksha\n<br>"
 							+"IIHT";
 				}
 			

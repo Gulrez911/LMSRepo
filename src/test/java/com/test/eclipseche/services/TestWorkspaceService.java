@@ -54,6 +54,17 @@ public class TestWorkspaceService {
 		System.out.println(workspaceResponse.getLinks().getIde());
 	}
 	
+	@Test
+	public void testCreateWorkSpaceCSharp() throws Exception{
+		String json = FileUtils.readFileToString(new File("assessment/eclipseChe/c-sharp.json"));
+		json = json.replace("${APP_USER}", "c-sharp-"+System.currentTimeMillis());
+		//json = json.replace("${APP_USER}", "a01");
+		json = json.replace("${APP_DESC}", "Sample............................Project\n\n\n.........");
+		
+		WorkspaceResponse workspaceResponse = eclipseCheService.createWorkSpace(json);
+		System.out.println(workspaceResponse.getLinks().getIde());
+	}
+	
 	
 	@Test
 	public void testWorkspacesFetch() throws Exception{

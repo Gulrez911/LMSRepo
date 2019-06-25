@@ -76,6 +76,10 @@ public class User extends Base{
 	String postGradPercentage;
 	
 	String activeBackLogs;
+	@Transient
+	String transientPassword;
+	
+	String otp;
 	
 	
 	public String getDepartment() {
@@ -288,6 +292,18 @@ public class User extends Base{
 	}
 	public void setActiveBackLogs(String activeBackLogs) {
 		this.activeBackLogs = activeBackLogs;
+	}
+	public String getTransientPassword() {
+		return transientPassword;
+	}
+	public void setTransientPassword(String transientPassword) {
+		this.transientPassword = transientPassword;
+	}
+	public String getOtp() {
+		return otp;
+	}
+	public void setOtp(String otp) {
+		this.otp = otp;
 	}
 	
 	

@@ -119,7 +119,9 @@ public class AssessmentReportsManager {
 		 
 		 try {
 			 synchronized (this) {
-				 FileOutputStream fos = new FileOutputStream(fullName+"-"+testName+"-Session.xls");
+				 String filename = fullName+"-"+testName+"-Session.xls";
+				 filename = replaceInvalidCharactersFromFileName(filename);
+				 FileOutputStream fos = new FileOutputStream(filename);
 					builder.toXls(fos);
 					fos.close();
 					return fullName+"-"+testName+"-Session.xls";
@@ -138,6 +140,10 @@ public class AssessmentReportsManager {
 		 
 	return null;	 
 
+	}
+	
+	String replaceInvalidCharactersFromFileName(String str){
+		return str.replaceAll("[\\\\/:*?\"<>|]", "");
 	}
 	
 	public void generateReport(List<TestReportData> collection) throws MalformedURLException {
@@ -735,7 +741,9 @@ public class AssessmentReportsManager {
 		 
 		 try {
 			 synchronized (this) {
-				 FileOutputStream fos = new FileOutputStream(skill+".pdf");
+				 String filename = skill+".pdf";
+				 filename = replaceInvalidCharactersFromFileName(filename);
+				 FileOutputStream fos = new FileOutputStream(filename);
 					builder.toPdf(fos);
 					fos.close();
 					return skill+".pdf";

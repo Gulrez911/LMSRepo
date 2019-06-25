@@ -60,6 +60,10 @@ window.onhashchange=function(){window.location.hash="no-back-button";}
 		</p>
 	</div>
 	
+	
+		</c:if>
+	</div>
+	<c:if test="${justification}">
 	<br/><br/>
 	<p style="font-size: large"><b> Detailed Answer Summary </b></p>
 		    <div class="accordiansections">
@@ -91,9 +95,8 @@ window.onhashchange=function(){window.location.hash="no-back-button";}
 		        </div>
 		</c:forEach>           
        </div>
-		</c:if>
-	</div>
-    
+   </c:if>
+   
 <div class="container">
   <div class="page-header" style="background-color:#DAA300;color:#fff">
     <h3>If you want to try this test again <a href="mailto:jatin.sutaria@thev2technologies.com">Write to Us</a></h3>      

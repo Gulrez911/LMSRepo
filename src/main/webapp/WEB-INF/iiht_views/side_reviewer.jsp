@@ -10,9 +10,9 @@
 	<ul class="nav" id="menu">
 	    <li class="logolight"><a href="http://www.iiht.com" data-toggle="offcanvas"><i class="fa fa-bars fa-2x"></i><span class="collapse in hidden-xs"><img src="images/logoiiht.png" alt="logo"></span></a></li>
 	    <li class="active"><a href="javascript:notify('Information', 'We will release the feature pretty soon! Pease wait for our next release');"><img src="images/dashboard_icon.png" alt="logo"> <span class="collapse in hidden-xs">Dashboard</span></a></li>
-	    <li><a href="java_fullstack"><img src="images/question_icon.png" alt="logo"> <span class="collapse in hidden-xs">JAVA Full Stack</span></a></li>
-		<li><a href="question_list"><img src="images/question_icon.png" alt="logo"> <span class="collapse in hidden-xs">Dot Net Full Stack</span></a></li>
-		<li><a href="question_list"><img src="images/question_icon.png" alt="logo"> <span class="collapse in hidden-xs">Java Script Full Stack</span></a></li>
+	    <li><a href="showJavaFullStack"><img src="images/question_icon.png" alt="logo"> <span class="collapse in hidden-xs">JAVA Full Stack</span></a></li>
+		<li><a href="showDotNetFullStack"><img src="images/question_icon.png" alt="logo"> <span class="collapse in hidden-xs">Dot Net Full Stack</span></a></li>
+		<li><a href="showJavascriptFullStack"><img src="images/question_icon.png" alt="logo"> <span class="collapse in hidden-xs">Java Script Full Stack</span></a></li>
 	   
 	</ul>
     </div>

@@ -465,22 +465,38 @@
                   </button>
                </div>
                <div class="modal-body">
-                  <h4 class="modal-title">Login to your account</h4>
+                  <h4 class="modal-title" id="labelLogin">Login to your account</h4>
                   <form id="loginForm" method="post" modelAttribute="user" action="authenticate">
                      <div class="form-group mt-4">
                      <!--   <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Username"> -->    
-					  <form:input type="email" path="user.email" name="email" id="username" cssClass="form-control" required="true"/>						
+					  <form:input type="email" path="user.email" name="email" id="username" cssClass="form-control" required="true" placeholder="User"/>						
                      </div>
-                     <div class="form-group">
+                     <div class="form-group" id="divPassword">
                       <!--  <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"> -->
-					  <form:password path="user.password" name="password" id="password" cssClass="form-control" required="true"/>
+					  <form:password path="user.password" name="password" id="password" cssClass="form-control" required="true" placeholder="Password"/>
                      </div>
+					 
+					  <div class="form-group" id="divPassword2" style="display:none">
+                      <!--  <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"> -->
+					 <form:password path="user.transientPassword" name="transientPassword" id="transientPassword" cssClass="form-control" required="true"  placeholder="Repeat Password"/>
+                     </div>
+					 
+					 
                      <div class="form-group">
                        <!-- <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Company">  -->
-						<form:input  path="user.companyName" name="companyName" id="companyName" cssClass="form-control" required="true"/>					   
+				<form:input  path="user.companyName" name="companyName" id="companyName" cssClass="form-control" required="true" placeholder="Company"/>					   
                      </div>
+					 
+					  <div class="form-group" id="divOtp" style="display:none">
+                      <!--  <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"> -->
+					  <form:password path="user.otp" name="otp" id="otp" cssClass="form-control" required="true" placeholder="otp"/>
+                     </div>
+					
+					
+					
                      <div class="form-group">
-                        <a href="#" class="btn btn-secondary" onclick="document.getElementById('loginForm').submit();">Login</a>   
+                        <a href="#" id="login_otp" class="btn btn-secondary" onclick="javascript:loginClick();">Login</a> 
+						<a href="#" id="forgetPassword" class="btn btn-secondary" onclick="javascript:showOtp();">Forget Password</a>  						
                      </div>
                     
                   </form>
@@ -489,6 +505,10 @@
          </div>
       </div>
       <!-- ||modal-login -->
+	  
+	  <!-- Modal OTP-->
+   
+      <!-- ||modal-otp login -->
       <!-- modal-request-demo -->
       <div class="modal request-demo-modal fade" id="requestDemo" tabindex="-1" role="dialog" aria-labelledby="requestDemoLabel" aria-hidden="true">
          <div class="modal-dialog" role="document">
@@ -555,6 +575,194 @@
                     x.type = "password";
                 }
             } 
+			
+			function loginClick(){
+				var lab = document.getElementById("login_otp").innerHTML;
+				if(lab == 'Click to send OTP'){
+				var email = document.getElementById("username").value;
+				//var password = document.getElementById("password");
+				var compName = document.getElementById("companyName").value;
+					if(!email || 0 === email.length){
+						notify("User or Email field can not be empty");
+						return;
+					}
+					
+					
+					
+					if(!compName || 0 === compName.length){
+						notify("Company Name field can not be empty");
+						return;
+					}	
+					
+					
+				
+				
+				var url = "getotp?email="+email+"&companyName="+compName;
+				console.log('here url '+url);
+				$.ajax({
+						url : url,
+						success : function(data) {
+							console.log("SUCCESS: ", data);
+							if(data == "success"){
+								notify('Check your inbox to retrieve the OTP');
+								var otp = document.getElementById("divOtp");
+								otp.style.display = "";
+								
+								document.getElementById("login_otp").innerHTML = "Enter OTP";
+							}
+							else{
+								notify(""+data+" Try with valid email and Company info");
+							}
+							
+							
+							//document.getElementById("no-"+sectionName).innerHTML = data;
+							
+						},
+						error : function(e) {
+							console.log("ERROR: ", e);
+							
+						}
+					});	
+				
+				/**
+				* Send otp ws
+				*/
+				//call ajax method to send email otp
+				}
+				else if(lab == 'Login'){
+					/**
+					* Proper login
+					*/
+					document.getElementById('loginForm').submit();
+				}
+				else if(lab == 'Enter OTP'){
+					var email = document.getElementById("username").value;
+					var compName = document.getElementById("companyName").value;
+					var otp = document.getElementById("otp").value;
+						if(!otp || 0 === otp.length){
+							notify("Enter a OTP value. Check your inbox!");
+							return;
+						}
+						var url = "validateotp?otp="+otp+"&email="+email+"&companyName="+compName;
+						console.log('here url '+url);
+						$.ajax({
+						url : url,
+						success : function(data) {
+							console.log("SUCCESS: ", data);
+							if(data == "success"){
+								document.getElementById("divPassword").style.display = "";
+								document.getElementById("divPassword2").style.display = "";
+								document.getElementById("divOtp").style.display = "none";
+								document.getElementById("transientPassword").style.display = "";
+								document.getElementById("login_otp").innerHTML = "Save New Password";
+								document.getElementById("labelLogin").innerHTML = "Enter new Password";
+							}
+							else{
+								notify("Invalid OTP Entered");
+							}
+							
+							
+							//document.getElementById("no-"+sectionName).innerHTML = data;
+							
+						},
+						error : function(e) {
+							console.log("ERROR: ", e);
+							
+						}
+					});	
+						
+					
+					
+				}
+				else if(lab == 'Save New Password' ){
+					/**
+					* Save pwd
+					*/
+					var p1 = document.getElementById("password").value;
+					console.log(p1);
+					var p2 = document.getElementById("transientPassword").value;
+					console.log(p2);
+						if(!(p1 == p2)){
+							notify('Make sure you enter same text in both the password fields');
+						}
+						else if(p1.length < 4){
+							notify('Make sure your new password is of atleast 4 characters');
+						}
+						else{
+							//call ajax method to save pwd
+							var email = document.getElementById("username").value;
+							//var password = document.getElementById("password");
+							var compName = document.getElementById("companyName").value;
+						var url = "savenewpassword?password="+p1+"&email="+email+"&companyName="+compName;
+						console.log('here url '+url);
+						$.ajax({
+						url : url,
+						success : function(data) {
+							console.log("SUCCESS: ", data);
+							if(data == "success"){
+								notify('Your new password has been saved. Try logging in with your new credentials!');
+								$("#loginPop").modal("hide");
+								reset();
+							}
+							else{
+								notify("Your password can not be saved. Contact jatin.sutaria@thev2technologies.com for further help");
+							}
+							
+							
+							//document.getElementById("no-"+sectionName).innerHTML = data;
+							
+						},
+						error : function(e) {
+							console.log("ERROR: ", e);
+							
+						}
+					});	
+							
+							
+						}
+				}
+			}
+			
+			function reset(){
+				document.getElementById("divOtp").style.display = "none";
+				document.getElementById("divPassword2").style.display = "none";
+				document.getElementById("login_otp").innerHTML = "Login";
+				document.getElementById("labelLogin").innerHTML = "Login to your account";
+			}
+			
+			function showOtp(){
+				//$("#loginPop").modal("hide");
+				var pwd = document.getElementById("divPassword");
+				//$("#loginPopOtp").modal({ keyboard: false });
+				pwd.style.display = "None";
+				//var otp = document.getElementById("divOtp");
+				//otp.style.display = "";
+				document.getElementById("login_otp").innerHTML = "Click to send OTP";
+				document.getElementById("forgetPassword").style.display = "none";
+				document.getElementById("labelLogin").innerHTML = "Forget Password - Send OTP";
+			}
+			
+			
+			function notify(text){
+				 var notification = 'Information';
+				 $(function(){
+				 	new PNotify({
+				 	title: notification,
+					 text: text,
+					 type: 'Information',
+					 width: '60%',
+					 hide: false,
+					 buttons: {
+            					closer: true,
+            					sticker: false
+       					 },
+					 history: {
+            					history: false
+        				 }
+					 });
+				 
+				 }); 	
+			}
         </script>
         
         <c:if test="${msgtype != null}">
@@ -565,9 +773,16 @@
 	         title: notification,
 	         text: '${message}',
 	         type: '${msgtype}',
-	         styling: 'bootstrap3',
-	         hide: true
-	     });
+	          width: '60%',
+		hide: false,
+		buttons: {
+            		closer: true,
+            		sticker: false
+       		},
+		 history: {
+            		history: false
+        	}
+		});
 	 }); 	 
       </script>
 </c:if>

@@ -18,6 +18,8 @@ public class Tenant  extends Base{
 	
 	String spocMobile;
 	
+	String spocPassword;
+	
 	String smallLogoUrl;
 	
 	String mediumLogoUrl;
@@ -96,6 +98,14 @@ public class Tenant  extends Base{
 
 	public void setSpocMobile(String spocMobile) {
 		this.spocMobile = spocMobile;
+	}
+
+	public String getSpocPassword() {
+		return spocPassword;
+	}
+
+	public void setSpocPassword(String spocPassword) {
+		this.spocPassword = spocPassword;
 	}
 	
 	

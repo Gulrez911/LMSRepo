@@ -54,6 +54,8 @@ public class PropertyConfig {
 	
 	String sonarAnalysisFileAngularLocation;
 	
+	String sonarAnalysisFileDotNetLocation;
+	
 	String fullStackReviewTemplate;
 	
 	
@@ -251,6 +253,14 @@ public class PropertyConfig {
 
 	public void setSonarAnalysisFileAngularLocation(String sonarAnalysisFileAngularLocation) {
 		this.sonarAnalysisFileAngularLocation = sonarAnalysisFileAngularLocation;
+	}
+
+	public String getSonarAnalysisFileDotNetLocation() {
+		return sonarAnalysisFileDotNetLocation;
+	}
+
+	public void setSonarAnalysisFileDotNetLocation(String sonarAnalysisFileDotNetLocation) {
+		this.sonarAnalysisFileDotNetLocation = sonarAnalysisFileDotNetLocation;
 	}
 
 	
