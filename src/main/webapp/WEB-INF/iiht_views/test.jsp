@@ -185,8 +185,10 @@
 		<style>
 		body * { font-family: monospace !important }
 		</style>
+		
+		
 </head>
-<body onload="setTimeOnLoad()">
+<body onload="setTimeOnLoad();">
 
 
 
@@ -1225,6 +1227,11 @@
     			$("body").on("contextmenu",function(e){
        				return false;
     			});
+				
+				 function disablePrev() { window.history.forward() }
+					window.onload = disablePrev();
+					window.onpageshow = function(evt) { if (evt.persisted) disableBack() 
+				}
 		});
 	</script>
 </body>

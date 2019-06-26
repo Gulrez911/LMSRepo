@@ -1044,6 +1044,19 @@ public class StudentController {
 	 
 	 @RequestMapping(value = "/submitTest", method = RequestMethod.POST)
 	  public ModelAndView submitTest(@RequestParam String questionId, @RequestParam String timeCounter, HttpServletRequest request, HttpServletResponse response,@ModelAttribute("currentQuestion") QuestionInstanceDto currentQuestion) {
+		 Boolean submitted = (Boolean) request.getSession().getAttribute("submitted");
+		 	if(submitted != null && (submitted)){
+		 		request.getSession().invalidate();
+		 		 ModelAndView mav = new ModelAndView("login_new");
+		 	    User user = new User();
+		 	   // user.setEmail("system@iiht.com");
+		 	  //  user.setPassword("1234");
+		 	 //   user.setCompanyName("IIHT");
+		 	    mav.addObject("user", user);
+		 	    mav.addObject("message", "You have already submitted the test. Your results have already been dispatched by email to Test Admin");// later put it as label
+				mav.addObject("msgtype", "Information");
+		 	    return mav;
+		 	}
 		 ModelAndView model= new ModelAndView("test");
 		 User user = (User) request.getSession().getAttribute("user");
 		 Test test = (Test) request.getSession().getAttribute("test");
@@ -1109,6 +1122,7 @@ public class StudentController {
 		 putMiscellaneousInfoInModel(model, request);
 		 setTimeInCounter(request, Long.valueOf(timeCounter));
 		 try {
+			request.getSession().setAttribute("submitted", true);
 			String rows = sendResultsEmail(request, userTestSession);
 			model= new ModelAndView("studentTestCompletion");
 			model.addObject("rows", rows);

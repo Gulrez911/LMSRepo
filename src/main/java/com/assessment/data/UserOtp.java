@@ -14,6 +14,8 @@ public class UserOtp extends Base{
 	
 	 String firstName;
 	 String lastName;
+	 
+	 String testName;
 
 	public String getUser() {
 		return user;
@@ -53,6 +55,14 @@ public class UserOtp extends Base{
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	public String getTestName() {
+		return testName;
+	}
+
+	public void setTestName(String testName) {
+		this.testName = testName;
 	}
 	
 	

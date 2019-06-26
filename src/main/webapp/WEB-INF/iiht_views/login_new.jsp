@@ -773,7 +773,7 @@
 	         title: notification,
 	         text: '${message}',
 	         type: '${msgtype}',
-	          width: '60%',
+	          width: '20%',
 		hide: false,
 		buttons: {
             		closer: true,

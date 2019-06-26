@@ -14,13 +14,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.assessment.common.AssessmentGenericException;
 import com.assessment.common.CommonUtil;
 import com.assessment.common.PropertyConfig;
 import com.assessment.common.SchedulerTask;
@@ -44,7 +44,6 @@ import com.assessment.services.QuestionService;
 import com.assessment.services.TestService;
 import com.assessment.services.UserOtpService;
 import com.assessment.services.UserService;
-import com.assessment.web.dto.SectionDto;
 import com.assessment.web.dto.TestUserData;
 
 @Controller
@@ -146,6 +145,12 @@ UserOtpService userOtpService;
 		  
 		  testUserData.getUser().setPassword("12345");
 		  Test test = testService.findTestById(Long.parseLong(testUserData.getTestId()));
+		  
+		  /**
+		   * Remove otp entry for the user for the given test
+		   */
+		  userOtpService.deleteUserOtp(testUserData.getUser().getEmail(), test.getCompanyId(), test.getTestName());
+		  
 		  
 		  /**
 		   * Step 1 - figure out if the user has taken a test.
@@ -305,6 +310,30 @@ UserOtpService userOtpService;
 	    return mav;
 	  }
 	  
+	  @RequestMapping(value = "/getotpfortest", method = RequestMethod.POST, consumes={"application/json"})
+	    public @ResponseBody String  getotpfortest(@RequestBody UserOtp userOtp, HttpServletRequest request, HttpServletResponse response) {
+		 
+		  
+		  UserOtp userOtp2 = userOtpService.getOtpForTestByUser(userOtp.getUser(), userOtp.getTestName(), userOtp.getCompanyId());
+		  	if(userOtp2 == null){
+		  		return "Invalid details";
+		  	}
+		  	/**
+		  	 * Send Email
+		  	 */
+		  	String message = "Hello,\n\n<br><br>"+
+					"To appear for the test("+userOtp.getTestName()+") - use following OTP - \n<br>\n<br>"+
+					"<b><h3>OTP - "+userOtp2.getOtp()+"</h3></b>\n<br><br>"+
+					"Thanks and Regards\n<br>"
+					+ "System Admin - Yaksha\n<br>"
+					+"IIHT";
+		  	
+		  	EmailGenericMessageThread runnable = new EmailGenericMessageThread(userOtp.getUser(), "YAKHA - Use this to appear for the test"+userOtp.getTestName(), message, propertyConfig);
+			Thread th = new Thread(runnable);
+			th.start(); 
+		 return "success";
+	    }
+	  
 	  @RequestMapping(value = "/getotp", method = RequestMethod.GET)
 	    public @ResponseBody String  getotp(@RequestParam String email, @RequestParam String companyName, HttpServletRequest request, HttpServletResponse response) {
 		  companyName = companyName.trim();
@@ -330,6 +359,19 @@ UserOtpService userOtpService;
 		  	EmailGenericMessageThread runnable = new EmailGenericMessageThread(email, "YAKHA - OTP for Password Regeneration", message, propertyConfig);
 			Thread th = new Thread(runnable);
 			th.start(); 
+		 return "success";
+	    }
+	  
+	  @RequestMapping(value = "/validateotpfortest", method = RequestMethod.GET)
+	    public @ResponseBody String  validateotpfortest(@RequestParam String test,@RequestParam String otp, @RequestParam String email, @RequestParam String companyId, HttpServletRequest request, HttpServletResponse response) {
+		UserOtp userOtp = userOtpService.findExistingUserOtpforTest(email, companyId, test);
+		 	if(userOtp == null){
+		 		return "failure";
+		 	}
+		 	
+		 	if(! userOtp.getOtp().equals(otp)){
+		 		return "failure";
+		 	}
 		 return "success";
 	    }
 	  

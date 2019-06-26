@@ -15,17 +15,108 @@
         <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
         <link href="css/font-awesome.css" rel="stylesheet" type="text/css">
         <link href="css/style.css" rel="stylesheet" type="text/css">
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="css/bootstrap_only_login_new.css">
         <link href="css/responsive.css" rel="stylesheet" type="text/css">
          <link href="css/font-awesome_new.css" rel="stylesheet" type="text/css">
          <link href="css/style_new.css" rel="stylesheet" type="text/css">
         <link href="css/responsive_new.css" rel="stylesheet" type="text/css">
         
         
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+       
+	
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+ <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="scripts/custom.js"></script>
+
 	<script type="text/javascript" src="scripts/pnotify.custom.min.js"></script>
-	<script type="text/javascript" src="scripts/custom.js"></script>
-	<script type="text/javascript" src="scripts/jquery.min.js"></script>
+
+<script type="text/javascript" src="scripts/pnotify.nonblock.js"></script>
+<script type="text/javascript" src="scripts/pnotify.buttons.js"></script>
+<%
+    String cid=request.getParameter("companyId");
+%>
+
+
+
+<link href="css/pnotify.custom.min.css" media="all" rel="stylesheet" type="text/css">
+			<script>
+			function clickform(){
+				var email = document.getElementById("username").value;
+				var firstname = document.getElementById("firstName").value;
+				var lastname = document.getElementById("lastName").value;
+				var companyId = '<%= request.getParameter("companyId") %>';
+				var testName = document.getElementById("testName").value;
+				var userDetails = {};
+				userDetails.user = email;
+				userDetails.testName = testName;
+				userDetails.companyId = companyId;
+				var url = "getotpfortest";
+					$.ajax({
+							url : url,
+							type: "POST",
+							//dataType: 'json',
+							contentType: 'application/json',
+							data: JSON.stringify(userDetails),
+							//processData: false,
+							success : function(data) {
+								console.log("SUCCESS: ", data);
+								if(data == "success"){
+									document.getElementById("verify_otp").style.display = "";
+									document.getElementById("login_otp").style.display = "none";
+									document.getElementById("otpLabel").style.display = "";
+									document.getElementById("otpLabelPass").style.display = "";
+									//otpLabel
+								}
+								else{
+									notify("Invalid OTP Entered");
+								}
+								
+								
+								//document.getElementById("no-"+sectionName).innerHTML = data;
+								
+							},
+							error : function(e) {
+								console.log("ERROR: ", e);
+								
+							}
+						});	
+					}
+					
+			function verifyOtp(){
+				var email = encodeURIComponent(document.getElementById("username").value);
+				var companyId = encodeURIComponent('<%= request.getParameter("companyId") %>');
+				var testName = encodeURIComponent(document.getElementById("testName").value);
+				var otp = document.getElementById("otpLabelPass").value;
+				
+				var url = "validateotpfortest?otp="+otp+"&email="+email+"&companyId="+companyId+"&test="+testName;
+						console.log('here url '+url);
+						$.ajax({
+						url : url,
+						success : function(data) {
+							console.log("SUCCESS: ", data);
+							if(data == "success"){
+								document.getElementById("verify_otp").style.display = "none";
+									document.getElementById("login_otp").style.display = "none";
+									document.getElementById("otpLabel").style.display = "none";
+									document.getElementById("otpLabelPass").style.display = "none";
+									document.getElementById("submitFormButton").style.display = "";
+								
+							}
+							else{
+								notify("Invalid OTP Entered");
+							}
+							
+							
+							//document.getElementById("no-"+sectionName).innerHTML = data;
+							
+						},
+						error : function(e) {
+							console.log("ERROR: ", e);
+							
+						}
+					});	
+			}
+			</script>
     </head>
     <body>
 
@@ -63,7 +154,7 @@
                 <div class="col-md-6">
                     <div class="starttestinfo loginformnew">
                         <h3>Sign In</h3>
-                         <form name="testloginform" class="userform" method="post" modelAttribute="testUserData" action="publicTestAuthenticate">
+                         <form name="testloginform" class="userform" id="testloginform" method="post" modelAttribute="testUserData" action="publicTestAuthenticate">
                           <form:hidden path="testUserData.testId" />
 				 			<form:hidden path="testUserData.user.companyName" />
 				 			<form:hidden path="testUserData.user.companyId" />	
@@ -75,11 +166,15 @@
                          <form:input path="testUserData.user.lastName" name="lastName" id="lastName"  placeholder="Last Name" required="true"/>
                             <label>Test Name</label>
                        	 <form:input path="testUserData.testName" name="testName" id="testName"   required="true" disabled="true"/>
+						 
+						  <label id="otpLabel" style="display:none">Enter OTP</label>
+                       	 <form:input path="testUserData.user.password" name="testName" id="otpLabelPass" style="display:none"/>
                           
                             <label>Company</label>
                              <form:input path="testUserData.user.companyName" name="companyName" id="companyName"  disabled="true"/>
-                            <input type="submit" value="SIGN IN">
-                      
+                           <input id="submitFormButton" type="submit" value="SIGN IN" style="display:none"> 
+							<a href="javascript:clickform();" id="login_otp" class="btn btn-secondary">Get OTP</a> 
+							<a href="javascript:verifyOtp();" id="verify_otp" class="btn btn-secondary" style="display:none">Verify OTP</a> 
                         </form>
                     </div>
                 </div>
@@ -119,6 +214,7 @@
 
         <!-- <script src="js/jquery.min.js"></script>
         <script src="js/bootstrap.min.js"></script> -->
+		
 
     </body>
 </html>

@@ -62,8 +62,8 @@ window.onhashchange=function(){window.location.hash="no-back-button";}
 	
 	
 		</c:if>
-	</div>
-	<c:if test="${justification}">
+		
+		<c:if test="${justification}">
 	<br/><br/>
 	<p style="font-size: large"><b> Detailed Answer Summary </b></p>
 		    <div class="accordiansections">
@@ -96,6 +96,8 @@ window.onhashchange=function(){window.location.hash="no-back-button";}
 		</c:forEach>           
        </div>
    </c:if>
+	</div>
+	
    
 <div class="container">
   <div class="page-header" style="background-color:#DAA300;color:#fff">
