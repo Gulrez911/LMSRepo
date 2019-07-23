@@ -34,6 +34,8 @@ public class QuestionInstanceDto {
 	Boolean confidentYes;
 	
 	Boolean confidentNo;
+	
+	String radioAnswer;
 
 	public QuestionMapperInstance getQuestionMapperInstance() {
 		return questionMapperInstance;
@@ -171,6 +173,34 @@ public class QuestionInstanceDto {
 		else{
 			setConfidence(true);
 		}
+	}
+
+	public String getRadioAnswer() {
+		return radioAnswer;
+	}
+
+	public void setRadioAnswer(String radioAnswer) {
+		this.radioAnswer = radioAnswer;
+			if(radioAnswer != null){
+				if(radioAnswer.equals("one")){
+					setOne(true);
+				}
+				else if(radioAnswer.equals("two")){
+					setTwo(true);
+				}
+				else if(radioAnswer.equals("three")){
+					setThree(true);
+				}
+				else if(radioAnswer.equals("four")){
+					setFour(true);
+				}
+				else if(radioAnswer.equals("five")){
+					setFive(true);
+				}
+				else if(radioAnswer.equals("six")){
+					setSix(true);
+				}
+			}
 	}
 
 	

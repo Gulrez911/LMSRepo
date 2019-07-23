@@ -27,15 +27,15 @@ public class TestUser {
 	public void testaddUser()
 	{
 		User user=new User();
-		user.setEmail("contact@thev2technologies.com");
+		user.setEmail("sreeram.gopal@iiht.com");
 		user.setMobileNumber("989878");
 		user.setFirstName("Tikam");
 		user.setLastName("Singh");
 		user.setPassword("12345");
-		user.setCompanyId("ALS2019");
-		user.setCompanyName("ALS2019");
+		user.setCompanyId("IH");
+		user.setCompanyName("IIHT");
 		user.setDepartment("IT");
-		user.setUserType(UserType.ADMIN);
+		user.setUserType(UserType.SUPER_ADMIN);
 		userService.addUser(user);
 	}
 	
@@ -45,15 +45,16 @@ public class TestUser {
 	public void testupdateUser()
 	{
 		User user=new User();
-		user.setEmail("abc@gmail.com");
-		user.setMobileNumber("9930070660");
-		user.setFirstName("abc111");
-		user.setLastName("xyz");
-		user.setPassword("1234");
-		user.setCompanyId("V2");
-		user.setCompanyName("V2 Technologies");
-		user.setDepartment("technical");
-		userService.updateUser(user);
+		user.setEmail("sreeram.gopal@iiht.com");
+		user.setMobileNumber("989878");
+		user.setFirstName("Tikam");
+		user.setLastName("Singh");
+		user.setPassword("12345");
+		user.setCompanyId("IH");
+		user.setCompanyName("IIHT");
+		user.setDepartment("IT");
+		user.setUserType(UserType.SUPER_ADMIN);
+		userService.addUser(user);
 	}
 	
 

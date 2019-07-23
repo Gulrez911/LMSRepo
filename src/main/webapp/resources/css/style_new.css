@@ -673,8 +673,8 @@ a:focus{
 
 
 [type="radio"]:not(:checked), [type="radio"]:checked {
-    position: absolute;
-    opacity: 0;
+    position: relative;
+    opacity: 1;
     pointer-events: none;
 }
 [type="radio"] + span:not(.lever) {

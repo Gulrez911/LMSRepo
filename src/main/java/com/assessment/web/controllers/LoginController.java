@@ -145,7 +145,11 @@ UserOtpService userOtpService;
 		  
 		  testUserData.getUser().setPassword("12345");
 		  Test test = testService.findTestById(Long.parseLong(testUserData.getTestId()));
-		  
+		  /**
+		   * Just making sure users are allowed to give second attempt from same browser session.
+		   * This flag supports preventing the results page to be refreshed again by the user.
+		   */
+		  request.getSession().setAttribute("submitted", null);
 		  /**
 		   * Remove otp entry for the user for the given test
 		   */
@@ -322,13 +326,13 @@ UserOtpService userOtpService;
 		  	 * Send Email
 		  	 */
 		  	String message = "Hello,\n\n<br><br>"+
-					"To appear for the test("+userOtp.getTestName()+") - use following OTP - \n<br>\n<br>"+
+					"To appear for the test ("+userOtp.getTestName()+") - use following OTP - \n<br>\n<br>"+
 					"<b><h3>OTP - "+userOtp2.getOtp()+"</h3></b>\n<br><br>"+
 					"Thanks and Regards\n<br>"
 					+ "System Admin - Yaksha\n<br>"
 					+"IIHT";
 		  	
-		  	EmailGenericMessageThread runnable = new EmailGenericMessageThread(userOtp.getUser(), "YAKHA - Use this to appear for the test"+userOtp.getTestName(), message, propertyConfig);
+		  	EmailGenericMessageThread runnable = new EmailGenericMessageThread(userOtp.getUser(), "YAKSHA - Use this to appear for the test - "+userOtp.getTestName(), message, propertyConfig);
 			Thread th = new Thread(runnable);
 			th.start(); 
 		 return "success";

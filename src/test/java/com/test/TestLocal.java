@@ -122,6 +122,36 @@ public class TestLocal {
 	}
 	
 	@Test
+	public void testClojureProgram() throws Exception{
+		String pg = FileUtils.readFileToString(new File("clojure.txt"));
+		CompileData data = new CompileData();
+		data.setLanguage("2");
+		data.setCode(pg);
+		data.setStdin("29");
+		ObjectMapper mapper = new ObjectMapper();
+		String str = mapper.writeValueAsString(data);
+		System.out.println(str);
+		 URL url = new URL("http://13.233.2.169:8088/compile"); 
+	        HttpURLConnection connection = (HttpURLConnection) url.openConnection(); 
+	        connection.setDoOutput(true); 
+	        connection.setInstanceFollowRedirects(false); 
+	        connection.setRequestMethod("POST"); 
+	        connection.setRequestProperty("Content-Type", "application/json"); 
+
+	        OutputStream os = connection.getOutputStream(); 
+	      
+			os.write(str.getBytes());
+			os.flush();
+			InputStream is = connection.getInputStream();
+			byte bat[] = new byte[is.available()];
+			is.read(bat);
+			String op = new String(bat);
+	        connection.getResponseCode(); 
+	        connection.disconnect(); 
+	        System.out.println(op);
+	}
+	
+	@Test
 	public void testGetJson() throws Exception {
 		CompileData data = new CompileData();
 		data.setLanguage("7");

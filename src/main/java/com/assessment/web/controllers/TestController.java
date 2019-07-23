@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.FileUtils;
 import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -46,6 +48,7 @@ import com.assessment.data.UserType;
 import com.assessment.repositories.QuestionRepository;
 import com.assessment.repositories.SkillRepository;
 import com.assessment.services.CompanyService;
+import com.assessment.services.FileStatusService;
 import com.assessment.services.QuestionMapperInstanceService;
 import com.assessment.services.QuestionService;
 import com.assessment.services.SectionService;
@@ -86,6 +89,13 @@ public class TestController {
 	
 	@Autowired
 	QuestionRepository questionRepository;
+	
+	@Autowired
+	FileStatusService fileStatusService;
+	
+	Logger logger = LoggerFactory.getLogger(TestController.class);
+	
+	
 	
 	 @RequestMapping(value = "/testlist", method = RequestMethod.GET)
 	  public ModelAndView testlist(@RequestParam(name= "page", required = false) Integer pageNumber, HttpServletRequest request, HttpServletResponse response) {
@@ -780,6 +790,15 @@ public class TestController {
 			return mav;
 		  }
 	 
+	 @RequestMapping(value = "/sendEmailToAll", method = RequestMethod.GET)
+	 public @ResponseBody String  sendEmailToAll( HttpServletRequest request, HttpServletResponse response) {
+		 	 User user = (User) request.getSession().getAttribute("user");
+			Test test = (Test) request.getSession().getAttribute("test");
+			List<User> users = userService.findByCompany(user.getCompanyId());
+			//	for(User u : user)
+			return "done";
+		  }
+	 
 	 @RequestMapping(value = "/removeAllUsers", method = RequestMethod.GET)
 	 public ModelAndView removeAllUsers( HttpServletRequest request, HttpServletResponse response) {
 		 	ModelAndView mav = new ModelAndView("add_test_step3");
@@ -927,6 +946,7 @@ public class TestController {
 	  }
 	  
 	  private void shareTest(String email, Long testId, String cid, String firstName, String lastName, String testName) {
+		  logger.info("sharing test "+testName+" with "+email);
 		  User user = userService.findByPrimaryKey(email, cid);
 		  	if(user == null) {
 		  		User us = new User();
@@ -951,6 +971,7 @@ public class TestController {
 				welcomeMailData = welcomeMailData.replace("{TEST_NAME}", testName);
 				welcomeMailData = welcomeMailData.replace("{URL}", url);
 				EmailGenericMessageThread client = new EmailGenericMessageThread(email, "Test Link - "+testName+" Sent by IIHT", welcomeMailData, propertyConfig);
+				//client.setSetStatus(true);
 				Thread th = new Thread(client);
 				th.start();
 			} catch (IOException e) {
@@ -958,6 +979,7 @@ public class TestController {
 				e.printStackTrace();
 				String message = "Test link mail could not be sent for "+email;
 				EmailGenericMessageThread client = new EmailGenericMessageThread("jatin.sutaria@thev2technologies.com", "Can not send Test link email", message, propertyConfig);
+				//client.setSetStatus(true);
 				Thread th = new Thread(client);
 				th.start();
 			}
@@ -975,6 +997,41 @@ public class TestController {
 				
 				
  			}
+ 			mav.addObject("message", "Congratulations! - Email with Test Links shared with users. ");// later put it as label
+			mav.addObject("msgtype", "Success");
+			  Page<Test> tests = testService.findByCompanyId(user.getCompanyId(), 0);
+		  		mav.addObject("tests", testService.populateWithPublicUrl(tests.getContent()));
+  		//mav.addObject("tests", tests);
+	 	return mav;
+	  }
+	  
+	  @RequestMapping(value = "/loadTestshareTestWithUsers", method = RequestMethod.GET)
+	  public ModelAndView loadTestshareTestWithUsers( HttpServletRequest request, HttpServletResponse response) throws IOException {
+	    ModelAndView mav = new ModelAndView("test_list");
+	       User user = (User) request.getSession().getAttribute("user");
+ 		
+ 		Test test = (Test) request.getSession().getAttribute("test");
+ 		List<String> emails = FileUtils.readLines(new File("emails.txt"));
+ 			for(String email : emails) {
+ 				String url = getUrlForUser(email, test.getId(), test.getCompanyId());
+ 				  url += "&inviteSent="+System.currentTimeMillis();
+ 				String html = propertyConfig.getTestLinkHtmlLocation();
+ 				String welcomeMailData = FileUtils.readFileToString(new File(html));
+				welcomeMailData = welcomeMailData.replace("{FULL_NAME}", email+" ");
+				welcomeMailData = welcomeMailData.replace("{TEST_NAME}", test.getTestName());
+				welcomeMailData = welcomeMailData.replace("{URL}", url);
+				EmailGenericMessageThread client = new EmailGenericMessageThread(email, "Test Link - "+test.getTestName()+" Sent by IIHT", welcomeMailData, propertyConfig, fileStatusService);
+				client.setSetStatus(true);
+				Thread th = new Thread(client);
+				th.start();
+				try{
+					Thread.sleep(1000);
+				}
+				catch(Exception e){
+					e.printStackTrace();
+				}
+ 			}
+ 			//Filest
  			mav.addObject("message", "Congratulations! - Email with Test Links shared with users. ");// later put it as label
 			mav.addObject("msgtype", "Success");
 			  Page<Test> tests = testService.findByCompanyId(user.getCompanyId(), 0);

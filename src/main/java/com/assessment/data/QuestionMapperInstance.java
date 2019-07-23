@@ -102,6 +102,8 @@ public class QuestionMapperInstance extends Base{
 				String choices = getQuestionMapper().getQuestion().getRightChoices();
 				String correct[] = choices.split("-");
 				String userC[] = userChoices.split("-");
+				//String correct[] = choices.split("-");
+				//String userC[] = userChoices.split("-");
 				if(Arrays.equals(correct, userC)) {
 					setCorrect(true);
 				}

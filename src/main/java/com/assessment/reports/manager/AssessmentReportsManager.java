@@ -45,11 +45,10 @@ import net.sf.dynamicreports.jasper.builder.JasperReportBuilder;
 import net.sf.dynamicreports.report.builder.DynamicReports;
 import net.sf.dynamicreports.report.builder.HyperLinkBuilder;
 import net.sf.dynamicreports.report.builder.column.TextColumnBuilder;
-import net.sf.dynamicreports.report.builder.component.HyperLinkComponentBuilder;
-import net.sf.dynamicreports.report.builder.style.StyleBuilders;
 import net.sf.dynamicreports.report.definition.datatype.DRIDataType;
 import net.sf.dynamicreports.report.exception.DRException;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
@@ -98,6 +97,9 @@ public class AssessmentReportsManager {
 		report.addColumn(col.column("User Code(In case of Coding Q)", "userProgram", (DRIDataType) type.stringType()).setWidth(70));
 		report.addColumn(col.column("Is Correct?", "correct", (DRIDataType) type.stringType()).setWidth(30));
 		report.addColumn(col.column("Confident about Answer?", "confidentAboutAnswer", (DRIDataType) type.stringType()).setWidth(30));
+		DefaultJasperReportsContext context = DefaultJasperReportsContext.getInstance();
+		JRPropertiesUtil.getInstance(context).setProperty("net.sf.jasperreports.xpath.executer.factory",
+		    "net.sf.jasperreports.engine.util.xml.JaxenXPathExecuterFactory");
 		
 		JasperReportBuilder builder = report
 				  .setTemplate(com.assessment.reports.manager.Templates.reportTemplate)
@@ -113,17 +115,24 @@ public class AssessmentReportsManager {
 				 .setIgnorePagination(true)
 				// .highlightDetailOddRows()
 				 .setParameter("net.sf.jasperreports.awt.ignore.missing.font", "true")
+				 .setParameter("net.sf.jasperreports.xpath.executer.factory", "net.sf.jasperreports.engine.util.xml.JaxenXPathExecuterFactory")
 				 .setProperties(props);
 		
 	//	builder.
 		 
 		 try {
 			 synchronized (this) {
+				 System.out.println("arm 1111111111111111");
 				 String filename = fullName+"-"+testName+"-Session.xls";
+				 System.out.println("arm 2222222222222222");
 				 filename = replaceInvalidCharactersFromFileName(filename);
+				 System.out.println("arm 33333333333333");
 				 FileOutputStream fos = new FileOutputStream(filename);
+				 System.out.println("arm 444444444444444");
 					builder.toXls(fos);
+					System.out.println("arm 5555555555555555");
 					fos.close();
+					System.out.println("arm 6666666666666666");
 					return fullName+"-"+testName+"-Session.xls";
 			}
 			

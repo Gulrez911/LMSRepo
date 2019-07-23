@@ -40,8 +40,7 @@ import com.assessment.data.UserType;
 import com.assessment.services.CompanyService;
 import com.assessment.services.QuestionService;
 import com.assessment.services.UserService;
-
-import net.sf.dynamicreports.report.constant.Language;
+import com.assessment.web.dto.VerificationResultsQ;
 
 @Controller
 public class QuestionController {
@@ -505,6 +504,7 @@ public class QuestionController {
 		try {
 			MultipartFile multipartFile = request.getFile("fileQuestions");
 			Long size = multipartFile.getSize();
+			String fileName = multipartFile.getName();
 			String contentType = multipartFile.getContentType();
 			InputStream stream = multipartFile.getInputStream();
 			File file = new File("questions.xml");
@@ -540,6 +540,8 @@ public class QuestionController {
 		}
 	}
 	
+	
+	
 	@RequestMapping(value = "/question_list", method = RequestMethod.GET)
 	public ModelAndView listQuestions(@RequestParam(name= "page", required = false) Integer pageNumber, HttpServletResponse response, HttpServletRequest request, ModelMap modelMap) throws Exception {
 		ModelAndView mav = new ModelAndView("question_list");
@@ -555,5 +557,59 @@ public class QuestionController {
   		mav.addObject("languages", ProgrammingLanguage.values());
 		CommonUtil.setCommonAttributesOfPagination(questions, modelMap, pageNumber, "question_list", null);
 		return mav;
+	}
+	
+	@RequestMapping(value = "/verification", method = RequestMethod.GET)
+	public ModelAndView verification(@RequestParam(name= "page", required = false) Integer pageNumber, HttpServletResponse response, HttpServletRequest request, ModelMap modelMap) throws Exception {
+		ModelAndView mav = new ModelAndView("verify");
+		
+		return mav;
+	}
+	
+	@RequestMapping(value = "/verifydata", method = RequestMethod.POST)
+	public ModelAndView verifydata(HttpServletResponse response, MultipartHttpServletRequest request) throws Exception {
+		ModelAndView mav = new ModelAndView("verifyresults");
+		try {
+			MultipartFile multipartFile = request.getFile("fileToUpload");
+			Long size = multipartFile.getSize();
+			String fileName = multipartFile.getName();
+			String contentType = multipartFile.getContentType();
+			InputStream stream = multipartFile.getInputStream();
+			File file = new File("questions.xml");
+			List<Question> questions = ExcelReader.parseExcelFileToBeans(stream, file);
+			List<VerificationResultsQ> vers = new ArrayList<>();
+				for(Question q : questions){
+					Company c = companyService.findByCompanyId(q.getCompanyId());
+					String problem = "";
+						if(c == null){
+							problem += "Invalid Company Id "+q.getCompanyId()+".";
+						}
+						
+						if(q.getRightChoices() == null){
+							problem += " No Correct Answer selected.";
+						}
+						
+						if(!(q.getRightChoices().contains("Choice 1") || q.getRightChoices().contains("Choice 2") || q.getRightChoices().contains("Choice 3") || q.getRightChoices().contains("Choice 4") || q.getRightChoices().contains("Choice 5") || q.getRightChoices().contains("Choice 6"))){
+							problem += " Invalid Correct Choice "+q.getRightChoices();
+						}
+					if(problem.length() > 0){
+						VerificationResultsQ ver = new VerificationResultsQ();
+						ver.setQuestionText(q.getQuestionText());
+						ver.setQuestionProblem(problem);
+						vers.add(ver);
+					}
+					
+				}
+			mav.addObject("results", vers);
+			logger.info("verifydata - verification complete");
+			return mav;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			logger.error("problem verifydata - verification", e);
+			mav.addObject("problem", "Problem in File Upload. Contact Admin");
+			//throw new AssessmentGenericException("problem in uploading qs", e);
+			return mav;
+		}
 	}
 }

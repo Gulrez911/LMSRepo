@@ -46,6 +46,7 @@ import com.assessment.data.UserTestSession;
 import com.assessment.eclipseche.config.response.WorkspaceResponse;
 import com.assessment.eclipseche.services.EclipseCheService;
 import com.assessment.repositories.QuestionMapperInstanceRepository;
+import com.assessment.repositories.UserTestSessionRepository;
 import com.assessment.services.CompanyService;
 import com.assessment.services.QuestionMapperInstanceService;
 import com.assessment.services.QuestionMapperService;
@@ -109,7 +110,33 @@ public class StudentController {
 	@Autowired
 	QuestionMapperInstanceRepository  questionMapperInstanceRep;
 	
+	@Autowired
+	UserTestSessionRepository testSessionRepository;
+	
 	Logger logger = LoggerFactory.getLogger(StudentController.class);
+	
+	public String getUserAfterCheckingNoOfAttempts(String user, String companyId, Test test){
+		UserTestSession session = testSessionRepository.findByPrimaryKey(user, test.getTestName(), test.getCompanyId());
+		  String userNameNew = "";
+		  if(session == null){
+			  userNameNew = user;
+			  return userNameNew;
+		  }
+		  else{
+			  /**
+			   * Step 2 - find out how many sessions for the given test the user has taken
+			   */
+			  List<UserTestSession> sessions = testSessionRepository.findByTestNamePart(user+"["+test.getId(), test.getTestName(), test.getCompanyId());
+			  int noOfConfAttempts = test.getNoOfConfigurableAttempts() ==null?50:test.getNoOfConfigurableAttempts();
+			  
+			  	if(noOfConfAttempts <= (sessions.size()+1)){
+			  		return "fail";
+			  	}
+			  
+			  userNameNew = user+"["+test.getId()+"-"+(sessions.size()+1+"]");
+			  return userNameNew;
+		  }
+	}
 	
 	 @RequestMapping(value = "/startTestSession", method = RequestMethod.GET)
 	  public ModelAndView studentHome(@RequestParam(required=false) String sharedDirect,@RequestParam(required=false) String inviteSent, @RequestParam String userId, @RequestParam String companyId, @RequestParam String testId, HttpServletRequest request, HttpServletResponse response) {
@@ -135,10 +162,38 @@ public class StudentController {
 		// User userDetails=userService.findUserById(Long.parseLong(userId),companyId);
 		if(userDetails!=null)
 		{
+			Test testDetails=testService.findTestById(Long.parseLong(testId),companyId);
+			/**
+			 * Get no of attempts for the email id and make configurabled attempts work for test givers
+			 */
+			String email = "";
+			 if(userDetails.getEmail().lastIndexOf("[") > 0 ){
+			 		email = userDetails.getEmail().substring(0, userDetails.getEmail().lastIndexOf("["));
+			 	}
+			 	else{
+			 		email = userDetails.getEmail();
+			 	}
+			UserTestSession session2 = testSessionRepository.findByPrimaryKey(email, testDetails.getTestName(), testDetails.getCompanyId());
+				if(session2 != null){
+					email =  getUserAfterCheckingNoOfAttempts(email, testDetails.getCompanyId(), testDetails);
+					if(email.equals("fail")){
+						ModelAndView mav = new ModelAndView("studentNoTest_ExceededAttempts");
+				  		mav.addObject("firstName", userDetails.getFirstName());
+				  		mav.addObject("lastName", userDetails.getLastName());
+				  		mav.addObject("attempts", testDetails.getNoOfConfigurableAttempts() == null?50:testDetails.getNoOfConfigurableAttempts());
+				  		return mav;
+					}
+				}
+				userDetails.setEmail(email);
+			/**
+			 * End code put to check configurabled attempts work for test givers who are send private test links through email
+			 */
+			
+			
 			studentTest.setUserName(userDetails.getFirstName()+" "+userDetails.getLastName());
 			studentTest.setEmailId(userDetails.getEmail());
 			testId=(String)request.getParameter("testId");
-			Test testDetails=testService.findTestById(Long.parseLong(testId),companyId);
+			
 			/**
 			 * Add code for image logo mapping
 			 */
@@ -258,7 +313,7 @@ public class StudentController {
 	 
 	 @RequestMapping(value = "/studentJourney", method = RequestMethod.POST)
 	 public ModelAndView studentStartExam(HttpServletRequest request, HttpServletResponse response,@ModelAttribute("studentTestForm") StudentTestForm studentForm) throws Exception {
-		// ModelAndView model= new ModelAndView("test");
+		// ModelAndView model= new ModelAndView("test_cognizant");
 		 ModelAndView model;
 		 User user = (User) request.getSession().getAttribute("user");
 		 Test test = (Test) request.getSession().getAttribute("test");
@@ -266,7 +321,7 @@ public class StudentController {
 		 		model= new ModelAndView("test_fstk");
 		 	}
 		 	else{
-		 		model= new ModelAndView("test");
+		 		model= new ModelAndView("test_cognizant");
 		 	}
 		 request.getSession().setAttribute("testStartDate", new Date());
 		 List<Section> sections = sectionService.getSectionsForTest(test.getTestName(),test.getCompanyId());
@@ -376,7 +431,7 @@ public class StudentController {
 	 
 	 @RequestMapping(value = "/changeSection", method = RequestMethod.GET)
 	  public ModelAndView changeSection(@RequestParam String sectionName, @RequestParam String timeCounter, HttpServletRequest request, HttpServletResponse response,@ModelAttribute("studentTestForm") StudentTestForm studentForm) {
-		// ModelAndView model= new ModelAndView("test");
+		// ModelAndView model= new ModelAndView("test_cognizant");
 		 User user = (User) request.getSession().getAttribute("user");
 		 Test test = (Test) request.getSession().getAttribute("test");
 		 ModelAndView model;
@@ -384,7 +439,7 @@ public class StudentController {
 		 		model= new ModelAndView("test_fstk");
 		 	}
 		 	else{
-		 		model= new ModelAndView("test");
+		 		model= new ModelAndView("test_cognizant");
 		 	}
 		 
 		 List<SectionInstanceDto> sectionInstanceDtos = (List<SectionInstanceDto>) request.getSession().getAttribute("sectionInstanceDtos");
@@ -599,6 +654,7 @@ public class StudentController {
 		 					 */
 		 					questionInstanceDto.getQuestionMapperInstance().setConfidence(currentQuestion.getConfidence());
 		 					questionInstanceDto.setConfidence(currentQuestion.getConfidence());
+		 					questionInstanceDto.setRadioAnswer(currentQuestion.getRadioAnswer());
 		 					sectionInstanceDto.setQuestionInstanceDtos(currentSection.getQuestionInstanceDtos());
 		 					break;
 		 				}
@@ -665,7 +721,7 @@ public class StudentController {
 	 
 	 @RequestMapping(value = "/nextQuestion", method = RequestMethod.POST)
 	  public ModelAndView nextQuestion(@RequestParam String questionId, @RequestParam String timeCounter,HttpServletRequest request, HttpServletResponse response,@ModelAttribute("currentQuestion") QuestionInstanceDto currentQuestion) throws Exception {
-		// ModelAndView model= new ModelAndView("test");
+		// ModelAndView model= new ModelAndView("test_cognizant");
 		 User user = (User) request.getSession().getAttribute("user");
 		 Test test = (Test) request.getSession().getAttribute("test");
 		 ModelAndView model;
@@ -673,7 +729,7 @@ public class StudentController {
 		 		model= new ModelAndView("test_fstk");
 		 	}
 		 	else{
-		 		model= new ModelAndView("test");
+		 		model= new ModelAndView("test_cognizant");
 		 	}
 		 
 		 List<SectionInstanceDto> sectionInstanceDtos = (List<SectionInstanceDto>) request.getSession().getAttribute("sectionInstanceDtos");
@@ -912,7 +968,7 @@ public class StudentController {
 	 
 	 @RequestMapping(value = "/prevQuestion", method = RequestMethod.POST)
 	  public ModelAndView prevQuestion(@RequestParam String questionId, @RequestParam String timeCounter,HttpServletRequest request, HttpServletResponse response,@ModelAttribute("currentQuestion") QuestionInstanceDto currentQuestion) throws Exception {
-		 //ModelAndView model= new ModelAndView("test");
+		 //ModelAndView model= new ModelAndView("test_cognizant");
 		 User user = (User) request.getSession().getAttribute("user");
 		 Test test = (Test) request.getSession().getAttribute("test");
 		 ModelAndView model;
@@ -920,7 +976,7 @@ public class StudentController {
 		 		model= new ModelAndView("test_fstk");
 		 	}
 		 	else{
-		 		model= new ModelAndView("test");
+		 		model= new ModelAndView("test_cognizant");
 		 	}
 		 
 		 List<SectionInstanceDto> sectionInstanceDtos = (List<SectionInstanceDto>) request.getSession().getAttribute("sectionInstanceDtos");
@@ -1057,7 +1113,7 @@ public class StudentController {
 				mav.addObject("msgtype", "Information");
 		 	    return mav;
 		 	}
-		 ModelAndView model= new ModelAndView("test");
+		 ModelAndView model= new ModelAndView("test_cognizant");
 		 User user = (User) request.getSession().getAttribute("user");
 		 Test test = (Test) request.getSession().getAttribute("test");
 		 List<SectionInstanceDto> sectionInstanceDtos = (List<SectionInstanceDto>) request.getSession().getAttribute("sectionInstanceDtos");
@@ -1074,12 +1130,28 @@ public class StudentController {
 //			}
 		 	
 		// }
-		 
+		 String confidencePercent = "NA";
+		 float totQs = 0;
+		 float totConfidence = 0;
 		 setAnswers(request, currentSection, currentQuestion, questionId);
+		 //currentQuestion.getQuestionMapperInstance().getQuestionMapper().getQuestion().getRightChoices().split(",").length
 		 	for(SectionInstanceDto sectionInstanceDto : sectionInstanceDtos) {
 		 		saveSection(sectionInstanceDto, request);
-		 		
+		 		if(test.getConsiderConfidence() != null && test.getConsiderConfidence()){
+		 			totQs += sectionInstanceDto.getNoOfQuestions();
+		 				for(QuestionInstanceDto dto : sectionInstanceDto.getQuestionInstanceDtos()){
+		 					if(dto.getConfidence() != null && dto.getConfidence()){
+		 						totConfidence += 1;
+		 					}
+		 				}
+		 			 
+		 		}
 		 	}
+		 	DecimalFormat df = new DecimalFormat("##.##");
+		 	if(test.getConsiderConfidence() != null && test.getConsiderConfidence()){
+		 		confidencePercent = df.format(100 * ((float)totConfidence/totQs));
+		 	}
+		 	
 		 	UserTestSession userTestSession = new UserTestSession();
 			userTestSession.setCompanyId(user.getCompanyId());
 			userTestSession.setCompanyName(user.getCompanyName());
@@ -1093,7 +1165,7 @@ public class StudentController {
 			 * Store sectio results in user test session
 			 */
 			
-			 DecimalFormat df = new DecimalFormat("##.##");
+			 
 			 String sectionsQuestionsNotAnswered = "";
 			 for(SectionInstanceDto sectionInstanceDto : sectionInstanceDtos) {
 				 userTestSession.setSectionResults((userTestSession.getSectionResults() == null?"":userTestSession.getSectionResults())+", "+sectionInstanceDto.getSection().getSectionName()+"-"+df.format((new Float(sectionInstanceDto.getTotalCorrectAnswers()) / new Float(sectionInstanceDto.getNoOfQuestions())) * 100 ));
@@ -1146,6 +1218,11 @@ public class StudentController {
 					 * Add code for showing justification grid
 					 */
 					model.addObject("sectionInstanceDtos", sectionInstanceDtos);
+				}
+				
+				if(test.getConsiderConfidence() != null && test.getConsiderConfidence()){
+					//get confidence percent
+					model.addObject("confidencePercent", confidencePercent);
 				}
 			
 		} catch (Exception e) {
