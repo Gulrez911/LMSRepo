@@ -44,6 +44,9 @@ window.onhashchange=function(){window.location.hash="no-back-button";}
 					 Pass Percentage - ${PASS_PERCENTAGE} <br/>
 					 Result Percentage - ${RESULT_PERCENTAGE} <br/>
 					 Status - ${STATUS} <br/>
+						<c:if test="${confidencePercent != null}">
+						Overall Confidence Percentage - ${confidencePercent} <br/>
+						</c:if>
 					 Topic Wise Performance - See below 
 		<table width="100%" style="border-collapse:collapse;border: 1px solid black">
                                           <tbody>

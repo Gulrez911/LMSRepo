@@ -44,6 +44,21 @@
 				var email = document.getElementById("username").value;
 				var firstname = document.getElementById("firstName").value;
 				var lastname = document.getElementById("lastName").value;
+					if(!email || 0 === email.length){
+						notify('Enter a valid email id');
+						return;
+					}
+					
+					if(!firstname || 0 === firstname.length){
+						notify('First Name is mandatory');
+						return;
+					}
+					
+					if(!lastname || 0 === lastname.length){
+						notify('Last Name is mandatory');
+						return;
+					}
+				
 				var companyId = '<%= request.getParameter("companyId") %>';
 				var testName = document.getElementById("testName").value;
 				var userDetails = {};
@@ -65,10 +80,11 @@
 									document.getElementById("login_otp").style.display = "none";
 									document.getElementById("otpLabel").style.display = "";
 									document.getElementById("otpLabelPass").style.display = "";
+									notify('Check your inbox for OTP');
 									//otpLabel
 								}
 								else{
-									notify("Invalid OTP Entered");
+									notify("Check your details. OTP generation failed. Try again or contact Test Admin");
 								}
 								
 								
@@ -87,6 +103,27 @@
 				var companyId = encodeURIComponent('<%= request.getParameter("companyId") %>');
 				var testName = encodeURIComponent(document.getElementById("testName").value);
 				var otp = document.getElementById("otpLabelPass").value;
+				var firstname = document.getElementById("firstName").value;
+				var lastname = document.getElementById("lastName").value;
+				
+					if(!email || 0 === email.length){
+						notify('Enter a valid email id');
+						return;
+					}
+					
+					if(!firstname || 0 === firstname.length){
+						notify('First Name is mandatory');
+						return;
+					}
+					
+					if(!lastname || 0 === lastname.length){
+						notify('Last Name is mandatory');
+						return;
+					}
+					if(!otp || 0 === otp.length){
+						notify('OTP is mandatory');
+						return;
+					}
 				
 				var url = "validateotpfortest?otp="+otp+"&email="+email+"&companyId="+companyId+"&test="+testName;
 						console.log('here url '+url);
@@ -100,10 +137,10 @@
 									document.getElementById("otpLabel").style.display = "none";
 									document.getElementById("otpLabelPass").style.display = "none";
 									document.getElementById("submitFormButton").style.display = "";
-								
+									notify('OTP validation successful! Now click to start test.');
 							}
 							else{
-								notify("Invalid OTP Entered");
+								notify("Invalid OTP Entered. Either enter a correct OTP or refresh the page and click to generate a new OTP");
 							}
 							
 							
@@ -214,7 +251,29 @@
 
         <!-- <script src="js/jquery.min.js"></script>
         <script src="js/bootstrap.min.js"></script> -->
-		
+		<script>
+		function notify(text){
+				 var notification = 'Information';
+				 $(function(){
+				 	new PNotify({
+				 	title: notification,
+					 text: text,
+					 type: 'Information',
+					 width: '20%',
+					 hide: false,
+					 buttons: {
+            					closer: true,
+            					sticker: false
+       					 },
+					 history: {
+            					history: false
+        				 }
+					 });
+				 
+				 }); 	
+			}
+			
+			</script>
 
     </body>
 </html>

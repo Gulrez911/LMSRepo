@@ -496,7 +496,7 @@
 					
                      <div class="form-group">
                         <a href="#" id="login_otp" class="btn btn-secondary" onclick="javascript:loginClick();">Login</a> 
-						<a href="#" id="forgetPassword" class="btn btn-secondary" onclick="javascript:showOtp();">Forget Password</a>  						
+						<a href="#" id="forgetPassword" class="btn btn-secondary" onclick="javascript:showOtp();">Forgot Password</a>  						
                      </div>
                     
                   </form>
@@ -750,7 +750,7 @@
 				 	title: notification,
 					 text: text,
 					 type: 'Information',
-					 width: '60%',
+					 width: '20%',
 					 hide: false,
 					 buttons: {
             					closer: true,

@@ -18,6 +18,7 @@
 		<li><a href="showSkillTags"><img src="images/results_icon.png" alt="logo"> <span class="collapse in hidden-xs">Skill based Reports</span></a></li>
 		<li><a href="showProfileParams"><img src="images/dashboard_icon.png" alt="logo"> <span class="collapse in hidden-xs">Recomm Setting</span></a></li>
 		<li><a href="showAllSchedules"><img src="images/dashboard_icon.png" alt="logo"> <span class="collapse in hidden-xs">Schedule Management</span></a></li>
+		<li><a href="verification"><img src="images/dashboard_icon.png" alt="logo"> <span class="collapse in hidden-xs">Verify Data</span></a></li>
 	    <%
 		User user = (User) request.getSession().getAttribute("user");
 		System.out.println("user is "+user.getEmail() );

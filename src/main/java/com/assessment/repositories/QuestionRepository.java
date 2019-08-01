@@ -84,5 +84,13 @@ public interface QuestionRepository extends JpaRepository<Question,Long>
 	           "GROUP BY " +
 	           "    q.qualifier1, q.qualifier2, q.qualifier3, q.qualifier4, q.qualifier5")
 	public Set<Qualifiers> getAllUniqueQualifiers(@Param("companyId")String companyId);
+	 
+	 @Query("select q from Question q where (q.qualifier1 is not null and q.qualifier2 is not null and q.qualifier3 is not null) group by q.qualifier1, q.qualifier2, q.qualifier3 having count(q) > 5")
+	 public List<Question> getAdaptiveAssessmentLevel3Questions(@Param("companyId")String companyId);
+	 
+	 //@Query("select q from Question q where (q.companyId=:companyId and q.qualifier1=:qualifier1 and (q.qualifier2 is null or trim(q.qualifier2) ='')) group by q.qualifier1 having count(q) > 5")
+	
+	 @Query(value="select  count(*) from Question where (companyId =:companyId and qualifier1  =:qualifier1 and (qualifier2 is null or trim(qualifier2) ='')) having count(*) > 5")
+	 public Integer getAdaptiveAssessmentLevel1Count(@Param("qualifier1") String qualifier1, @Param("companyId")String companyId);
 
 }

@@ -582,6 +582,27 @@
 		else if(language == 'JAVASCRIPT'){
 			editor.session.setMode("ace/mode/javascript");
 		}
+		else if(language == 'CLOJURE'){
+			editor.session.setMode("ace/mode/clojure");
+		}
+		else if(language == 'GO'){
+			editor.session.setMode("ace/mode/golang");
+		}
+		else if(language == 'BASH'){
+			editor.session.setMode("ace/mode/batchfile");
+		}
+		else if(language == 'OBJECTIVE_C'){
+			editor.session.setMode("ace/mode/objectivec");
+		}
+		else if(language == 'MYSQL'){
+			editor.session.setMode("ace/mode/sql");
+		}
+		else if(language == 'PERL'){
+			editor.session.setMode("ace/mode/perl");
+		}
+		else if(language == 'RUST'){
+			editor.session.setMode("ace/mode/rust");
+		}
 		
 	    
 		
@@ -719,6 +740,27 @@
 		else if(language == 'JAVASCRIPT'){
 			lang = '4';
 		}
+		else if(language == 'CLOJURE'){
+			lang = '2';
+		}
+		else if(language == 'GO'){
+			lang = '6';
+		}
+		else if(language == 'BASH'){
+			lang = '11';
+		}
+		else if(language == 'OBJECTIVE_C'){
+			lang = '12';
+		}
+		else if(language == 'MYSQL'){
+			lang = '13';
+		}
+		else if(language == 'PERL'){
+			lang = '14';
+		}
+		else if(language == 'RUST'){
+			lang = '15';
+		}
 	
 	var url = 'compile';
 	var data = {}; 
@@ -780,6 +822,27 @@
 		}
 		else if(language == 'JAVASCRIPT'){
 			lang = '4';
+		}
+		else if(language == 'CLOJURE'){
+			lang = '2';
+		}
+		else if(language == 'GO'){
+			lang = '6';
+		}
+		else if(language == 'BASH'){
+			lang = '11';
+		}
+		else if(language == 'OBJECTIVE_C'){
+			lang = '12';
+		}
+		else if(language == 'MYSQL'){
+			lang = '13';
+		}
+		else if(language == 'PERL'){
+			lang = '14';
+		}
+		else if(language == 'RUST'){
+			lang = '15';
 		}
 	
 	var url = 'compileAndRunSystemTest';
@@ -850,6 +913,7 @@
 				count ++;
 			}
 			
+			var noOfConfiguredChoices = '${currentQuestion.questionMapperInstance.questionMapper.question.rightChoices}'.split(',').length;
 			var correctNo = ('${currentQuestion.questionMapperInstance.questionMapper.question.rightChoices}'.match(/-/g) || []).length  + 1;
 			
 

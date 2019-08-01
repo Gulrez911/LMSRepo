@@ -134,5 +134,14 @@ public class TestQuestion {
 			questionService.createQuestion(q);
 		}
 	}
+	
+	@Test
+	@Rollback(value=false)
+	public void testAdaptiveTestQsLevel3(){
+		//List<Question> qs = questionRepository.getAdaptiveAssessmentLevel3Questions("IH");
+		//System.out.println(qs.size());
+		Integer count  = questionRepository.getAdaptiveAssessmentLevel1Count("Core java", "IH");
+		System.out.println(count);
+	}
 
 }

@@ -136,6 +136,18 @@ public class Question extends Base{
 	@Column(length=2000)
 	private String hiddenOutputNegative;
 	
+	@Column(length=2000)
+	private String hiddenInputExtremeMinimalValue;
+	
+	@Column(length=2000)
+	private String hiddenInputExtremePositiveValue;
+	
+	@Column(length=2000)
+	private String hiddenOutputExtremeMinimalValue;
+	
+	@Column(length=2000)
+	private String hiddenOutputExtremePositiveValue;
+	
 	@Column(length=2000) 
 	String instructionsIfAny;
 	
@@ -798,6 +810,30 @@ public class Question extends Base{
 	}
 	public void setJustification(String justification) {
 		this.justification = justification;
+	}
+	public String getHiddenInputExtremeMinimalValue() {
+		return hiddenInputExtremeMinimalValue;
+	}
+	public void setHiddenInputExtremeMinimalValue(String hiddenInputExtremeMinimalValue) {
+		this.hiddenInputExtremeMinimalValue = hiddenInputExtremeMinimalValue;
+	}
+	public String getHiddenInputExtremePositiveValue() {
+		return hiddenInputExtremePositiveValue;
+	}
+	public void setHiddenInputExtremePositiveValue(String hiddenInputExtremePositiveValue) {
+		this.hiddenInputExtremePositiveValue = hiddenInputExtremePositiveValue;
+	}
+	public String getHiddenOutputExtremeMinimalValue() {
+		return hiddenOutputExtremeMinimalValue;
+	}
+	public void setHiddenOutputExtremeMinimalValue(String hiddenOutputExtremeMinimalValue) {
+		this.hiddenOutputExtremeMinimalValue = hiddenOutputExtremeMinimalValue;
+	}
+	public String getHiddenOutputExtremePositiveValue() {
+		return hiddenOutputExtremePositiveValue;
+	}
+	public void setHiddenOutputExtremePositiveValue(String hiddenOutputExtremePositiveValue) {
+		this.hiddenOutputExtremePositiveValue = hiddenOutputExtremePositiveValue;
 	}
 	
 	

@@ -223,7 +223,7 @@
                                             </div>
 										<div class="formfield">
 										 <label>Justification for Answer</label>
-										<form:textarea path="question.justification" required="true" />
+										<form:textarea path="question.justification"  id="justification" />
 									</div>
                                             
                                         </div>
@@ -563,6 +563,7 @@
 			
 			document.getElementById("input").required = true;
 			document.getElementById("output").required = true;
+			//document.getElementById("justification").required = false;
 		}
 		else if(selectedValue == 'FULL_STACK_JAVA' || selectedValue == 'FULLSTACK'){
 			document.getElementById("mcqDiv").style.display = 'none';
@@ -572,6 +573,7 @@
 			document.getElementById("choice2").required = false;
 			document.getElementById("input").required = false;
 			document.getElementById("output").required = false;
+			//document.getElementById("justification").required = false;
 		}
 		else{
 			document.getElementById("mcqDiv").style.display = '';
@@ -581,6 +583,7 @@
 			document.getElementById("choice2").required = true;
 			document.getElementById("input").required = false;
 			document.getElementById("output").required = false;
+		//	document.getElementById("justification").required = true;
 		}
 	}
 	

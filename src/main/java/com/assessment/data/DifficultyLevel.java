@@ -2,7 +2,7 @@ package com.assessment.data;
 
 public enum DifficultyLevel {
 	
-	EASY("EASY"), MEDIUM("MEDIUM"), DIFFICULT("DIFFICULT");
+	VERY_EASY("VERY_EASY"), EASY("EASY"), MEDIUM("MEDIUM"), DIFFICULT("DIFFICULT"), VERY_DIFFICULT("VERY_DIFFICULT");
 	
 	String level;
 	private DifficultyLevel(String level) {
