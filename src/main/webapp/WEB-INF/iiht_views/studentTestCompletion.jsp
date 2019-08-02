@@ -61,6 +61,45 @@ window.onhashchange=function(){window.location.hash="no-back-button";}
 		  </tbody>
 	   </table>
 		</p>
+		
+		
+                    
+						
+						<p style="font-size:17px;line-height:24px;margin:0 0 16px">
+						<table width="100%" style="border-collapse:collapse;border: 1px solid black">
+                                          <tbody>
+					  <thead>
+                        <tr style="border-collapse:collapse;border: 1px solid black">
+						
+						<th style="border: 1px solid black">Compilation Errors </th>
+						<th style="border: 1px solid black">Runtime Errors </th>
+						<th style="border: 1px solid black">Basic Test Case 1 </th>
+						<th style="border: 1px solid black">* Basic Test Case 2 </th>
+						<th style="border: 1px solid black">Test Case (Minimal Value) </th>
+						<th style="border: 1px solid black">Test Case (High Value) </th>
+						<th style="border: 1px solid black">Test Case (Invalid Data) </th>
+					    </tr>
+					    </thead>
+			  <c:forEach var="ins" items="${codingInstances}">   
+			  <tr>  
+			   <label style="font-size:17px;line-height:24px;margin:0 0 16px"> ${ins.questionMapper.question.questionText}</label>
+		<td style="${ins.codeCompilationErrors == true? "color:green":"color:red"}">${ins.codeCompilationErrors == true?"NO":"YES"}</td>  
+			  <td style="${ins.codeRunTimeErrors == true? "color:green":"color:red"}">${ins.codeRunTimeErrors == true?"NO":"YES"}</td>  
+	<td style="${ins.testCaseInputPositive == true? "color:green":"color:red"}">${ins.testCaseInputPositive == true?"NO":"YES"}</td>  
+	<td style="${ins.testCaseInputNegative == true? "color:green":"color:red"}">${ins.testCaseInputNegative == true?"NO":"YES"}</td>  
+			   <td style="${ins.testCaseMinimalValue == true? "color:green":"color:red"}">${ins.testCaseMinimalValue == true?"NO":"YES"}</td>  
+			   <td style="${ins.testCaseMaximumValue == true? "color:green":"color:red"}">${ins.testCaseMaximumValue == true?"NO":"YES"}</td>  
+			   <td style="${ins.testCaseInvalidData == true? "color:green":"color:red"}">${ins.testCaseInvalidData == true?"NO":"YES"}</td>  
+			   </tr>  
+			  </c:forEach>
+			 
+		  </tbody>
+		  </table>
+		</p>
+					
+				
+		
+	   
 	</div>
 	
 	

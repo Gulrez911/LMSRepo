@@ -64,6 +64,20 @@ public class QuestionMapperInstance extends Base{
 	String workspaceDateOfSubmission;
 	
 	Boolean confidence;
+	
+	Boolean codeCompilationErrors;
+	
+	Boolean codeRunTimeErrors;
+	
+	Boolean testCaseInputPositive;
+	
+	Boolean testCaseInputNegative;
+	
+	Boolean testCaseMinimalValue;
+	
+	Boolean testCaseMaximumValue;
+	
+	Boolean testCaseInvalidData;
 
 	public QuestionMapper getQuestionMapper() {
 		return questionMapper;
@@ -153,10 +167,12 @@ public class QuestionMapperInstance extends Base{
 
 	public void setCodingOuputBySystemTestCase(String codingOuputBySystemTestCase) {
 		this.codingOuputBySystemTestCase = codingOuputBySystemTestCase;
-		if(getQuestionMapper().getQuestion().getHiddenOutputNegative().equalsIgnoreCase(codingOuputBySystemTestCase)){
+		if(getQuestionMapper().getQuestion().getHiddenOutputNegative().equalsIgnoreCase(codingOuputBySystemTestCase == null?"":codingOuputBySystemTestCase)){
+			setTestCaseInputNegative(true);
 			setCorrect(true);
 		}
 		else{
+			setTestCaseInputNegative(false);
 			setCorrect(false);
 		}
 		setAnswered(true);
@@ -246,6 +262,87 @@ public class QuestionMapperInstance extends Base{
 	public void setConfidence(Boolean confidence) {
 		this.confidence = confidence;
 	}
+
+	public Boolean getTestCaseInputPositive() {
+		if(this.testCaseInputPositive == null){
+			return false;
+		}
+		return testCaseInputPositive;
+	}
+
+	public void setTestCaseInputPositive(Boolean testCaseInputPositive) {
+		this.testCaseInputPositive = testCaseInputPositive;
+	}
+
+	public Boolean getTestCaseInputNegative() {
+		if(this.testCaseInputNegative == null){
+			return false;
+		}
+		return testCaseInputNegative;
+	}
+
+	public void setTestCaseInputNegative(Boolean testCaseInputNegative) {
+		this.testCaseInputNegative = testCaseInputNegative;
+	}
+
+	public Boolean getTestCaseMinimalValue() {
+		if(this.testCaseMinimalValue == null){
+			return false;
+		}
+		return testCaseMinimalValue;
+	}
+
+	public void setTestCaseMinimalValue(Boolean testCaseMinimalValue) {
+		this.testCaseMinimalValue = testCaseMinimalValue;
+	}
+
+	public Boolean getTestCaseMaximumValue() {
+		if(this.testCaseMaximumValue == null){
+			return false;
+		}
+		return testCaseMaximumValue;
+	}
+
+	public void setTestCaseMaximumValue(Boolean testCaseMaximumValue) {
+		this.testCaseMaximumValue = testCaseMaximumValue;
+	}
+
+	public Boolean getTestCaseInvalidData() {
+		if(this.testCaseInvalidData == null){
+			return false;
+		}
+		return testCaseInvalidData;
+	}
+
+	public void setTestCaseInvalidData(Boolean testCaseInvalidData) {
+		this.testCaseInvalidData = testCaseInvalidData;
+	}
+
+	public Boolean getCodeCompilationErrors() {
+		if(this.codeCompilationErrors == null){
+			return false;
+		}
+		return codeCompilationErrors;
+	}
+
+	public void setCodeCompilationErrors(Boolean codeCompilationErrors) {
+		this.codeCompilationErrors = codeCompilationErrors;
+	}
+
+	public Boolean getCodeRunTimeErrors() {
+			if(this.codeRunTimeErrors == null){
+				return false;
+			}
+		return codeRunTimeErrors;
+	}
+
+	public void setCodeRunTimeErrors(Boolean codeRunTimeErrors) {
+		this.codeRunTimeErrors = codeRunTimeErrors;
+	}
+
+	
+
+	
 	
 	
 	

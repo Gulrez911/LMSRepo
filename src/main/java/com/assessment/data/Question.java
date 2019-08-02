@@ -148,6 +148,12 @@ public class Question extends Base{
 	@Column(length=2000)
 	private String hiddenOutputExtremePositiveValue;
 	
+	@Column(length=2000)
+	private String hiddenInputInvalidDataValue;
+	
+	@Column(length=2000)
+	private String hiddenOutputInvalidDataValue;
+	
 	@Column(length=2000) 
 	String instructionsIfAny;
 	
@@ -834,6 +840,18 @@ public class Question extends Base{
 	}
 	public void setHiddenOutputExtremePositiveValue(String hiddenOutputExtremePositiveValue) {
 		this.hiddenOutputExtremePositiveValue = hiddenOutputExtremePositiveValue;
+	}
+	public String getHiddenInputInvalidDataValue() {
+		return hiddenInputInvalidDataValue;
+	}
+	public void setHiddenInputInvalidDataValue(String hiddenInputInvalidDataValue) {
+		this.hiddenInputInvalidDataValue = hiddenInputInvalidDataValue;
+	}
+	public String getHiddenOutputInvalidDataValue() {
+		return hiddenOutputInvalidDataValue;
+	}
+	public void setHiddenOutputInvalidDataValue(String hiddenOutputInvalidDataValue) {
+		this.hiddenOutputInvalidDataValue = hiddenOutputInvalidDataValue;
 	}
 	
 	

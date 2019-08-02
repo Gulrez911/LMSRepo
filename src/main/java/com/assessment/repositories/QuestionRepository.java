@@ -90,7 +90,7 @@ public interface QuestionRepository extends JpaRepository<Question,Long>
 	 
 	 //@Query("select q from Question q where (q.companyId=:companyId and q.qualifier1=:qualifier1 and (q.qualifier2 is null or trim(q.qualifier2) ='')) group by q.qualifier1 having count(q) > 5")
 	
-	 @Query(value="select  count(*) from Question where (companyId =:companyId and qualifier1  =:qualifier1 and (qualifier2 is null or trim(qualifier2) ='')) having count(*) > 5")
-	 public Integer getAdaptiveAssessmentLevel1Count(@Param("qualifier1") String qualifier1, @Param("companyId")String companyId);
+//	 @Query(value="select  count(*) from Question where (companyId =:companyId and qualifier1  =:qualifier1 and (qualifier2 is null or trim(qualifier2) ='')) having count(*) > 5")
+//	 public Integer getAdaptiveAssessmentLevel1Count(@Param("qualifier1") String qualifier1, @Param("companyId")String companyId);
 
 }

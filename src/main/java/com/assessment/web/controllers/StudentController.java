@@ -18,6 +18,7 @@ import org.dozer.Mapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -515,7 +516,9 @@ public class StudentController {
 		return sectionInstanceDto;
 	 }
 	 
-	 private void setAnswers(HttpServletRequest request, SectionInstanceDto currentSection, QuestionInstanceDto currentQuestion, String questionMapperId) {
+	 
+	 
+	 private void setAnswers(HttpServletRequest request, SectionInstanceDto currentSection, QuestionInstanceDto currentQuestion, String questionMapperId, Boolean calledFromSubmit) {
 		 /**
 		  * Get the corresponding section from session object
 		  */
@@ -542,23 +545,7 @@ public class StudentController {
 				 			String type = questionInstanceDto.getQuestionMapperInstance().getQuestionMapper().getQuestion().getQuestionType().getType();
 				 			Question q = questionInstanceDto.getQuestionMapperInstance().getQuestionMapper().getQuestion();
 				 			if(type != null && type.equals(QuestionType.CODING.getType())){
-				 				String lang = LanguageCodes.getLanguageCode(questionInstanceDto.getQuestionMapperInstance().getQuestionMapper().getQuestion().getLanguage().getLanguage());
-				 				logger.info("compiling lang is "+lang);
-				 				System.out.println("compiling lang is "+lang);
-				 				CompileData compileData = new CompileData();
-				 				compileData.setLanguage(lang);
-				 				String code = currentQuestion.getCode();
-				 				code = code.replaceAll("\\\\n", System.lineSeparator());
-				 				code = code.replaceAll("\\\\t", "   ");
-				 				compileData.setCode(code);
-				 				compileData.setStdin(q.getHiddenInputNegative());
-				 				CompileOutput op = compiler.compile(compileData);
-				 				op.setOutput((op.getOutput() == null)?op.getOutput():op.getOutput().replaceAll("\n", ""));
-				 				currentQuestion.setOutput(op.getOutput() == null?"wrong":op.getOutput());
-				 				questionInstanceDto.setCode(currentQuestion.getCode());
-				 				questionInstanceDto.setOutput(op.getOutput() == null?"wrong":op.getOutput());
-				 				questionInstanceDto.getQuestionMapperInstance().setCodeByUser(currentQuestion.getCode().replaceAll("\r", ""));
-				 				questionInstanceDto.getQuestionMapperInstance().setCodingOuputBySystemTestCase(op.getOutput() == null?"wrong":op.getOutput());
+				 				evaluateCodingAnswer(currentQuestion, questionInstanceDto);//here questionInstanceDto is updated with compilation results
 				 				sectionInstanceDto.setQuestionInstanceDtos(currentSection.getQuestionInstanceDtos());
 				 				break;
 				 			}
@@ -663,6 +650,139 @@ public class StudentController {
 		 	}
 	 }
 	 
+	 private void evaluateCodingAnswer(QuestionInstanceDto currentQuestion,  QuestionInstanceDto questionInstanceDto){
+		 Question q = questionInstanceDto.getQuestionMapperInstance().getQuestionMapper().getQuestion();
+		 boolean answered = questionInstanceDto.getQuestionMapperInstance().getAnswered() == null?false:questionInstanceDto.getQuestionMapperInstance().getAnswered();
+			if(answered){
+				if(currentQuestion.getInput() == null){
+					answered = true; // this situation should not occur
+				}
+				
+				if(questionInstanceDto.getQuestionMapperInstance().getCodeByUser() == null){
+					answered = true; // again a rar sitiation
+				}
+				
+				if(!currentQuestion.getCode().equals(questionInstanceDto.getQuestionMapperInstance().getCodeByUser())){
+					answered = false; // if the code has changed then need to recompile the code
+				}
+				else{
+					answered = true;
+				}
+			}
+			if(!answered){
+			String lang = LanguageCodes.getLanguageCode(questionInstanceDto.getQuestionMapperInstance().getQuestionMapper().getQuestion().getLanguage().getLanguage());
+			logger.info("compiling lang is "+lang);
+			System.out.println("compiling lang is "+lang);
+			CompileData compileData = new CompileData();
+			compileData.setLanguage(lang);
+			String code = currentQuestion.getCode();
+			code = code.replaceAll("\\\\n", System.lineSeparator());
+			code = code.replaceAll("\\\\t", "   ");
+			compileData.setCode(code);
+			compileData.setStdin(q.getHiddenInputNegative());
+			/**
+			 * Negative Test Case
+			 */
+			CompileOutput op = compiler.compile(compileData);
+			op.setOutput((op.getOutput() == null)?op.getOutput():op.getOutput().replaceAll("\n", ""));
+			currentQuestion.setOutput(op.getOutput() == null?"wrong":op.getOutput());
+			questionInstanceDto.setCode(currentQuestion.getCode());
+			questionInstanceDto.setOutput(op.getOutput() == null?"wrong":op.getOutput());
+			questionInstanceDto.getQuestionMapperInstance().setCodeByUser(currentQuestion.getCode().replaceAll("\r", ""));
+			questionInstanceDto.getQuestionMapperInstance().setCodingOuputBySystemTestCase(op.getOutput() == null?"wrong":op.getOutput());
+			boolean compilationError = false;
+			if(op.getErrors() != null && op.getErrors().trim().length() > 0){
+				
+				if(op.getErrors().contains("error")){
+					questionInstanceDto.getQuestionMapperInstance().setCodeCompilationErrors(true);
+					compilationError = true;
+				}
+				else{
+					questionInstanceDto.getQuestionMapperInstance().setCodeRunTimeErrors(true);
+				}
+				
+			}
+			else{
+				compilationError = false;
+				questionInstanceDto.getQuestionMapperInstance().setCodeCompilationErrors(false);
+			}
+			/**
+			 * Positive Test case
+			 */
+			if(q.getHiddenInputPositive() != null && q.getHiddenInputPositive().trim().length() != 0 && !compilationError){
+				compileData.setStdin(q.getHiddenInputPositive());
+				op = compiler.compile(compileData);
+				op.setOutput((op.getOutput() == null)?op.getOutput():op.getOutput().replaceAll("\n", ""));
+				currentQuestion.setOutput(op.getOutput() == null?"wrong":op.getOutput());
+				questionInstanceDto.setCode(currentQuestion.getCode());
+					if(questionInstanceDto.getQuestionMapperInstance().getQuestionMapper().getQuestion().getHiddenOutputPositive() != null && op.getOutput() != null){
+questionInstanceDto.getQuestionMapperInstance().setTestCaseInputPositive(questionInstanceDto.getQuestionMapperInstance().getQuestionMapper().getQuestion().getHiddenOutputPositive().trim().equals(op.getOutput().trim())?true:false);
+					}
+					else{
+						questionInstanceDto.getQuestionMapperInstance().setTestCaseInputPositive(false);
+					}
+			}
+			
+			
+			
+				/**
+				 * Extreme Minimal Value Test Case
+				 */
+				if(q.getHiddenInputExtremeMinimalValue() != null && q.getHiddenInputExtremeMinimalValue().trim().length() > 0 && !compilationError){
+					compileData.setStdin(q.getHiddenInputExtremeMinimalValue());
+	 				op = compiler.compile(compileData);
+	 				op.setOutput((op.getOutput() == null)?op.getOutput():op.getOutput().replaceAll("\n", ""));
+	 				//currentQuestion.setOutput(op.getOutput() == null?"wrong":op.getOutput());
+	 				questionInstanceDto.setCode(currentQuestion.getCode());
+	 					if(questionInstanceDto.getQuestionMapperInstance().getQuestionMapper().getQuestion().getHiddenOutputExtremeMinimalValue() != null && op.getOutput() != null){
+questionInstanceDto.getQuestionMapperInstance().setTestCaseMinimalValue(questionInstanceDto.getQuestionMapperInstance().getQuestionMapper().getQuestion().getHiddenOutputExtremeMinimalValue().trim().equals(op.getOutput().trim())?true:false);
+	 					}
+	 					else{
+	 						questionInstanceDto.getQuestionMapperInstance().setTestCaseMinimalValue(false);
+	 					}
+				}
+				
+					
+					/**
+					 * Extreme Maximum Value Test Case
+					 */
+				if(q.getHiddenInputExtremePositiveValue() != null && q.getHiddenInputExtremePositiveValue() .trim().length() > 0 && !compilationError){
+					compileData.setStdin(q.getHiddenInputExtremePositiveValue());
+	 				op = compiler.compile(compileData);
+	 				op.setOutput((op.getOutput() == null)?op.getOutput():op.getOutput().replaceAll("\n", ""));
+	 				//currentQuestion.setOutput(op.getOutput() == null?"wrong":op.getOutput());
+	 				questionInstanceDto.setCode(currentQuestion.getCode());
+	 					if(questionInstanceDto.getQuestionMapperInstance().getQuestionMapper().getQuestion().getHiddenOutputExtremePositiveValue() != null && op.getOutput() != null){
+questionInstanceDto.getQuestionMapperInstance().setTestCaseMaximumValue(questionInstanceDto.getQuestionMapperInstance().getQuestionMapper().getQuestion().getHiddenOutputExtremePositiveValue().trim().equals(op.getOutput().trim())?true:false);
+	 					}
+	 					else{
+	 						questionInstanceDto.getQuestionMapperInstance().setTestCaseMaximumValue(false);
+	 					}
+				}
+				
+					
+					/**
+					 * Invalid Data Value Test Case
+					 */
+				if(q.getHiddenInputInvalidDataValue() != null && q.getHiddenInputInvalidDataValue().trim().length() > 0 && !compilationError){
+					compileData.setStdin(q.getHiddenInputInvalidDataValue());
+	 				op = compiler.compile(compileData);
+	 				op.setOutput((op.getOutput() == null)?op.getOutput():op.getOutput().replaceAll("\n", ""));
+	 				//currentQuestion.setOutput(op.getOutput() == null?"wrong":op.getOutput());
+	 				questionInstanceDto.setCode(currentQuestion.getCode());
+	 					if(questionInstanceDto.getQuestionMapperInstance().getQuestionMapper().getQuestion().getHiddenOutputInvalidDataValue() != null && op.getOutput() != null){
+questionInstanceDto.getQuestionMapperInstance().setTestCaseInvalidData(questionInstanceDto.getQuestionMapperInstance().getQuestionMapper().getQuestion().getHiddenOutputInvalidDataValue().trim().equals(op.getOutput().trim())?true:false);
+	 					}
+	 					else{
+	 						questionInstanceDto.getQuestionMapperInstance().setTestCaseInvalidData(false);
+	 					}
+				}
+				
+			
+			//sectionInstanceDto.setQuestionInstanceDtos(currentSection.getQuestionInstanceDtos());
+			}
+	 }
+	 
 	 private void saveSection(SectionInstanceDto currentSection, HttpServletRequest request) {
 		 User user = (User) request.getSession().getAttribute("user");
 		 Test test = (Test) request.getSession().getAttribute("test");
@@ -744,7 +864,7 @@ public class StudentController {
 		 		currentQuestion.setCode(currentQuestion.getCode().replaceAll("\t", rept));
 		 	}
 		
-		 setAnswers(request, currentSection, currentQuestion, questionId);
+		 setAnswers(request, currentSection, currentQuestion, questionId, false);
 		// setValuesInSession(currentSection, sectionInstanceDtos);
 		
 		QuestionSequence questionSequence = new QuestionSequence(currentSection.getQuestionInstanceDtos());
@@ -991,7 +1111,7 @@ public class StudentController {
 	 		currentQuestion.setCode(currentQuestion.getCode().replaceAll("\n", rep));
 	 		currentQuestion.setCode(currentQuestion.getCode().replaceAll("\t", rept));
 	 	}
-		setAnswers(request, currentSection, currentQuestion, questionId);
+		setAnswers(request, currentSection, currentQuestion, questionId, false);
 		//setValuesInSession(currentSection, sectionInstanceDtos);
 		
 		QuestionSequence questionSequence = new QuestionSequence(currentSection.getQuestionInstanceDtos());
@@ -1133,7 +1253,7 @@ public class StudentController {
 		 String confidencePercent = "NA";
 		 float totQs = 0;
 		 float totConfidence = 0;
-		 setAnswers(request, currentSection, currentQuestion, questionId);
+		 setAnswers(request, currentSection, currentQuestion, questionId, true);
 		 //currentQuestion.getQuestionMapperInstance().getQuestionMapper().getQuestion().getRightChoices().split(",").length
 		 	for(SectionInstanceDto sectionInstanceDto : sectionInstanceDtos) {
 		 		saveSection(sectionInstanceDto, request);
@@ -1210,7 +1330,7 @@ public class StudentController {
 					 * Add code for showing justification grid
 					 */
 					model.addObject("sectionInstanceDtos", sectionInstanceDtos);
-					
+					codingAssignmentSummaryIfAvailable(model, request);//show coding results on submission page
 				}
 				
 				if(test.getJustification() != null && test.getJustification()){
@@ -1234,6 +1354,21 @@ public class StudentController {
 			Thread th = new Thread(client);
 			th.start();
 		}
+		 return model;
+	 }
+	 
+	 private ModelAndView codingAssignmentSummaryIfAvailable(ModelAndView model, HttpServletRequest request){
+		 List<SectionInstanceDto> sectionInstanceDtos = (List<SectionInstanceDto>) request.getSession().getAttribute("sectionInstanceDtos");
+		 List<QuestionMapperInstance> codingInstances = new ArrayList<>();
+		 	for(SectionInstanceDto sectionInstanceDto : sectionInstanceDtos){
+		 		List<QuestionInstanceDto> questionInstanceDtos = sectionInstanceDto.getQuestionInstanceDtos();
+		 		for(QuestionInstanceDto dto : questionInstanceDtos){
+		 			if(dto.getQuestionMapperInstance().getQuestionMapper().getQuestion().getQuestionType().getType().equals(QuestionType.CODING.getType())){
+		 				codingInstances.add(dto.getQuestionMapperInstance());
+		 			}
+		 		}
+		 	}
+		 	model.addObject("codingInstances", codingInstances);
 		 return model;
 	 }
 	 
