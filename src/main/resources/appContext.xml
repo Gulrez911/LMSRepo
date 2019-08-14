@@ -80,8 +80,12 @@
 <!--         <property name="user" value="root" />  -->
 <!--         <property name="password" value="" />  -->
 
-	<property name="jdbcUrl" value="jdbc:mysql://13.233.2.169:3306/assessment" />   
-	        <property name="user" value="iiht_user" /> 
+<!-- 	<property name="jdbcUrl" value="jdbc:mysql://13.233.2.169:3306/assessment" />    -->
+<!-- 	        <property name="user" value="iiht_user" />  -->
+<!-- 	        <property name="password" value="Welcome@123" />  -->
+	        
+	        <property name="jdbcUrl" value="jdbc:mysql://165.22.223.25:3306/assessment" />   
+	        <property name="user" value="yaksha_user" /> 
 	        <property name="password" value="Welcome@123" /> 
 
         <!-- Pooling Details-->

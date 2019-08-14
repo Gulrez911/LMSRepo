@@ -24,7 +24,7 @@ public class TestWorkspaceService {
 	@Test
 	public void testCreateWorkSpace() throws Exception{
 		String json = FileUtils.readFileToString(new File("assessment/eclipseChe/Java_FullStack.json"));
-		json = json.replace("${APP_USER}", "tikamsingh-3456-67894224"+System.currentTimeMillis());
+		json = json.replace("${APP_USER}", "tikamsingh"+System.currentTimeMillis());
 		//json = json.replace("${APP_USER}", "a01");
 		json = json.replace("${APP_DESC}", "Sample............................Project\n\n\n.........");
 		

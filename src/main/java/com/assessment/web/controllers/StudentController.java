@@ -1315,7 +1315,8 @@ questionInstanceDto.getQuestionMapperInstance().setTestCaseInvalidData(questionI
 		 setTimeInCounter(request, Long.valueOf(timeCounter));
 		 try {
 			request.getSession().setAttribute("submitted", true);
-			String rows = sendResultsEmail(request, userTestSession);
+			//String rows = sendResultsEmail(request, userTestSession);
+			String rows = compileRows(request);
 			model= new ModelAndView("studentTestCompletion");
 			model.addObject("rows", rows);
 			model.addObject("showResults", test.getSentToStudent());
@@ -1325,6 +1326,8 @@ questionInstanceDto.getQuestionMapperInstance().setTestCaseInvalidData(questionI
 					model.addObject("TOTAL_MARKS", userTestSession.getTotalMarksRecieved());
 					model.addObject("PASS_PERCENTAGE", test.getPassPercent());
 					model.addObject("RESULT_PERCENTAGE", userTestSession.getPercentageMarksRecieved());
+					int per = Math.round(userTestSession.getPercentageMarksRecieved());
+					model.addObject("RESULT_PERCENTAGE_WITHOUT_FRACTION", new Integer(per));
 					model.addObject("STATUS", test.getPassPercent() > userTestSession.getPercentageMarksRecieved()?"Fail":"Success");
 					/**
 					 * Add code for showing justification grid
@@ -1378,6 +1381,29 @@ questionInstanceDto.getQuestionMapperInstance().setTestCaseInvalidData(questionI
 		 String decoded = new String(DatatypeConverter.parseBase64Binary(encodedUri));
 		 System.out.println("user id is " + decoded);
 		 return decoded;
+	 }
+	 
+	 private String compileRows(HttpServletRequest request){
+		 String table = "<tr>" + 
+				 	"<td>$SECTION_NAME$</td>"+
+				 	"<td>"    +
+				 	"<div class=\"progress\">"+
+				 	"<div class=\"progress-bar\" role=\"progressbar\" style=\"width: $per$%;\" aria-valuenow=\"25\" aria-valuemin=\"0\" aria-valuemax=\"100\">"+
+				 	"$per$%</div>"+
+				 	"</div>"+
+			 		"</td>"+
+			 		"</tr>";
+		 String rows = "";
+		 List<SectionInstanceDto> sectionInstanceDtos = (List<SectionInstanceDto>) request.getSession().getAttribute("sectionInstanceDtos");
+		 DecimalFormat df = new DecimalFormat("##.##");
+		 for(SectionInstanceDto sectionInstanceDto : sectionInstanceDtos) {
+			 String record = table;
+			 Integer per = new Integer(sectionInstanceDto.getTotalCorrectAnswers() / sectionInstanceDto.getNoOfQuestions()) * 100 ;
+			 record = record.replace("$SECTION_NAME$", sectionInstanceDto.getSection().getSectionName());
+			 record = record.replace("$per$", df.format(per));
+			 rows += record;
+		 }
+		 return rows;
 	 }
 	 
 	 private String sendResultsEmail(HttpServletRequest request, UserTestSession userTestSession) throws Exception {

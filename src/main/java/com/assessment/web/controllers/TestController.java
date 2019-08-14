@@ -3,6 +3,7 @@ package com.assessment.web.controllers;
 import java.io.File;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.HashMap;
@@ -23,6 +24,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,19 +34,23 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.assessment.common.CommonUtil;
 import com.assessment.common.PropertyConfig;
+import com.assessment.common.Qualifiers;
 import com.assessment.common.util.EmailGenericMessageThread;
+import com.assessment.data.CandidateProfileParams;
 import com.assessment.data.Company;
 import com.assessment.data.DifficultyLevel;
 import com.assessment.data.ProgrammingLanguage;
 import com.assessment.data.Question;
 import com.assessment.data.QuestionMapper;
+import com.assessment.data.QuestionMapperInstance;
 import com.assessment.data.QuestionType;
 import com.assessment.data.Section;
 import com.assessment.data.Skill;
-import com.assessment.data.SkillLevel;
 import com.assessment.data.Test;
 import com.assessment.data.User;
+import com.assessment.data.UserTestSession;
 import com.assessment.data.UserType;
+import com.assessment.repositories.QuestionMapperRepository;
 import com.assessment.repositories.QuestionRepository;
 import com.assessment.repositories.SkillRepository;
 import com.assessment.services.CompanyService;
@@ -55,7 +61,11 @@ import com.assessment.services.SectionService;
 import com.assessment.services.SkillService;
 import com.assessment.services.TestService;
 import com.assessment.services.UserService;
+import com.assessment.services.UserTestSessionService;
+import com.assessment.web.dto.QualifierSkillLevelDto;
 import com.assessment.web.dto.SectionDto;
+import com.assessment.web.dto.TestDTO;
+import com.assessment.web.dto.TestSessionDTO;
 
 @Controller
 @SessionAttributes("test,sectionDTO")
@@ -93,7 +103,13 @@ public class TestController {
 	@Autowired
 	FileStatusService fileStatusService;
 	
+	@Autowired
+	QuestionMapperRepository questionMapperRepository;
+	
 	Logger logger = LoggerFactory.getLogger(TestController.class);
+	
+	@Autowired
+	UserTestSessionService userTestSessionService;
 	
 	
 	
@@ -223,6 +239,156 @@ public class TestController {
 		return mav;
 	  }
 	 
+	 @RequestMapping(value = "/getRecommendationsForTestForLmS", method = RequestMethod.GET)
+	 public @ResponseBody TestSessionDTO getRecommendationsForTestForLmS(@RequestHeader("securitytoken") String securitytoken, @RequestParam("testName") String testName, @RequestParam String companyId, @RequestParam String learnerEmail, HttpServletRequest request, HttpServletResponse response) {
+		 if(securitytoken == null || (!securitytoken.equals("QWERTY"))){
+		 		return null;
+		 	}
+		 
+		 if(companyId == null || learnerEmail == null ){
+			 return null;
+		 }
+		 User user = userService.findByPrimaryKey(learnerEmail, companyId);
+			if(user== null){
+				return null;
+			}
+			
+		Test test = testService.findbyTest(testName, companyId);
+		 	if(test == null){
+		 		return null;
+		 	}
+			List<QuestionMapperInstance> answers = questionMapperInstanceService.findQuestionMapperInstancesForUserForTest(testName, learnerEmail, companyId);
+			Map<CandidateProfileParams, List<QuestionMapperInstance>> map = new HashMap<>();
+			for(QuestionMapperInstance ans : answers){
+				CandidateProfileParams param = new CandidateProfileParams(ans.getQuestionMapper().getQuestion().getQualifier1(), ans.getQuestionMapper().getQuestion().getQualifier2(), ans.getQuestionMapper().getQuestion().getQualifier3(), ans.getQuestionMapper().getQuestion().getQualifier4(), ans.getQuestionMapper().getQuestion().getQualifier5()); 
+				if(map.get(param) == null){
+					List<QuestionMapperInstance> ins = new ArrayList<>();
+					ins.add(ans);
+					map.put(param, ins);
+				}
+				else{
+					map.get(param).add(ans);
+				}
+			}
+			DecimalFormat df = new DecimalFormat("#.##");
+			List<QualifierSkillLevelDto> skills = new ArrayList<>();
+			Mapper mapper = new DozerBeanMapper();
+			int totQs = 0;
+			int totAnsweredQs = 0;
+			for(CandidateProfileParams param : map.keySet()){
+				List<QuestionMapperInstance> answersForQualifier = map.get(param);
+				int noOfCorrect = 0;
+				for(QuestionMapperInstance ans :answersForQualifier ){
+					totQs ++;
+					if(ans.getCorrect()){
+						noOfCorrect++;
+					}
+					
+					if(ans.getAnswered() != null && ans.getAnswered()){
+						totAnsweredQs++;
+					}
+				}
+				
+				Float percent = Float.parseFloat(df.format(noOfCorrect * 100 / answersForQualifier.size()));
+				QualifierSkillLevelDto skill = new QualifierSkillLevelDto();
+				mapper.map(param, skill);
+				skill.setOverAll(param.toString());
+				skill.setPercentage(percent);
+				skills.add(skill);
+			}
+		 
+			UserTestSession session = userTestSessionService.findUserTestSession(learnerEmail, test.getTestName(), test.getCompanyId());
+			TestSessionDTO testSessionDTO = new TestSessionDTO();
+			if(session != null && session.getComplete()){
+				testSessionDTO.setTestComplete(true);
+			}
+			else{
+				testSessionDTO.setTestComplete(false);
+			}
+			testSessionDTO.setTotalQuestions(totQs);
+			testSessionDTO.setNoOfQuestionsAnswered(totAnsweredQs);
+			testSessionDTO.setSkills(skills);
+		 return testSessionDTO;
+	 }
+
+	 
+	 @RequestMapping(value = "/getAssessmentURLForLMSLearner", method = RequestMethod.GET)
+	 public @ResponseBody String getAssessmentURLForLMSLearner(@RequestHeader("securitytoken") String securitytoken, @RequestParam("testName") String testName, @RequestParam String companyId, @RequestParam String learnerEmail, @RequestParam String learnerfirstName, @RequestParam String learnerLastName, HttpServletRequest request, HttpServletResponse response) {
+		 if(securitytoken == null || (!securitytoken.equals("QWERTY"))){
+		 		return "SECURITY_TOKEN_INVALID";
+		 	}
+		 
+		 if(companyId == null || learnerEmail == null || learnerfirstName == null || learnerLastName == null){
+			 return "MISSING_MANDATORY_PARAMETERS";
+		 }
+		 
+		 Test test = testService.findbyTest(testName, companyId);
+		 	if(test == null){
+		 		return "MISSING_TEST_NAME";
+		 	}
+		 
+		 User user = userService.findByPrimaryKey(learnerEmail, companyId);
+		 	if(user == null ){
+		 		user = new User();
+		 		user.setCompanyId(companyId);
+		 		user.setFirstName(learnerfirstName);
+		 		user.setLastName(learnerLastName);
+		 		user.setEmail(learnerEmail);
+		 		user.setUserType(UserType.STUDENT);
+		 		user.setPassword("learnerEmail".hashCode()+"");
+		 		user.setCompanyName(test.getCompanyName());
+		 		user.setCompanyDescription(test.getCompanyDescription());
+		 		userService.saveOrUpdate(user);
+		 	}
+		 	
+		 String url = getUrlForUser(user.getEmail(), test.getId(), companyId);
+		 return url;
+	 }
+	 
+	 @RequestMapping(value = "/testsByTag", method = RequestMethod.GET, produces = "application/json")
+	 public @ResponseBody List<TestDTO>  testsByTag(@RequestHeader("securitytoken") String securitytoken, @RequestParam String companyId, @RequestParam String searchText, HttpServletRequest request, HttpServletResponse response) {
+		 	if(securitytoken == null || (!securitytoken.equals("QWERTY"))){
+		 		return null;
+		 	}
+		 List<Test> tests = testService.searchTests(companyId, searchText);
+		 Mapper mapper = new DozerBeanMapper();
+		 List<TestDTO> testdtos = new ArrayList<>();
+		 for(Test test : tests){
+			 TestDTO dto = new TestDTO();
+			 mapper.map(test, dto);
+			 testdtos.add(dto);
+		 }
+		 return testdtos;
+	 }
+	 
+	 @RequestMapping(value = "/recommendedSkillsByTest", method = RequestMethod.GET, produces = "application/json")
+	 public @ResponseBody Set<Qualifiers>  recommendedSkillsByTest(@RequestHeader("securitytoken") String securitytoken, @RequestParam String companyId, @RequestParam String testName, HttpServletRequest request, HttpServletResponse response) {
+		 	if(securitytoken == null || (!securitytoken.equals("QWERTY"))){
+		 		return null;
+		 	}
+		Set<Qualifiers> qualifiers = questionMapperRepository.getAllUniqueQualifiersForTest(companyId, testName);
+		 for(Qualifiers q : qualifiers){
+			 if(q.getQualifier2() != null && q.getQualifier2().trim().length() == 0){
+				 q.setQualifier2(null);
+			 }
+			 
+			 if(q.getQualifier3() != null && q.getQualifier3().trim().length() == 0){
+				 q.setQualifier3(null);
+			 }
+			 
+			 if(q.getQualifier4() != null && q.getQualifier4().trim().length() == 0){
+				 q.setQualifier4(null);
+			 }
+			 
+			 if(q.getQualifier5() != null && q.getQualifier5().trim().length() == 0){
+				 q.setQualifier5(null);
+			 }
+		 }
+		 return qualifiers;
+	 }
+	 
+	 
+	 
 	 @RequestMapping(value = "/retireTest", method = RequestMethod.GET)
 	  public ModelAndView retireTest(@RequestParam String testId, HttpServletRequest request, HttpServletResponse response) {
 	    ModelAndView mav = new ModelAndView("test_list");
@@ -261,7 +427,7 @@ public class TestController {
 		 	ModelAndView mav = new ModelAndView("add_test_step2");
 		 		
 		    User user = (User) request.getSession().getAttribute("user");
-		    	if(!(user.getUserType().getType().equals(UserType.ADMIN.getType()) || user.getUserType().getType().equals(UserType.SUPER_ADMIN.getType()))) {
+		    	if(!(user.getUserType().getType().equals(UserType.ADMIN.getType()) || user.getUserType().getType().equals(UserType.SUPER_ADMIN.getType()) || user.getUserType().getType().equals(UserType.LMS_ADMIN.getType()))) {
 		    		 request.getSession().invalidate();
 		    		 mav = new ModelAndView("index");
 		    	    user = new User();
@@ -639,7 +805,7 @@ public class TestController {
 		 	
 		 	 test = (Test)request.getSession().getAttribute("test");
 		 	 
-		 	if(!(user.getUserType().getType().equals(UserType.ADMIN.getType()) || user.getUserType().getType().equals(UserType.SUPER_ADMIN.getType()))) {
+		 	if(!(user.getUserType().getType().equals(UserType.ADMIN.getType()) || user.getUserType().getType().equals(UserType.SUPER_ADMIN.getType()) || user.getUserType().getType().equals(UserType.LMS_ADMIN.getType()))) {
 	    		request.getSession().invalidate();
 	    		mav = new ModelAndView("index");
 	    	    user = new User();
@@ -1058,6 +1224,8 @@ public class TestController {
 		  CommonUtil.setCommonAttributesOfPagination(tests, mav.getModelMap(), 0, "testlist", null);
 		  return mav;
 	  }
+	  
+
 	  
 	  private String getUrlForUser(String user, Long testId, String companyId) {
 		 String userBytes =  Base64.getEncoder().encodeToString(user.getBytes());

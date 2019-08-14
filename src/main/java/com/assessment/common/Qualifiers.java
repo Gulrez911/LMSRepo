@@ -1,7 +1,5 @@
 package com.assessment.common;
 
-import com.mchange.v2.encounter.StrongEqualityEncounterCounter;
-
 public class Qualifiers {
 	
 	private String qualifier1;
@@ -110,5 +108,25 @@ public class Qualifiers {
 	public String toString(){
 		setNA();
 		return getQualifier1()+"-"+getQualifier2()+"-"+getQualifier3()+"-"+getQualifier4()+"-"+getQualifier5();
+	}
+	
+	
+	
+	@Override
+	public boolean equals(Object object){
+		if(!(object instanceof Qualifiers)){
+			return false;
+		}
+		
+		Qualifiers qualifiers = (Qualifiers) object;
+		
+		String s1 = this.getQualifier1()+(this.getQualifier2()==null?"":this.getQualifier2())+(this.getQualifier3()==null?"":this.getQualifier3())+(this.getQualifier4()==null?"":this.getQualifier4())+(this.getQualifier5()==null?"":this.getQualifier5());
+	
+		String s2 = qualifiers.getQualifier1()+(qualifiers.getQualifier2()==null?"":qualifiers.getQualifier2())+(qualifiers.getQualifier3()==null?"":qualifiers.getQualifier3())+(qualifiers.getQualifier4()==null?"":qualifiers.getQualifier4())+(qualifiers.getQualifier5()==null?"":qualifiers.getQualifier5());
+		if(s1.equals(s2)){
+			return true;
+		}
+		
+		return false;
 	}
 }

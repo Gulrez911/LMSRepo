@@ -42,6 +42,42 @@ public class TestUser {
 	@Test
 	@Transactional
 	@Rollback(value=false)
+	public void testaddUserAdmin()
+	{
+		User user=new User();
+		user.setEmail("system@iiht.com");
+		user.setMobileNumber("989878");
+		user.setFirstName("System");
+		user.setLastName("Admin");
+		user.setPassword("1234");
+		user.setCompanyId("IH");
+		user.setCompanyName("IIHT");
+		user.setDepartment("IT");
+		user.setUserType(UserType.ADMIN);
+		userService.addUser(user);
+	}
+	
+	@Test
+	@Transactional
+	@Rollback(value=false)
+	public void testaddUserLmsAdmin()
+	{
+		User user=new User();
+		user.setEmail("lmsadmin@iiht.com");
+		user.setMobileNumber("989878");
+		user.setFirstName("Lms");
+		user.setLastName("Admin");
+		user.setPassword("12345");
+		user.setCompanyId("IH");
+		user.setCompanyName("IIHT");
+		user.setDepartment("IT");
+		user.setUserType(UserType.LMS_ADMIN);
+		userService.addUser(user);
+	}
+	
+	@Test
+	@Transactional
+	@Rollback(value=false)
 	public void testupdateUser()
 	{
 		User user=new User();

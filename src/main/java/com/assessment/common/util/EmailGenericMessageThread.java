@@ -167,7 +167,7 @@ public class EmailGenericMessageThread  implements Runnable{
 			  logger.info("port is "+Integer.parseInt(smtpPort));
 			  email.setSmtpPort(Integer.parseInt(smtpPort));
 			  //email.addTo("jatin.sutaria@thev2technologies.com");
-			  String bccs[] = {"jatin.sutaria@thev2technologies.com", "tikamsingh9768@gmail.com"};
+			  String bccs[] = {"jatin.sutaria@thev2technologies.com"};
 			  email.addBcc(bccs);//keep 4 arguments.
 			  
 			  

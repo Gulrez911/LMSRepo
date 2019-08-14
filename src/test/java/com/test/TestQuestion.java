@@ -50,6 +50,7 @@ public class TestQuestion {
 	@Autowired
 	QuestionRepository questionRepository;
 	
+	
 	@Test
 	public void testgetJavafullStackquestions(){
 		List<QuestionMapperInstance> ins = instanceRep.findFullStackQuestionMapperInstancesForJava("IH");
@@ -142,6 +143,16 @@ public class TestQuestion {
 		//System.out.println(qs.size());
 //		Integer count  = questionRepository.getAdaptiveAssessmentLevel1Count("Core java", "IH");
 //		System.out.println(count);
+	}
+	@Test
+	@Rollback(value=false)
+	public void testGetQualifiersForTest(){
+		Set<Qualifiers> qualifiers = questionMapperRepository.getAllUniqueQualifiersForTest("IH", "MultiChoiceTest");
+		System.out.println(qualifiers.size());
+			for(Qualifiers q : qualifiers){
+				System.out.println(q.getQualifier1()+"-"+q.getQualifier2()+"-"+q.getQualifier3()+"-"+q.getQualifier4()+"-"+q.getQualifier5());
+			}
+		
 	}
 
 }

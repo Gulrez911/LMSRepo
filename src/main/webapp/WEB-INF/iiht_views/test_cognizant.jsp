@@ -311,7 +311,7 @@
 										%>
 											<form:radiobutton path="radioAnswer" id="one" value="one" />
 											
-<label for="one" style="float:right;width:400px;padding: 0px 4px;position: relative;font-size: 13px;font-weight: 400;text-align: left;margin-right: 50px;">${currentQuestion.questionMapperInstance.questionMapper.question.choice1}</label>
+<label for="one" style="float:right;width:400px;padding: 0px 4px;position: relative;font-size: 13px;font-weight: 400;text-align: left;margin-right: 50px;left:-17px;padding-left:20px;">${currentQuestion.questionMapperInstance.questionMapper.question.choice1}</label>
 											<%
 									}
 									else {
@@ -331,7 +331,7 @@
 										if(cc == 1){
 										%>
 										<form:radiobutton  id="two" path="radioAnswer" value="two" />
-<label for="two" style="float:right;width:400px;padding: 0px 4px;position: relative;font-size: 13px;font-weight: 400;text-align: left;margin-right: 50px;">${currentQuestion.questionMapperInstance.questionMapper.question.choice2}</label>
+<label for="two" style="float:right;width:400px;padding: 0px 4px;position: relative;font-size: 13px;font-weight: 400;text-align: left;margin-right: 50px;;left:-17px;padding-left:20px;">${currentQuestion.questionMapperInstance.questionMapper.question.choice2}</label>
 										<%
 										}
 										else {
@@ -351,7 +351,7 @@
 										if(cc == 1){
 										%>
 										<form:radiobutton path="radioAnswer" value="three" id="three" />
-<label for="three" style="float:right;width:400px;padding: 0px 4px;position: relative;font-size: 13px;font-weight: 400;text-align: left;margin-right: 50px;">${currentQuestion.questionMapperInstance.questionMapper.question.choice3}</label>
+<label for="three" style="float:right;width:400px;padding: 0px 4px;position: relative;font-size: 13px;font-weight: 400;text-align: left;margin-right: 50px;;left:-17px;padding-left:20px;">${currentQuestion.questionMapperInstance.questionMapper.question.choice3}</label>
 										<%
 										}
 										else {
@@ -372,7 +372,7 @@
 										if(cc == 1){
 										%>
 										<form:radiobutton path="radioAnswer" value="four" id="four" />
-<label for="four" style="float:right;width:400px;padding: 0px 4px;position: relative;font-size: 13px;font-weight: 400;text-align: left;margin-right: 50px;">${currentQuestion.questionMapperInstance.questionMapper.question.choice4}</label>
+<label for="four" style="float:right;width:400px;padding: 0px 4px;position: relative;font-size: 13px;font-weight: 400;text-align: left;margin-right: 50px;;left:-17px;padding-left:20px;">${currentQuestion.questionMapperInstance.questionMapper.question.choice4}</label>
 										<%
 										}
 										else {
@@ -392,7 +392,7 @@
 										if(cc == 1){
 										%>
 										<form:radiobutton path="radioAnswer" value="five" id="five"/>
-<label for="five" style="float:right;width:400px;padding: 0px 4px;position: relative;font-size: 13px;font-weight: 400;text-align: left;margin-right: 50px;">${currentQuestion.questionMapperInstance.questionMapper.question.choice5}</label>
+<label for="five" style="float:right;width:400px;padding: 0px 4px;position: relative;font-size: 13px;font-weight: 400;text-align: left;margin-right: 50px;;left:-17px;padding-left:20px;">${currentQuestion.questionMapperInstance.questionMapper.question.choice5}</label>
 										<%
 										}
 										else {
@@ -412,7 +412,7 @@
 										if(cc == 1){
 										%>
 										<form:radiobutton path="radioAnswer" value="six" id="six"/>
-<label for="six" style="float:right;width:400px;padding: 0px 4px;position: relative;font-size: 13px;font-weight: 400;text-align: left;margin-right: 50px;">${currentQuestion.questionMapperInstance.questionMapper.question.choice6}</label>
+<label for="six" style="float:right;width:400px;padding: 0px 4px;position: relative;font-size: 13px;font-weight: 400;text-align: left;margin-right: 50px;;left:-17px;padding-left:20px;">${currentQuestion.questionMapperInstance.questionMapper.question.choice6}</label>
 										<%
 										}
 										else {

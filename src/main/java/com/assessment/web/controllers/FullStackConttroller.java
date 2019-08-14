@@ -137,7 +137,9 @@ QuestionMapperInstanceRepository  questionMapperInstanceRep;
 			System.out.println("1 ");
 			ProcessBuilder builder = new ProcessBuilder();
 			System.out.println("2 ");
-			 String[] command = {"/opt/softwares/sonar-scanner-3.3.0.1492/bin/sonar-scanner"};
+			// String[] command = {"/opt/softwares/sonar-scanner-3.3.0.1492/bin/sonar-scanner"};
+			String[] command = {"/opt/sonar-scanner-4.0.0.1744-linux/bin/sonar-scanner"};
+			
 			 System.out.println("3 ");
 			 builder.redirectErrorStream(true); // This is the important part
 			 System.out.println("4 ");

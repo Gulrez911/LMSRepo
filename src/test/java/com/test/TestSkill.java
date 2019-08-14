@@ -27,8 +27,8 @@ public class TestSkill {
 	@Rollback(value=false)
 	public void testCreateSkill() {
 		Skill skill = new Skill("Java", SkillLevel.BASIC);
-		skill.setCompanyId(companyId);
-		skill.setCompanyName(companyName);
+		skill.setCompanyId("IH");
+		skill.setCompanyName("IIHT");
 		skilService.createSkill(skill);
 	}
 

@@ -95,6 +95,40 @@ UserOtpService userOtpService;
 			schedulerService.addTaskToScheduler(scheduler.getId().intValue(), schedulerTask, cronTrigger);
 		}
 	}
+	
+	
+	@RequestMapping(value = "/lmsadmin", method = RequestMethod.GET)
+	  public ModelAndView lmsadmin(@RequestParam String lmsadminuser,@RequestParam String companyId, HttpServletRequest request, HttpServletResponse response) {
+		String token = "bG1zYWRtaW5AaWlodC5jb20=";
+		if(lmsadminuser == null || companyId == null){
+			 ModelAndView mav = new ModelAndView("login_new");
+			    User user = new User();
+			    mav.addObject("user", user);
+			    return mav;
+		}
+		else{
+			String usr = new String(Base64.getDecoder().decode(token.getBytes()));
+			User user = userService.findByPrimaryKey(usr, companyId);
+				if(user == null){
+					ModelAndView mav = new ModelAndView("login_new");
+				    User u = new User();
+				    mav.addObject("user", u);
+				    return mav;
+				}
+			ModelAndView mav = new ModelAndView("question_list");
+			Page<Question> questions = questionService.getAllLevel1Questions(user.getCompanyId(), 0);
+	  		request.getSession().setAttribute("user", user);
+	  		request.getSession().setAttribute("companyId", user.getCompanyId());
+	  		//request.getSession().setAttribute("questions", questions);
+	  		
+	  		mav = new ModelAndView("question_list");
+	  		mav.addObject("qs", questions.getContent());
+			mav.addObject("levels", DifficultyLevel.values());
+			CommonUtil.setCommonAttributesOfPagination(questions, mav.getModelMap(), 0, "question_list", null);
+			return mav;
+		}
+	   
+	  }
 
 	  @RequestMapping(value = "/login", method = RequestMethod.GET)
 	  public ModelAndView showLogin(HttpServletRequest request, HttpServletResponse response) {

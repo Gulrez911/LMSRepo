@@ -24,7 +24,26 @@
             <div class="wrapper">
                 <div class="row row-offcanvas row-offcanvas-left">
                     <!-- sidebar -->
-                    <jsp:include page="side.jsp" /> 
+                     <%
+					User user = (User) request.getSession().getAttribute("user");
+					System.out.println("user is "+user.getEmail() );
+						if(user == null){
+								response.sendRedirect("login");
+						}
+					
+					if(user.getUserType().getType().equals("LMS_ADMIN")){
+						
+						System.out.println("LMS_ADMIN true");
+				  %>
+					<jsp:include page="side_lms_admin.jsp" /> 
+				   <%	  
+					}
+					else{
+					%>
+					<jsp:include page="side.jsp" /> 
+					<%
+					}
+					%>
                     <!-- /sidebar -->
                     <!-- main right col -->
                     <div class="column col-sm-10 col-xs-11" id="main">
