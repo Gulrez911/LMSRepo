@@ -43,6 +43,35 @@ public class QuestionInstanceDto {
 
 	public void setQuestionMapperInstance(QuestionMapperInstance questionMapperInstance) {
 		this.questionMapperInstance = questionMapperInstance;
+			if(questionMapperInstance.getUserChoices() != null && questionMapperInstance.getUserChoices().contains("Choice 1")){
+				setOne(true);
+				this.radioAnswer = "one";
+			}
+			
+			if(questionMapperInstance.getUserChoices() != null && questionMapperInstance.getUserChoices().contains("Choice 2")){
+				setTwo(true);
+				this.radioAnswer = "two";
+			}
+			
+			if(questionMapperInstance.getUserChoices() != null && questionMapperInstance.getUserChoices().contains("Choice 3")){
+				setThree(true);
+				this.radioAnswer = "three";
+			}
+			
+			if(questionMapperInstance.getUserChoices() != null && questionMapperInstance.getUserChoices().contains("Choice 4")){
+				setFour(true);
+				this.radioAnswer = "four";
+			}
+			
+			if(questionMapperInstance.getUserChoices() != null && questionMapperInstance.getUserChoices().contains("Choice 5")){
+				setFive(true);
+				this.radioAnswer = "five";
+			}
+			
+			if(questionMapperInstance.getUserChoices() != null && questionMapperInstance.getUserChoices().contains("Choice 6")){
+				setSix(true);
+				this.radioAnswer = "six";
+			}
 	}
 
 	public String getStyle() {

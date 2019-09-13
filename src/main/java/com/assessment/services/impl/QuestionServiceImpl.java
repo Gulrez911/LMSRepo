@@ -221,10 +221,14 @@ public class QuestionServiceImpl implements QuestionService {
 		if(q2 == null) {
 			throw new AssessmentGenericException("QUESTION_TO_BE_UPDATED_DOESNT_EXIST");
 		}
+		System.out.println("constr...."+q.getConstrnt()+" database constr "+q2.getConstrnt());
+		System.out.println("instr...."+q.getInstructionsIfAny()+" database instr "+q2.getInstructionsIfAny());
 		logger.info("database q constr "+q2.getConstrnt());
 		logger.info("q constr "+q.getConstrnt());
 		Mapper mapper = new DozerBeanMapper();
 		mapper.map(q, q2);
+		q2.setConstrnt(q.getConstrnt());
+		q2.setInstructionsIfAny(q.getInstructionsIfAny());
 		q2.setUpdateDate(new Date());
 		questionRepository.save(q2);
 	}

@@ -347,7 +347,7 @@
 								Click on 'Open Code IDE..' to start coding.
 							    </code>
 							    <p>${currentQuestion.questionMapperInstance.questionMapper.question.instructionsIfAny}</p>
-							    <h4>Constraint</h4>
+							    <h4><b>Constraint</b></h4>
 							    <p>${currentQuestion.questionMapperInstance.questionMapper.question.constrnt}</p>
 
 							    

@@ -27,15 +27,15 @@ public class TestUser {
 	public void testaddUser()
 	{
 		User user=new User();
-		user.setEmail("sreeram.gopal@iiht.com");
+		user.setEmail("cgi@iiht.com");
 		user.setMobileNumber("989878");
 		user.setFirstName("Tikam");
 		user.setLastName("Singh");
 		user.setPassword("12345");
-		user.setCompanyId("IH");
-		user.setCompanyName("IIHT");
+		user.setCompanyId("CGI");
+		user.setCompanyName("CGI");
 		user.setDepartment("IT");
-		user.setUserType(UserType.SUPER_ADMIN);
+		user.setUserType(UserType.ADMIN);
 		userService.addUser(user);
 	}
 	

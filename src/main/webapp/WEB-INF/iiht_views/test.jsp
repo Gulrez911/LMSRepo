@@ -6,7 +6,7 @@
 <%@ page session="false"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="com.assessment.data.*, java.text.*, java.util.*"%>
+<%@ page import="com.assessment.data.*, java.text.*, java.util.*,com.assessment.web.dto.*"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -51,6 +51,9 @@
 
 <script type="text/javascript">
                // PNotify.prototype.options.styling = "fontawesome";
+		var correctNumberOfChoices = ('${currentQuestion.questionMapperInstance.questionMapper.question.rightChoices}'.match(/-/g) || []).length  + 1;
+		
+		
 		var active = 'true';
 		var studentNameTaken = localStorage.getItem('${studentTestForm.firstName}${studentTestForm.lastName}');
 		var testNameTaken = localStorage.getItem('testName-${studentTestForm.firstName}${studentTestForm.lastName}');
@@ -299,46 +302,127 @@
 											style="${currentQuestion.questionMapperInstance.questionMapper.question.choice1 == null || 
 
 			currentQuestion.questionMapperInstance.questionMapper.question.choice1.trim().length() == 0? 'display: none;':'clear:left; font-size: 17px;'}">
-
+										<%
+										QuestionInstanceDto currentQuestion = (QuestionInstanceDto) request.getAttribute("currentQuestion");
+										System.out.println(currentQuestion.getQuestionMapperInstance().getQuestionMapper().getQuestion().getRightChoices());
+							int cc = currentQuestion.getQuestionMapperInstance().getQuestionMapper().getQuestion().getRightChoices().split("-").length;
+									if(cc == 1){
+										System.out.println(" cc is "+cc);
+										%>
+											<form:radiobutton path="radioAnswer" id="one" value="one" />
+											
+<label for="one" style="float:right;width:400px;padding: 0px 4px;position: relative;font-size: 13px;font-weight: 400;text-align: left;margin-right: 50px;left:-17px;padding-left:20px;">${currentQuestion.questionMapperInstance.questionMapper.question.choice1}</label>
+											<%
+									}
+									else {
+											%>
+											
 											<form:checkbox path="one" />
 											${currentQuestion.questionMapperInstance.questionMapper.question.choice1}
+											<%
+									}
+											%>
 										</li>
 										<li
 											style="${currentQuestion.questionMapperInstance.questionMapper.question.choice2 == null || 
 
 			currentQuestion.questionMapperInstance.questionMapper.question.choice2.trim().length() == 0? 'display: none;':'clear:left;font-size: 17px;'}">
-
+										<%
+										if(cc == 1){
+										%>
+										<form:radiobutton  id="two" path="radioAnswer" value="two" />
+<label for="two" style="float:right;width:400px;padding: 0px 4px;position: relative;font-size: 13px;font-weight: 400;text-align: left;margin-right: 50px;;left:-17px;padding-left:20px;">${currentQuestion.questionMapperInstance.questionMapper.question.choice2}</label>
+										<%
+										}
+										else {
+										%>
+										
 											<form:checkbox path="two" />
 											${currentQuestion.questionMapperInstance.questionMapper.question.choice2}
+										<%
+										}
+										%>
 										</li>
 										<li
 											style="${currentQuestion.questionMapperInstance.questionMapper.question.choice3 == null || 
 
 			currentQuestion.questionMapperInstance.questionMapper.question.choice3.trim().length() == 0? 'display: none;':'clear:left;font-size: 17px;'}">
+										<%
+										if(cc == 1){
+										%>
+										<form:radiobutton path="radioAnswer" value="three" id="three" />
+<label for="three" style="float:right;width:400px;padding: 0px 4px;position: relative;font-size: 13px;font-weight: 400;text-align: left;margin-right: 50px;;left:-17px;padding-left:20px;">${currentQuestion.questionMapperInstance.questionMapper.question.choice3}</label>
+										<%
+										}
+										else {
+										%>
+										
 											<form:checkbox path="three" />
 											${currentQuestion.questionMapperInstance.questionMapper.question.choice3}
+										<%
+										}
+										%>
 										</li>
 
 										<li
 											style="${currentQuestion.questionMapperInstance.questionMapper.question.choice4 == null || 
 
 			currentQuestion.questionMapperInstance.questionMapper.question.choice4.trim().length() == 0? 'display: none;':'clear:left;font-size: 17px;'}">
+										<%
+										if(cc == 1){
+										%>
+										<form:radiobutton path="radioAnswer" value="four" id="four" />
+<label for="four" style="float:right;width:400px;padding: 0px 4px;position: relative;font-size: 13px;font-weight: 400;text-align: left;margin-right: 50px;;left:-17px;padding-left:20px;">${currentQuestion.questionMapperInstance.questionMapper.question.choice4}</label>
+										<%
+										}
+										else {
+										%>
+										
 											<form:checkbox path="four" />
 											${currentQuestion.questionMapperInstance.questionMapper.question.choice4}
+										<%
+										}
+										%>
 										</li>
 										<li
 											style="${currentQuestion.questionMapperInstance.questionMapper.question.choice5 == null || 
 
 			currentQuestion.questionMapperInstance.questionMapper.question.choice5.trim().length() == 0? 'display: none;':'clear:left;font-size: 17px;'}">
+										<%
+										if(cc == 1){
+										%>
+										<form:radiobutton path="radioAnswer" value="five" id="five"/>
+<label for="five" style="float:right;width:400px;padding: 0px 4px;position: relative;font-size: 13px;font-weight: 400;text-align: left;margin-right: 50px;;left:-17px;padding-left:20px;">${currentQuestion.questionMapperInstance.questionMapper.question.choice5}</label>
+										<%
+										}
+										else {
+										%>
+										
 											<form:checkbox path="five" />
 											${currentQuestion.questionMapperInstance.questionMapper.question.choice5}
+										<%
+										}
+										%>
 										</li>
 										<li
 											style="${currentQuestion.questionMapperInstance.questionMapper.question.choice6 == null || 
 
 			currentQuestion.questionMapperInstance.questionMapper.question.choice6.trim().length() == 0? 'display: none;':'clear:left;font-size: 17px;'}">
+										<%
+										if(cc == 1){
+										%>
+										<form:radiobutton path="radioAnswer" value="six" id="six"/>
+<label for="six" style="float:right;width:400px;padding: 0px 4px;position: relative;font-size: 13px;font-weight: 400;text-align: left;margin-right: 50px;;left:-17px;padding-left:20px;">${currentQuestion.questionMapperInstance.questionMapper.question.choice6}</label>
+										<%
+										}
+										else {
+										%>
+										
 											<form:checkbox path="six" />
 											${currentQuestion.questionMapperInstance.questionMapper.question.choice6}
+										<%
+										}
+										%>
 										</li>
 									</ul>
 								</div>
@@ -370,6 +454,8 @@
 						<div class="queanscenter" id="section2_content" >
 
 						<div class="col-md-12">
+						
+							
 						    <div class="col-md-7 leftside">
 							<b>${currentQuestion.questionMapperInstance.questionMapper.question.qualifier1} ${currentQuestion.questionMapperInstance.questionMapper.question.qualifier2} ${currentQuestion.questionMapperInstance.questionMapper.question.qualifier3} ${currentQuestion.questionMapperInstance.questionMapper.question.qualifier4} ${currentQuestion.questionMapperInstance.questionMapper.question.qualifier5}</b>
 							<a class="runcode" href="javascript:runCodeSystemTestCase();">Run System Test Case  </a>
@@ -379,7 +465,9 @@
 							<form:textarea id="editor" path="code" wrap="physical"/>
 							<form:hidden path="code" id="codeOfEditor" wrap="physical"/>
 							   
-							
+							<c:if test = "${currentQuestion.questionMapperInstance.questionMapper.question.imageUrl != null && currentQuestion.questionMapperInstance.questionMapper.question.imageUrl.trim().length() > 0}">
+															<img src="${currentQuestion.questionMapperInstance.questionMapper.question.imageUrl}" height="400" width="500">
+							 									 </c:if>
 							
 							
 
@@ -661,6 +749,7 @@
 		//window.location = 'changeSection?sectionName='+sectionName+"&timeCounter="+timeCounter;
 		//localStorage.setItem('timeCounter', timeCounter);
 		var tp = '${currentQuestion.questionMapperInstance.questionMapper.question.type}';
+			storeTimeLocal();
 			if(tp == 'CODING'){
 				confirm(sectionName);
 			}
@@ -924,8 +1013,9 @@
 				//notify('INFO', 'go ahead');
 			}
 			else{
-			notify('INFO', 'No of Answers chosen are not equal to no of correct answers. Please select '+correctNo+' option(s)');
-			return;
+				//do nothing
+			//notify('INFO', 'No of Answers chosen are not equal to no of correct answers. Please select '+correctNo+' option(s)');
+			//return;
 			}
 			
 			
@@ -997,8 +1087,9 @@
 				//notify('INFO', 'go ahead');
 			}
 			else{
-			notify('INFO', 'No of Answers chosen are not equal to no of correct answers. Please select '+correctNo+' option(s)');
-			return;
+				//do nothing cognizant
+			//notify('INFO', 'No of Answers chosen are not equal to no of correct answers. Please select '+correctNo+' option(s)');
+			//return;
 			}
 			
 			
@@ -1059,8 +1150,8 @@
 				//notify('INFO', 'go ahead');
 			}
 			else{
-			notify('INFO', 'No of Answers chosen are not equal to no of correct answers. Please select '+correctNo+' option(s)');
-			return;
+			//notify('INFO', 'No of Answers chosen are not equal to no of correct answers. Please select '+correctNo+' option(s)');
+			//return;
 			}
 			
 			

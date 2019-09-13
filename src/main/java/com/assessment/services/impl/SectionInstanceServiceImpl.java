@@ -96,6 +96,7 @@ public class SectionInstanceServiceImpl implements SectionInstanceService{
 				//new answer
 				questionMapperInstance.setCreateDate(new Date());
 				checkAnswer(questionMapperInstance);
+				questionMapperInstance.setQuestionText(questionMapperInstance.getQuestionMapper().getQuestion().getQuestionText());
 				questionMapperInstanceRepository.save(questionMapperInstance);
 			}
 			

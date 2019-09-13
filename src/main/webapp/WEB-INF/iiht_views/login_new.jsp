@@ -36,6 +36,18 @@
 <script type="text/javascript" src="scripts/pnotify.buttons.js"></script>
 
 <link href="css/pnotify.custom.min.css" media="all" rel="stylesheet" type="text/css">
+
+<style>
+.btn-custom-brownish {
+    font-weight: 500;
+    font-size: 18px;
+    color: #FFFFFF;
+    letter-spacing: 0;
+    padding: 8px 15px;
+    background: #997300;
+    border-radius: 100px;
+}
+</style>
 </head>
    <body>
       <!-- Header -->
@@ -75,6 +87,7 @@
                            <a href="#" class="btn btn-custom-pink tab-link" data-tab="tab-2">Automated Recruitment Solutions</a>
                            <a href="#" class="btn btn-custom-green tab-link" data-tab="tab-3">Skill Development & Evaluation</a>
                            <a href="#" class="btn btn-custom-purple tab-link" data-tab="tab-4">Talent Acquisition</a>
+						   <a href="hackathon" class="btn btn-custom-brownish tab-link">Challenge Yourself</a>
                         </div>
                         <div class="dna-items">
                            <a href="#" class="incorp-link tab-link" data-tab="tab-1">For Incorporated</a>
@@ -449,6 +462,7 @@
                <li>
                   <a href="#" class="tab-link fb-purple" data-tab="tab-4">Talent Acquisition</a>
                </li>
+			   
             </ul>
          </div>
       </div>

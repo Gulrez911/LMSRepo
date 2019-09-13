@@ -59,23 +59,43 @@
 		var testNameTaken = localStorage.getItem('testName-${studentTestForm.firstName}${studentTestForm.lastName}');
 		var tc= localStorage.getItem('timeCounter-${studentTestForm.firstName}${studentTestForm.lastName}');
 			
-			
-			if(studentNameTaken == 'yes' && testNameTaken == '${studentTestForm.firstName}${studentTestForm.lastName}-${studentTestForm.testName}'  && tc != null){
-			timeCounter=tc;
+		var firsttime = '${firstpage}';
+		console.log('firsttime '+firsttime);
+			if(firsttime != null && firsttime == 'yes'){
+				console.log('timeCounter getting');	
+				timeCounter = ${timeCounter};
 			}
 			else{
-				timeCounter = 0;
+				if(studentNameTaken == 'yes' && testNameTaken == '${studentTestForm.firstName}${studentTestForm.lastName}-${studentTestForm.testName}'  && tc != null){
+				timeCounter=tc;
+				}
+				else{
+					timeCounter = 0;
+				}
+				
+				if(tc == null){
+					timeCounter= 0;
+				}
+			
 			}
 			
-			if(tc == null){
-				timeCounter= 0;
+			/***/
+		
+		
+			if(timeCounter == null){
+				timeCounter = 0;
 			}
+		console.log('timeCounter getting '+timeCounter);	
+		console.log('timeCounter is '+timeCounter);
 			
 		function setTimeOnLoad(){
 		timeProcess();
 		}	
 		
 		function timeProcess(){
+		if(timeCounter == null){
+				timeCounter = 0;
+		}
 		timeCounter = parseInt(timeCounter) + 1;
 		var end = new Date();
 		var hours =  (${studentTestForm.duration}/60) % 60;
@@ -124,6 +144,30 @@
 			if( timeCounter >= (${studentTestForm.duration} * 60)  ){
 			submitTest();
 			}
+		}
+		
+		
+		function updateTimeInBackEnd(){
+			<%
+			Test test = (Test) request.getSession().getAttribute("test");
+			%>
+			var testid = '<%= test.getId() %>';
+			var cid = '${studentTestForm.companyId}';
+			var emailid = '${studentTestForm.emailId}';
+			 var url = "timecounterUpdate?timecounter="+timeCounter+"&testId="+testid+"&email="+emailid+"&companyId="+cid;
+			console.log('here url '+url);
+			$.ajax({
+				url : url,
+				type: "POST",
+				success : function(data) {
+				console.log(' updateTimeInBackEnd ret '+data);
+					
+				},
+				error : function(e) {
+					console.log("ERROR: ", e);
+					
+				}
+			});
 		}
 		
 		function takeScreenShot(){
@@ -182,6 +226,8 @@
 		
 		var myVar = setInterval(examTimer, 1000);
 		var myVar2 = setInterval(takeScreenShot, 45000);
+		
+		var myVar3 = setInterval(updateTimeInBackEnd, 45000);
 		
 		</script>
 		

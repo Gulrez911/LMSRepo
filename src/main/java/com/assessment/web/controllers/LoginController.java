@@ -80,6 +80,12 @@ UserOtpService userOtpService;
 	
 	private final String prefixURL = "iiht_html";
 	
+	@RequestMapping(value = "/hackathon", method = RequestMethod.GET)
+	  public ModelAndView hackathon(HttpServletRequest request, HttpServletResponse response) {
+	    ModelAndView mav = new ModelAndView("hackathon");
+	    return mav;
+	  }
+	
 	@RequestMapping(value = "/removelater", method = RequestMethod.GET)
 	  public ModelAndView removelater(HttpServletRequest request, HttpServletResponse response) {
 	    ModelAndView mav = new ModelAndView("ecl");

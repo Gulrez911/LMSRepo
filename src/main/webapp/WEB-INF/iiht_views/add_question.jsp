@@ -344,12 +344,7 @@
 					  
                                           </div>
 					  
-					  <div class="formfield">
-                                            <label>Constraints</label>
-                                            
-					    <form:textarea path="question.constrnt"  style="height:50px" />
-					    
-                                          </div>
+								
 					</div>
 					
 					
@@ -386,12 +381,12 @@
 					    
                                           </div>
 					  
-					  <div class="formfield">
+					  <!--<div class="formfield">
                                             <label>Constraints</label>
                                             
 					    <form:textarea path="question.constrnt"  style="height:100px" />
 					    
-                                          </div>
+                                          </div> -->
 					</div>
 					<!-- End full stack -->
 
@@ -435,7 +430,13 @@
                                        <input type="file" name="addimage" id="addimage" style="display: none;">
                                         <input type="file" name="addaudio" id="addaudio" style="display: none;">
                                         <input type="file" name="addvideo" id="addvideo" style="display: none;">
-
+										
+										<div class="formfield">
+                                            <label>Constraints</label>
+                                            
+					    <form:textarea path="question.constrnt"  style="height:50px" />
+					    
+                                          </div>
 
                                         <div class="formfield">
                                             <label>Instructions, if any</label>

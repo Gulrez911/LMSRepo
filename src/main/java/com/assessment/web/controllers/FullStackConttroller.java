@@ -5,8 +5,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -44,6 +46,15 @@ PropertyConfig propertyConfig;
 
 @Autowired
 QuestionMapperInstanceRepository  questionMapperInstanceRep;
+
+	@RequestMapping(value = "/gotofullstack", method = RequestMethod.GET)
+	public ModelAndView showLogin(@RequestParam String workspace, HttpServletRequest request, HttpServletResponse response) {
+	String url = URLDecoder.decode(workspace);
+	url = new String(Base64.getDecoder().decode(url.getBytes()));
+	  ModelAndView mav = new ModelAndView("fullstack");
+	  mav.addObject("url", url);
+	  return mav;
+	}
 	
 	@RequestMapping(value = "/createWorkSpaceForUser", method = RequestMethod.GET)
     public @ResponseBody String  addQuestionsToSectionAjax(@RequestParam String userName, @RequestParam String stackName, @RequestParam String questionId,@RequestParam String testId, HttpServletRequest request, HttpServletResponse response) throws Exception {

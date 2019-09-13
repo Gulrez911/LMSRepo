@@ -83,7 +83,7 @@
 						                      		<td> ${ins.user}</td>
 													
 													<td> ${ins.workspaceDateOfSubmission}</td>
-						                      		<td><a  href="javascript:void(0);" onClick="javascript:review('${ins.id}', '${ins.questionText}', '${ins.workspaceUrl}', '${ins.usageDocumentUrl}', '${ins.uerFullName}')">Click </a>   </td>
+						                      		<td><a  href="javascript:void(0);" onClick="javascript:review('${ins.id}', '${ins.encodedQuestionText}', '${ins.workspaceUrl}', '${ins.usageDocumentUrl}', '${ins.uerFullName}')">Click </a>   </td>
 						                      		
 						                      	</tr>
 						                      	</c:forEach>   
@@ -235,7 +235,7 @@
 			$('#modalshare').modal('show');
 			document.getElementById('qmsid').value = id;
 			document.getElementById('fullname').value = fullName;
-			document.getElementById('problem').value = question;
+			document.getElementById('problem').value = atob(question);
 			document.getElementById("workspace").href = workspaceurl;
 			document.getElementById("docurl").href = projectdoc;
 			
@@ -266,6 +266,28 @@
 						document.getElementById('adaptability').value = res.adaptibilityComments;
 						document.getElementById('testCasesQuality').value = res.testCasesComments;
 						document.getElementById('overAll').value = res.overAll;
+					}
+					else{
+					console.log("222 res is "+res);
+						document.getElementById("fun1").value = '';
+						
+						document.getElementById("per1").value = '';
+						document.getElementById("sca1").value = '';
+						document.getElementById("sec1").value = '';
+						document.getElementById("fle1").value = '';
+						document.getElementById("ada1").value = '';
+						document.getElementById("tes1").value = '';
+						document.getElementById("over1").value = '';
+						
+						document.getElementById('functional').value = '';
+						document.getElementById('performance').value = '';
+						document.getElementById('scalability').value = '';
+						document.getElementById('security').value = '';
+						document.getElementById('flexibility').value = '';
+						document.getElementById('adaptability').value = '';
+						document.getElementById('testCasesQuality').value = '';
+						document.getElementById('overAll').value = '';
+
 					}
 					
 					

@@ -48,6 +48,12 @@ public class SessionFilter implements Filter {
 			String page = ((HttpServletRequest)request).getRequestURI();
 			System.out.println("page is "+page);
 			
+			
+			
+			if(page.endsWith("/hackathon")){
+				chain.doFilter(request, response);
+			}
+			
 			if(page.endsWith("/findLevel1Qs") || page.endsWith("/findLevel2Qs")){
 				chain.doFilter(request, response);
 			}

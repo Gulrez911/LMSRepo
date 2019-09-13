@@ -113,6 +113,9 @@ public class Question extends Base{
 	@Column(length=2000)
 	private String constrnt;
 	
+	
+	
+	
 	@Column(length=2000)
 	private String stackProblemDetails;
 	

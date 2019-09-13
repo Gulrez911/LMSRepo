@@ -1,13 +1,17 @@
 package com.assessment.data;
 
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Base64;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
+
+import org.bouncycastle.util.encoders.Base64Encoder;
 /**
  * Primary key - questionMapper & companyId
  * @author jsutaria
@@ -25,7 +29,11 @@ public class QuestionMapperInstance extends Base{
 	
 	Boolean answered = false;
 	
+	@Column(length=2000)
 	String questionText;
+	
+	@Transient
+	String encodedQuestionText;
 	
 	@javax.validation.constraints.NotNull
 	String testName;
@@ -46,6 +54,9 @@ public class QuestionMapperInstance extends Base{
 	
 	@Column(length=400)
 	String workspaceUrl;
+	
+	@Transient
+	String encodedUrl;
 	
 	@Column(length=200)
 	String workSpaceId;
@@ -167,8 +178,13 @@ public class QuestionMapperInstance extends Base{
 
 	public void setCodingOuputBySystemTestCase(String codingOuputBySystemTestCase) {
 		this.codingOuputBySystemTestCase = codingOuputBySystemTestCase;
+			if(getCodeCompilationErrors()){
+				setCorrect(false);
+			}
+		
 		if(getQuestionMapper().getQuestion().getHiddenOutputNegative().equalsIgnoreCase(codingOuputBySystemTestCase == null?"":codingOuputBySystemTestCase)){
 			setTestCaseInputNegative(true);
+			
 			setCorrect(true);
 		}
 		else{
@@ -338,6 +354,22 @@ public class QuestionMapperInstance extends Base{
 
 	public void setCodeRunTimeErrors(Boolean codeRunTimeErrors) {
 		this.codeRunTimeErrors = codeRunTimeErrors;
+	}
+
+	public String getEncodedUrl() {
+		return URLEncoder.encode(Base64.getEncoder().encodeToString(getWorkspaceUrl().getBytes()));
+	}
+
+	public void setEncodedUrl(String encodedUrl) {
+		this.encodedUrl = encodedUrl;
+	}
+
+	public String getEncodedQuestionText() {
+		return new org.apache.commons.codec.binary.Base64().encodeAsString(getQuestionText().getBytes());
+	}
+
+	public void setEncodedQuestionText(String encodedQuestionText) {
+		this.encodedQuestionText = encodedQuestionText;
 	}
 
 	

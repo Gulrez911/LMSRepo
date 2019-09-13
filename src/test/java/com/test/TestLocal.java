@@ -41,7 +41,7 @@ public class TestLocal {
 		ObjectMapper mapper = new ObjectMapper();
 		CompileData  data2 = mapper.readValue(data.getBytes(), CompileData.class);
 		System.out.println(data2);
-		 URL url = new URL("http://13.233.2.169:8088/compile"); 
+		 URL url = new URL("http://159.65.148.176:8088/compile"); 
 	        HttpURLConnection connection = (HttpURLConnection) url.openConnection(); 
 	        connection.setDoOutput(true); 
 	        connection.setInstanceFollowRedirects(false); 
@@ -101,7 +101,7 @@ public class TestLocal {
 		ObjectMapper mapper = new ObjectMapper();
 		String str = mapper.writeValueAsString(data);
 		System.out.println(str);
-		 URL url = new URL("http://13.233.2.169:8088/compile"); 
+		 URL url = new URL("http://159.65.148.176:8088/compile"); 
 	        HttpURLConnection connection = (HttpURLConnection) url.openConnection(); 
 	        connection.setDoOutput(true); 
 	        connection.setInstanceFollowRedirects(false); 
@@ -166,10 +166,10 @@ public class TestLocal {
 	
 	@Test
 	public void testCompilerWebservice(){
-		for(int i=0;i<5;i++){
+		for(int i=0;i<1;i++){
 			try { 
 				System.out.println(i);
-		        URL url = new URL("http://13.233.2.169:8088/compile"); 
+		        URL url = new URL("http://13.233.2.97:8088/compile"); 
 		        HttpURLConnection connection = (HttpURLConnection) url.openConnection(); 
 		        connection.setDoOutput(true); 
 		        connection.setInstanceFollowRedirects(false); 

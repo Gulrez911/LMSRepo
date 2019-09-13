@@ -121,13 +121,17 @@ window.onhashchange=function(){window.location.hash="no-back-button";}
             }
 			
 			.wrapper, .row {
-				height: 50%;
+				height: 55%;
 				margin-left: 0;
 				margin-right: 0;
 			}
 			
 			.container {
 				width: 1400px;
+			}
+			
+			.m-b-35 {
+				margin-bottom: 35px !important;
 			}
         </style>
 
@@ -139,7 +143,7 @@ window.onhashchange=function(){window.location.hash="no-back-button";}
                         <img src="images/process_complete.png">
                         <h1 style="color: #7ac142;text-align: center;margin-top: 0;font-weight: bold;">${studentTestForm.firstName} ${studentTestForm.lastName} - You have completed the test</h1>
                     </div>
-                    <h3 style="text-align: center;">Your completed the test in ${studentTestForm.noOfAttempts == null || studentTestForm.noOfAttempts.trim().length() == 0?"1":studentTestForm.noOfAttempts} ${studentTestForm.noOfAttempts == null || studentTestForm.noOfAttempts.trim().length() == 0?"attempt":"attempts"}</h3>
+                    <h3 style="text-align: center;">Your completed the test in ${studentTestForm.noOfAttempts == null || studentTestForm.noOfAttempts == 0?"1":studentTestForm.noOfAttempts} ${studentTestForm.noOfAttempts == null || studentTestForm.noOfAttempts == 0?"attempt":"attempts"}</h3>
                     <h3 style="text-align: center;padding-bottom: 20px;">Your results have been shared by email to the Test Administrator - ${studentTestForm.testCreatedBy}</h3>
 	
 	
@@ -160,6 +164,10 @@ window.onhashchange=function(){window.location.hash="no-back-button";}
                                 <li><b>Pass Percentage</b> : ${PASS_PERCENTAGE}</li>
                                 <li><b>Result Percentage</b> : ${RESULT_PERCENTAGE}</li>
                                 <li><b>Status</b> : ${STATUS}</li>
+								<c:if test="${confidencePercent != null}">
+								<li><b>Overall Confidence Percentage</b> : ${confidencePercent}
+								</li>
+								</c:if>
                             </ul>
                         </div>
                         <div class="col-md-3">
@@ -172,9 +180,10 @@ window.onhashchange=function(){window.location.hash="no-back-button";}
                             </div>
                         </div>
                     </div>
-		
-		 <h3 style="font-weight: bold;background-color: rgb(0,108,255);padding: 10px;color: #fff;margin-bottom: 0;">Topic Wise Performance - See below</h3>
-					<table class="table" style="border: 1px solid #dddddd;">
+				
+					<div class="m-b-35">
+						<h3 style="font-weight: bold;background-color: rgb(0,108,255);padding: 10px;color: #fff;margin-bottom: 0;">Results</h3>
+						<table class="table" style="border: 1px solid #dddddd;">
                         <thead>
                             <tr>
                                 <th>Section Name</th>
@@ -184,8 +193,38 @@ window.onhashchange=function(){window.location.hash="no-back-button";}
 						<tbody>
                         ${rows}
 						</tbody>
-                    </table>
-		 
+						</table>
+					</div>
+			
+					<div class="m-b-35">
+					<c:if test="${showTraits}">			
+						<h3 style="font-weight: bold;background-color: rgb(0,108,255);padding: 10px;color: #fff;margin-bottom: 0;">Some Learner Traits</h3>
+						<c:forEach var="trait"  items="${traits}" >
+						<div>
+						
+					
+							<div>
+								<ul type="circle" class="table">
+									<li> ${trait.trait}</li>
+									<li> ${trait.description} </li>
+									
+									
+								</ul>
+                            
+							</div>
+							
+						
+						</div>
+					</c:forEach>
+				
+					</c:if>
+					</div>
+					
+			
+			<c:if test="${codingAssignments}">		
+			<div class="m-b-35">
+			<h3 style="font-weight: bold;background-color: rgb(0,108,255);padding: 10px;color: #fff;margin-bottom: 0;">Coding Assignemnts Result Summary</h3>
+			</c:if>		
 					<c:forEach var="ins" items="${codingInstances}"> 
 					<div class="questionslist">
                         <p>
@@ -194,19 +233,26 @@ window.onhashchange=function(){window.location.hash="no-back-button";}
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>Compilation Errors</th>
+                                    <!--<th>Compilation Errors</th>
                                     <th>Runtime Errors</th>
                                     <th>Basic Test Case 1</th>
                                     <th>* Basic Test Case 2</th>
                                     <th>Test Case (Minimal Value)</th>
                                     <th>Test Case (High Value)</th>
-                                    <th>Test Case (Invalid Data)</th>
+                                    <th>Test Case (Invalid Data)</th> -->
+									<th>Syntax Knowledge</th>
+                                    <!-- <th>Basic Coding Ability</th> -->
+                                    <th>Basic Code Integrity</th>
+                                    <th>Basic Validations</th>
+                                    <th>Withstand Extreme Low Inputs</th>
+                                    <th>Withstand Extreme High Inputs</th>
+                                    <th>Production Grade Code</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td class="${ins.codeCompilationErrors == true? "color:red":"color:green"}">${ins.codeCompilationErrors == true?"YES":"NO"}</td>
-                                    <td class="${ins.codeRunTimeErrors == true? "color:red":"color:green"}">${ins.codeRunTimeErrors == true?"YES":"NO"}</td>
+                                    <td class="${ins.codeCompilationErrors == true? "color:red":"color:green"}">${ins.codeCompilationErrors == true?"NO":"YES"}</td>
+                                    <!--<td class="${ins.codeRunTimeErrors == true? "color:red":"color:green"}">${ins.codeRunTimeErrors == true?"YES":"NO"}</td> -->
                                     <td class="${ins.testCaseInputPositive == true? "color:green":"color:red"}">${ins.testCaseInputPositive == true?"YES":"NO"}</td>
                                     <td class="${ins.testCaseInputNegative == true? "color:green":"color:red"}">${ins.testCaseInputNegative == true?"YES":"NO"}</td>
                                     <td class="${ins.testCaseMinimalValue == true? "color:green":"color:red"}">${ins.testCaseMinimalValue == true?"YES":"NO"}</td>
@@ -216,20 +262,57 @@ window.onhashchange=function(){window.location.hash="no-back-button";}
                             </tbody>
                         </table>
                     </div>
+					
 					</c:forEach>
+					
+					<c:if test="${codingAssignments}">		
+					</div>
+					</c:if>		
+		  
+				<c:if test="${justification}">	
+				<div class="m-b-35">
+				<h3 style="font-weight: bold;background-color: rgb(0,108,255);padding: 10px;color: #fff;margin-bottom: 0;">Answer Summary</h3>
 		 
+				<c:forEach var="section"  items="${sectionInstanceDtos}" >
+					<div class="questionslist">
+						
+						<%
+						int count = 1;
+						%>	
+                        <c:forEach var="ques" varStatus="status" items="${section.questionInstanceDtos}" >
+							<p>
+							 ${section.section.sectionName} -   <%= count %>. ${ques.questionMapperInstance.questionMapper.question.questionText} 
+							</p>
+							<div class="options">
+								<ul>
+									<li> Your Choice -${ques.questionMapperInstance.userChoices} </li>
+									<li><b> Correct Choice -${ques.questionMapperInstance.questionMapper.question.rightChoices} </b> </li>
+									<li style="${ques.questionMapperInstance.correct == true? "color:green":"color:red"}"> <i class="${ques.questionMapperInstance.correct == true? "fa fa-check":"fa fa-close"}"></i> ${ques.questionMapperInstance.correct == true? "Correct":"Not Correct"} </b></li>
+									<li><b> ${ques.questionMapperInstance.questionMapper.question.justification == null ?"NA":ques.questionMapperInstance.questionMapper.question.justification}</b></li>
+									
+								</ul>
+                            
+							</div>
+							<%
+								count ++;
+							%>
+						</c:forEach>
+					</div>
+				</c:forEach>
+				</div>
+				</c:if>
 						
 				</div>
             </div>
 			
 			<div class="container">
-			<div class="text-center">
-                        <input type="button" value="Download" onclick="javascript:download()" />
-                    </div>
+				<div style="text-align: center !important">
+                  <input type="button" value="Download" onclick="javascript:download()" class="btn btn-primary" style="background-color:#006cff !important;"/>
+                </div>
 			</div>
 			
        
-					
+				
 				
 		
 	   
@@ -237,6 +320,13 @@ window.onhashchange=function(){window.location.hash="no-back-button";}
 	
 	
 		</c:if>
+		
+		<div class="container">
+				<div class="page-header" style="background-color:#DAA300;color:#fff">
+				<h3>If you want to try this test again <a href="mailto:jatin.sutaria@thev2technologies.com">Write to Us</a></h3>      
+			  </div>
+			  <p>If you want to provide any feedback on the test  <a href="mailto:feedback@iiht.com">Write to Us</a></p>   
+			</div>	
 		
 	</div>
 	

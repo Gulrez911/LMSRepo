@@ -21,9 +21,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.assessment.common.CompileData;
@@ -44,8 +46,10 @@ import com.assessment.data.Test;
 import com.assessment.data.User;
 import com.assessment.data.UserNonCompliance;
 import com.assessment.data.UserTestSession;
+import com.assessment.data.UserTestTimeCounter;
 import com.assessment.eclipseche.config.response.WorkspaceResponse;
 import com.assessment.eclipseche.services.EclipseCheService;
+import com.assessment.reports.manager.UserTrait;
 import com.assessment.repositories.QuestionMapperInstanceRepository;
 import com.assessment.repositories.UserTestSessionRepository;
 import com.assessment.services.CompanyService;
@@ -58,6 +62,7 @@ import com.assessment.services.TestService;
 import com.assessment.services.UserNonComplianceService;
 import com.assessment.services.UserService;
 import com.assessment.services.UserTestSessionService;
+import com.assessment.services.UserTestTimeCounterService;
 import com.assessment.services.impl.CompilerService;
 import com.assessment.services.impl.ReportsService;
 import com.assessment.web.dto.QuestionInstanceDto;
@@ -114,13 +119,20 @@ public class StudentController {
 	@Autowired
 	UserTestSessionRepository testSessionRepository;
 	
+	@Autowired
+	QuestionMapperInstanceRepository questionMapperInstanceRepository;
+	
+	@Autowired
+	UserTestTimeCounterService counterService;
+	
 	Logger logger = LoggerFactory.getLogger(StudentController.class);
 	
-	public String getUserAfterCheckingNoOfAttempts(String user, String companyId, Test test){
+	public String getUserAfterCheckingNoOfAttempts(String user, String companyId, Test test, HttpServletRequest request){
 		UserTestSession session = testSessionRepository.findByPrimaryKey(user, test.getTestName(), test.getCompanyId());
 		  String userNameNew = "";
 		  if(session == null){
 			  userNameNew = user;
+			  request.getSession().setAttribute("noOfAttempts", 1);
 			  return userNameNew;
 		  }
 		  else{
@@ -135,6 +147,7 @@ public class StudentController {
 			  	}
 			  
 			  userNameNew = user+"["+test.getId()+"-"+(sessions.size()+1+"]");
+			  request.getSession().setAttribute("noOfAttempts", (sessions.size()+1));
 			  return userNameNew;
 		  }
 	}
@@ -176,7 +189,7 @@ public class StudentController {
 			 	}
 			UserTestSession session2 = testSessionRepository.findByPrimaryKey(email, testDetails.getTestName(), testDetails.getCompanyId());
 				if(session2 != null){
-					email =  getUserAfterCheckingNoOfAttempts(email, testDetails.getCompanyId(), testDetails);
+					email =  getUserAfterCheckingNoOfAttempts(email, testDetails.getCompanyId(), testDetails, request);
 					if(email.equals("fail")){
 						ModelAndView mav = new ModelAndView("studentNoTest_ExceededAttempts");
 				  		mav.addObject("firstName", userDetails.getFirstName());
@@ -309,8 +322,35 @@ public class StudentController {
 	 private void putMiscellaneousInfoInModel(ModelAndView model, HttpServletRequest request) {
 		 StudentTestForm studentTest = (StudentTestForm) request.getSession().getAttribute("studentTestForm");
 		 model.addObject("studentTestForm", studentTest);
+		 /**
+		 	 * Add the time counter part - retrieved time counter for sessions that were disrupted.
+		 	 */
+		 Test test = (Test) request.getSession().getAttribute("test");
+		 	UserTestTimeCounter counter = counterService.findByPrimaryKey(test.getId(), studentTest.getEmailId(), studentTest.getCompanyId());
+		 	if(counter == null){
+		 		model.addObject("timeCounter", new Long(0));
+		 	}
+		 	else{
+		 		model.addObject("timeCounter", counter.getTimeCounter());
+		 	}
 	 }
 	
+	 
+	 @RequestMapping(value = "/timecounterUpdate", method = RequestMethod.POST)
+	 public @ResponseBody String timecounterUpdate(@RequestParam Long timecounter,  @RequestParam Long testId, @RequestParam String companyId, @RequestParam String email, HttpServletRequest request, HttpServletResponse response) {
+		 UserTestTimeCounter counter = new UserTestTimeCounter();
+		 counter.setCompanyId(companyId);
+		 counter.setEmail(email);
+		 counter.setTestId(testId);
+		 counter.setTimeCounter(timecounter);
+		 
+		 Test test = (Test) request.getSession().getAttribute("test");
+		 counter.setTestName(test.getTestName());
+		 counter.setCompanyName(test.getCompanyName());
+		 counterService.saveOrUpdate(counter);
+		 return "ok";
+	 }
+ 
 	 
 	 @RequestMapping(value = "/studentJourney", method = RequestMethod.POST)
 	 public ModelAndView studentStartExam(HttpServletRequest request, HttpServletResponse response,@ModelAttribute("studentTestForm") StudentTestForm studentForm) throws Exception {
@@ -348,8 +388,18 @@ public class StudentController {
 						QuestionInstanceDto questionInstanceDto= new QuestionInstanceDto();
 						pos++;
 						questionInstanceDto.setPosition(pos);
-						QuestionMapperInstance questionMapperInstance = new QuestionMapperInstance();
+						QuestionMapperInstance questionMapperInstance = null;
+						if(section.getPercentQuestionsAsked() == 100){
+							questionMapperInstance = 	questionMapperInstanceRepository.findUniqueQuestionMapperInstanceForUser(questionMapper.getQuestion().getQuestionText(), test.getTestName(), section.getSectionName(), user.getEmail(), user.getCompanyId());
+						}
+						
+						if(questionMapperInstance == null){
+							questionMapperInstance = new QuestionMapperInstance();
+						}
+						
 						questionInstanceDto.setQuestionMapperInstance(questionMapperInstance);
+						
+						
 						questionMapperInstance.setQuestionMapper(questionMapper);
 						questionMapperInstances.add(questionInstanceDto);
 						if(questionMapper.getQuestion().getQuestionType() != null && questionMapper.getQuestion().getQuestionType().getType().equals(QuestionType.CODING.getType())){
@@ -402,6 +452,17 @@ public class StudentController {
 		 	model.addObject("totalQuestions", ""+totalQuestions);
 		 	model.addObject("noAnswered", "0");
 		 	model.addObject("confidenceFlag", test.getConsiderConfidence());
+		 	/**
+		 	 * Add the time counter part - retrieved time counter for sessions that were disrupted.
+		 	 */
+		 	UserTestTimeCounter counter = counterService.findByPrimaryKey(test.getId(), user.getEmail(), user.getCompanyId());
+		 	if(counter == null){
+		 		model.addObject("timeCounter", new Long(0));
+		 	}
+		 	else{
+		 		model.addObject("timeCounter", counter.getTimeCounter());
+		 	}
+		 	model.addObject("firstpage", "yes");
 		    return model;
 	 }
 	 
@@ -466,7 +527,7 @@ public class StudentController {
 						 sectionInstanceDto.setLast(true);
 				 	}
 				 sectionInstanceDto.setCurrent(true);
-				 sectionInstanceDto = populateWithQuestions(sectionInstanceDto, test.getTestName(),sectionInstanceDto.getSection().getSectionName(), user.getCompanyId());
+				 sectionInstanceDto = populateWithQuestions(sectionInstanceDto, test.getTestName(),sectionInstanceDto.getSection().getSectionName(), user.getCompanyId(), user.getEmail());
 				 model.addObject("currentSection", sectionInstanceDto);
 				 QuestionInstanceDto currentQuestion = sectionInstanceDto.getQuestionInstanceDtos().get(0);
 				// if(sectionInstanceDto.getQuestionInstanceDtos().size() == 1){
@@ -494,7 +555,7 @@ public class StudentController {
 		    return model;
 	 }
 	 
-	 private SectionInstanceDto populateWithQuestions(SectionInstanceDto sectionInstanceDto, String testName, String sectionName, String companyId) {
+	 private SectionInstanceDto populateWithQuestions(SectionInstanceDto sectionInstanceDto, String testName, String sectionName, String companyId, String email) {
 		 	if(sectionInstanceDto.getQuestionInstanceDtos().size() > 0) {
 		 		//its already populated
 		 		return sectionInstanceDto;
@@ -508,7 +569,17 @@ public class StudentController {
 				QuestionInstanceDto questionInstanceDto= new QuestionInstanceDto();
 				pos++;
 				questionInstanceDto.setPosition(pos);
-				QuestionMapperInstance questionMapperInstance = new QuestionMapperInstance();
+				//QuestionMapperInstance questionMapperInstance = new QuestionMapperInstance();
+				QuestionMapperInstance questionMapperInstance = null;
+				if(sectionInstanceDto.getSection().getPercentQuestionsAsked() == 100){
+					questionMapperInstance = 	questionMapperInstanceRepository.findUniqueQuestionMapperInstanceForUser(questionMapper.getQuestion().getQuestionText(), testName, sectionName, email, companyId);
+				}
+				
+				if(questionMapperInstance == null){
+					questionMapperInstance = new QuestionMapperInstance();
+				}
+				
+				
 				questionInstanceDto.setQuestionMapperInstance(questionMapperInstance);
 				questionMapperInstance.setQuestionMapper(questionMapper);
 				sectionInstanceDto.getQuestionInstanceDtos().add(questionInstanceDto);
@@ -690,6 +761,7 @@ public class StudentController {
 			questionInstanceDto.setOutput(op.getOutput() == null?"wrong":op.getOutput());
 			questionInstanceDto.getQuestionMapperInstance().setCodeByUser(currentQuestion.getCode().replaceAll("\r", ""));
 			questionInstanceDto.getQuestionMapperInstance().setCodingOuputBySystemTestCase(op.getOutput() == null?"wrong":op.getOutput());
+			
 			boolean compilationError = false;
 			if(op.getErrors() != null && op.getErrors().trim().length() > 0){
 				
@@ -706,6 +778,9 @@ public class StudentController {
 				compilationError = false;
 				questionInstanceDto.getQuestionMapperInstance().setCodeCompilationErrors(false);
 			}
+			
+		
+			
 			/**
 			 * Positive Test case
 			 */
@@ -724,6 +799,15 @@ questionInstanceDto.getQuestionMapperInstance().setTestCaseInputPositive(questio
 			}
 			
 			
+			/**
+			 * set correct coding answer based on both positive and negative test case output being successful
+			 */
+			if(questionInstanceDto.getQuestionMapperInstance().getTestCaseInputNegative() && questionInstanceDto.getQuestionMapperInstance().getTestCaseInputPositive()){
+				questionInstanceDto.getQuestionMapperInstance().setCorrect(true);
+			}
+			else{
+				questionInstanceDto.getQuestionMapperInstance().setCorrect(false);
+			}
 			
 				/**
 				 * Extreme Minimal Value Test Case
@@ -882,7 +966,7 @@ questionInstanceDto.getQuestionMapperInstance().setTestCaseInvalidData(questionI
 			SectionInstanceDto nextSection = sectionSequence.nextSection(currentSection.getSection().getSectionName());
 		
 			if(nextSection != null) {
-				nextSection = populateWithQuestions(nextSection, test.getTestName(), nextSection.getSection().getSectionName(), user.getCompanyId());
+				nextSection = populateWithQuestions(nextSection, test.getTestName(), nextSection.getSection().getSectionName(), user.getCompanyId(), user.getEmail());
 				//currentSection.getQuestionInstanceDtos().clear();
 				currentQuestion = nextSection.getQuestionInstanceDtos().get(0);
 				if(currentQuestion.getCode() == null || currentQuestion.getCode().trim().length() == 0){
@@ -1123,7 +1207,7 @@ questionInstanceDto.getQuestionMapperInstance().setTestCaseInvalidData(questionI
 			SectionInstanceDto previousSection = sectionSequence.prevSection(currentSection.getSection().getSectionName());
 			
 			if(previousSection != null) {
-				previousSection = populateWithQuestions(previousSection, test.getTestName(), previousSection.getSection().getSectionName(), user.getCompanyId());
+				previousSection = populateWithQuestions(previousSection, test.getTestName(), previousSection.getSection().getSectionName(), user.getCompanyId(), user.getEmail());
 				//currentSection.getQuestionInstanceDtos().clear();
 				currentQuestion = previousSection.getQuestionInstanceDtos().get(previousSection.getQuestionInstanceDtos().size()-1);
 				 model.addObject("currentSection", previousSection);
@@ -1255,6 +1339,7 @@ questionInstanceDto.getQuestionMapperInstance().setTestCaseInvalidData(questionI
 		 float totConfidence = 0;
 		 setAnswers(request, currentSection, currentQuestion, questionId, true);
 		 //currentQuestion.getQuestionMapperInstance().getQuestionMapper().getQuestion().getRightChoices().split(",").length
+		 Boolean codingAssignments = false;
 		 	for(SectionInstanceDto sectionInstanceDto : sectionInstanceDtos) {
 		 		saveSection(sectionInstanceDto, request);
 		 		if(test.getConsiderConfidence() != null && test.getConsiderConfidence()){
@@ -1262,6 +1347,10 @@ questionInstanceDto.getQuestionMapperInstance().setTestCaseInvalidData(questionI
 		 				for(QuestionInstanceDto dto : sectionInstanceDto.getQuestionInstanceDtos()){
 		 					if(dto.getConfidence() != null && dto.getConfidence()){
 		 						totConfidence += 1;
+		 					}
+		 					
+		 					if(dto.getQuestionMapperInstance().getQuestionMapper().getQuestion().getQuestionType().getType().equals(QuestionType.CODING.getType())){
+		 						codingAssignments = true;
 		 					}
 		 				}
 		 			 
@@ -1307,20 +1396,25 @@ questionInstanceDto.getQuestionMapperInstance().setTestCaseInvalidData(questionI
 			 Date createDate = (Date) request.getSession().getAttribute("testStartDate");
 			 userTestSession.setCreateDate(createDate);
 			 userTestSession.setUpdateDate(new Date());
+			 Integer noOfAttempts = (Integer)request.getSession().getAttribute("noOfAttempts");
+			 userTestSession.setNoOfAttempts(noOfAttempts);
+			 studentTestForm.setNoOfAttempts(noOfAttempts);
 			userTestSession = userTestSessionService.saveOrUpdate(userTestSession);
 			
-			studentTestForm.setNoOfAttempts(userTestSession.getNoOfAttempts());
+		//	studentTestForm.setNoOfAttempts(userTestSession.getNoOfAttempts());
 		 
 		 putMiscellaneousInfoInModel(model, request);
 		 setTimeInCounter(request, Long.valueOf(timeCounter));
 		 try {
 			request.getSession().setAttribute("submitted", true);
 			//String rows = sendResultsEmail(request, userTestSession);
+			sendResultsEmail(request, userTestSession);
 			String rows = compileRows(request);
 			model= new ModelAndView("studentTestCompletion");
 			model.addObject("rows", rows);
 			model.addObject("showResults", test.getSentToStudent());
 			model.addObject("justification", test.getJustification());
+			model.addObject("studentTestForm", studentTestForm);
 				if(test.getSentToStudent()){
 					model.addObject("TOTAL_QUESTIONS", userTestSession.getTotalMarks());
 					model.addObject("TOTAL_MARKS", userTestSession.getTotalMarksRecieved());
@@ -1329,6 +1423,8 @@ questionInstanceDto.getQuestionMapperInstance().setTestCaseInvalidData(questionI
 					int per = Math.round(userTestSession.getPercentageMarksRecieved());
 					model.addObject("RESULT_PERCENTAGE_WITHOUT_FRACTION", new Integer(per));
 					model.addObject("STATUS", test.getPassPercent() > userTestSession.getPercentageMarksRecieved()?"Fail":"Success");
+					model.addObject("codingAssignments", codingAssignments);
+					model = getTraitsForUserForTest(user.getEmail(), test.getCompanyId(), test.getTestName(), model);
 					/**
 					 * Add code for showing justification grid
 					 */
@@ -1358,6 +1454,25 @@ questionInstanceDto.getQuestionMapperInstance().setTestCaseInvalidData(questionI
 			th.start();
 		}
 		 return model;
+	 }
+	 
+	 private ModelAndView getTraitsForUserForTest(String user, String companyId, String testName, ModelAndView model){
+		 List<UserTrait> traits = reportsService.getUserTraits(companyId, testName, user);
+		 List<UserTrait> rettraits = new ArrayList<>();
+		 for(UserTrait trait : traits){
+			 if(trait.getDescription() != null && trait.getDescription().trim().length() > 0){
+				 rettraits.add(trait);
+			 }
+		 }
+		if(rettraits.size() > 0){
+			model.addObject("showTraits", true);
+			model.addObject("traits", rettraits);
+		}
+		else{
+			model.addObject("showTraits", false);
+		}
+		
+		return model;
 	 }
 	 
 	 private ModelAndView codingAssignmentSummaryIfAvailable(ModelAndView model, HttpServletRequest request){
@@ -1398,7 +1513,7 @@ questionInstanceDto.getQuestionMapperInstance().setTestCaseInvalidData(questionI
 		 DecimalFormat df = new DecimalFormat("##.##");
 		 for(SectionInstanceDto sectionInstanceDto : sectionInstanceDtos) {
 			 String record = table;
-			 Integer per = new Integer(sectionInstanceDto.getTotalCorrectAnswers() / sectionInstanceDto.getNoOfQuestions()) * 100 ;
+			 Integer per = new Integer(Math.round((float)sectionInstanceDto.getTotalCorrectAnswers().intValue() / (float)sectionInstanceDto.getNoOfQuestions().intValue() * 100)) ;
 			 record = record.replace("$SECTION_NAME$", sectionInstanceDto.getSection().getSectionName());
 			 record = record.replace("$per$", df.format(per));
 			 rows += record;

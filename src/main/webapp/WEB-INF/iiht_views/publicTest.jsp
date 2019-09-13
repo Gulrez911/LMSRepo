@@ -182,9 +182,10 @@
                     <img src="images/creationtimeline.png">
                     <div class="col-md-12">
                         <div class="creationcontent">
-                            <h3>Creation timelines for the standard lorem ipsum</h3>
-                            <p>McClintock's eye for detail certainly helped narrow the whereabouts of lorem ipsum's origin, 
-                                however, the “how and when” still remain something of a mystery, with competing theories and timelines.</p>
+                            <h3>Yaksha is ready to ask what you already know best!</h3>
+                            <h2>Fillout data in the fields to your right. Lock, Stock, and Crack.
+                           	    Employers want Air Worthy Employees. Yaksha is here to Engage,
+  				    Evaluate & Enable you for it.</h2>
                         </div>
                     </div>
                 </div>
@@ -218,34 +219,44 @@
             </div>
         </div>
 
-        <div class="loginservices">
+         <div class="loginservices">
             <div class="col-md-12">
                 <div class="item col-md-3">
-                    <img src="images/serviceicon1.png">
-                    <h3>Lorem ipsum</h3>
-                    <p>McClintock's eye for detail certainly helped narrow the whereabouts of lorem	</p>
+                  <h3> <img src="images/serviceicon1.png">
+                    Instructions</h3>
+
+
+       		    <p>&#8226;  Test Results will be sent to you on Completion</p>
+		    <p>&#8226; Click Submit for Submission of your Test </p>
+		    <p>&#8226; System will auto Submit Test if Timer Expires	 </p>
                 </div>
                 <div class="item col-md-3">
-                    <img src="images/serviceicon2.png">
-                    <h3>Color sit amet</h3>
-                    <p>McClintock's eye for detail certainly helped narrow the whereabouts of lorem	</p>
+                    <h3> <img src="images/serviceicon4.png">
+                    Web Proctoring</h3>
+                    <p><p>&#8226; Do not move mouse pointer to a different tab  </p>
+		   <p>&#8226; Use F11 windows for Test if required   </p>
+		   <p>&#8226; Non Compliance can result in your Test Declared Invalid   </p>
                 </div>
                 <div class="item col-md-3">
-                    <img src="images/serviceicon3.png">
-                    <h3>Consectetur</h3>
-                    <p>McClintock's eye for detail certainly helped narrow the whereabouts of lorem	</p>
+                   <h3> <img src="images/serviceicon3.png">
+                    Tenants</h3>
+                    <p>&#8226; Domain specific Users are advise to login using Corporate Credentials  </p>
+		   <p>&#8226; Every User is directed to provide Login data for Individual Reporting   </p>
                 </div>
                 <div class="item col-md-3">
-                    <img src="images/serviceicon4.png">
-                    <h3>Eiusmod tempor</h3>
-                    <p>McClintock's eye for detail certainly helped narrow the whereabouts of lorem	</p>
+                    <h3> <img src="images/serviceicon2.png">
+                    Yaksha</h3>
+		          <p>&#8226; Multi Technology Assessments </p>
+		          <p>&#8226; Test Cases Based Evaluation </p>
+		          <p>&#8226; Weighted Adaptive Assessments	</p>
+			
                 </div>
             </div>
         </div>
 
         <div class="logincopyright">
             <div class="col-md-12">
-                <p>Copyrigh © 2018 IIHT. All Rights Reserved – Privacy Policy For enterprise solutions</p>
+                <p>Copyrigh Â© 2018 IIHT. All Rights Reserved â€“ Privacy Policy For enterprise solutions</p>
             </div>
         </div>
 
