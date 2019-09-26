@@ -38,6 +38,12 @@ public class CandidateProfileParams extends Base{
 	@Transient
 	String context;
 	
+	@Transient
+	String qualifierDesc;
+	
+	@Transient
+	Float percent;
+	
 	public CandidateProfileParams(){
 		
 	}
@@ -177,6 +183,22 @@ public class CandidateProfileParams extends Base{
 
 	public void setContext(String context) {
 		this.context = context;
+	}
+
+	public String getQualifierDesc() {
+		return qualifierDesc;
+	}
+
+	public void setQualifierDesc(String qualifierDesc) {
+		this.qualifierDesc = qualifierDesc;
+	}
+
+	public Float getPercent() {
+		return percent;
+	}
+
+	public void setPercent(Float percent) {
+		this.percent = percent;
 	}
 	
 	

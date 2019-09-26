@@ -63,16 +63,18 @@ public class TestUser {
 	public void testaddUserLmsAdmin()
 	{
 		User user=new User();
-		user.setEmail("lmsadmin@iiht.com");
+		user.setEmail("john.doe1@smith.com[8546-7]");
 		user.setMobileNumber("989878");
-		user.setFirstName("Lms");
-		user.setLastName("Admin");
+		user.setFirstName("John");
+		user.setLastName("Doe1");
 		user.setPassword("12345");
-		user.setCompanyId("IH");
-		user.setCompanyName("IIHT");
-		user.setDepartment("IT");
-		user.setUserType(UserType.LMS_ADMIN);
+		user.setCompanyId("Cognizant");
+		user.setCompanyName("Cognizant");
+		user.setDepartment("Cognizant");
+		user.setUserType(UserType.STUDENT);
 		userService.addUser(user);
+		
+		
 	}
 	
 	@Test
@@ -81,15 +83,15 @@ public class TestUser {
 	public void testupdateUser()
 	{
 		User user=new User();
-		user.setEmail("sreeram.gopal@iiht.com");
+		user.setEmail("testadmin_ibm@iiht.com");
 		user.setMobileNumber("989878");
 		user.setFirstName("Tikam");
 		user.setLastName("Singh");
 		user.setPassword("12345");
-		user.setCompanyId("IH");
-		user.setCompanyName("IIHT");
-		user.setDepartment("IT");
-		user.setUserType(UserType.SUPER_ADMIN);
+		user.setCompanyId("IBM");
+		user.setCompanyName("IBM");
+		user.setDepartment("IBM");
+		user.setUserType(UserType.ADMIN);
 		userService.addUser(user);
 	}
 	

@@ -32,6 +32,7 @@ public class QuestionMapperInstance extends Base{
 	@Column(length=2000)
 	String questionText;
 	
+	
 	@Transient
 	String encodedQuestionText;
 	
@@ -89,6 +90,10 @@ public class QuestionMapperInstance extends Base{
 	Boolean testCaseMaximumValue;
 	
 	Boolean testCaseInvalidData;
+	
+	Integer noOfTestCases;
+	
+	Integer noOfTestCasesPassed;
 
 	public QuestionMapper getQuestionMapper() {
 		return questionMapper;
@@ -177,18 +182,25 @@ public class QuestionMapperInstance extends Base{
 	}
 
 	public void setCodingOuputBySystemTestCase(String codingOuputBySystemTestCase) {
+		codingOuputBySystemTestCase = codingOuputBySystemTestCase == null?"":(codingOuputBySystemTestCase.trim());
 		this.codingOuputBySystemTestCase = codingOuputBySystemTestCase;
+		
+		
 			if(getCodeCompilationErrors()){
 				setCorrect(false);
 			}
+			
+			System.out.println("in codingOuputBySystemTestCase "+codingOuputBySystemTestCase);
+			System.out.println("in codingOuputBySystemTestCase2 "+getQuestionMapper().getQuestion().getHiddenOutputNegative());
 		
 		if(getQuestionMapper().getQuestion().getHiddenOutputNegative().equalsIgnoreCase(codingOuputBySystemTestCase == null?"":codingOuputBySystemTestCase)){
 			setTestCaseInputNegative(true);
-			
+			System.out.println("in setCodingOuputBySystemTestCase "+true);
 			setCorrect(true);
 		}
 		else{
 			setTestCaseInputNegative(false);
+			System.out.println("in setCodingOuputBySystemTestCase "+false);
 			setCorrect(false);
 		}
 		setAnswered(true);
@@ -370,6 +382,22 @@ public class QuestionMapperInstance extends Base{
 
 	public void setEncodedQuestionText(String encodedQuestionText) {
 		this.encodedQuestionText = encodedQuestionText;
+	}
+
+	public Integer getNoOfTestCases() {
+		return noOfTestCases;
+	}
+
+	public void setNoOfTestCases(Integer noOfTestCases) {
+		this.noOfTestCases = noOfTestCases;
+	}
+
+	public Integer getNoOfTestCasesPassed() {
+		return noOfTestCasesPassed;
+	}
+
+	public void setNoOfTestCasesPassed(Integer noOfTestCasesPassed) {
+		this.noOfTestCasesPassed = noOfTestCasesPassed;
 	}
 
 	

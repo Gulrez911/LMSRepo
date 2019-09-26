@@ -85,6 +85,8 @@ public class Question extends Base{
 	//@ExcelCell(12)   
 	private String qualifier5;
 	
+	private String qualifierDescription;
+	
 	//@ExcelCell(13)   
 	@Transient
 	private String diff;
@@ -190,6 +192,11 @@ public class Question extends Base{
 	
 	@Column(length=2000)
 	String justification;
+	
+	@Column(length=2000)
+	String courseContext;
+	
+	Integer courseWeight;
 	
 	public String getQualifier1() {
 		return qualifier1;
@@ -855,6 +862,24 @@ public class Question extends Base{
 	}
 	public void setHiddenOutputInvalidDataValue(String hiddenOutputInvalidDataValue) {
 		this.hiddenOutputInvalidDataValue = hiddenOutputInvalidDataValue;
+	}
+	public String getQualifierDescription() {
+		return qualifierDescription;
+	}
+	public void setQualifierDescription(String qualifierDescription) {
+		this.qualifierDescription = qualifierDescription;
+	}
+	public String getCourseContext() {
+		return courseContext;
+	}
+	public void setCourseContext(String courseContext) {
+		this.courseContext = courseContext;
+	}
+	public Integer getCourseWeight() {
+		return courseWeight;
+	}
+	public void setCourseWeight(Integer courseWeight) {
+		this.courseWeight = courseWeight;
 	}
 	
 	

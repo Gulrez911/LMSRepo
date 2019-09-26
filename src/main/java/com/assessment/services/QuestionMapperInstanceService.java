@@ -35,4 +35,6 @@ public interface QuestionMapperInstanceService {
 	List<QuestionMapperInstance> findFullStackQuestionMapperInstancesForDotNet( String companyId);
 	
 	List<QuestionMapperInstance> findFullStackQuestionMapperInstancesForJavaScript(String companyId);
+	
+	List<QuestionMapperInstance> findQuestionMapperInstancesForUserForCourseContext(String courseContext,  String user, String companyId);
 }

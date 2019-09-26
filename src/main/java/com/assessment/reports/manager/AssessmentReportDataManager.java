@@ -90,6 +90,7 @@ public class AssessmentReportDataManager {
 			for(AssessmentTestData data : userData) {
 				AssessmentUserPerspectiveData assessmentUserPerspectiveData = new AssessmentUserPerspectiveData();
 				assessmentUserPerspectiveData.setEmail(user);
+				System.out.println("email is "+user);
 				assessmentUserPerspectiveData.setFirstName(usr.getFirstName());
 				assessmentUserPerspectiveData.setLastName(usr.getLastName());
 				assessmentUserPerspectiveData.setNoOfAttempts(data.getNoOfAttempts());
@@ -208,6 +209,9 @@ public class AssessmentReportDataManager {
 					User one = userService.findByPrimaryKey(testSpecificData.get(0).getUser(), companyId);
 					User two = userService.findByPrimaryKey(testSpecificData.get(1).getUser(), companyId);
 					User three = userService.findByPrimaryKey(testSpecificData.get(2).getUser(), companyId);
+					System.out.println("one is "+one+" user "+testSpecificData.get(0).getUser());
+					System.out.println("two is "+two+" user "+testSpecificData.get(1).getUser());
+					System.out.println("three is "+three+" user "+testSpecificData.get(2).getUser());
 					String topCandidates = one.getFirstName()+" "+one.getLastName()+"-"+testSpecificData.get(0).getPercentageMarksRecieved()+", "
 							+two.getFirstName()+" "+two.getLastName()+"-"+testSpecificData.get(1).getPercentageMarksRecieved()+", "
 							+three.getFirstName()+" "+three.getLastName()+"-"+testSpecificData.get(2).getPercentageMarksRecieved();

@@ -65,6 +65,7 @@ public class SectionInstanceServiceImpl implements SectionInstanceService{
 	@Override
 	public void saveSection(SectionInstance sectionInstance, List<QuestionMapperInstance> questionMapperInstances) {
 		// TODO Auto-generated method stub
+		System.out.println("in savesection");
 		validateMandatoryFields(sectionInstance);
 		List<SectionInstance> pastInstances = getSectionInstances(sectionInstance.getSectionName(), sectionInstance.getCompanyId(), sectionInstance.getUser());
 		Section section = sectionRepository.findByPrimaryKey(sectionInstance.getTestName(), sectionInstance.getSectionName(), sectionInstance.getCompanyId());
@@ -83,6 +84,7 @@ public class SectionInstanceServiceImpl implements SectionInstanceService{
 		}
 		
 		for(QuestionMapperInstance questionMapperInstance : questionMapperInstances) {
+			System.out.println("in savequestions");
 			validateMandatoryFields(questionMapperInstance);
 			QuestionMapperInstance questionMapperInstance2 = questionMapperInstanceRepository.findUniqueQuestionMapperInstanceForUser(questionMapperInstance.getQuestionText(), questionMapperInstance.getTestName(), questionMapperInstance.getSectionName(), questionMapperInstance.getUser(), questionMapperInstance.getCompanyId());
 			if(questionMapperInstance2 != null) {
@@ -111,12 +113,15 @@ public class SectionInstanceServiceImpl implements SectionInstanceService{
 		 */
 		if(instance.getQuestionMapper().getQuestion().getQuestionType() != null && instance.getQuestionMapper().getQuestion().getQuestionType().getType().equals(QuestionType.CODING.getType())){
 			String op = instance.getCodingOuputBySystemTestCase();
-			op = (op == null)?"":op;
+			op = (op == null)?"":op.trim();
+			System.out.println(" saving section check answer op "+op+" instance.getQuestionMapper().getQuestion().getHiddenOutputNegative() "+instance.getQuestionMapper().getQuestion().getHiddenOutputNegative());
 			if(instance.getQuestionMapper().getQuestion().getHiddenOutputNegative().equalsIgnoreCase(op)){
+				System.out.println("in check ansewr "+true);
 				instance.setCorrect(true);
 				
 			}
 			else{
+				System.out.println("in check ansewr "+false);
 				instance.setCorrect(false);
 			}
 			instance.setAnswered(true);

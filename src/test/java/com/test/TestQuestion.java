@@ -154,5 +154,12 @@ public class TestQuestion {
 			}
 		
 	}
+	
+	@Test
+	@Rollback(value=false)
+	public void testGetQMIForCourseContext(){
+		List<QuestionMapperInstance> qms = instanceRep.findQuestionMapperInstancesForUserForCourseContext("Comprehensive Java", "test@test.com", "IH");
+		System.out.println(qms.size());
+	}
 
 }

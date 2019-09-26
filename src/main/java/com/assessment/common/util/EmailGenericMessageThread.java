@@ -193,7 +193,7 @@ public class EmailGenericMessageThread  implements Runnable{
 				email.setTLS(false);//change here
 				//email.setSmtpPort(Integer.parseInt(smtpPort));
 				email.setSSL(true);
-				email.setDebug(true);
+				//email.setDebug(true);
 				/**
 				 * Send attachment if there
 				 */

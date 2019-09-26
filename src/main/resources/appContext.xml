@@ -76,17 +76,17 @@
 <!--         <property name="user" value="utf8_user" />  -->
 <!--         <property name="password" value="Welcome@123" />   -->
 
-<!--     <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/assessment" />   -->
-<!--         <property name="user" value="root" />  -->
-<!--         <property name="password" value="" />  -->
+    <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/assessment" />  
+        <property name="user" value="root" /> 
+        <property name="password" value="" /> 
 
 <!-- 	<property name="jdbcUrl" value="jdbc:mysql://13.233.2.169:3306/assessment" />    -->
 <!-- 	        <property name="user" value="iiht_user" />  -->
 <!-- 	        <property name="password" value="Welcome@123" />  -->
 	        
-	        <property name="jdbcUrl" value="jdbc:mysql://13.233.2.169:3306/Cognizant" />   
-	        <property name="user" value="User_Cognizant" /> 
-	        <property name="password" value="Welcome@123" /> 
+<!-- 	        <property name="jdbcUrl" value="jdbc:mysql://13.233.2.169:3306/Cognizant" />    -->
+<!-- 	        <property name="user" value="User_Cognizant" />  -->
+<!-- 	        <property name="password" value="Welcome@123" />  -->
 
         <!-- Pooling Details-->
         <property name="initialPoolSize" value="3" />

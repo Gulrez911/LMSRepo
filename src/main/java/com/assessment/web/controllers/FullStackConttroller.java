@@ -36,6 +36,8 @@ import com.assessment.data.User;
 import com.assessment.eclipseche.config.response.WorkspaceResponse;
 import com.assessment.eclipseche.services.EclipseCheService;
 import com.assessment.repositories.QuestionMapperInstanceRepository;
+import com.assessment.services.UserService;
+import com.assessment.web.dto.TestCasesMetric;
 @Controller
 public class FullStackConttroller {
 	
@@ -46,6 +48,9 @@ PropertyConfig propertyConfig;
 
 @Autowired
 QuestionMapperInstanceRepository  questionMapperInstanceRep;
+
+@Autowired
+UserService userService;
 
 	@RequestMapping(value = "/gotofullstack", method = RequestMethod.GET)
 	public ModelAndView showLogin(@RequestParam String workspace, HttpServletRequest request, HttpServletResponse response) {
@@ -185,12 +190,196 @@ QuestionMapperInstanceRepository  questionMapperInstanceRep;
 		 html = html.replace("{BASE_URL}", propertyConfig.getBaseUrl()+"login");
 		// String message = "Results can not be sent for "+user.getEmail()+" for test "+test.getTestName();
 		 System.out.println(" sending mail with foll link "+url);
+		 TestCasesMetric casesMetric = initiateAutomation(workSpaceId, request, questionMapperInstance, url);
+		 System.out.println("testmetrics "+casesMetric);
+			if(casesMetric != null){
+				System.out.println("testmetrics 1111111111");
+				String message = "";
+				message += "<b>Run Time Test Execution Summary</b><br/>";
+				message += "Problem Statement - "+casesMetric.getProblemStatement()+"<br/>";
+				message += "No Of Test Cases - "+casesMetric.getNoOfTestCases()+"<br/>";
+				message += "No Of Test Cases Passed - "+casesMetric.getTestCasesPassed();
+				questionMapperInstance.setNoOfTestCases(casesMetric.getNoOfTestCases());
+				questionMapperInstance.setNoOfTestCasesPassed(casesMetric.getTestCasesPassed());
+				questionMapperInstanceRep.save(questionMapperInstance);
+				if(html.contains("${BEHAVIOUR}")){
+					System.out.println("testmetrics goood");
+				}
+				else{
+					System.out.println("testmetrics bad");
+				}
+				html = html.replace("${BEHAVIOUR}", message);
+			}
+			
+			html = html.replace("${BEHAVIOUR}", "");//just make sure this is not there for tests not having automation
 		 	EmailGenericMessageThread client = new EmailGenericMessageThread("jatin.sutaria@thev2technologies.com", "Code quality Report Link for "+user.getFirstName(), html, propertyConfig);
 		 	String cc[] = {reviewer};
 		 	client.setCcArray(cc);
 		 	Thread th = new Thread(client);
 			th.start();
-		 return "Your code has been submitted for verification. This is a 2 step process - Code quality will be measured through automation and functional compilance will be judged by reviewer.";
+			
+		 return "Your code has been submitted for verification. This is a 2 step process - Code quality (or behaviour compliance if configured) will be measured through automation and other compilances will be judged by reviewer.";
+	 }
+	 
+	 private TestCasesMetric initiateAutomation(String workspaceId, HttpServletRequest request, QuestionMapperInstance questionMapperInstance, String codeQualityUrl) throws IOException{
+		 User user = userService.findByPrimaryKey(questionMapperInstance.getUser(), questionMapperInstance.getCompanyId());
+		 if(workspaceId.contains("psk2y2afb3ecogbh")){
+			 System.out.println("00000000000000000");
+			 String path = "/root/.che-multiuser/instance/data/workspaces/workspacepsk2y2afb3ecogbh/regex_jdbc";
+			 String outputFile = ""+System.currentTimeMillis()+".txt";
+			 String[] command = ("/usr/bin/mvn -Dtest=com.assignment.regex.TestPatternFinder test --log-file "+outputFile).split("\\s+");
+			 System.out.println(command);
+			 ProcessBuilder builder = new ProcessBuilder();
+			 builder.command(command);
+			 builder.directory(new File(path));
+			 Process process = builder.start();
+			 LogStreamReader lsr = new LogStreamReader(process.getInputStream());
+			 System.out.println("regex problem ");
+			 Thread thread = new Thread(lsr, "LogStreamReader");
+			 thread.start();
+			 try{
+				 Thread.sleep(10000);
+			 }
+			 catch(InterruptedException e){
+				 
+			 }
+			 String op_path = path+"/"+outputFile;
+			 List<String> lines = FileUtils.readLines(new File(op_path));
+			 Integer noOfTestCases = 0;
+			 Integer noOfTestCasesFailed = 0;
+			 for(String line : lines){
+				 if(line.contains("Tests run:")){
+					 
+					 String split[] = line.split(",");
+					 for(String unit : split){
+						 String test[] = unit.split(":");
+						 System.out.println(test[0]);
+						 System.out.println(test[1]);
+						 if(test[0].trim().equals("Tests run")){
+							 noOfTestCases = Integer.parseInt(test[1].trim());
+						 }
+						 
+						 if(test[0].trim().equals("Failures")){
+							 noOfTestCasesFailed = Integer.parseInt(test[1].trim());
+							 break;
+						 }
+					 }
+					 
+					break;
+				 }
+			 }
+			 
+			 String testcaseResults = "regex.txt";
+			 String line1 = "noOfTestCases$$$"+noOfTestCases;
+			 String line2 = "noOfTestCasesFailed$$$"+noOfTestCasesFailed;
+			 String pb = questionMapperInstance.getQuestionMapper().getQuestion().getQuestionText().replaceAll("\n", "<br/>").replace("\r", "");
+			 String line3 = "problem$$$"+pb;
+			 String line4 = "name$$$"+user.getFirstName()+" "+user.getLastName();
+			 String line5 = "testName$$$"+questionMapperInstance.getTestName();
+			 String line6 = "codeQualityLink$$$"+codeQualityUrl;
+			 String line7 = "usageLink$$$"+questionMapperInstance.getUsageDocumentUrl();
+			 List<String> writelines = new ArrayList<>();
+			 writelines.add(line1);
+			 writelines.add(line2);
+			 writelines.add(line3);
+			 writelines.add(line4);
+			 writelines.add(line5);
+			 writelines.add(line6);
+			 writelines.add(line7);
+			 
+			 FileUtils.writeLines(new File(testcaseResults), writelines);
+			 TestCasesMetric casesMetric = new TestCasesMetric();
+			 casesMetric.setNoOfTestCases(noOfTestCases);
+			 casesMetric.setTestCasesPassed(noOfTestCases - noOfTestCasesFailed);
+			 casesMetric.setProblemStatement(questionMapperInstance.getQuestionMapper().getQuestion().getQuestionText());
+			 casesMetric.setCodeQualityLink(codeQualityUrl);
+			 casesMetric.setProjDocLink(questionMapperInstance.getUsageDocumentUrl());
+			 return casesMetric;
+		 }
+		 else if(workspaceId.contains("zigca3iu5ynpydhp")){
+			 System.out.println("1111111111111111111111111111");
+			 String path = "/root/.che-multiuser/instance/data/workspaces/workspacezigca3iu5ynpydhp/JohnDoe-48-47-1568040746461";
+			// String path = "/root/.che-multiuser/instance/data/workspaces/workspacek9jw1ghhtr724g7q/console-java-simple";
+			 String outputFile = ""+System.currentTimeMillis()+".txt";
+			 String[] command = ("/usr/bin/mvn -Dtest=com.problem1.TestProblem1 test --log-file "+outputFile).split("\\s+");
+			 System.out.println("command is "+command.toString());
+			 ProcessBuilder builder = new ProcessBuilder();
+			 builder.command(command);
+			 builder.directory(new File(path));
+			 Process process = builder.start();
+			 LogStreamReader lsr = new LogStreamReader(process.getInputStream());
+			 System.out.println("collection problem ");
+			 Thread thread = new Thread(lsr, "LogStreamReader");
+			 thread.start();
+			 try{
+				 Thread.sleep(10000);
+			 }
+			 catch(InterruptedException e){
+				 
+			 }
+			 System.out.println("test cases fired ");
+			 String op_path = path+"/"+outputFile;
+			 System.out.println("test cases result file"+op_path);
+			 List<String> lines = FileUtils.readLines(new File(op_path));
+			 System.out.println("no of lines in "+op_path+" is "+lines.size());
+			 Integer noOfTestCases = 0;
+			 Integer noOfTestCasesFailed = 0;
+			 for(String line : lines){
+				
+				 if(line.contains("Tests run:")){
+					 System.out.println("here !!!!!!!!!1 "+line);
+					 String split[] = line.split(",");
+					 for(String unit : split){
+						 String test[] = unit.split(":");
+						 System.out.println(test[0]);
+						 System.out.println(test[1]);
+						 if(test[0].trim().equals("Tests run")){
+							 System.out.println("test cases run ");
+							 noOfTestCases = Integer.parseInt(test[1].trim());
+						 }
+						 
+						 if(test[0].trim().equals("Failures")){
+							 System.out.println("test cases failed ");
+							 noOfTestCasesFailed = Integer.parseInt(test[1].trim());
+							 break;
+						 }
+					 }
+					 
+					break;
+				 }
+			 }
+			 
+			 String testcaseResults = "collections_logic.txt";
+			 String line1 = "noOfTestCases$$$"+noOfTestCases;
+			 String line2 = "noOfTestCasesFailed$$$"+noOfTestCasesFailed;
+			 String pb = questionMapperInstance.getQuestionMapper().getQuestion().getQuestionText().replaceAll("\n", "<br/>").replace("\r", "");
+			 String line3 = "problem$$$"+pb;
+			 String line4 = "name$$$"+user.getFirstName()+" "+user.getLastName();
+			 String line5 = "testName$$$"+questionMapperInstance.getTestName();
+			 String line6 = "codeQualityLink$$$"+codeQualityUrl;
+			 String line7 = "usageLink$$$"+questionMapperInstance.getUsageDocumentUrl();
+			 List<String> writelines = new ArrayList<>();
+			 writelines.add(line1);
+			 writelines.add(line2);
+			 writelines.add(line3);
+			 writelines.add(line4);
+			 writelines.add(line5);
+			 writelines.add(line6);
+			 writelines.add(line7);
+			 
+			 FileUtils.writeLines(new File(testcaseResults), writelines);
+			 TestCasesMetric casesMetric = new TestCasesMetric();
+			 casesMetric.setNoOfTestCases(noOfTestCases);
+			 casesMetric.setTestCasesPassed(noOfTestCases - noOfTestCasesFailed);
+			 casesMetric.setProblemStatement(questionMapperInstance.getQuestionMapper().getQuestion().getQuestionText());
+			 casesMetric.setCodeQualityLink(codeQualityUrl);
+			 casesMetric.setProjDocLink(questionMapperInstance.getUsageDocumentUrl());
+			 System.out.println("Automation cases run");
+			 return casesMetric;
+		 }
+		 else{
+			 return null;
+		 }
 	 }
 	 
 	 
@@ -225,6 +414,31 @@ QuestionMapperInstanceRepository  questionMapperInstanceRep;
 			questionMapperInstanceRep.save(questionMapperInstance);
 	     return docUrl;
 	 }
+	 
+	 @RequestMapping(value = "/multifileresults", method = RequestMethod.GET)
+		public ModelAndView multifileresults(@RequestParam String workspace, HttpServletRequest request, HttpServletResponse response) throws IOException {
+		String url = URLDecoder.decode(workspace);
+		url = new String(Base64.getDecoder().decode(url.getBytes()));
+		  ModelAndView mav = new ModelAndView("runtimeResults");
+		  List<String> lines = null;
+		  if(workspace.equals("k9jw1ghhtr724g7q")){
+			  //collections
+			  
+			  lines = FileUtils.readLines(new File("collections_logic.txt"));
+		  }
+		  else if(workspace.equals("psk2y2afb3ecogbh")){
+			  //regex
+			  lines = FileUtils.readLines(new File("regex.txt"));
+		  }
+		  mav.addObject("testGiver", lines.get(3).substring(lines.get(3).indexOf("$$$")+3, (lines.get(3).length())));
+		  mav.addObject("problemStatement", lines.get(2).substring(lines.get(2).indexOf("$$$")+3, (lines.get(2).length())).replaceAll("\n", "<br/>"));
+		  mav.addObject("testName", lines.get(4).substring(lines.get(4).indexOf("$$$")+3, (lines.get(4).length())));
+		  mav.addObject("codeQuality", lines.get(5).substring(lines.get(5).indexOf("$$$")+3, (lines.get(5).length())));
+		  mav.addObject("usageLink", lines.get(6).substring(lines.get(6).indexOf("$$$")+3, (lines.get(6).length())));
+		  mav.addObject("noOfTestCases", lines.get(0).substring(lines.get(0).indexOf("$$$")+3, (lines.get(0).length())));
+		  mav.addObject("noOfTestCasesFailed", lines.get(1).substring(lines.get(1).indexOf("$$$")+3, (lines.get(1).length())));
+		  return mav;
+		}
 	
 	
 }

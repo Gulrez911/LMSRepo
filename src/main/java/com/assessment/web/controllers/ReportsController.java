@@ -3,6 +3,7 @@ package com.assessment.web.controllers;
 import java.io.File;
 import java.io.FileInputStream;
 import java.net.URLEncoder;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -35,20 +36,26 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.assessment.common.PropertyConfig;
 import com.assessment.common.Qualifiers;
+import com.assessment.data.CandidateProfileParams;
 import com.assessment.data.QuestionMapperInstance;
+import com.assessment.data.QuestionType;
 import com.assessment.data.Test;
 import com.assessment.data.User;
 import com.assessment.reports.manager.AssessmentReportDataManager;
 import com.assessment.reports.manager.AssessmentReportsManager;
 import com.assessment.reports.manager.AssessmentTestPerspectiveData;
 import com.assessment.reports.manager.AssessmentUserPerspectiveData;
+import com.assessment.reports.manager.UserTrait;
 import com.assessment.repositories.QuestionMapperInstanceRepository;
 import com.assessment.repositories.QuestionRepository;
 import com.assessment.repositories.UserTestSessionRepository;
+import com.assessment.services.CandidateProfileParamsService;
 import com.assessment.services.QuestionMapperInstanceService;
 import com.assessment.services.SectionService;
 import com.assessment.services.TestService;
 import com.assessment.services.UserService;
+import com.assessment.web.dto.FullStackCodeMetrics;
+import com.assessment.web.dto.SPACodeMetrics;
 import com.assessment.web.dto.TestAnswerData;
 import com.assessment.web.dto.UserBySkillDTO;
 
@@ -83,6 +90,177 @@ public class ReportsController {
 	
 	@Autowired
 	TestService testService;
+	
+	@Autowired
+	CandidateProfileParamsService candidateProfileParamsService;
+	
+	private List<UserTrait> generateTraits(String companyId, List<QuestionMapperInstance> answers){
+		List<CandidateProfileParams> candidateProfileParams = candidateProfileParamsService.findCandidateProfileParamsByCompanyId(companyId);
+		
+		Map<CandidateProfileParams, List<QuestionMapperInstance>> map = new HashMap<>();
+		for(QuestionMapperInstance ans : answers){
+			CandidateProfileParams param = new CandidateProfileParams(ans.getQuestionMapper().getQuestion().getQualifier1(), ans.getQuestionMapper().getQuestion().getQualifier2(), ans.getQuestionMapper().getQuestion().getQualifier3(), ans.getQuestionMapper().getQuestion().getQualifier4(), ans.getQuestionMapper().getQuestion().getQualifier5()); 
+			param.setQualifierDesc(ans.getQuestionMapper().getQuestion().getQualifierDescription());
+			//param.setPercent(ans);
+			if(map.get(param) == null){
+				List<QuestionMapperInstance> ins = new ArrayList<>();
+				ins.add(ans);
+				map.put(param, ins);
+			}
+			else{
+				map.get(param).add(ans);
+			}
+		}
+		DecimalFormat df = new DecimalFormat("#.##");
+		Map<CandidateProfileParams,Float> mapPer = new HashMap<>();
+		Map<CandidateProfileParams, String> mapTrait = new HashMap<>();
+		for(CandidateProfileParams param : map.keySet()){
+			List<QuestionMapperInstance> answersForQualifier = map.get(param);
+			int noOfCorrect = 0;
+			for(QuestionMapperInstance ans :answersForQualifier ){
+				if(ans.getCorrect()){
+					noOfCorrect++;
+				}
+			}
+			
+			Float percent = Float.parseFloat(df.format(noOfCorrect * 100 / answersForQualifier.size()));
+			param.setPercent(percent);
+			mapPer.put(param, percent);
+			int index = candidateProfileParams.indexOf(param);
+				if(index != -1){
+					CandidateProfileParams paramWithData = candidateProfileParams.get(index);
+					String trait = "";
+					if(percent < 20){
+						trait = paramWithData.getLESS_THAN_TWENTY_PERCENT();
+					}
+					else if(percent >= 20 && percent < 50){
+						trait = paramWithData.getBETWEEN_TWENTY_AND_FIFTY();
+					}
+					else if(percent >= 50 && percent < 75){
+						trait = paramWithData.getBETWEEN_FIFTY_AND_SEVENTYFIVE();
+					}
+					else if(percent >= 75 && percent < 90){
+						trait = paramWithData.getBETWEEN_SEVENTYFIVE_AND_NINETY();
+					}
+					else if(percent > 90){
+						trait = paramWithData.getMORE_THAN_NINETY();
+					}
+					mapTrait.put(param, trait);
+				}
+			
+		}
+		List<UserTrait> traits = new ArrayList<>();
+		for(CandidateProfileParams param : mapTrait.keySet()){
+			UserTrait trait = new UserTrait();
+			trait.setTraitSpecifics(param.getQualifierDesc());
+			trait.setPercent(param.getPercent());
+			String qual = param.getQualifier1();
+			if(param.getQualifier2()!= null && !param.getQualifier2().equals("NA")){
+				qual += "-"+param.getQualifier2();
+			}
+			if(param.getQualifier3()!= null && !param.getQualifier3().equals("NA")){
+				qual += "-"+param.getQualifier3();
+			}
+			if(param.getQualifier4()!= null && !param.getQualifier4().equals("NA")){
+				qual += "-"+param.getQualifier4();
+			}
+			if(param.getQualifier5()!= null && !param.getQualifier5().equals("NA")){
+				qual += "-"+param.getQualifier5();
+			}
+			
+			trait.setTrait(qual);
+			trait.setDescription(mapTrait.get(param));
+			traits.add(trait);
+		}
+		return traits;
+	}
+	
+	@RequestMapping(value = "/showComprehensiveReportForCourse", method = RequestMethod.GET)
+	public ModelAndView showComprehensiveReportForCourse(@RequestParam String courseContext, @RequestParam String email, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView("comprehensive_report");
+		mav.addObject("courseContext", courseContext);
+		User user = (User) request.getSession().getAttribute("user");
+		List<QuestionMapperInstance> instances = questionMapperInstanceService.findQuestionMapperInstancesForUserForCourseContext(courseContext, email, user.getCompanyId());
+		
+		List<QuestionMapperInstance> mcqs = new ArrayList<>();
+		List<QuestionMapperInstance> spas = new ArrayList<>();
+		List<QuestionMapperInstance> fsapps = new ArrayList<>();
+		for(QuestionMapperInstance ans : instances){
+			if(ans.getQuestionMapper().getQuestion().getQuestionType().getType().equals(QuestionType.MCQ.getType())){
+				mcqs.add(ans);
+			}
+			else if(ans.getQuestionMapper().getQuestion().getQuestionType().getType().equals(QuestionType.CODING.getType())){
+				spas.add(ans);
+			}
+			else{
+				fsapps.add(ans);
+			}
+			
+		}
+		
+		List<UserTrait> traits = generateTraits(user.getCompanyId(), mcqs);
+		mav.addObject("mcqTraits", traits);
+		
+		if(spas.size() > 0){
+			mav.addObject("codingTraitsPresent", true);
+			int syntaxAwareness = 0;
+			int codeIntegrity = 0;
+			int codeValidations = 0;
+			int lowInuts = 0;
+			int highInputs = 0;
+			int productionGrade = 0;
+			for(QuestionMapperInstance spa : spas){
+				if(spa.getCodeCompilationErrors() != null && !spa.getCodeCompilationErrors()){
+					syntaxAwareness++;
+				}
+				
+				if(spa.getTestCaseInputPositive()){
+					codeIntegrity ++;
+				}
+				
+				if(spa.getTestCaseInputNegative()){
+					codeValidations ++;
+				}
+				
+				if(spa.getTestCaseMaximumValue()){
+					highInputs++;
+				}
+				
+				if(spa.getTestCaseMinimalValue()){
+					lowInuts++;
+				}
+				
+				if(spa.getTestCaseInvalidData()){
+					productionGrade ++;
+				}
+			}
+			
+			SPACodeMetrics codeMetrics = new SPACodeMetrics();
+			codeMetrics.setSyntaxAwarenessPercent((100 * syntaxAwareness)/spas.size());
+			codeMetrics.setCodeIntegrityPercent((100 * codeIntegrity)/spas.size());
+			codeMetrics.setCodeValidationsPercent((100 * codeValidations)/spas.size());
+			
+			codeMetrics.setHighInputPercent((100 * highInputs)/spas.size());
+			codeMetrics.setLowInputPercent((100 * lowInuts)/spas.size());
+			codeMetrics.setProductionGradePercent((100 * productionGrade)/spas.size());
+			mav.addObject("codingTraits", codeMetrics);
+		}
+		
+		if(fsapps.size() > 0){
+			mav.addObject("fullstackTraitsPresent", true);
+			List<FullStackCodeMetrics> fullStackCodeMetrics  = new ArrayList<>();
+			for(QuestionMapperInstance instance : fsapps){
+				FullStackCodeMetrics codeMetrics = new FullStackCodeMetrics();
+				codeMetrics.setProblemDesc(instance.getQuestionMapper().getQuestion().getQuestionText());
+				codeMetrics.setNoOfTestCases(instance.getNoOfTestCases());
+				codeMetrics.setNoOfTestCasesPassed(instance.getNoOfTestCasesPassed());
+				fullStackCodeMetrics.add(codeMetrics);
+			}
+			mav.addObject("fullstackTraits", fullStackCodeMetrics);
+		}
+		
+		return mav;
+	}
 	
 	@RequestMapping(value = "/showReports", method = RequestMethod.GET)
 	public ModelAndView showReports(HttpServletRequest request, HttpServletResponse response) throws Exception {

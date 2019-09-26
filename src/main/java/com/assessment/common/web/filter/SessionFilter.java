@@ -50,15 +50,13 @@ public class SessionFilter implements Filter {
 			
 			
 			
-			if(page.endsWith("/hackathon")){
+			if(page.endsWith("/hackathon") || page.endsWith("multifileresults")){
 				chain.doFilter(request, response);
 			}
-			
-			if(page.endsWith("/findLevel1Qs") || page.endsWith("/findLevel2Qs")){
+			else if(page.endsWith("/findLevel1Qs") || page.endsWith("/findLevel2Qs")){
 				chain.doFilter(request, response);
 			}
-			
-			if(page.endsWith("/searchQsWs") || page.endsWith("/init") ||  page.endsWith("/validateotp") || page.endsWith("/savenewpassword") || page.endsWith("/getotp") || page.endsWith("/login") || page.endsWith("/authenticate") || page.endsWith("publicTest") || page.contains("setUpTenant") || page.contains("downloadUserSessionReportsForTest")) {
+			else if(page.endsWith("/searchQsWs") || page.endsWith("/init") ||  page.endsWith("/validateotp") || page.endsWith("/savenewpassword") || page.endsWith("/getotp") || page.endsWith("/login") || page.endsWith("/authenticate") || page.endsWith("publicTest") || page.contains("setUpTenant") || page.contains("downloadUserSessionReportsForTest")) {
 				chain.doFilter(request, response);
 			}
 			else if(page.endsWith("/testsByTag") || page.endsWith("/recommendedSkillsByTest") || page.endsWith("lmsadmin") || page.endsWith("getAssessmentURLForLMSLearner") || page.endsWith("getRecommendationsForTestForLmS")){

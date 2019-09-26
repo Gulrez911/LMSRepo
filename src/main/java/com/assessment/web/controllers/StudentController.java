@@ -36,6 +36,7 @@ import com.assessment.common.QuestionSequence;
 import com.assessment.common.SectionSequence;
 import com.assessment.common.util.EmailGenericMessageThread;
 import com.assessment.data.FullStackOptions;
+import com.assessment.data.ProgrammingLanguage;
 import com.assessment.data.Question;
 import com.assessment.data.QuestionMapper;
 import com.assessment.data.QuestionMapperInstance;
@@ -55,6 +56,7 @@ import com.assessment.repositories.UserTestSessionRepository;
 import com.assessment.services.CompanyService;
 import com.assessment.services.QuestionMapperInstanceService;
 import com.assessment.services.QuestionMapperService;
+import com.assessment.services.SQLCodingAutomationService;
 import com.assessment.services.SectionInstanceService;
 import com.assessment.services.SectionService;
 import com.assessment.services.StudentService;
@@ -68,6 +70,8 @@ import com.assessment.services.impl.ReportsService;
 import com.assessment.web.dto.QuestionInstanceDto;
 import com.assessment.web.dto.SectionInstanceDto;
 import com.assessment.web.forms.StudentTestForm;
+
+import net.sf.dynamicreports.report.constant.Language;
 
 
 @Controller
@@ -124,6 +128,9 @@ public class StudentController {
 	
 	@Autowired
 	UserTestTimeCounterService counterService;
+	
+	@Autowired
+	SQLCodingAutomationService automationService;
 	
 	Logger logger = LoggerFactory.getLogger(StudentController.class);
 	
@@ -721,6 +728,68 @@ public class StudentController {
 		 	}
 	 }
 	 
+	 private void evaluateMySQLCoding(QuestionInstanceDto currentQuestion,  QuestionInstanceDto questionInstanceDto){
+		 List results = null;
+		 try {
+			results =  automationService.fireDirectQuery(currentQuestion.getCode());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			questionInstanceDto.getQuestionMapperInstance().setCorrect(false);
+		}
+		 String ret = "";
+		 List<String> ress = new ArrayList();
+		 if(results != null && results.size() > 0){
+			 if(results.get(0) instanceof String){
+				 ress = (List<String>) results;
+				 
+				 for(String s : ress){
+					 ret += s + "   ";
+				 }
+				 
+			 }
+			 else if(results.get(0) instanceof String[]){
+			List<String[]> op = (List<String[]> ) results;
+				 for(String[] row : op){
+					 for(Object col : row){
+						 ret += col +"    ";
+					 }
+					 ret += "\n";
+				 }
+			 }
+			 else if(results.get(0) instanceof Object[]){
+				 System.out.println("multiple results 111");
+			List<Object[]> op =  results;
+				 for(Object[] row : op){
+					 for(Object col : row){
+						 ret += col.toString() +"    ";
+					 }
+					 ret += "\n";
+				 }
+			 }
+			 else{
+				 System.out.println("multiple results but no where");
+				 ret = "failed";
+			 }
+		 }
+		 
+		 System.out.println("hidden neg "+questionInstanceDto.getQuestionMapperInstance().getQuestionMapper().getQuestion().getHiddenOutputNegative());
+		 System.out.println("ret "+ret);
+		 if(questionInstanceDto.getQuestionMapperInstance().getQuestionMapper().getQuestion().getHiddenOutputNegative().equals(ret!= null?ret.trim():"")){
+			 System.out.println("ccccccccccccccccccorect");
+			 
+			 questionInstanceDto.getQuestionMapperInstance().setCodingOuputBySystemTestCase(ret);
+			 questionInstanceDto.getQuestionMapperInstance().setCorrect(true);
+			// currentQuestion.getQuestionMapperInstance().setCorrect(true);
+			// currentQuestion.getQuestionMapperInstance().setCodingOuputBySystemTestCase(ret);
+		 }
+		 else{
+			 System.out.println("faaaaaaaaaaaaaail");
+			 questionInstanceDto.getQuestionMapperInstance().setCorrect(false);
+			 questionInstanceDto.getQuestionMapperInstance().setCodingOuputBySystemTestCase(ret);
+		 }
+	 }
+	 
 	 private void evaluateCodingAnswer(QuestionInstanceDto currentQuestion,  QuestionInstanceDto questionInstanceDto){
 		 Question q = questionInstanceDto.getQuestionMapperInstance().getQuestionMapper().getQuestion();
 		 boolean answered = questionInstanceDto.getQuestionMapperInstance().getAnswered() == null?false:questionInstanceDto.getQuestionMapperInstance().getAnswered();
@@ -742,6 +811,11 @@ public class StudentController {
 			}
 			if(!answered){
 			String lang = LanguageCodes.getLanguageCode(questionInstanceDto.getQuestionMapperInstance().getQuestionMapper().getQuestion().getLanguage().getLanguage());
+				if(lang.equals("13")){
+					evaluateMySQLCoding(currentQuestion, questionInstanceDto);
+					return;
+				}
+			
 			logger.info("compiling lang is "+lang);
 			System.out.println("compiling lang is "+lang);
 			CompileData compileData = new CompileData();
@@ -1350,7 +1424,15 @@ questionInstanceDto.getQuestionMapperInstance().setTestCaseInvalidData(questionI
 		 					}
 		 					
 		 					if(dto.getQuestionMapperInstance().getQuestionMapper().getQuestion().getQuestionType().getType().equals(QuestionType.CODING.getType())){
-		 						codingAssignments = true;
+		 						if(dto.getQuestionMapperInstance().getQuestionMapper().getQuestion().getLanguage().getLanguage().equals(ProgrammingLanguage.MYSQL.getLanguage())){
+		 							System.out.println("student controller coding assignment "+false);
+		 							codingAssignments = false;
+		 						}
+		 						else{
+		 							System.out.println("student controller coding assignment "+true);
+		 							codingAssignments = true;
+		 						}
+		 						//codingAssignments = true;
 		 					}
 		 				}
 		 			 
@@ -1482,7 +1564,15 @@ questionInstanceDto.getQuestionMapperInstance().setTestCaseInvalidData(questionI
 		 		List<QuestionInstanceDto> questionInstanceDtos = sectionInstanceDto.getQuestionInstanceDtos();
 		 		for(QuestionInstanceDto dto : questionInstanceDtos){
 		 			if(dto.getQuestionMapperInstance().getQuestionMapper().getQuestion().getQuestionType().getType().equals(QuestionType.CODING.getType())){
-		 				codingInstances.add(dto.getQuestionMapperInstance());
+		 				
+		 				if(!dto.getQuestionMapperInstance().getQuestionMapper().getQuestion().getLanguage().getLanguage().equals(ProgrammingLanguage.MYSQL.getLanguage())){
+		 					
+		 					System.out.println("in codingAssignmentSummaryIfAvailable +adding coding assignemnt" );
+		 					System.out.println(dto.getQuestionMapperInstance().getQuestionMapper().getQuestion().getLanguage());
+		 					System.out.println(ProgrammingLanguage.MYSQL.getLanguage());
+		 					codingInstances.add(dto.getQuestionMapperInstance());
+		 				}
+		 				
 		 			}
 		 		}
 		 	}

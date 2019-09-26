@@ -162,4 +162,11 @@ public class QuestionMapperInstanceServiceImpl implements
 		return questionMapperInstanceRepository.findFullStackQuestionMapperInstancesForJavaScript(companyId);
 	}
 
+	@Override
+	public List<QuestionMapperInstance> findQuestionMapperInstancesForUserForCourseContext(String courseContext,
+			String user, String companyId) {
+		// TODO Auto-generated method stub
+		return questionMapperInstanceRepository.findQuestionMapperInstancesForUserForCourseContext(courseContext, user, companyId);
+	}
+
 }
