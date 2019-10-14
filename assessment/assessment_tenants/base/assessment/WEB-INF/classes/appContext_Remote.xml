@@ -22,13 +22,18 @@
     http://www.springframework.org/schema/data/jpa  http://www.springframework.org/schema/data/jpa/spring-jpa-1.0.xsd"
     default-lazy-init="true" >
 
-	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	<!-- <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 	  <property name="locations">
 	    <list>
 	      <value>file:assessment\config.properties</value>
 	    </list>
 	  </property>
 	  <property name="ignoreUnresolvablePlaceholders" value="true"/>
+	</bean> -->
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="classpath:config.properties" />
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
 	</bean>
 <!-- 	String hostName; -->
 	

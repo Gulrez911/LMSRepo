@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -50,12 +51,12 @@ public class QuestionController {
 	private QuestionService questionService;
 	@Autowired
 	private CompanyService companyService;
-	
+
 	@Autowired
 	PropertyConfig propertyConfig;
-	
-	Logger logger =LoggerFactory.getLogger(QuestionController.class);
-	
+
+	Logger logger = LoggerFactory.getLogger(QuestionController.class);
+
 	@RequestMapping(value = "/goback", method = RequestMethod.GET)
 	public ModelAndView goback(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView("question_list");
@@ -63,179 +64,209 @@ public class QuestionController {
 //		List<Question> questions = questionService.findQuestions(user.getCompanyId());
 //		mav.addObject("qs", questions);
 		return listQuestions(null, response, request, mav.getModelMap());
-		//return mav;
+		// return mav;
 	}
 
 	@RequestMapping(value = "/addQuestion", method = RequestMethod.GET)
-	public ModelAndView addQuestion(@RequestParam(name= "page", required = false) Integer pageNumber, @RequestParam(name= "qid", required = false) Long qid, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ModelAndView addQuestion(@RequestParam(name = "page", required = false) Integer pageNumber,
+			@RequestParam(name = "qid", required = false) Long qid, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView("add_question");
-		
+
 		User user = (User) request.getSession().getAttribute("user");
-		if(pageNumber == null) {
+		if (pageNumber == null) {
 			pageNumber = 0;
 		}
-		if(qid == null) {
+		if (qid == null) {
 			Question question = new Question();
 			mav.addObject("question", question);
 			mav.addObject("question_label", "Add new Question");
-		}
-		else {
+		} else {
 			Question question = questionService.findById(qid);
-			question.setType(question.getQuestionType() != null? question.getQuestionType().getType():QuestionType.MCQ.getType());
-			question.setLang(question.getLanguage() != null?question.getLanguage().getLanguage():ProgrammingLanguage.JAVA.getLanguage());
-			
+			question.setType(question.getQuestionType() != null ? question.getQuestionType().getType()
+					: QuestionType.MCQ.getType());
+			question.setLang(question.getLanguage() != null ? question.getLanguage().getLanguage()
+					: ProgrammingLanguage.JAVA.getLanguage());
+
 			question.setUpFromInUpdateMode();
 			mav.addObject("question", question);
 			mav.addObject("editQMode", "true");
 			mav.addObject("question_label", "Update this Question");
 		}
-		
-		
-		//Page<Question> questions = questionService.findQuestionsByPage(user.getCompanyId(), pageNumber);
+
+		// Page<Question> questions =
+		// questionService.findQuestionsByPage(user.getCompanyId(), pageNumber);
 		Page<Question> questions = questionService.getAllLevel1Questions(user.getCompanyId(), pageNumber);
 		mav.addObject("qs", questions.getContent());
 		mav.addObject("levels", DifficultyLevel.values());
 		mav.addObject("types", QuestionType.values());
-  		mav.addObject("languages", ProgrammingLanguage.values());
-  		mav.addObject("stacks", FullStackOptions.values());
-		CommonUtil.setCommonAttributesOfPagination(questions, mav.getModelMap(), pageNumber, "addQuestion", null);
+		mav.addObject("languages", ProgrammingLanguage.values());
+		mav.addObject("stacks", FullStackOptions.values());
+		CommonUtil.setCommonAttributesOfPagination(questions, mav.getModelMap(), pageNumber, "addQuestion",
+				null);
 		return mav;
 	}
-	
+
 	@RequestMapping(value = "/removeQuestionFromList", method = RequestMethod.GET)
-	public ModelAndView removeQuestionFromList(@RequestParam(name= "page", required = false) Integer pageNumber, @RequestParam(name= "qid", required = false) Long qid, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ModelAndView removeQuestionFromList(@RequestParam(name = "page", required = false) Integer pageNumber,
+			@RequestParam(name = "qid", required = false) Long qid, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView("question_list");
-		if(qid != null) {
+		if (qid != null) {
 			Boolean canDelete = questionService.canDeleteQuestion(qid);
-				if(canDelete) {
-					questionService.removeQuestion(qid);
-					mav.addObject("message", "Question successfully deleted");// later put it as label
-					mav.addObject("msgtype", "success");
-				}
-				else {
-					mav.addObject("message", "This Question is associated with one or more Tests. Can not delete this Q");// later put it as label
-					mav.addObject("msgtype", "failure");
-				}
-		}
-		else {
+			if (canDelete) {
+				questionService.removeQuestion(qid);
+				mav.addObject("message", "Question successfully deleted");// later put it as label
+				mav.addObject("msgtype", "success");
+			} else {
+				mav.addObject("message",
+						"This Question is associated with one or more Tests. Can not delete this Q");// later
+																// put
+																// it
+																// as
+																// label
+				mav.addObject("msgtype", "failure");
+			}
+		} else {
 			mav.addObject("message", "Nothing to remove");// later put it as label
 			mav.addObject("msgtype", "failure");
 		}
-		
-		
+
 		Question question = new Question();
 		mav.addObject("question", question);
 		User user = (User) request.getSession().getAttribute("user");
-		if(pageNumber == null) {
+		if (pageNumber == null) {
 			pageNumber = 0;
 		}
-		//Page<Question> questions = questionService.findQuestionsByPage(user.getCompanyId(), pageNumber);
+		// Page<Question> questions =
+		// questionService.findQuestionsByPage(user.getCompanyId(), pageNumber);
 		Page<Question> questions = questionService.getAllLevel1Questions(user.getCompanyId(), pageNumber);
 		mav.addObject("qs", questions.getContent());
 		mav.addObject("levels", DifficultyLevel.values());
 		mav.addObject("types", QuestionType.values());
-  		mav.addObject("languages", ProgrammingLanguage.values());
-		CommonUtil.setCommonAttributesOfPagination(questions, mav.getModelMap(), pageNumber, "question_list", null);
+		mav.addObject("languages", ProgrammingLanguage.values());
+		CommonUtil.setCommonAttributesOfPagination(questions, mav.getModelMap(), pageNumber, "question_list",
+				null);
 		return mav;
 	}
-	
+
 	@RequestMapping(value = "/removeQuestion", method = RequestMethod.GET)
-	public ModelAndView removeQuestion(@RequestParam(name= "page", required = false) Integer pageNumber, @RequestParam(name= "qid", required = false) Long qid, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ModelAndView removeQuestion(@RequestParam(name = "page", required = false) Integer pageNumber,
+			@RequestParam(name = "qid", required = false) Long qid, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView("add_question");
-		if(qid != null) {
+		if (qid != null) {
 			Boolean canDelete = questionService.canDeleteQuestion(qid);
-				if(canDelete) {
-					questionService.removeQuestion(qid);
-					mav.addObject("message", "Question successfully deleted");// later put it as label
-					mav.addObject("msgtype", "success");
-				}
-				else {
-					mav.addObject("message", "This Question is associated with one or more Tests. Can not delete this Q");// later put it as label
-					mav.addObject("msgtype", "failure");
-				}
-		}
-		else {
+			if (canDelete) {
+				questionService.removeQuestion(qid);
+				mav.addObject("message", "Question successfully deleted");// later put it as label
+				mav.addObject("msgtype", "success");
+			} else {
+				mav.addObject("message",
+						"This Question is associated with one or more Tests. Can not delete this Q");// later
+																// put
+																// it
+																// as
+																// label
+				mav.addObject("msgtype", "failure");
+			}
+		} else {
 			mav.addObject("message", "Nothing to remove");// later put it as label
 			mav.addObject("msgtype", "failure");
 		}
-		
-		
+
 		Question question = new Question();
 		mav.addObject("question", question);
 		User user = (User) request.getSession().getAttribute("user");
-		if(pageNumber == null) {
+		if (pageNumber == null) {
 			pageNumber = 0;
 		}
-		//Page<Question> questions = questionService.findQuestionsByPage(user.getCompanyId(), pageNumber);
+		// Page<Question> questions =
+		// questionService.findQuestionsByPage(user.getCompanyId(), pageNumber);
 		Page<Question> questions = questionService.getAllLevel1Questions(user.getCompanyId(), pageNumber);
 		mav.addObject("qs", questions.getContent());
 		mav.addObject("levels", DifficultyLevel.values());
 		mav.addObject("types", QuestionType.values());
-  		mav.addObject("languages", ProgrammingLanguage.values());
-		CommonUtil.setCommonAttributesOfPagination(questions, mav.getModelMap(), pageNumber, "addQuestion", null);
+		mav.addObject("languages", ProgrammingLanguage.values());
+		CommonUtil.setCommonAttributesOfPagination(questions, mav.getModelMap(), pageNumber, "addQuestion",
+				null);
 		return mav;
 	}
 
 	@RequestMapping(value = "/saveQuestion", method = RequestMethod.POST)
-	public ModelAndView saveQuestion(@RequestParam(name="addimage", required=false) MultipartFile addimage,@RequestParam(name="addaudio", required=false) MultipartFile addaudio,@RequestParam(name="addvideo", required=false) MultipartFile addvideo ,HttpServletRequest request, HttpServletResponse response,
+	public ModelAndView saveQuestion(@RequestParam(name = "addimage", required = false) MultipartFile addimage,
+			@RequestParam(name = "addaudio", required = false) MultipartFile addaudio,
+			@RequestParam(name = "addvideo", required = false) MultipartFile addvideo,
+			HttpServletRequest request, HttpServletResponse response,
 			@ModelAttribute("question") Question question) throws Exception {
-		logger.info("in save Q q.getconstr "+question.getConstrnt());
+		logger.info("in save Q q.getconstr " + question.getConstrnt());
 		ModelAndView mav = null;
 		User user = (User) request.getSession().getAttribute("user");
 		List<Question> questions = new ArrayList<Question>();
-		if(addimage != null){
-			 String destination = propertyConfig.getFileServerLocation()+File.separator+"images"+File.separator+addimage.getOriginalFilename();
-			 File file = new File(destination);
-			 	if( file.exists()){
-			 		if(addimage.getOriginalFilename() != null && addimage.getOriginalFilename().trim().length() > 0){
-			 			FileUtils.forceDelete(file);
-			 		}
-			 		
-			 	}
-			 	if(addimage.getOriginalFilename() != null && addimage.getOriginalFilename().trim().length() > 0){
-			 		 String imageUrl = propertyConfig.getFileServerWebUrl()+"images/"+addimage.getOriginalFilename();
-					 question.setImageUrl(imageUrl);
-			 		 addimage.transferTo(file);
-			 	}
-			
-			
+		if (addimage != null) {
+			String destination = propertyConfig.getFileServerLocation() + File.separator + "images"
+					+ File.separator + addimage.getOriginalFilename();
+			File file = new File(destination);
+			if (file.exists()) {
+				if (addimage.getOriginalFilename() != null
+						&& addimage.getOriginalFilename().trim().length() > 0) {
+					FileUtils.forceDelete(file);
+				}
+
+			}
+			if (addimage.getOriginalFilename() != null
+					&& addimage.getOriginalFilename().trim().length() > 0) {
+				String imageUrl = propertyConfig.getFileServerWebUrl() + "images/"
+						+ addimage.getOriginalFilename();
+				question.setImageUrl(imageUrl);
+				addimage.transferTo(file);
+			}
+
 		}
-		
-		if(addaudio != null){
-			 String destination = propertyConfig.getFileServerLocation()+File.separator+"audios"+File.separator+addaudio.getOriginalFilename();
-			 File file = new File(destination);
-			 if( file.exists()){
-				 if(addaudio.getOriginalFilename() != null && addaudio.getOriginalFilename().trim().length() > 0){
-			 			FileUtils.forceDelete(file);
-			 		}
-			 		
-			 	}
-			 
-			 if(addaudio.getOriginalFilename() != null && addaudio.getOriginalFilename().trim().length() > 0){
-				 addaudio.transferTo(file);
-				 String audioUrl = propertyConfig.getFileServerWebUrl()+"audios/"+addaudio.getOriginalFilename();
-				 question.setAudioURL(audioUrl);
-			 }
-			 
+
+		if (addaudio != null) {
+			String destination = propertyConfig.getFileServerLocation() + File.separator + "audios"
+					+ File.separator + addaudio.getOriginalFilename();
+			File file = new File(destination);
+			if (file.exists()) {
+				if (addaudio.getOriginalFilename() != null
+						&& addaudio.getOriginalFilename().trim().length() > 0) {
+					FileUtils.forceDelete(file);
+				}
+
+			}
+
+			if (addaudio.getOriginalFilename() != null
+					&& addaudio.getOriginalFilename().trim().length() > 0) {
+				addaudio.transferTo(file);
+				String audioUrl = propertyConfig.getFileServerWebUrl() + "audios/"
+						+ addaudio.getOriginalFilename();
+				question.setAudioURL(audioUrl);
+			}
+
 		}
-		
-		if(addvideo != null){
-			 String destination = propertyConfig.getFileServerLocation()+File.separator+"videos"+File.separator+addvideo.getOriginalFilename();
-			 File file = new File(destination);
-			 if( file.exists()){
-				 if(addvideo.getOriginalFilename() != null && addvideo.getOriginalFilename().trim().length() > 0){
-			 			FileUtils.forceDelete(file);
-			 		}
-			 	}
-			 
-			 if(addvideo.getOriginalFilename() != null && addvideo.getOriginalFilename().trim().length() > 0){
-				 addvideo.transferTo(file);
-				 String videoUrl = propertyConfig.getFileServerWebUrl()+"videos/"+addvideo.getOriginalFilename();
-				 question.setVideoURL(videoUrl);
-			 }
-			 
+
+		if (addvideo != null) {
+			String destination = propertyConfig.getFileServerLocation() + File.separator + "videos"
+					+ File.separator + addvideo.getOriginalFilename();
+			File file = new File(destination);
+			if (file.exists()) {
+				if (addvideo.getOriginalFilename() != null
+						&& addvideo.getOriginalFilename().trim().length() > 0) {
+					FileUtils.forceDelete(file);
+				}
+			}
+
+			if (addvideo.getOriginalFilename() != null
+					&& addvideo.getOriginalFilename().trim().length() > 0) {
+				addvideo.transferTo(file);
+				String videoUrl = propertyConfig.getFileServerWebUrl() + "videos/"
+						+ addvideo.getOriginalFilename();
+				question.setVideoURL(videoUrl);
+			}
+
 		}
-		
+
 		try {
 			question.setup();
 		} catch (AssessmentGenericException e) {
@@ -253,64 +284,70 @@ public class QuestionController {
 		}
 		question.setCompanyId(user.getCompanyId());
 		question.setCompanyName(user.getCompanyName());
-			if((!question.getInputCode().contains("<br />")) && question.getInputCode() != null){
-				question.setInputCode(question.getInputCode().replaceAll("\\r\\n|\\r|\\n", "<br />"));
+		if ((!question.getInputCode().contains("<br />")) && question.getInputCode() != null) {
+			question.setInputCode(question.getInputCode().replaceAll("\\r\\n|\\r|\\n", "<br />"));
+		}
+
+		if ((!question.getInstructionsIfAny().contains("<br />")) && question.getInstructionsIfAny() != null) {
+			question.setInstructionsIfAny(question.getInstructionsIfAny().replaceAll("\n", "<br />"));
+		}
+
+		if (question.getQuestionType().getType().equals(QuestionType.CODING.getType())
+				|| question.getQuestionType().getType().equals(QuestionType.MCQ.getType())) {
+			question.setFullstack(FullStackOptions.NONE);
+		} else {
+			String reviewer = question.getReviewerEmail();
+			if (reviewer == null || reviewer.trim().length() == 0) {
+				questions = questionService.findQuestions(user.getCompanyId());
+				mav = new ModelAndView("add_question");
+				mav.addObject("question", question);
+				mav.addObject("message", "Select a Reviewer for the Full Stack Problem statement");// later
+															// put
+															// it
+															// as
+															// label
+				mav.addObject("msgtype", "failure");
+				mav.addObject("types", QuestionType.values());
+				mav.addObject("qs", questions);
+				mav.addObject("levels", DifficultyLevel.values());
+				mav.addObject("stacks", FullStackOptions.values());
+				return mav;
 			}
-			
-			if( (!question.getInstructionsIfAny().contains("<br />")) && question.getInstructionsIfAny() != null){
-				question.setInstructionsIfAny(question.getInstructionsIfAny().replaceAll("\n", "<br />"));
+			User usr = userService.findByPrimaryKey(reviewer, user.getCompanyId());
+			if (usr != null && (!usr.getUserType().getType().equals(UserType.REVIEWER.getType()))) {
+				questions = questionService.findQuestions(user.getCompanyId());
+				mav = new ModelAndView("add_question");
+				mav.addObject("question", question);
+				mav.addObject("message",
+						"The reviewer email selected does have privileges to be a Reviewer. Enter some other Reviewer email id");// later
+																				// put
+																				// it
+																				// as
+																				// label
+				mav.addObject("msgtype", "failure");
+				mav.addObject("types", QuestionType.values());
+				mav.addObject("qs", questions);
+				mav.addObject("levels", DifficultyLevel.values());
+				mav.addObject("stacks", FullStackOptions.values());
+				return mav;
+			} else if (usr == null) {
+				User user2 = new User();
+				user2.setUserType(UserType.REVIEWER);
+				user2.setEmail(reviewer);
+				user2.setPassword("" + reviewer.hashCode());
+				user2.setCompanyId(user.getCompanyId());
+				user2.setCompanyName(user.getCompanyName());
+				userService.saveOrUpdate(user2);
 			}
-			
-			if(question.getQuestionType().getType().equals(QuestionType.CODING.getType()) || question.getQuestionType().getType().equals(QuestionType.MCQ.getType())){
-				question.setFullstack(FullStackOptions.NONE);
-			}
-			else{
-				String reviewer = question.getReviewerEmail();
-					if(reviewer == null || reviewer.trim().length() == 0){
-						questions = questionService.findQuestions(user.getCompanyId());
-						mav = new ModelAndView("add_question");
-						mav.addObject("question", question);
-						mav.addObject("message", "Select a Reviewer for the Full Stack Problem statement");// later put it as label
-						mav.addObject("msgtype", "failure");
-						mav.addObject("types", QuestionType.values());
-						mav.addObject("qs", questions);
-						mav.addObject("levels", DifficultyLevel.values());
-						mav.addObject("stacks", FullStackOptions.values());
-						return mav;
-					}
-				User usr = userService.findByPrimaryKey(reviewer, user.getCompanyId());
-					if(usr != null && (!usr.getUserType().getType().equals(UserType.REVIEWER.getType()))){
-						questions = questionService.findQuestions(user.getCompanyId());
-						mav = new ModelAndView("add_question");
-						mav.addObject("question", question);
-						mav.addObject("message", "The reviewer email selected does have privileges to be a Reviewer. Enter some other Reviewer email id");// later put it as label
-						mav.addObject("msgtype", "failure");
-						mav.addObject("types", QuestionType.values());
-						mav.addObject("qs", questions);
-						mav.addObject("levels", DifficultyLevel.values());
-						mav.addObject("stacks", FullStackOptions.values());
-						return mav;
-					}
-					else if(usr == null){
-						User user2 = new User();
-						user2.setUserType(UserType.REVIEWER);
-						user2.setEmail(reviewer);
-						user2.setPassword(""+reviewer.hashCode());
-						user2.setCompanyId(user.getCompanyId());
-						user2.setCompanyName(user.getCompanyName());
-						userService.saveOrUpdate(user2);
-					}
-					
-				
-			}
-			
-			if(question.getId() != null) {
-				questionService.updateQuestion(question);
-			}
-			else {
-				questionService.createQuestion(question);
-			}
-		
+
+		}
+
+		if (question.getId() != null) {
+			questionService.updateQuestion(question);
+		} else {
+			questionService.createQuestion(question);
+		}
+
 //		questions = questionService.findQuestions(user.getCompanyId());
 //		mav = new ModelAndView("question_list");
 //		mav.addObject("qs", questions);
@@ -318,19 +355,21 @@ public class QuestionController {
 		mav = new ModelAndView("add_question");
 		mav.addObject("message", "Question Save Success");// later put it as label
 		mav.addObject("msgtype", "Success");
-		//return listQuestions(null, response, request, mav.getModelMap());
+		// return listQuestions(null, response, request, mav.getModelMap());
 		question = new Question();
-		question.setType(question.getQuestionType() != null? question.getQuestionType().getType():QuestionType.MCQ.getType());
-			
-		question.setLang(question.getLanguage() != null?question.getLanguage().getLanguage():ProgrammingLanguage.JAVA.getLanguage());
+		question.setType(question.getQuestionType() != null ? question.getQuestionType().getType()
+				: QuestionType.MCQ.getType());
+
+		question.setLang(question.getLanguage() != null ? question.getLanguage().getLanguage()
+				: ProgrammingLanguage.JAVA.getLanguage());
 		mav.addObject("question", question);
 		mav.addObject("question_label", "Add new Question");
 		Page<Question> questions2 = questionService.findQuestionsByPage(user.getCompanyId(), 0);
 		mav.addObject("qs", questions2.getContent());
 		mav.addObject("levels", DifficultyLevel.values());
 		mav.addObject("types", QuestionType.values());
-  		mav.addObject("languages", ProgrammingLanguage.values());
-  		mav.addObject("stacks", FullStackOptions.values());
+		mav.addObject("languages", ProgrammingLanguage.values());
+		mav.addObject("stacks", FullStackOptions.values());
 		CommonUtil.setCommonAttributesOfPagination(questions2, mav.getModelMap(), 0, "addQuestion", null);
 		return mav;
 	}
@@ -349,185 +388,204 @@ public class QuestionController {
 	// }
 
 	@RequestMapping(value = "/searchQByQualifier1", method = RequestMethod.GET)
-	public ModelAndView searchQByQualifier1(@RequestParam(name= "page", required = false) Integer pageNumber,@RequestParam String qualifier1, HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView searchQByQualifier1(@RequestParam(name = "page", required = false) Integer pageNumber,
+			@RequestParam String qualifier1, HttpServletRequest request, HttpServletResponse response) {
 		String referer = request.getHeader("Referer");
 		ModelAndView mav = new ModelAndView("question_list");
 		User user = (User) request.getSession().getAttribute("user");
-		if(pageNumber == null) {
+		if (pageNumber == null) {
 			pageNumber = 0;
 		}
-		Page<Question> questions = questionService.findQuestionsByQualifier1AndPage(user.getCompanyId(), qualifier1, pageNumber);
+		Page<Question> questions = questionService.findQuestionsByQualifier1AndPage(user.getCompanyId(),
+				qualifier1, pageNumber);
 		mav.addObject("qs", questions.getContent());
 		mav.addObject("levels", DifficultyLevel.values());
 		mav.addObject("types", QuestionType.values());
-  		mav.addObject("languages", ProgrammingLanguage.values());
+		mav.addObject("languages", ProgrammingLanguage.values());
 		Map<String, String> params = new HashMap<>();
 		params.put("qualifier1", qualifier1);
-		CommonUtil.setCommonAttributesOfPagination(questions, mav.getModelMap(), pageNumber, "searchQByQualifier1", params);
+		CommonUtil.setCommonAttributesOfPagination(questions, mav.getModelMap(), pageNumber,
+				"searchQByQualifier1", params);
 		return mav;
 	}
 
 	@RequestMapping(value = "/searchQByQualifier1And2", method = RequestMethod.GET)
-	public ModelAndView searchQByQualifier1And2(@RequestParam(name= "page", required = false) Integer pageNumber,@RequestParam String qualifier1, @RequestParam String qualifier2,
-			HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView searchQByQualifier1And2(@RequestParam(name = "page", required = false) Integer pageNumber,
+			@RequestParam String qualifier1, @RequestParam String qualifier2, HttpServletRequest request,
+			HttpServletResponse response) {
 		String referer = request.getHeader("Referer");
 		ModelAndView mav = new ModelAndView("question_list");
 		User user = (User) request.getSession().getAttribute("user");
-		if(pageNumber == null) {
+		if (pageNumber == null) {
 			pageNumber = 0;
 		}
-		Page<Question> questions = questionService.findQuestionsByQualifier2AndPage(user.getCompanyId(), qualifier1,
-				qualifier2, pageNumber);
+		Page<Question> questions = questionService.findQuestionsByQualifier2AndPage(user.getCompanyId(),
+				qualifier1, qualifier2, pageNumber);
 		mav.addObject("qs", questions.getContent());
 		mav.addObject("levels", DifficultyLevel.values());
 		mav.addObject("types", QuestionType.values());
-  		mav.addObject("languages", ProgrammingLanguage.values());
+		mav.addObject("languages", ProgrammingLanguage.values());
 		Map<String, String> params = new HashMap<>();
 		params.put("qualifier1", qualifier1);
 		params.put("qualifier2", qualifier2);
-		CommonUtil.setCommonAttributesOfPagination(questions, mav.getModelMap(), pageNumber, "searchQByQualifier1And2", params);
+		CommonUtil.setCommonAttributesOfPagination(questions, mav.getModelMap(), pageNumber,
+				"searchQByQualifier1And2", params);
 		return mav;
 	}
 
 	@RequestMapping(value = "/searchQByQualifier1And2And3", method = RequestMethod.GET)
-	public ModelAndView searchQByQualifier1And2And3(@RequestParam(name= "page", required = false) Integer pageNumber, @RequestParam String qualifier1, @RequestParam String qualifier2,
+	public ModelAndView searchQByQualifier1And2And3(
+			@RequestParam(name = "page", required = false) Integer pageNumber,
+			@RequestParam String qualifier1, @RequestParam String qualifier2,
 			@RequestParam String qualifier3, HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mav = new ModelAndView("question_list");
 		User user = (User) request.getSession().getAttribute("user");
-		if(pageNumber == null) {
+		if (pageNumber == null) {
 			pageNumber = 0;
 		}
-		Page<Question> questions = questionService.findQuestionsByQualifier3AndPage(user.getCompanyId(), qualifier1,
-				qualifier2, qualifier3, pageNumber);
+		Page<Question> questions = questionService.findQuestionsByQualifier3AndPage(user.getCompanyId(),
+				qualifier1, qualifier2, qualifier3, pageNumber);
 		mav.addObject("qs", questions.getContent());
 		mav.addObject("levels", DifficultyLevel.values());
 		mav.addObject("types", QuestionType.values());
-  		mav.addObject("languages", ProgrammingLanguage.values());
+		mav.addObject("languages", ProgrammingLanguage.values());
 		Map<String, String> params = new HashMap<>();
 		params.put("qualifier1", qualifier1);
 		params.put("qualifier2", qualifier2);
 		params.put("qualifier3", qualifier3);
-		CommonUtil.setCommonAttributesOfPagination(questions, mav.getModelMap(), pageNumber, "searchQByQualifier1And2And3", params);
+		CommonUtil.setCommonAttributesOfPagination(questions, mav.getModelMap(), pageNumber,
+				"searchQByQualifier1And2And3", params);
 		return mav;
 	}
 
 	@RequestMapping(value = "/searchQByQualifier1And2And3And4", method = RequestMethod.GET)
-	public ModelAndView searchQByQualifier1And2And3And4(@RequestParam(name= "page", required = false) Integer pageNumber,@RequestParam String qualifier1,
-			@RequestParam String qualifier2, @RequestParam String qualifier3, @RequestParam String qualifier4,
-			HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView searchQByQualifier1And2And3And4(
+			@RequestParam(name = "page", required = false) Integer pageNumber,
+			@RequestParam String qualifier1, @RequestParam String qualifier2,
+			@RequestParam String qualifier3, @RequestParam String qualifier4, HttpServletRequest request,
+			HttpServletResponse response) {
 		ModelAndView mav = new ModelAndView("question_list");
 		User user = (User) request.getSession().getAttribute("user");
-		if(pageNumber == null) {
+		if (pageNumber == null) {
 			pageNumber = 0;
 		}
-		Page<Question> questions = questionService.findQuestionsByQualifier4AndPage(user.getCompanyId(), qualifier1,
-				qualifier2, qualifier3, qualifier4, pageNumber);
+		Page<Question> questions = questionService.findQuestionsByQualifier4AndPage(user.getCompanyId(),
+				qualifier1, qualifier2, qualifier3, qualifier4, pageNumber);
 		mav.addObject("qs", questions.getContent());
 		mav.addObject("levels", DifficultyLevel.values());
 		mav.addObject("types", QuestionType.values());
-  		mav.addObject("languages", ProgrammingLanguage.values());
+		mav.addObject("languages", ProgrammingLanguage.values());
 		Map<String, String> params = new HashMap<>();
 		params.put("qualifier1", qualifier1);
 		params.put("qualifier2", qualifier2);
 		params.put("qualifier3", qualifier3);
 		params.put("qualifier4", qualifier4);
-		CommonUtil.setCommonAttributesOfPagination(questions, mav.getModelMap(), pageNumber, "searchQByQualifier1And2And3And4", params);
+		CommonUtil.setCommonAttributesOfPagination(questions, mav.getModelMap(), pageNumber,
+				"searchQByQualifier1And2And3And4", params);
 		return mav;
 	}
 
 	@RequestMapping(value = "/searchQByQualifier1And2And3And4And5", method = RequestMethod.GET)
-	public ModelAndView searchQByQualifier1And2And3And4And5(@RequestParam(name= "page", required = false) Integer pageNumber, @RequestParam String qualifier1,
-			@RequestParam String qualifier2, @RequestParam String qualifier3, @RequestParam String qualifier4,
+	public ModelAndView searchQByQualifier1And2And3And4And5(
+			@RequestParam(name = "page", required = false) Integer pageNumber,
+			@RequestParam String qualifier1, @RequestParam String qualifier2,
+			@RequestParam String qualifier3, @RequestParam String qualifier4,
 			@RequestParam String qualifier5, HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mav = new ModelAndView("question_list");
 		User user = (User) request.getSession().getAttribute("user");
-		if(pageNumber == null) {
+		if (pageNumber == null) {
 			pageNumber = 0;
 		}
-		Page<Question> questions  = questionService.findQuestionsByQualifier5AndPage(user.getCompanyId(), qualifier1,
-				qualifier2, qualifier3, qualifier4, qualifier5, pageNumber);
+		Page<Question> questions = questionService.findQuestionsByQualifier5AndPage(user.getCompanyId(),
+				qualifier1, qualifier2, qualifier3, qualifier4, qualifier5, pageNumber);
 		mav.addObject("qs", questions.getContent());
 		mav.addObject("levels", DifficultyLevel.values());
 		mav.addObject("types", QuestionType.values());
-  		mav.addObject("languages", ProgrammingLanguage.values());
+		mav.addObject("languages", ProgrammingLanguage.values());
 		Map<String, String> params = new HashMap<>();
 		params.put("qualifier1", qualifier1);
 		params.put("qualifier2", qualifier2);
 		params.put("qualifier3", qualifier3);
 		params.put("qualifier4", qualifier4);
 		params.put("qualifier5", qualifier5);
-		CommonUtil.setCommonAttributesOfPagination(questions, mav.getModelMap(), pageNumber, "searchQByQualifier1And2And3And4And5", params);
+		CommonUtil.setCommonAttributesOfPagination(questions, mav.getModelMap(), pageNumber,
+				"searchQByQualifier1And2And3And4And5", params);
 		return mav;
 	}
 
 	@RequestMapping(value = "/searchQuestions", method = RequestMethod.GET)
-	public ModelAndView searchQuestions(@RequestParam(name= "page", required = false) Integer pageNumber,@RequestParam String searchText, HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView searchQuestions(@RequestParam(name = "page", required = false) Integer pageNumber,
+			@RequestParam String searchText, HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mav = new ModelAndView("question_list");
 		User user = (User) request.getSession().getAttribute("user");
-		if(pageNumber == null) {
-			pageNumber = 0;
-		}
-		Page<Question> questions  = questionService.searchQuestions( user.getCompanyId(), searchText, pageNumber);
-		mav.addObject("qs", questions.getContent());
-		mav.addObject("levels", DifficultyLevel.values());
-		mav.addObject("types", QuestionType.values());
-  		mav.addObject("languages", ProgrammingLanguage.values());
-		Map<String, String> params = new HashMap<>();
-		params.put("searchText", searchText);
-		CommonUtil.setCommonAttributesOfPagination(questions, mav.getModelMap(), pageNumber, "searchQuestions", params);
-		return mav;
-	}
-
-	@RequestMapping(value = "/searchQuestions2", method = RequestMethod.GET)
-	public ModelAndView searchQuestions2(@RequestParam(name= "page", required = false) Integer pageNumber, @RequestParam String searchText, HttpServletRequest request,
-			HttpServletResponse response) {
-		ModelAndView mav = new ModelAndView("add_question");
-		Question question = new Question();
-		mav.addObject("question", question);
-		User user = (User) request.getSession().getAttribute("user");
-		if(pageNumber == null) {
+		if (pageNumber == null) {
 			pageNumber = 0;
 		}
 		Page<Question> questions = questionService.searchQuestions(user.getCompanyId(), searchText, pageNumber);
 		mav.addObject("qs", questions.getContent());
 		mav.addObject("levels", DifficultyLevel.values());
 		mav.addObject("types", QuestionType.values());
-  		mav.addObject("languages", ProgrammingLanguage.values());
-		CommonUtil.setCommonAttributesOfPagination(questions, mav.getModelMap(), pageNumber, "searchQuestions2", null);
+		mav.addObject("languages", ProgrammingLanguage.values());
+		Map<String, String> params = new HashMap<>();
+		params.put("searchText", searchText);
+		CommonUtil.setCommonAttributesOfPagination(questions, mav.getModelMap(), pageNumber, "searchQuestions",
+				params);
+		return mav;
+	}
+
+	@RequestMapping(value = "/searchQuestions2", method = RequestMethod.GET)
+	public ModelAndView searchQuestions2(@RequestParam(name = "page", required = false) Integer pageNumber,
+			@RequestParam String searchText, HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mav = new ModelAndView("add_question");
+		Question question = new Question();
+		mav.addObject("question", question);
+		User user = (User) request.getSession().getAttribute("user");
+		if (pageNumber == null) {
+			pageNumber = 0;
+		}
+		Page<Question> questions = questionService.searchQuestions(user.getCompanyId(), searchText, pageNumber);
+		mav.addObject("qs", questions.getContent());
+		mav.addObject("levels", DifficultyLevel.values());
+		mav.addObject("types", QuestionType.values());
+		mav.addObject("languages", ProgrammingLanguage.values());
+		CommonUtil.setCommonAttributesOfPagination(questions, mav.getModelMap(), pageNumber, "searchQuestions2",
+				null);
 		return mav;
 	}
 
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
-	public void uploadQuestions(HttpServletResponse response, MultipartHttpServletRequest request) throws Exception {
+	public void uploadQuestions(HttpServletResponse response, MultipartHttpServletRequest request)
+			throws Exception {
 		try {
 			MultipartFile multipartFile = request.getFile("fileQuestions");
 			Long size = multipartFile.getSize();
 			String fileName = multipartFile.getName();
 			String contentType = multipartFile.getContentType();
 			InputStream stream = multipartFile.getInputStream();
-			File file = new File("questions.xml");
+			String XmlPath = "C:/Users/gulfa/OneDrive/Desktop/questions.xml";
+			File file = new File(XmlPath);
 			List<Question> questions = ExcelReader.parseExcelFileToBeans(stream, file);
-			logger.info("in upload method qs size "+questions.size());
-				if(questions.size() == 0) {
-					throw new AssessmentGenericException("NO_DATA_IN_EXCEL");
-				}
+			logger.info("in upload method qs size " + questions.size());
+			if (questions.size() == 0) {
+				throw new AssessmentGenericException("NO_DATA_IN_EXCEL");
+			}
 			String compId = questions.get(0).getCompanyId();
-			System.out.println("comp id is "+compId);
+			System.out.println("comp id is " + compId);
 			Company company = companyService.findByCompanyId(compId);
-			System.out.println("Company got in uploadQuestions "+company.getId() +" "+company.getCompanyName());
-			logger.info("Company got in uploadQuestions "+company.getId() +" "+company.getCompanyName());
+			System.out.println("Company got in uploadQuestions " + company.getId() + " "
+					+ company.getCompanyName());
+			logger.info("Company got in uploadQuestions " + company.getId() + " "
+					+ company.getCompanyName());
 			for (Question q : questions) {
 				System.out.println(q.getQuestionText());
 				q.setCompanyId(company.getCompanyId());
 				q.setCompanyName(company.getCompanyName());
 				q.setChoice1(q.getChoice1().trim());
 				q.setChoice2(q.getChoice2().trim());
-				q.setChoice3(q.getChoice3() == null ?"":q.getChoice3().trim());
-				q.setChoice4(q.getChoice4() == null ?"":q.getChoice4().trim());
-				q.setChoice5(q.getChoice5() == null ?"":q.getChoice5().trim());
-				q.setChoice6(q.getChoice6() == null ?"":q.getChoice6().trim());
+				q.setChoice3(q.getChoice3() == null ? "" : q.getChoice3().trim());
+				q.setChoice4(q.getChoice4() == null ? "" : q.getChoice4().trim());
+				q.setChoice5(q.getChoice5() == null ? "" : q.getChoice5().trim());
+				q.setChoice6(q.getChoice6() == null ? "" : q.getChoice6().trim());
 				q.setRightChoices(q.getRightChoices().trim());
 				questionService.createQuestion(q);
 			}
@@ -539,35 +597,37 @@ public class QuestionController {
 			throw new AssessmentGenericException("problem in uploading qs", e);
 		}
 	}
-	
-	
-	
+
 	@RequestMapping(value = "/question_list", method = RequestMethod.GET)
-	public ModelAndView listQuestions(@RequestParam(name= "page", required = false) Integer pageNumber, HttpServletResponse response, HttpServletRequest request, ModelMap modelMap) throws Exception {
+	public ModelAndView listQuestions(@RequestParam(name = "page", required = false) Integer pageNumber,
+			HttpServletResponse response, HttpServletRequest request, ModelMap modelMap) throws Exception {
 		ModelAndView mav = new ModelAndView("question_list");
 		User user = (User) request.getSession().getAttribute("user");
-		if(pageNumber == null) {
+		if (pageNumber == null) {
 			pageNumber = 0;
 		}
-		//Page<Question> questions = questionService.findQuestionsByPage(user.getCompanyId(), pageNumber);
+		// Page<Question> questions =
+		// questionService.findQuestionsByPage(user.getCompanyId(), pageNumber);
 		Page<Question> questions = questionService.getAllLevel1Questions(user.getCompanyId(), pageNumber);
 		mav.addObject("qs", questions.getContent());
 		mav.addObject("levels", DifficultyLevel.values());
 		mav.addObject("types", QuestionType.values());
-  		mav.addObject("languages", ProgrammingLanguage.values());
+		mav.addObject("languages", ProgrammingLanguage.values());
 		CommonUtil.setCommonAttributesOfPagination(questions, modelMap, pageNumber, "question_list", null);
 		return mav;
 	}
-	
+
 	@RequestMapping(value = "/verification", method = RequestMethod.GET)
-	public ModelAndView verification(@RequestParam(name= "page", required = false) Integer pageNumber, HttpServletResponse response, HttpServletRequest request, ModelMap modelMap) throws Exception {
+	public ModelAndView verification(@RequestParam(name = "page", required = false) Integer pageNumber,
+			HttpServletResponse response, HttpServletRequest request, ModelMap modelMap) throws Exception {
 		ModelAndView mav = new ModelAndView("verify");
-		
+
 		return mav;
 	}
-	
+
 	@RequestMapping(value = "/verifydata", method = RequestMethod.POST)
-	public ModelAndView verifydata(HttpServletResponse response, MultipartHttpServletRequest request) throws Exception {
+	public ModelAndView verifydata(HttpServletResponse response, MultipartHttpServletRequest request)
+			throws Exception {
 		ModelAndView mav = new ModelAndView("verifyresults");
 		try {
 			MultipartFile multipartFile = request.getFile("fileToUpload");
@@ -578,28 +638,33 @@ public class QuestionController {
 			File file = new File("questions.xml");
 			List<Question> questions = ExcelReader.parseExcelFileToBeans(stream, file);
 			List<VerificationResultsQ> vers = new ArrayList<>();
-				for(Question q : questions){
-					Company c = companyService.findByCompanyId(q.getCompanyId());
-					String problem = "";
-						if(c == null){
-							problem += "Invalid Company Id "+q.getCompanyId()+".";
-						}
-						
-						if(q.getRightChoices() == null){
-							problem += " No Correct Answer selected.";
-						}
-						
-						if(!(q.getRightChoices().contains("Choice 1") || q.getRightChoices().contains("Choice 2") || q.getRightChoices().contains("Choice 3") || q.getRightChoices().contains("Choice 4") || q.getRightChoices().contains("Choice 5") || q.getRightChoices().contains("Choice 6"))){
-							problem += " Invalid Correct Choice "+q.getRightChoices();
-						}
-					if(problem.length() > 0){
-						VerificationResultsQ ver = new VerificationResultsQ();
-						ver.setQuestionText(q.getQuestionText());
-						ver.setQuestionProblem(problem);
-						vers.add(ver);
-					}
-					
+			for (Question q : questions) {
+				Company c = companyService.findByCompanyId(q.getCompanyId());
+				String problem = "";
+				if (c == null) {
+					problem += "Invalid Company Id " + q.getCompanyId() + ".";
 				}
+
+				if (q.getRightChoices() == null) {
+					problem += " No Correct Answer selected.";
+				}
+
+				if (!(q.getRightChoices().contains("Choice 1")
+						|| q.getRightChoices().contains("Choice 2")
+						|| q.getRightChoices().contains("Choice 3")
+						|| q.getRightChoices().contains("Choice 4")
+						|| q.getRightChoices().contains("Choice 5")
+						|| q.getRightChoices().contains("Choice 6"))) {
+					problem += " Invalid Correct Choice " + q.getRightChoices();
+				}
+				if (problem.length() > 0) {
+					VerificationResultsQ ver = new VerificationResultsQ();
+					ver.setQuestionText(q.getQuestionText());
+					ver.setQuestionProblem(problem);
+					vers.add(ver);
+				}
+
+			}
 			mav.addObject("results", vers);
 			logger.info("verifydata - verification complete");
 			return mav;
@@ -608,8 +673,36 @@ public class QuestionController {
 			e.printStackTrace();
 			logger.error("problem verifydata - verification", e);
 			mav.addObject("problem", "Problem in File Upload. Contact Admin");
-			//throw new AssessmentGenericException("problem in uploading qs", e);
+			// throw new AssessmentGenericException("problem in uploading qs", e);
 			return mav;
 		}
 	}
+
+//	download Questions by Qualifier
+	@GetMapping("/downloadQuestion")
+	public ModelAndView downloadQuestion(HttpServletRequest request,
+			@RequestParam("qualifier1") String qualifier1) {
+		User user = (User) request.getSession().getAttribute("user");
+		String[] qualifier = qualifier1.split(" - ");
+		List<Question> listquestion = null;
+		System.out.println("qualifier:::: " + qualifier);
+		if (qualifier.length == 1) {
+			listquestion = questionService.findQuestionsByQualifier1(user.getCompanyId(), qualifier[0]);
+		} else if (qualifier.length == 2) {
+			listquestion = questionService.findQuestionsByQualifier2(user.getCompanyId(), qualifier[0],
+					qualifier[1]);
+		} else if (qualifier.length == 3) {
+			listquestion = questionService.findQuestionsByQualifier3(user.getCompanyId(), qualifier[0],
+					qualifier[1], qualifier[2]);
+		} else if (qualifier.length == 4) {
+			listquestion = questionService.findQuestionsByQualifier4(user.getCompanyId(), qualifier[0],
+					qualifier[1], qualifier[2], qualifier[3]);
+		} else {
+			listquestion = questionService.findQuestionsByQualifier5(user.getCompanyId(), qualifier[0],
+					qualifier[1], qualifier[2], qualifier[3], qualifier[4]);
+		}
+		System.out.println("listquestion::: " + listquestion);
+		return new ModelAndView("downloadExcel", "listquestion", listquestion);
+	}
+
 }

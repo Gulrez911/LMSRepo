@@ -50,7 +50,7 @@
 		<property name="smtpPort" value="${smtpPort}"></property>
 		<property name="screenShotFolder" value="${screenShotFolder}"></property>
 		
-		<property name="defaultReferenceConfigFileLocation" value="D:\\apache-tomcat-8.0.3\\bin\\assessment\\assessment_tenants\\base></property>
+		<property name="defaultReferenceConfigFileLocation" value="D:\\apache-tomcat-8.0.3\\bin\\assessment\\assessment_tenants\\base"></property>
 		<property name="tenantsConfigLocation" value="D:\\apache-tomcat-8.0.3\\bin\\assessment\\assessment_tenants"></property>
 		<property name="tomcatDeployLocation" value="D:\\apache-tomcat-8.0.3\\webapps"></property>
 	</bean>
