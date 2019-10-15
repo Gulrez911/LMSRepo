@@ -37,9 +37,21 @@
 			<attribute name="m2e-apt" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="E:/Backup Of C Drive/Download/poi-3.15.jar"/>
-	<classpathentry kind="lib" path="E:/Backup Of C Drive/Download/poi-ooxml-3.15.jar"/>
-	<classpathentry kind="lib" path="E:/Backup Of C Drive/Download/poi-ooxml-schemas-3.15.jar"/>
+	<classpathentry kind="lib" path="E:/Backup Of C Drive/Download/poi-3.15.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="E:/Backup Of C Drive/Download/poi-ooxml-3.15.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="E:/Backup Of C Drive/Download/poi-ooxml-schemas-3.15.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="src" output="target/test-classes" path="target/generated-test-sources/test-annotations">
 		<attributes>
 			<attribute name="optional" value="true"/>

@@ -1,8 +1,6 @@
 package com.assessment.web.controllers;
 
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLEncoder;
@@ -42,7 +40,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.assessment.Exceptions.AssessmentGenericException;
 import com.assessment.common.CommonUtil;
-import com.assessment.common.ExcelReader;
 import com.assessment.common.PropertyConfig;
 import com.assessment.common.Qualifiers;
 import com.assessment.common.util.EmailGenericMessageThread;
@@ -62,6 +59,7 @@ import com.assessment.data.UserTestSession;
 import com.assessment.data.UserType;
 import com.assessment.repositories.QuestionMapperRepository;
 import com.assessment.repositories.QuestionRepository;
+import com.assessment.repositories.SectionRepository;
 import com.assessment.repositories.SkillRepository;
 import com.assessment.services.CompanyService;
 import com.assessment.services.FileStatusService;
@@ -73,6 +71,7 @@ import com.assessment.services.TestService;
 import com.assessment.services.UserService;
 import com.assessment.services.UserTestSessionService;
 import com.assessment.web.dto.QualifierSkillLevelDto;
+import com.assessment.web.dto.QuestionMapperDto;
 import com.assessment.web.dto.SectionDto;
 import com.assessment.web.dto.TestDTO;
 import com.assessment.web.dto.TestSessionDTO;
@@ -120,6 +119,9 @@ public class TestController {
 
 	@Autowired
 	UserTestSessionService userTestSessionService;
+
+	@Autowired
+	SectionRepository sectRepo;
 
 	@RequestMapping(value = "/testlist", method = RequestMethod.GET)
 	public ModelAndView testlist(@RequestParam(name = "page", required = false) Integer pageNumber,
@@ -1414,26 +1416,50 @@ public class TestController {
 
 			XLSReader mainReader = ReaderBuilder.buildFromXML(file);
 			final List result = new ArrayList<>();
+			final List result2 = new ArrayList<>();
+			final List result3 = new ArrayList<>();
 			final Map<String, Object> beans = new HashMap<>();
 			beans.put("result", result);
+			beans.put("result2", result2);
+			beans.put("result3", result3);
 			XLSReadStatus readStatus = mainReader.read(stream, beans);
-			System.out.println(">>>>>>>>>>>>>>>>> " + readStatus.toString());
-			
-//			String XmlPath = "C:/Users/gulfa/OneDrive/Desktop/tests.xml";
-//			String sectXmlPath = "C:/Users/gulfaOneDrive/Desktop/section.xml";
-//			System.out.println("1111111111");
-//			File file = new File(XmlPath);
-//			File file2 = new File(sectXmlPath);
-//			System.out.println("1111111111");
-//			List<Test> test2 = ExcelReader.parseExcelFileToBeans(stream, file);
-//			System.out.println("???????????? "+test2);
-//			for (Test ttt : test2) {
-//				System.out.println("..............................");
-//				ttt.setCompanyId(user.getCompanyId());
-//				ttt.setCompanyName(user.getCompanyName());
-//				testService.saveOrUpdate(ttt);
-//			}
-//			 
+			System.out.println(">>>>>>>>>>>>>>>>> Read Status" + readStatus);
+			List<Test> test = result;
+			List<Section> sect = result2;
+			List<QuestionMapperDto> mapper = result3;
+			System.out.println(">>>>>>>>>>>>>>>>> " + test);
+			System.out.println(">>>>>>>>>>>>>>>>> " + sect);
+			System.out.println(">>>>>>>>>>>>>>>>> " + mapper);
+			for (Test ttt : test) {
+				System.out.println("..............................");
+				ttt.setCompanyId(user.getCompanyId());
+				ttt.setCompanyName(user.getCompanyName());
+				testService.saveOrUpdate(ttt);
+			}
+
+			for (Section sect2 : sect) {
+				System.out.println("..............................");
+				sect2.setCompanyId(user.getCompanyId());
+				sect2.setCompanyName(user.getCompanyName());
+				sectRepo.save(sect2);
+			}
+
+			for (QuestionMapperDto map : mapper) {
+				System.out.println("..............................");
+				map.setCompanyId(user.getCompanyId());
+				map.setCompanyName(user.getCompanyName());
+
+				QuestionMapper qmap = new QuestionMapper();
+				qmap.setCompanyId(map.getCompanyId());
+				qmap.setCompanyName(map.getCompanyName());
+				qmap.setSectionName(map.getSectionName());
+				qmap.setTestName(map.getTestName());
+				Question qqq = new Question();
+				qqq.setId(map.getQuestionId());
+				qmap.setQuestion(qqq);
+				questionMapperRepository.save(qmap);
+			}
+
 			logger.info("upload qs in db complete");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

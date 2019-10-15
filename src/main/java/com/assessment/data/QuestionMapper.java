@@ -11,14 +11,15 @@ import javax.persistence.OneToOne;
 @Entity
 public class QuestionMapper extends Base {
 
-	@ManyToOne
-	Question question;
 	
 	String sectionName;
 	
 	String testName;
 
 	Integer pointsToAward = 1;
+
+	@ManyToOne
+	Question question;
 
 	public String getSectionName() {
 		return sectionName;
