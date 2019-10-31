@@ -3,6 +3,8 @@ package com.assessment.services;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.net.URLEncoder;
+import java.util.Base64;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -43,5 +45,7 @@ public interface TestService {
 	public  List<Test> populateWithPublicUrl(List<Test> tests);
 	
 	public Test populate(Test test);
+	
+	public String getTestUrlForUser(String user, Long testId, String companyId) ;
 
 }

@@ -50,7 +50,7 @@ public class SessionFilter implements Filter {
 			
 			
 			
-			if(page.endsWith("/hackathon") || page.endsWith("multifileresults")){
+			if(page.endsWith("/hackathon") || page.endsWith("multifileresults") || page.endsWith("showComprehensiveReportForCourse")){
 				chain.doFilter(request, response);
 			}
 			else if(page.endsWith("/findLevel1Qs") || page.endsWith("/findLevel2Qs")){

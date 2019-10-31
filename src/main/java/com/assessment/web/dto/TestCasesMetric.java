@@ -11,6 +11,8 @@ public class TestCasesMetric {
 	String codeQualityLink;
 	
 	String projDocLink;
+	
+	Boolean available = false;
 
 	public String getProblemStatement() {
 		return problemStatement;
@@ -50,6 +52,14 @@ public class TestCasesMetric {
 
 	public void setProjDocLink(String projDocLink) {
 		this.projDocLink = projDocLink;
+	}
+
+	public Boolean getAvailable() {
+		return available;
+	}
+
+	public void setAvailable(Boolean available) {
+		this.available = available;
 	}
 	
 	

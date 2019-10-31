@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.assessment.data.QuestionMapperInstance;
 import com.assessment.repositories.QuestionMapperInstanceRepository;
+import com.assessment.repositories.QuestionMapperRepository;
 import com.assessment.services.QuestionMapperInstanceService;
 
 @Service
@@ -167,6 +168,33 @@ public class QuestionMapperInstanceServiceImpl implements
 			String user, String companyId) {
 		// TODO Auto-generated method stub
 		return questionMapperInstanceRepository.findQuestionMapperInstancesForUserForCourseContext(courseContext, user, companyId);
+	}
+
+	@Override
+	public List<String> findQuestionMapperInstancesForUserLastAttemptForCourseContext(
+			String courseContext, String user, String companyId) {
+		// TODO Auto-generated method stub
+		return questionMapperInstanceRepository.findUniqueUsersForCourseContext(courseContext, user, companyId);
+	}
+
+	@Override
+	public List<String> findUniqueTestsForCourseContext(String courseContext, String user, String companyId) {
+		// TODO Auto-generated method stub
+		return questionMapperInstanceRepository.findUniqueTestsForCourseContext(courseContext, user, companyId);
+	}
+
+	@Override
+	public List<String> findUniqueUsersForCourseContextAndTest(String testName, String courseContext, String user,
+			String companyId) {
+		// TODO Auto-generated method stub
+		return questionMapperInstanceRepository.findUniqueUsersForCourseContextAndTest(testName, courseContext, user, companyId);
+	}
+
+	@Override
+	public List<QuestionMapperInstance> findQuestionMapperInstancesForUserForCourseContextAndTest(String testName,
+			String courseContext, String user, String companyId) {
+		// TODO Auto-generated method stub
+		return questionMapperInstanceRepository.findQuestionMapperInstancesForUserForCourseContextAndTest(testName, courseContext, user, companyId);
 	}
 
 }

@@ -89,6 +89,8 @@ public class Test extends Base {
 	
 	Boolean justification;
 	
+	String courseContext;
+	
 	public Boolean getSentToStudent() {
 		return sentToStudent;
 	}
@@ -353,6 +355,12 @@ public class Test extends Base {
 	}
 	public void setJustification(Boolean justification) {
 		this.justification = justification;
+	}
+	public String getCourseContext() {
+		return courseContext;
+	}
+	public void setCourseContext(String courseContext) {
+		this.courseContext = courseContext;
 	}
 	
 	

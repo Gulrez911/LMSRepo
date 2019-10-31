@@ -161,5 +161,29 @@ public class TestQuestion {
 		List<QuestionMapperInstance> qms = instanceRep.findQuestionMapperInstancesForUserForCourseContext("Comprehensive Java", "test@test.com", "IH");
 		System.out.println(qms.size());
 	}
+	
+	@Test
+	@Rollback(value=false)
+	public void testGetUniqueUsersForCourseContext(){
+		String user = "www1@www.com";
+		List<String> usrs = instanceRep.findUniqueTestsForCourseContext("Comprehensive Java", user, "IH");
+		System.out.println(usrs.size());
+	}
+	
+	@Test
+	@Rollback(value=false)
+	public void testGetUniqueUsersForCourseContextAndTest(){
+		String user = "www1@www.com";
+		List<String> usrs = instanceRep.findUniqueUsersForCourseContextAndTest("HTML_CSS_JS_v1.0", "Comprehensive Java", user, "IH");
+		System.out.println(usrs.size());
+	}
+	
+	@Test
+	@Rollback(value=false)
+	public void testGetQMIsForCourseContextAndTest(){
+		String user = "www1@www.com[198-1]";
+		List<QuestionMapperInstance> qms = instanceRep.findQuestionMapperInstancesForUserForCourseContextAndTest("HTML_CSS_JS_v1.0", "Comprehensive Java", user, "IH");
+		System.out.println(qms.size());
+	}
 
 }

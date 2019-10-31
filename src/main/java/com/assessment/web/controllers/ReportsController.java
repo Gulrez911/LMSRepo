@@ -175,30 +175,150 @@ public class ReportsController {
 		return traits;
 	}
 	
+	private List<QuestionMapperInstance> getAnswersFromLastUserAttempts(String courseContext, String email, String companyId){
+		List<String> tests = questionMapperInstanceService.findUniqueTestsForCourseContext(courseContext, email, companyId);
+		List<QuestionMapperInstance> instances = new ArrayList<>();
+		for(String test : tests){
+			List<String> users = questionMapperInstanceService.findUniqueUsersForCourseContextAndTest(test, courseContext, email, companyId);
+			if(users != null && users.size() > 0){
+				String usr = users.get(users.size() - 1);
+				List<QuestionMapperInstance> ins = questionMapperInstanceService.findQuestionMapperInstancesForUserForTest(test, usr, companyId);
+				instances.addAll(ins);
+			}
+		}
+		return instances;
+	}
+	
 	@RequestMapping(value = "/showComprehensiveReportForCourse", method = RequestMethod.GET)
-	public ModelAndView showComprehensiveReportForCourse(@RequestParam String courseContext, @RequestParam String email, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ModelAndView showComprehensiveReportForCourse(@RequestParam String companyId,@RequestParam String courseContext, @RequestParam String email, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView("comprehensive_report");
 		mav.addObject("courseContext", courseContext);
-		User user = (User) request.getSession().getAttribute("user");
-		List<QuestionMapperInstance> instances = questionMapperInstanceService.findQuestionMapperInstancesForUserForCourseContext(courseContext, email, user.getCompanyId());
+		//User user = (User) request.getSession().getAttribute("user");
+		//List<QuestionMapperInstance> instances = questionMapperInstanceService.findQuestionMapperInstancesForUserForCourseContext(courseContext, email, user.getCompanyId());
+		
+		/**
+		 * Gets the answers of the last user attempt for every test.
+		 */
+		List<QuestionMapperInstance> instances = getAnswersFromLastUserAttempts(courseContext, email, companyId);
 		
 		List<QuestionMapperInstance> mcqs = new ArrayList<>();
 		List<QuestionMapperInstance> spas = new ArrayList<>();
 		List<QuestionMapperInstance> fsapps = new ArrayList<>();
+		Integer totalQs = 0;
+		Integer correctAnswers = 0;
+		System.out.println("email is "+email +" course context is "+courseContext+" total answers "+instances.size());
+		/**
+		 * mapping between weight and score
+		 */
+		Map<Integer, Integer> map = new HashMap<>();
+		String normalPercentage = "";
+		String weightedPercentage = "";
+		Map<Integer, Integer> map_weight_totalsQs = new HashMap<>();
+		
 		for(QuestionMapperInstance ans : instances){
+			totalQs++;
+			
+			
+			if(ans.getQuestionMapper().getQuestion().getCourseWeight() == null ){
+				ans.getQuestionMapper().getQuestion().setCourseWeight(1);
+			}
+			
+			if(map.get(ans.getQuestionMapper().getQuestion().getCourseWeight()) == null){
+				map.put(ans.getQuestionMapper().getQuestion().getCourseWeight(), 0);
+			}
+			
+			if(map_weight_totalsQs.get(ans.getQuestionMapper().getQuestion().getCourseWeight()) == null){
+				map_weight_totalsQs.put(ans.getQuestionMapper().getQuestion().getCourseWeight(), 1);
+			}
+			else{
+				Integer totalQsForWeight = map_weight_totalsQs.get(ans.getQuestionMapper().getQuestion().getCourseWeight());
+				totalQsForWeight++;
+				map_weight_totalsQs.put(ans.getQuestionMapper().getQuestion().getCourseWeight(), totalQsForWeight);
+			}
+			
+			
 			if(ans.getQuestionMapper().getQuestion().getQuestionType().getType().equals(QuestionType.MCQ.getType())){
 				mcqs.add(ans);
+				if(ans.getCorrect()){
+					correctAnswers ++;
+					if(map.get(ans.getQuestionMapper().getQuestion().getCourseWeight()) == null){
+						map.put(ans.getQuestionMapper().getQuestion().getCourseWeight(), 1);
+					}
+					else{
+						Integer score = map.get(ans.getQuestionMapper().getQuestion().getCourseWeight());
+						score ++;
+						map.put(ans.getQuestionMapper().getQuestion().getCourseWeight(), score);
+					}
+				}
 			}
 			else if(ans.getQuestionMapper().getQuestion().getQuestionType().getType().equals(QuestionType.CODING.getType())){
 				spas.add(ans);
+				if(ans.getTestCaseInputPositive() != null && ans.getTestCaseInputPositive()){
+					correctAnswers ++;
+					if(map.get(ans.getQuestionMapper().getQuestion().getCourseWeight()) == null){
+						map.put(ans.getQuestionMapper().getQuestion().getCourseWeight(), 1);
+					}
+					else{
+						Integer score = map.get(ans.getQuestionMapper().getQuestion().getCourseWeight());
+						score ++;
+						map.put(ans.getQuestionMapper().getQuestion().getCourseWeight(), score);
+					}
+				}
 			}
 			else{
+				Integer totalTestCases = ans.getNoOfTestCases();
+				Integer passed = ans.getNoOfTestCasesPassed();
+					if(totalTestCases != null && passed != null){
+						if((100 * passed/totalTestCases) >= 50){
+							ans.setCorrect(true);
+							correctAnswers ++;
+							if(map.get(ans.getQuestionMapper().getQuestion().getCourseWeight()) == null){
+								map.put(ans.getQuestionMapper().getQuestion().getCourseWeight(), 1);
+							}
+							else{
+								Integer score = map.get(ans.getQuestionMapper().getQuestion().getCourseWeight());
+								score ++;
+								map.put(ans.getQuestionMapper().getQuestion().getCourseWeight(), score);
+							}
+						}
+						else{
+							ans.setCorrect(false);
+						}
+					}
+					else{
+						//ans.setAnswered(true);
+						ans.setCorrect(false);
+					}
 				fsapps.add(ans);
 			}
 			
 		}
-		
-		List<UserTrait> traits = generateTraits(user.getCompanyId(), mcqs);
+		System.out.println("correct answers "+correctAnswers+" totalqs "+totalQs);
+		float per = (100 * (correctAnswers))/totalQs;
+		 DecimalFormat df = new DecimalFormat();
+		 df.setMaximumFractionDigits(2);
+		 String percentage = df.format(per);
+		 mav.addObject("totalAverage", per);
+		 
+		 /**
+		  * mapping between weight and percentage correct answers for the weight
+		  */
+		// Map<Integer, Float> map_weight_percent = new HashMap<>();
+		 float totalWeight = 0;
+		 float totalPercents = 0;
+		 for(Integer weight : map.keySet()){
+			Integer qsForWeight =  map_weight_totalsQs.get(weight);
+			float p = map.get(weight)*100/qsForWeight;
+			//map_weight_percent.put(weight, p);
+			totalWeight += weight;
+			totalPercents += p * weight;
+		 }
+		 float calculatedWeightedPercentage = totalPercents / totalWeight;
+		 String wPer = df.format(calculatedWeightedPercentage);
+		 mav.addObject("totalWeightedAverage", wPer);
+		 
+		System.out.println("generate user traits "+mcqs.size()+" comp id "+companyId);
+		List<UserTrait> traits = generateTraits(companyId, mcqs);
 		mav.addObject("mcqTraits", traits);
 		
 		if(spas.size() > 0){

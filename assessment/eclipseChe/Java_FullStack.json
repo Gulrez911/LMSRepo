@@ -60,10 +60,10 @@
   "projects": [
     {
       "source": {
-        "location": "https://github.com/che-samples/web-java-spring-petclinic.git",
+        "location": "https://github.com/jswordfish/regex_jdbc.git",
         "type": "git",
         "parameters": {
-          "branch": "mysql"
+          "branch": "master"
         }
       },
       "description": "${APP_DESC}",

@@ -38,11 +38,17 @@ public class FullStackCodeMetrics {
 	}
 
 	public String getPercent() {
-		float per = (100 * (noOfTestCasesPassed))/noOfTestCases;
-		 DecimalFormat df = new DecimalFormat();
-		 df.setMaximumFractionDigits(2);
-		 String percentage = df.format(per);
-		return percentage;
+		try {
+			float per = (100 * (noOfTestCasesPassed))/noOfTestCases;
+			 DecimalFormat df = new DecimalFormat();
+			 df.setMaximumFractionDigits(2);
+			 String percentage = df.format(per);
+			return percentage;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "0.0";
+		}
 	}
 
 	public void setPercent(String percent) {

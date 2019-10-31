@@ -77,6 +77,9 @@ QuestionMapperInstanceService qminService;
 
 @Autowired
 UserOtpService userOtpService;
+
+@Autowired
+LMSController lmsController;
 	
 	private final String prefixURL = "iiht_html";
 	
@@ -316,7 +319,7 @@ UserOtpService userOtpService;
 				 mav.addObject("instances", instances);
 				 return mav;
 		  	}
-		  	else {
+		  	else if(user.getUserType().getType().equals(UserType.ADMIN.getType()) || user.getUserType().getType().equals(UserType.SUPER_ADMIN.getType())){
 		  		//to dashboard
 		  		//List<Question> questions = questionService.findQuestions(user.getCompanyId());
 		  		/**
@@ -336,9 +339,16 @@ UserOtpService userOtpService;
 		  		mav.addObject("qs", questions.getContent());
 				mav.addObject("levels", DifficultyLevel.values());
 				CommonUtil.setCommonAttributesOfPagination(questions, mav.getModelMap(), 0, "question_list", null);
+				return mav;
 		  	}
-		    return mav;
+		  	else{
+				  //student or learner
+		  		request.getSession().setAttribute("user", user);
+				return lmsController.goToLearnerDashboard(user.getEmail(), request, response);
+			  }
+		    
 		  }
+	  
 	  
 	  @RequestMapping(value = "/addQ", method = RequestMethod.GET)
 	  public ModelAndView addQ(HttpServletRequest request, HttpServletResponse response) {

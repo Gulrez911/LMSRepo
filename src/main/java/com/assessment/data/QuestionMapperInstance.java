@@ -94,6 +94,14 @@ public class QuestionMapperInstance extends Base{
 	Integer noOfTestCases;
 	
 	Integer noOfTestCasesPassed;
+	
+	String courseName;
+	
+	String moduleName;
+	
+	String learningPathName;
+	
+	
 
 	public QuestionMapper getQuestionMapper() {
 		return questionMapper;
@@ -398,6 +406,30 @@ public class QuestionMapperInstance extends Base{
 
 	public void setNoOfTestCasesPassed(Integer noOfTestCasesPassed) {
 		this.noOfTestCasesPassed = noOfTestCasesPassed;
+	}
+
+	public String getCourseName() {
+		return courseName;
+	}
+
+	public void setCourseName(String courseName) {
+		this.courseName = courseName;
+	}
+
+	public String getModuleName() {
+		return moduleName;
+	}
+
+	public void setModuleName(String moduleName) {
+		this.moduleName = moduleName;
+	}
+
+	public String getLearningPathName() {
+		return learningPathName;
+	}
+
+	public void setLearningPathName(String learningPathName) {
+		this.learningPathName = learningPathName;
 	}
 
 	

@@ -3,6 +3,7 @@ package com.assessment.services.impl;
 import java.io.File;
 import java.io.FileInputStream;
 import java.net.URLEncoder;
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
@@ -225,4 +226,15 @@ public class TestServiceImpl implements TestService {
 		testRepository.save(test2);
 		return totalMarks;
 	}
+
+	@Override
+	public String getTestUrlForUser(String user, Long testId, String companyId) {
+		String userBytes =  Base64.getEncoder().encodeToString(user.getBytes());
+		 
+		 String after = "userId="+URLEncoder.encode(userBytes)+"&testId="+URLEncoder.encode(testId.toString())+"&companyId="+URLEncoder.encode(companyId);
+		 String url = propertyConfig.getBaseUrl()+"startTestSession?"+after;
+		 return url;
+	}
+	
+	
 }

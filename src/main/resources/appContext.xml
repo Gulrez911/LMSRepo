@@ -58,7 +58,8 @@
 		<property name="remoteBaseUrl" value="http://13.59.126.83/" ></property>
 		<property name="pmdServerBaseUrl" value="http://localhost/pmd-server-0.0.1-SNAPSHOT/"></property>
 		<property name="testLinkHtml_Generic_Location" value="C:\fromMainLaptop\apache-tomcat-8.0.3\bin\assessment\sendTestLink_Generic.html" ></property>
-		<property name="fullStackCodeLocation" value="/opt/eclipse_che/instance/data/workspaces"></property>
+		<property name="fullStackCodeLocation" value="/root/.che-multiuser/instance/data/workspaces"></property>
+		
 	</bean>
 
     <context:component-scan base-package="com.assessment"  />
@@ -79,6 +80,10 @@
     <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/assessment" />  
         <property name="user" value="root" /> 
         <property name="password" value="" /> 
+
+<!-- <property name="jdbcUrl" value="jdbc:mysql://165.22.223.25:3306/assessment" />   -->
+<!--         <property name="user" value="yaksha_user" />  -->
+<!--         <property name="password" value="Welcome@123" />  -->
 
 <!-- 	<property name="jdbcUrl" value="jdbc:mysql://13.233.2.169:3306/assessment" />    -->
 <!-- 	        <property name="user" value="iiht_user" />  -->

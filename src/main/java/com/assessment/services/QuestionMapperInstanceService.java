@@ -37,4 +37,14 @@ public interface QuestionMapperInstanceService {
 	List<QuestionMapperInstance> findFullStackQuestionMapperInstancesForJavaScript(String companyId);
 	
 	List<QuestionMapperInstance> findQuestionMapperInstancesForUserForCourseContext(String courseContext,  String user, String companyId);
+	
+	List<String> findQuestionMapperInstancesForUserLastAttemptForCourseContext(String courseContext,  String user, String companyId);
+	
+	List<String> findUniqueTestsForCourseContext(String courseContext,  String user, String companyId);
+
+	List<String> findUniqueUsersForCourseContextAndTest( String testName,  String courseContext,   String user,  String companyId);
+
+	
+	List<QuestionMapperInstance> findQuestionMapperInstancesForUserForCourseContextAndTest( String testName,  String courseContext,   String user,  String companyId);
+
 }

@@ -47,6 +47,14 @@ public class PropertyConfig {
 	 */
 	String sonarAnalysisFileLocation;
 	
+	public String getFullStackWorkspaceFolder() {
+		return fullStackWorkspaceFolder;
+	}
+
+	public void setFullStackWorkspaceFolder(String fullStackWorkspaceFolder) {
+		this.fullStackWorkspaceFolder = fullStackWorkspaceFolder;
+	}
+
 	/**
 	 * PhP projects
 	 */
@@ -59,6 +67,7 @@ public class PropertyConfig {
 	String fullStackReviewTemplate;
 	
 	
+	String fullStackWorkspaceFolder;
 	
 	public String getBaseUrl() {
 		return baseUrl;

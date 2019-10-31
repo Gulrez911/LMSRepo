@@ -38,5 +38,18 @@ public interface QuestionMapperInstanceRepository extends JpaRepository<Question
 	@Query("SELECT q FROM QuestionMapperInstance q WHERE q.companyId=:companyId AND q.user=:user AND q.questionMapper.question.courseContext =:courseContext")
 	List<QuestionMapperInstance> findQuestionMapperInstancesForUserForCourseContext(@Param("courseContext") String courseContext,  @Param("user") String user, @Param("companyId") String companyId);
 
+	@Query("SELECT DISTINCT(q.user) FROM QuestionMapperInstance q WHERE q.companyId=:companyId AND q.user like %:user% AND q.questionMapper.question.courseContext =:courseContext")
+	List<String> findUniqueUsersForCourseContext(@Param("courseContext") String courseContext,  @Param("user") String user, @Param("companyId") String companyId);
+
+	@Query("SELECT DISTINCT(q.testName) FROM QuestionMapperInstance q WHERE q.companyId=:companyId AND q.user like %:user% AND q.questionMapper.question.courseContext =:courseContext")
+	List<String> findUniqueTestsForCourseContext(@Param("courseContext") String courseContext,  @Param("user") String user, @Param("companyId") String companyId);
+
+	@Query("SELECT DISTINCT(q.user) FROM QuestionMapperInstance q WHERE q.testName=:testName and  q.companyId=:companyId AND q.user like %:user% AND q.questionMapper.question.courseContext =:courseContext")
+	List<String> findUniqueUsersForCourseContextAndTest(@Param("testName") String testName, @Param("courseContext") String courseContext,  @Param("user") String user, @Param("companyId") String companyId);
+
+	
+	@Query("SELECT q FROM QuestionMapperInstance q WHERE q.testName=:testName and q.companyId=:companyId AND q.user=:user AND q.questionMapper.question.courseContext =:courseContext")
+	List<QuestionMapperInstance> findQuestionMapperInstancesForUserForCourseContextAndTest(@Param("testName") String testName, @Param("courseContext") String courseContext,  @Param("user") String user, @Param("companyId") String companyId);
+
 }
 
