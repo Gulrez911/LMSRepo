@@ -260,6 +260,8 @@ public class ReportManagerTrait {
 			  String fileName = canddateName+"-"+testName+".pdf";
 			  fileName = replaceInvalidCharactersFromFileName(fileName);
 			  System.out.println("Saving report by following name "+fileName);
+			  File file = new File(fileName);
+			  System.out.println("Saving report by following name "+file.getAbsolutePath());
 			  OutputStream output = new FileOutputStream(new File(fileName)); 
 			  JasperExportManager.exportReportToPdfStream(jp1, output); 
 			  System.out.println("Report saved by following name "+fileName);

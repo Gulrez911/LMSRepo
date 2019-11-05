@@ -1664,13 +1664,15 @@ questionInstanceDto.getQuestionMapperInstance().setTestCaseInvalidData(questionI
 				 String cc[] = {email};
 				 EmailGenericMessageThread client = new EmailGenericMessageThread(test.getCreatedBy(), "Test Results for "+user.getFirstName()+" "+user.getLastName()+" for test- "+test.getTestName(), html, propertyConfig);
 					client.setCcArray(cc);
+					 logger.info("getsentTOstudent callled function");
 				 	Thread th = new Thread(client);
 					th.start();
 			 }
 			 else{
 				 EmailGenericMessageThread client = new EmailGenericMessageThread(test.getCreatedBy(), "Test Results for "+user.getFirstName()+" "+user.getLastName()+" for test- "+test.getTestName(), html, propertyConfig);
-					
-				 	Thread th = new Thread(client);
+				 System.out.println("ssssssssssssssssssender>>>>>>>>>>>>>>>55555555555555555555 ");
+				 logger.info("ssssssssssssssssssender>>>>>>>>>>>>>>>55555555555555555555");
+				 Thread th = new Thread(client);
 					th.start();
 			 }
 		return rows;	 
