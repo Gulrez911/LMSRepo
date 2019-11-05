@@ -47,11 +47,20 @@ public class LearningPathServiceImpl implements LearningPathService {
 			else{
 				learningPath.setId(learningPath2.getId());
 				org.dozer.Mapper mapper = new DozerBeanMapper();
+				learningPath.setCourses(learningPath2.getCourses());
 				mapper.map(learningPath, learningPath2);
 				learningPath2.setUpdateDate(new Date());
 				learningPathRep.save(learningPath2);
 				return learningPath2;
 			}
+	}
+
+	@Override
+	public void incrementNoOfEnrollemnts(Long id) {
+		// TODO Auto-generated method stub
+		LearningPath learningPath = learningPathRep.findById(id).get();
+		learningPath.setNoOfEnrollments((learningPath.getNoOfEnrollments() == null ? 0 : learningPath.getNoOfEnrollments()+1));
+		learningPathRep.save(learningPath);
 	}
 
 }

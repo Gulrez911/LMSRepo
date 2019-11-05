@@ -14,6 +14,8 @@ public interface LearningPathService {
 	List<LearningPath> getPopularLearningPaths(String companyId);
 	
 	LearningPath saveOrUpdate(LearningPath learningPath);
+	
+	void incrementNoOfEnrollemnts(Long id);
 
 
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 
 @Entity
@@ -14,7 +15,7 @@ public class LearningPath extends Base{
 	
 	String description;
 	
-	@ManyToMany
+	@ManyToMany(fetch=FetchType.EAGER)
 	List<Course> courses = new ArrayList<Course>();
 	
 	String imageUrl;

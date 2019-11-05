@@ -24,6 +24,7 @@ import com.assessment.data.LearningPath;
 import com.assessment.data.User;
 import com.assessment.data.UserType;
 import com.assessment.repositories.CourseRepository;
+import com.assessment.repositories.LearningPathRepository;
 import com.assessment.services.CourseModuleService;
 import com.assessment.services.CourseService;
 import com.assessment.services.EnrollmentService;
@@ -46,6 +47,9 @@ public class LMSController {
 	
 	@Autowired
 	CourseModuleService courseModuleService;
+	
+	@Autowired
+	LearningPathRepository pathRep;
 	
 	
 	@RequestMapping(value = "/learnerDashboard", method = RequestMethod.GET)
@@ -109,6 +113,31 @@ public class LMSController {
 		enrollmentService.saveOrUpdate(enrollment);
 		return "OK";
 	}
+	//enrollLearningPath
+	@RequestMapping(value = "/enrollLearningPath", method = RequestMethod.GET)
+	@ResponseBody
+	public String enrollLearningPath(@RequestParam(name = "lid", required = true) Long lid,HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) throws Exception {
+		User user = (User) request.getSession().getAttribute("user");
+		Enrollment enrollment = new Enrollment();
+		enrollment.setCompanyId(user.getCompanyId());
+		enrollment.setCompanyName(user.getCompanyName());
+		enrollment.setLearningObjectType(LearningObjectType.LEARNING_PATH);
+		LearningPath path = pathRep.findById(lid).get();
+		enrollment.setLearningObjectName(path.getName());
+		enrollment.setLearningObjectId(lid);
+		enrollment.setStartDate(new Date());
+		enrollment.setEmail(user.getEmail());
+		Calendar cal = Calendar.getInstance();
+		Date today = cal.getTime();
+		cal.add(Calendar.YEAR, 1); // to get previous year add -1
+		Date nextYear = cal.getTime();
+		enrollment.setCompletionDate(nextYear);
+		enrollment.setCompletionPercentage(0f);
+		enrollment.setCompletionStatus(false);
+		enrollmentService.saveOrUpdate(enrollment);
+		return "OK";
+	}
+	
 	
 	@RequestMapping(value = "/courseModules", method = RequestMethod.GET)
 	@ResponseBody
@@ -161,6 +190,74 @@ public class LMSController {
 			e.printStackTrace();
 			throw e;
 		} 
+		
 	}
-
+		
+	@RequestMapping(value = "/showCoursesForLearningPath", method = RequestMethod.GET)
+	@ResponseBody
+	public String showCoursesForLearningPath(@RequestParam(name = "lid", required = true) Long lid,HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) throws Exception {
+		try {
+			LearningPath learningPath = pathRep.findById(lid).get();
+			User user = (User) request.getSession().getAttribute("user");
+			List<Course> courses = learningPath.getCourses();
+			Integer totalDuration = 0;
+				for(Course course : courses){
+					totalDuration += (course.getDuration() == null? 0: course.getDuration());
+				}
+				
+				int hours = totalDuration / 60;
+				int minutes = totalDuration % 60;
+				String duration = hours+" Hours and "+minutes+" Minutes";
+			
+			//			Course course = courseRep.findById(cid).get();
+//			System.out.println("course object "+course);
+			String res = "";
+			
+			String init = " <label style=\"float: left;width: 100%;\">Courses for the Learning Path - ${learningPathName}</label>\r\n" + 
+					"	\r\n" + 
+					"                        <div class=\"corecontent\">\r\n" + 
+					"                            <label>Online content</label>\r\n" + 
+					"                            <label> ${path.hours}.</label>\r\n" + 
+					"                            <label> Total number of Enrollments - ${totalEnrollments}.</label>\r\n" + 
+					"                        </div>";
+			
+			String base = "<p style=\"float: left;width: 100%;\">${path.overView} </p>";
+			base = base.replace("${path.overView}", learningPath.getDescription() == null ? "Overview NA":learningPath.getDescription());
+			init = init.replace("${learningPathName}", learningPath.getName());
+			init = init.replace("${path.hours}", duration);
+			init = init.replace("${totalEnrollments}", ""+learningPath.getNoOfEnrollments());
+			
+			String block = "<div class=\"courseitem\">\r\n" + 
+					" <div class=\"itemicon\">\r\n"  +
+                    "            </div>"		+		
+					"				    <div class=\"itemname\">\r\n" + 
+					"					<h5>${course.name}</h5>\r\n" + 
+					"					<h6>${course.overiew}</h6>\r\n" + 
+					"					<p>Course Duration - ${course.duration}</p>\r\n" + 
+					"				    </div>\r\n" + 
+					"				   \r\n" + 	
+					"				</div>";
+			
+			//res += base +"\n"+ init +"\n";
+			String newClass = "<div class=\"innerpopuppart\"> \n";
+			
+			
+			res += base +"\n"+ init +"\n"+newClass;
+			for(Course course : courses) {
+				String mod = block.replace("${course.name}", course.getCourseName());
+				mod = mod.replace("${course.overiew}", course.getCourseDesc() == null?"NA":course.getCourseDesc());
+				mod = mod.replace("${course.duration}", course.getDuration() == null?"NA":""+course.getDuration()+" minutes");
+				//mod = mod.replace("${moduleImage}", "images/play1.png");
+				res += mod+"\n";
+			}
+			//return mav;
+			res+= "</div>";
+			return res;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw e;
+		} 
+}
+	
 }
