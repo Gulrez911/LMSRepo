@@ -24,10 +24,15 @@
 
 	<task:scheduler id="scheduler" pool-size="2" />
 
-	<!-- <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> 
-		<property name="locations"> <list> <value>file:assessment\config.properties</value> 
-		</list> </property> <property name="ignoreUnresolvablePlaceholders" value="true"/> 
-		</bean> -->
+	<!-- <bean -->
+	<!-- class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> -->
+	<!-- <property name="locations"> -->
+	<!-- <list> -->
+	<!-- <value>file:assessment\config.properties</value> -->
+	<!-- </list> -->
+	<!-- </property> -->
+	<!-- <property name="ignoreUnresolvablePlaceholders" value="true" /> -->
+	<!-- </bean> -->
 	<bean
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="location" value="classpath:config.properties" />
@@ -67,7 +72,8 @@
 		<property name="testLinkHtml_Generic_Location"
 			value="C:\fromMainLaptop\apache-tomcat-8.0.3\bin\assessment\sendTestLink_Generic.html"></property>
 		<property name="fullStackCodeLocation"
-			value="/opt/eclipse_che/instance/data/workspaces"></property>
+			value="/root/.che-multiuser/instance/data/workspaces"></property>
+
 	</bean>
 
 	<context:component-scan
@@ -91,18 +97,28 @@
 		<!-- <property name="user" value="utf8_user" /> -->
 		<!-- <property name="password" value="Welcome@123" /> -->
 
+		<!-- <property name="jdbcUrl" -->
+		<!-- value="jdbc:mysql://localhost:3306/assessment" /> -->
+		<!-- <property name="user" value="root" /> -->
+		<!-- <property name="password" value="" /> -->
+
 		<property name="jdbcUrl"
-			value="jdbc:mysql://localhost:3306/new_ass" />
+			value="jdbc:mysql://localhost:3306/yaksha" />
 		<property name="user" value="root" />
 		<property name="password" value="" />
+
+		<!-- <property name="jdbcUrl" value="jdbc:mysql://165.22.223.25:3306/assessment" 
+			/> -->
+		<!-- <property name="user" value="yaksha_user" /> -->
+		<!-- <property name="password" value="Welcome@123" /> -->
 
 		<!-- <property name="jdbcUrl" value="jdbc:mysql://13.233.2.169:3306/assessment" 
 			/> -->
 		<!-- <property name="user" value="iiht_user" /> -->
 		<!-- <property name="password" value="Welcome@123" /> -->
 
-		<!-- <property name="jdbcUrl" -->
-		<!-- value="jdbc:mysql://13.233.2.169:3306/Cognizant" /> -->
+		<!-- <property name="jdbcUrl" value="jdbc:mysql://13.233.2.169:3306/Cognizant" 
+			/> -->
 		<!-- <property name="user" value="User_Cognizant" /> -->
 		<!-- <property name="password" value="Welcome@123" /> -->
 

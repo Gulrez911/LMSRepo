@@ -12,22 +12,21 @@ import com.assessment.data.Company;
 import com.assessment.services.CompanyService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:appContext.xml"})
+@ContextConfiguration(locations = { "classpath:appContext.xml" })
 @Transactional
 public class TestCompany {
 	@Autowired
 	CompanyService companyService;
-	
+
 	@Test
-	@Rollback(value=false)
+	@Rollback(value = false)
 	public void testCreateCompany() {
 		Company company = new Company();
-		company.setCompanyId("CGI");
-		company.setCompanyName("CGI");
+		company.setCompanyId("IBM");
+		company.setCompanyName("IBM");
 		company.setCompanyLocation("Bangalore");
 		company.setSinglePointOfContactEmail("contact@thev2technologies.com");
 		companyService.saveOrUpdate(company);
 	}
-	
 
 }

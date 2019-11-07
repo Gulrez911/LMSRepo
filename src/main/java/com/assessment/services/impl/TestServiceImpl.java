@@ -3,6 +3,7 @@ package com.assessment.services.impl;
 import java.io.File;
 import java.io.FileInputStream;
 import java.net.URLEncoder;
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
@@ -31,7 +32,7 @@ import com.assessment.services.TestService;
 @Service
 @Transactional
 public class TestServiceImpl implements TestService {
-	
+
 	Logger logger = Logger.getLogger(TestServiceImpl.class.getName());
 
 	@Autowired
@@ -39,39 +40,40 @@ public class TestServiceImpl implements TestService {
 
 	@Autowired
 	SkillService skillService;
-	
+
 	@Autowired
 	SectionService sectionService;
-	
+
 	@Autowired
 	QuestionMapperRepository questionMapperRepository;
-	
+
 	@Autowired
 	PropertyConfig propertyConfig;
-	
+
 	public String getPublicUrlForTest(Long testId, String companyId) {
-		// String after = "&testId="+URLEncoder.encode(Base64.getEncoder().encodeToString(testId.toString().getBytes())+"&companyId="+URLEncoder.encode(Base64.getEncoder().encodeToString(companyId.getBytes())));
-		  String after = "&testId="+URLEncoder.encode(testId.toString())+"&companyId="+URLEncoder.encode(companyId);
-			 String url = propertyConfig.getBaseUrl()+"publicTest?"+after;
-			 return url;
-	  }
-	
-	public  List<Test> populateWithPublicUrl(List<Test> tests){
-		for(Test test : tests) {
+		// String after =
+		// "&testId="+URLEncoder.encode(Base64.getEncoder().encodeToString(testId.toString().getBytes())+"&companyId="+URLEncoder.encode(Base64.getEncoder().encodeToString(companyId.getBytes())));
+		String after = "&testId=" + URLEncoder.encode(testId.toString()) + "&companyId="
+				+ URLEncoder.encode(companyId);
+		String url = propertyConfig.getBaseUrl() + "publicTest?" + after;
+		return url;
+	}
+
+	public List<Test> populateWithPublicUrl(List<Test> tests) {
+		for (Test test : tests) {
 			test = populate(test);
 		}
 		return tests;
 	}
-	
+
 	public Test populate(Test test) {
-		if(test == null) {
+		if (test == null) {
 			return null;
 		}
 		String url = getPublicUrlForTest(test.getId(), test.getCompanyId());
 		test.setPublicUrl(url);
 		return test;
 	}
-	
 
 	@Override
 	public Test findbyTest(String testName, String companyId) {
@@ -81,12 +83,12 @@ public class TestServiceImpl implements TestService {
 	@Override
 	public void saveOrUpdate(Test test) {
 		test.setSkills(resolveSkills(test.getSkills()));
-		//Test test2 = findbyTest(test.getTestName(), test.getCompanyId());
+		// Test test2 = findbyTest(test.getTestName(), test.getCompanyId());
 		Test test2 = null;
-			if(test.getId() != null) {
-				test2 = testRepository.getOne(test.getId());
-				
-			}
+		if (test.getId() != null) {
+			test2 = testRepository.getOne(test.getId());
+
+		}
 		if (test2 == null) {
 			test.setCreateDate(new Date());
 			testRepository.save(test);
@@ -101,8 +103,6 @@ public class TestServiceImpl implements TestService {
 
 		}
 	}
-	
-
 
 	public List<Skill> resolveSkills(List<Skill> skills) {
 
@@ -114,22 +114,19 @@ public class TestServiceImpl implements TestService {
 	}
 
 	@Override
-	public List<Test> uploadUsersFromExcelDoc(FileInputStream fileInputStream,
-			File mappingObjectFile) {
+	public List<Test> uploadUsersFromExcelDoc(FileInputStream fileInputStream, File mappingObjectFile) {
 		logger.info("START---->uploadUsersFromExcelDoc");
 		List<Test> tests = null;
 		try {
-			tests = ExcelReader.parseExcelFileToBeans(fileInputStream,
-					mappingObjectFile);
-			if (tests.size()>0) {
+			tests = ExcelReader.parseExcelFileToBeans(fileInputStream, mappingObjectFile);
+			if (tests.size() > 0) {
 				for (Test test : tests) {
 					saveOrUpdate(test);
 				}
 			}
 			logger.info("END---->uploadUsersFromExcelDoc");
 		} catch (Exception e) {
-			throw new AssessmentGenericException(
-					ErrorCodes.ERROR_WHILE_PARSING_EXCEL_DOCUMENT);
+			throw new AssessmentGenericException(ErrorCodes.ERROR_WHILE_PARSING_EXCEL_DOCUMENT);
 		}
 		return tests;
 	}
@@ -137,24 +134,20 @@ public class TestServiceImpl implements TestService {
 	@Override
 	public Test testCompletionMailSendTo(String testName, String companyId, boolean sentToStudent,
 			String defaultSendTo, String optionalSendTo) {
-		Test test=null;
-		//to check and configure to whom the test report mail send to
-		if((testName!=null && !testName.isEmpty()) && (companyId!=null && !companyId.isEmpty()))
-		{
-			test=findbyTest(testName,companyId);
-			if(test!=null)
-			{
+		Test test = null;
+		// to check and configure to whom the test report mail send to
+		if ((testName != null && !testName.isEmpty()) && (companyId != null && !companyId.isEmpty())) {
+			test = findbyTest(testName, companyId);
+			if (test != null) {
 				test.setDefaultSendTo(defaultSendTo);
 				test.setOptionalSendTo(optionalSendTo);
 				test.setSentToStudent(sentToStudent);
 				saveOrUpdate(test);
 			}
-			
+
 		}
 		return populate(test);
 	}
-	
-
 
 	@Override
 	public List<Test> findByCompanyId(String companyId) {
@@ -173,9 +166,9 @@ public class TestServiceImpl implements TestService {
 		// TODO Auto-generated method stub
 		Test test = findTestById(testId);
 		List<Section> sections = sectionService.getSectionsForTest(test.getTestName(), test.getCompanyId());
-			for(Section section : sections) {
-				sectionService.removeSection(section);
-			}
+		for (Section section : sections) {
+			sectionService.removeSection(section);
+		}
 		testRepository.deleteById(testId);
 	}
 
@@ -201,28 +194,42 @@ public class TestServiceImpl implements TestService {
 		// TODO Auto-generated method stub
 		return testRepository.searchTests(companyId, testName, PageRequest.of(pageNumber, 5));
 	}
-	
+
 	@Override
 	public Integer computeTestTotalMarksAndSave(Test test) {
 		Test test2 = null;
-		if(test.getId() != null) {
+		if (test.getId() != null) {
 			test2 = testRepository.getOne(test.getId());
-			
-		}
-		else {
+
+		} else {
 			throw new AssessmentGenericException("NO_TEST_ID_PRESENT");
 		}
-		
+
 		List<Section> sections = sectionService.getSectionsForTest(test.getTestName(), test.getCompanyId());
 		Integer totalMarks = 0;
-		for(Section section : sections) {
-			Integer percent = (section.getPercentQuestionsAsked() == null || section.getPercentQuestionsAsked() == 0) ? 100:section.getPercentQuestionsAsked();
-			Integer noOfQuestions = questionMapperRepository.findCountQuestionMapperForTestAndSection(section.getSectionName().trim(), test.getTestName().trim(), test.getCompanyId().trim());
-			Integer sectionMarks = (Integer)((noOfQuestions * percent)/100);
+		for (Section section : sections) {
+			Integer percent = (section.getPercentQuestionsAsked() == null
+					|| section.getPercentQuestionsAsked() == 0) ? 100
+							: section.getPercentQuestionsAsked();
+			Integer noOfQuestions = questionMapperRepository.findCountQuestionMapperForTestAndSection(
+					section.getSectionName().trim(), test.getTestName().trim(),
+					test.getCompanyId().trim());
+			Integer sectionMarks = (Integer) ((noOfQuestions * percent) / 100);
 			totalMarks += sectionMarks;
 		}
 		test2.setTotalMarks(totalMarks);
 		testRepository.save(test2);
 		return totalMarks;
 	}
+
+	@Override
+	public String getTestUrlForUser(String user, Long testId, String companyId) {
+		String userBytes = Base64.getEncoder().encodeToString(user.getBytes());
+
+		String after = "userId=" + URLEncoder.encode(userBytes) + "&testId="
+				+ URLEncoder.encode(testId.toString()) + "&companyId=" + URLEncoder.encode(companyId);
+		String url = propertyConfig.getBaseUrl() + "startTestSession?" + after;
+		return url;
+	}
+
 }

@@ -5,46 +5,52 @@ import javax.persistence.Entity;
 import javax.persistence.Transient;
 
 @Entity
-public class CandidateProfileParams extends Base{
+public class CandidateProfileParams extends Base {
 
-	
 	private String qualifier1;
-	
+
 	private String qualifier2 = "NA";
-	
+
 	private String qualifier3 = "NA";
-	
+
 	private String qualifier4 = "NA";
-	
+
 	private String qualifier5 = "NA";
-	
+
 	String question = "NA";
-	
-	@Column(length=555)
+
+	@Column(length = 555)
 	String LESS_THAN_TWENTY_PERCENT = "NA";
-	
-	@Column(length=555)
+
+	@Column(length = 555)
 	String BETWEEN_TWENTY_AND_FIFTY = "NA";
-	
-	@Column(length=555)
+
+	@Column(length = 555)
 	String BETWEEN_FIFTY_AND_SEVENTYFIVE = "NA";
-	
-	@Column(length=555)
+
+	@Column(length = 555)
 	String BETWEEN_SEVENTYFIVE_AND_NINETY = "NA";
-	
-	@Column(length=555)
+
+	@Column(length = 555)
 	String MORE_THAN_NINETY = "NA";
-	
+
 	@Transient
 	String context;
-	
-	public CandidateProfileParams(){
-		
+
+	@Transient
+	String qualifierDesc;
+
+	@Transient
+	Float percent;
+
+	public CandidateProfileParams() {
+
 	}
-	
-	public CandidateProfileParams(String qualifier1, String qualifier2, String qualifier3, String qualifier4, String qualifier5){
+
+	public CandidateProfileParams(String qualifier1, String qualifier2, String qualifier3, String qualifier4,
+			String qualifier5) {
 		this.qualifier1 = qualifier1;
-		this.qualifier2  = qualifier2;
+		this.qualifier2 = qualifier2;
 		this.qualifier3 = qualifier3;
 		this.qualifier4 = qualifier4;
 		this.qualifier5 = qualifier5;
@@ -59,7 +65,7 @@ public class CandidateProfileParams extends Base{
 	}
 
 	public String getQualifier2() {
-		return (qualifier2 == null || qualifier2.length()==0)?"NA":this.qualifier2;
+		return (qualifier2 == null || qualifier2.length() == 0) ? "NA" : this.qualifier2;
 	}
 
 	public void setQualifier2(String qualifier2) {
@@ -67,7 +73,7 @@ public class CandidateProfileParams extends Base{
 	}
 
 	public String getQualifier3() {
-		return (qualifier3 == null || qualifier3.length()==0)?"NA":this.qualifier3;
+		return (qualifier3 == null || qualifier3.length() == 0) ? "NA" : this.qualifier3;
 	}
 
 	public void setQualifier3(String qualifier3) {
@@ -75,7 +81,7 @@ public class CandidateProfileParams extends Base{
 	}
 
 	public String getQualifier4() {
-		return (qualifier4 == null || qualifier4.length()==0)?"NA" :this.qualifier4;
+		return (qualifier4 == null || qualifier4.length() == 0) ? "NA" : this.qualifier4;
 	}
 
 	public void setQualifier4(String qualifier4) {
@@ -83,7 +89,7 @@ public class CandidateProfileParams extends Base{
 	}
 
 	public String getQualifier5() {
-		return (qualifier5 == null || qualifier4.length()==0)?"NA":this.qualifier5;
+		return (qualifier5 == null || qualifier4.length() == 0) ? "NA" : this.qualifier5;
 	}
 
 	public void setQualifier5(String qualifier5) {
@@ -99,7 +105,7 @@ public class CandidateProfileParams extends Base{
 	}
 
 	public String getLESS_THAN_TWENTY_PERCENT() {
-		if(this.LESS_THAN_TWENTY_PERCENT != null && this.LESS_THAN_TWENTY_PERCENT.equals("NA")){
+		if (this.LESS_THAN_TWENTY_PERCENT != null && this.LESS_THAN_TWENTY_PERCENT.equals("NA")) {
 			return "";
 		}
 		return LESS_THAN_TWENTY_PERCENT;
@@ -110,7 +116,7 @@ public class CandidateProfileParams extends Base{
 	}
 
 	public String getBETWEEN_TWENTY_AND_FIFTY() {
-		if(this.BETWEEN_TWENTY_AND_FIFTY != null && this.BETWEEN_TWENTY_AND_FIFTY.equals("NA")){
+		if (this.BETWEEN_TWENTY_AND_FIFTY != null && this.BETWEEN_TWENTY_AND_FIFTY.equals("NA")) {
 			return "";
 		}
 		return BETWEEN_TWENTY_AND_FIFTY;
@@ -121,7 +127,7 @@ public class CandidateProfileParams extends Base{
 	}
 
 	public String getBETWEEN_FIFTY_AND_SEVENTYFIVE() {
-		if(this.BETWEEN_FIFTY_AND_SEVENTYFIVE != null && this.BETWEEN_FIFTY_AND_SEVENTYFIVE.equals("NA")){
+		if (this.BETWEEN_FIFTY_AND_SEVENTYFIVE != null && this.BETWEEN_FIFTY_AND_SEVENTYFIVE.equals("NA")) {
 			return "";
 		}
 		return BETWEEN_FIFTY_AND_SEVENTYFIVE;
@@ -132,7 +138,7 @@ public class CandidateProfileParams extends Base{
 	}
 
 	public String getBETWEEN_SEVENTYFIVE_AND_NINETY() {
-		if(this.BETWEEN_SEVENTYFIVE_AND_NINETY != null && this.BETWEEN_SEVENTYFIVE_AND_NINETY.equals("NA")){
+		if (this.BETWEEN_SEVENTYFIVE_AND_NINETY != null && this.BETWEEN_SEVENTYFIVE_AND_NINETY.equals("NA")) {
 			return "";
 		}
 		return BETWEEN_SEVENTYFIVE_AND_NINETY;
@@ -143,7 +149,7 @@ public class CandidateProfileParams extends Base{
 	}
 
 	public String getMORE_THAN_NINETY() {
-		if(this.MORE_THAN_NINETY != null && this.MORE_THAN_NINETY.equals("NA")){
+		if (this.MORE_THAN_NINETY != null && this.MORE_THAN_NINETY.equals("NA")) {
 			return "";
 		}
 		return MORE_THAN_NINETY;
@@ -152,23 +158,25 @@ public class CandidateProfileParams extends Base{
 	public void setMORE_THAN_NINETY(String mORE_THAN_NINETY) {
 		MORE_THAN_NINETY = mORE_THAN_NINETY;
 	}
-	
+
 	@Override
-	public int hashCode(){
-		return (getQualifier1()+getQualifier2()+getQualifier3()+getQualifier4()+getQualifier5()).hashCode();
+	public int hashCode() {
+		return (getQualifier1() + getQualifier2() + getQualifier3() + getQualifier4() + getQualifier5())
+				.hashCode();
 	}
-	
+
 	@Override
-	public boolean equals(Object object){
-		if(!(object instanceof CandidateProfileParams)){
+	public boolean equals(Object object) {
+		if (!(object instanceof CandidateProfileParams)) {
 			return false;
 		}
-		
+
 		return this.hashCode() == object.hashCode();
 	}
+
 	@Override
-	public String toString(){
-		return getQualifier1()+getQualifier2()+getQualifier3()+getQualifier4()+getQualifier5();
+	public String toString() {
+		return getQualifier1() + getQualifier2() + getQualifier3() + getQualifier4() + getQualifier5();
 	}
 
 	public String getContext() {
@@ -178,7 +186,21 @@ public class CandidateProfileParams extends Base{
 	public void setContext(String context) {
 		this.context = context;
 	}
-	
-	
-	
+
+	public String getQualifierDesc() {
+		return qualifierDesc;
+	}
+
+	public void setQualifierDesc(String qualifierDesc) {
+		this.qualifierDesc = qualifierDesc;
+	}
+
+	public Float getPercent() {
+		return percent;
+	}
+
+	public void setPercent(Float percent) {
+		this.percent = percent;
+	}
+
 }

@@ -64,32 +64,32 @@
 
 							<!-- 							<a	href="javascript:notify('Information', 'Feature to upload Tests coming soon. Right now we have capability to upload Users and Questions.');">Import</a> -->
 
-							<form id="fileFormTest" method="POST"
-								enctype="multipart/form-data">
-								<input type="file" name="filetest" id="filetest"
-									style="display: none" />
-							</form>
+<%-- 							<form id="fileFormTest" method="POST" --%>
+<%-- 								enctype="multipart/form-data"> --%>
+<!-- 								<input type="file" name="filetest" id="filetest" -->
+<!-- 									style="display: none" /> -->
+<%-- 							</form> --%>
 
-							<div class="dropdown">
-								<div class="col-md-2">
-									<div class="dropdown">
-										<button type="button" class="btn btn-primary dropdown-toggle"
-											data-toggle="dropdown" onclick="myFunction()">
-											<i class="material-icons fa fa-download"></i>Download
-										</button>
-										<div class="dropdown-menu" id="myDropdown">
-											<input type="text" placeholder="Search.." id="myInput"
-												onkeyup="filterFunction()">
-											<c:forEach items="${qu}" var="qualifier1">
-												<a style="padding-left: 5px;" class="dropdown-item"
-													href="<%=request.getContextPath()%>/downloadQuestion?qualifier1=${qualifier1}">${qualifier1}</a>
-												<br />
+<!-- 							<div class="dropdown"> -->
+<!-- 								<div class="col-md-2"> -->
+<!-- 									<div class="dropdown"> -->
+<!-- 										<button type="button" class="btn btn-primary dropdown-toggle" -->
+<!-- 											data-toggle="dropdown" onclick="myFunction()"> -->
+<!-- 											<i class="material-icons fa fa-download"></i>Download -->
+<!-- 										</button> -->
+<!-- 										<div class="dropdown-menu" id="myDropdown"> -->
+<!-- 											<input type="text" placeholder="Search.." id="myInput" -->
+<!-- 												onkeyup="filterFunction()"> -->
+<%-- 											<c:forEach items="${qu}" var="qualifier1"> --%>
+<!-- 												<a style="padding-left: 5px;" class="dropdown-item" -->
+<%-- 													href="<%=request.getContextPath()%>/downloadQuestion?qualifier1=${qualifier1}">${qualifier1}</a> --%>
+<!-- 												<br /> -->
 
-											</c:forEach>
-										</div>
-									</div>
-								</div>
-							</div>
+<%-- 											</c:forEach> --%>
+<!-- 										</div> -->
+<!-- 									</div> -->
+<!-- 								</div> -->
+<!-- 							</div> -->
 
 							<a href="javascript:showFileDialog();" id="uploadTest">Import</a>
 							<a href="signoff">Sign Off</a>

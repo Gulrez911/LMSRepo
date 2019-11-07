@@ -1,128 +1,146 @@
 {
-  "environments": {
-    "default": {
-      "recipe": {
-        "contentType": "application/x-yaml",
-        "type": "compose",
-        "content": "services:\n db:\n  image: eclipse/mysql\n  environment:\n   MYSQL_ROOT_PASSWORD: password\n   MYSQL_DATABASE: petclinic\n   MYSQL_USER: petclinic\n   MYSQL_PASSWORD: password\n  mem_limit: 1073741824\n dev-machine:\n  image: eclipse/ubuntu_jdk8\n  mem_limit: 2147483648\n  depends_on:\n   - db\n"
-      },
-      "machines": {
-        "db": {
-          "env": {},
-          "servers": {
-            "mysql": {
-              "attributes": {},
-              "protocol": "tcp",
-              "port": "3306"
-            }
-          },
-          "volumes": {},
-          "installers": [
-            "org.eclipse.che.exec",
-            "org.eclipse.che.terminal"
-          ],
-          "attributes": {
-            "memoryLimitBytes": "1073741824"
-          }
-        },
-        "dev-machine": {
-          "env": {},
-          "servers": {
-            "tomcat8-debug": {
-              "attributes": {},
-              "protocol": "http",
-              "port": "8000"
-            },
-            "codeserver": {
-              "attributes": {},
-              "protocol": "http",
-              "port": "9876"
-            },
-            "tomcat8": {
-              "attributes": {},
-              "protocol": "http",
-              "port": "8080"
-            }
-          },
-          "volumes": {},
-          "installers": [
-            "org.eclipse.che.exec",
-            "org.eclipse.che.terminal",
-            "org.eclipse.che.ws-agent"
-          ],
-          "attributes": {
-            "memoryLimitBytes": "2147483648"
-          }
-        }
-      }
-    }
-  },
-  "projects": [
-    {
-      "source": {
-        "location": "https://github.com/che-samples/web-java-spring-petclinic.git",
-        "type": "git",
-        "parameters": {
-          "branch": "mysql"
-        }
-      },
-      "description": "${APP_DESC}",
-      "mixins": [],
-      "problems": [],
-      "name": "${APP_USER}",
-      "type": "maven",
-      "path": "/${APP_USER}",
-      "attributes": {
-        "language": [
-          "java"
-        ]
-      }
-    }
-  ],
-  "commands": [
-    {
-      "commandLine": "mysql -u $MYSQL_USER -p$MYSQL_PASSWORD -e 'show databases;'",
-      "name": "show databases",
-      "type": "custom",
-      "attributes": {}
-    },
-    {
-      "commandLine": "mvn -f ${current.project.path} clean install -DskipTests",
-      "name": "Java_Starter_Kit:build",
-      "type": "mvn",
-      "attributes": {
-        "goal": "Build",
-        "previewUrl": ""
-      }
-    },
-    {
-      "commandLine": "$TOMCAT_HOME/bin/catalina.sh stop",
-      "name": "Java_Starter_Kit:stop tomcat",
-      "type": "custom",
-      "attributes": {
-        "goal": "Run",
-        "previewUrl": ""
-      }
-    },
-    {
-      "commandLine": "mvn -f ${current.project.path} clean install -DskipTests \ncp ${current.project.path}/target/*.war $TOMCAT_HOME/webapps/ROOT.war \n$TOMCAT_HOME/bin/catalina.sh run 2>&1",
-      "name": "Java_Starter_Kit:build and deploy",
-      "type": "mvn",
-      "attributes": {
-        "goal": "Run",
-        "previewUrl": "${server.tomcat8}"
-      }
-    },
-    {
-      "commandLine": "mvn -f ${current.project.path} clean install -DskipTests \ncp ${current.project.path}/target/*.war $TOMCAT_HOME/webapps/ROOT.war \n$TOMCAT_HOME/bin/catalina.sh jpda run 2>&1",
-      "name": "Java_Starter_Kit:debug",
-      "type": "mvn",
-      "attributes": {
-        "goal": "Debug",
-        "previewUrl": "${server.tomcat8}"
-      }
-    }
-  ],
-  "defaultEnv": "default",
-  "name": "${APP_USER}"
+	"environments": {
+		"default": {
+			"recipe": {
+				"contentType": "application/x-yaml",
+				"type": "compose",
+				"content": "services:\n db:\n  image: eclipse/mysql\n  environment:\n   MYSQL_ROOT_PASSWORD: password\n   MYSQL_DATABASE: petclinic\n   MYSQL_USER: petclinic\n   MYSQL_PASSWORD: password\n  mem_limit: 1073741824\n dev-machine:\n  image: eclipse/ubuntu_jdk8\n  mem_limit: 2147483648\n  depends_on:\n   - db\n"
+			},
+			"machines": {
+				"db": {
+					"env": {
+						
+					},
+					"servers": {
+						"mysql": {
+							"attributes": {
+								
+							},
+							"protocol": "tcp",
+							"port": "3306"
+						}
+					},
+					"volumes": {
+						
+					},
+					"installers": [
+						"org.eclipse.che.exec",
+						"org.eclipse.che.terminal"
+					],
+					"attributes": {
+						"memoryLimitBytes": "1073741824"
+					}
+				},
+				"dev-machine": {
+					"env": {
+						
+					},
+					"servers": {
+						"tomcat8-debug": {
+							"attributes": {
+								
+							},
+							"protocol": "http",
+							"port": "8000"
+						},
+						"codeserver": {
+							"attributes": {
+								
+							},
+							"protocol": "http",
+							"port": "9876"
+						},
+						"tomcat8": {
+							"attributes": {
+								
+							},
+							"protocol": "http",
+							"port": "8080"
+						}
+					},
+					"volumes": {
+						
+					},
+					"installers": [
+						"org.eclipse.che.exec",
+						"org.eclipse.che.terminal",
+						"org.eclipse.che.ws-agent"
+					],
+					"attributes": {
+						"memoryLimitBytes": "2147483648"
+					}
+				}
+			}
+		}
+	},
+	"projects": [
+		{
+			"source": {
+				"location": "https://github.com/jswordfish/regex_jdbc.git",
+				"type": "git",
+				"parameters": {
+					"branch": "master"
+				}
+			},
+			"description": "${APP_DESC}",
+			"mixins": [],
+			"problems": [],
+			"name": "${APP_USER}",
+			"type": "maven",
+			"path": "/${APP_USER}",
+			"attributes": {
+				"language": [
+					"java"
+				]
+			}
+		}
+	],
+	"commands": [
+		{
+			"commandLine": "mysql -u $MYSQL_USER -p$MYSQL_PASSWORD -e 'show databases;'",
+			"name": "show databases",
+			"type": "custom",
+			"attributes": {
+				
+			}
+		},
+		{
+			"commandLine": "mvn -f ${current.project.path} clean install -DskipTests",
+			"name": "Java_Starter_Kit:build",
+			"type": "mvn",
+			"attributes": {
+				"goal": "Build",
+				"previewUrl": ""
+			}
+		},
+		{
+			"commandLine": "$TOMCAT_HOME/bin/catalina.sh stop",
+			"name": "Java_Starter_Kit:stop tomcat",
+			"type": "custom",
+			"attributes": {
+				"goal": "Run",
+				"previewUrl": ""
+			}
+		},
+		{
+			"commandLine": "mvn -f ${current.project.path} clean install -DskipTests \ncp ${current.project.path}/target/*.war $TOMCAT_HOME/webapps/ROOT.war \n$TOMCAT_HOME/bin/catalina.sh run 2>&1",
+			"name": "Java_Starter_Kit:build and deploy",
+			"type": "mvn",
+			"attributes": {
+				"goal": "Run",
+				"previewUrl": "${server.tomcat8}"
+			}
+		},
+		{
+			"commandLine": "mvn -f ${current.project.path} clean install -DskipTests \ncp ${current.project.path}/target/*.war $TOMCAT_HOME/webapps/ROOT.war \n$TOMCAT_HOME/bin/catalina.sh jpda run 2>&1",
+			"name": "Java_Starter_Kit:debug",
+			"type": "mvn",
+			"attributes": {
+				"goal": "Debug",
+				"previewUrl": "${server.tomcat8}"
+			}
+		}
+	],
+	"defaultEnv": "default",
+	"name": "${APP_USER}"
 }

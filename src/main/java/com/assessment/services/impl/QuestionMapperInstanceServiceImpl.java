@@ -16,30 +16,28 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.assessment.data.QuestionMapperInstance;
 import com.assessment.repositories.QuestionMapperInstanceRepository;
+import com.assessment.repositories.QuestionMapperRepository;
 import com.assessment.services.QuestionMapperInstanceService;
 
 @Service
 @Transactional
-public class QuestionMapperInstanceServiceImpl implements
-		QuestionMapperInstanceService {
+public class QuestionMapperInstanceServiceImpl implements QuestionMapperInstanceService {
 
 	@Autowired
 	QuestionMapperInstanceRepository questionMapperInstanceRepository;
-	
-	
-	
+
 	@Autowired
 	EntityManagerFactory emf;
-	
-	public List<QuestionMapperInstance> getInstances(String qualifier1, String companyId){
+
+	public List<QuestionMapperInstance> getInstances(String qualifier1, String companyId) {
 		EntityManager entityManager = emf.createEntityManager();
-		Query q = entityManager.createNativeQuery("select * from QuestionMapperInstance questionma0_  join QuestionMapper questionma1_  join Question question2_ where questionma0_.questionMapper_id=questionma1_.id and questionma1_.question_id=question2_.id and question2_.qualifier1=:qualifier1 AND question2_.companyId=:companyId", QuestionMapperInstance.class);
+		Query q = entityManager.createNativeQuery(
+				"select * from QuestionMapperInstance questionma0_  join QuestionMapper questionma1_  join Question question2_ where questionma0_.questionMapper_id=questionma1_.id and questionma1_.question_id=question2_.id and question2_.qualifier1=:qualifier1 AND question2_.companyId=:companyId",
+				QuestionMapperInstance.class);
 		q.setParameter("qualifier1", qualifier1);
 		q.setParameter("companyId", companyId);
 		List<QuestionMapperInstance> list = q.getResultList();
-		
-		
-		
+
 		return list;
 //		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
 //		CriteriaQuery<QuestionMapperInstance> query = builder.createQuery(QuestionMapperInstance.class);
@@ -54,10 +52,12 @@ public class QuestionMapperInstanceServiceImpl implements
 //		List<QuestionMapperInstance> list = queryObj.getResultList();
 //		return list;
 	}
-	
-	public List<QuestionMapperInstance> getInstances(String qualifier1, String qualifier2, String companyId){
+
+	public List<QuestionMapperInstance> getInstances(String qualifier1, String qualifier2, String companyId) {
 		EntityManager entityManager = emf.createEntityManager();
-		Query q = entityManager.createNativeQuery("select * from QuestionMapperInstance questionma0_  join QuestionMapper questionma1_  join Question question2_ where questionma0_.questionMapper_id=questionma1_.id and questionma1_.question_id=question2_.id and question2_.qualifier1=:qualifier1 AND question2_.companyId=:companyId AND question2_.qualifier2=:qualifier2", QuestionMapperInstance.class);
+		Query q = entityManager.createNativeQuery(
+				"select * from QuestionMapperInstance questionma0_  join QuestionMapper questionma1_  join Question question2_ where questionma0_.questionMapper_id=questionma1_.id and questionma1_.question_id=question2_.id and question2_.qualifier1=:qualifier1 AND question2_.companyId=:companyId AND question2_.qualifier2=:qualifier2",
+				QuestionMapperInstance.class);
 		q.setParameter("qualifier1", qualifier1);
 		q.setParameter("qualifier2", qualifier2);
 		q.setParameter("companyId", companyId);
@@ -67,34 +67,34 @@ public class QuestionMapperInstanceServiceImpl implements
 	}
 
 	@Override
-	public QuestionMapperInstance findUniqueQuestionMapperInstanceForUser(
-			String questionText, String testName, String sectionName,
-			String user, String companyId) {
-		return questionMapperInstanceRepository
-				.findUniqueQuestionMapperInstanceForUser(questionText,
-						testName, sectionName, user, companyId);
+	public QuestionMapperInstance findUniqueQuestionMapperInstanceForUser(String questionText, String testName,
+			String sectionName, String user, String companyId) {
+		return questionMapperInstanceRepository.findUniqueQuestionMapperInstanceForUser(questionText, testName,
+				sectionName, user, companyId);
 	}
 
 	@Override
-	public List<QuestionMapperInstance> findQuestionMapperInstancesForUserForTest(
-			String testName, String user, String companyId) {
-		return questionMapperInstanceRepository
-				.findQuestionMapperInstancesForUserForTest(testName, user,
-						companyId);
+	public List<QuestionMapperInstance> findQuestionMapperInstancesForUserForTest(String testName, String user,
+			String companyId) {
+		return questionMapperInstanceRepository.findQuestionMapperInstancesForUserForTest(testName, user,
+				companyId);
 	}
 
 	@Override
 	public boolean canEditTest(String sectionName, String testName, String companyId) {
 		// TODO Auto-generated method stub
-		List<QuestionMapperInstance> list = questionMapperInstanceRepository.findQuestionMapperInstancesForTestAndSection(sectionName, testName, companyId);
-		return list.size() > 0 ? false:true;
+		List<QuestionMapperInstance> list = questionMapperInstanceRepository
+				.findQuestionMapperInstancesForTestAndSection(sectionName, testName, companyId);
+		return list.size() > 0 ? false : true;
 	}
 
 	@Override
 	public List<QuestionMapperInstance> getInstances(String qualifier1, String qualifier2, String qualifier3,
 			String companyId) {
 		EntityManager entityManager = emf.createEntityManager();
-		Query q = entityManager.createNativeQuery("select * from QuestionMapperInstance questionma0_  join QuestionMapper questionma1_  join Question question2_ where questionma0_.questionMapper_id=questionma1_.id and questionma1_.question_id=question2_.id and question2_.qualifier1=:qualifier1 AND question2_.companyId=:companyId AND question2_.qualifier2=:qualifier2 AND question2_.qualifier3=:qualifier3", QuestionMapperInstance.class);
+		Query q = entityManager.createNativeQuery(
+				"select * from QuestionMapperInstance questionma0_  join QuestionMapper questionma1_  join Question question2_ where questionma0_.questionMapper_id=questionma1_.id and questionma1_.question_id=question2_.id and question2_.qualifier1=:qualifier1 AND question2_.companyId=:companyId AND question2_.qualifier2=:qualifier2 AND question2_.qualifier3=:qualifier3",
+				QuestionMapperInstance.class);
 		q.setParameter("qualifier1", qualifier1);
 		q.setParameter("qualifier2", qualifier2);
 		q.setParameter("qualifier3", qualifier3);
@@ -107,7 +107,9 @@ public class QuestionMapperInstanceServiceImpl implements
 	public List<QuestionMapperInstance> getInstances(String qualifier1, String qualifier2, String qualifier3,
 			String qualifier4, String companyId) {
 		EntityManager entityManager = emf.createEntityManager();
-		Query q = entityManager.createNativeQuery("select * from QuestionMapperInstance questionma0_  join QuestionMapper questionma1_  join Question question2_ where questionma0_.questionMapper_id=questionma1_.id and questionma1_.question_id=question2_.id and question2_.qualifier1=:qualifier1 AND question2_.companyId=:companyId AND question2_.qualifier2=:qualifier2 AND question2_.qualifier3=:qualifier3 AND question2_.qualifier4=:qualifier4", QuestionMapperInstance.class);
+		Query q = entityManager.createNativeQuery(
+				"select * from QuestionMapperInstance questionma0_  join QuestionMapper questionma1_  join Question question2_ where questionma0_.questionMapper_id=questionma1_.id and questionma1_.question_id=question2_.id and question2_.qualifier1=:qualifier1 AND question2_.companyId=:companyId AND question2_.qualifier2=:qualifier2 AND question2_.qualifier3=:qualifier3 AND question2_.qualifier4=:qualifier4",
+				QuestionMapperInstance.class);
 		q.setParameter("qualifier1", qualifier1);
 		q.setParameter("qualifier2", qualifier2);
 		q.setParameter("qualifier3", qualifier3);
@@ -121,7 +123,9 @@ public class QuestionMapperInstanceServiceImpl implements
 	public List<QuestionMapperInstance> getInstances(String qualifier1, String qualifier2, String qualifier3,
 			String qualifier4, String qualifier5, String companyId) {
 		EntityManager entityManager = emf.createEntityManager();
-		Query q = entityManager.createNativeQuery("select * from QuestionMapperInstance questionma0_  join QuestionMapper questionma1_  join Question question2_ where questionma0_.questionMapper_id=questionma1_.id and questionma1_.question_id=question2_.id and question2_.qualifier1=:qualifier1 AND question2_.companyId=:companyId AND question2_.qualifier2=:qualifier2 AND question2_.qualifier3=:qualifier3 AND question2_.qualifier4=:qualifier4 AND question2_.qualifier5=:qualifier5", QuestionMapperInstance.class);
+		Query q = entityManager.createNativeQuery(
+				"select * from QuestionMapperInstance questionma0_  join QuestionMapper questionma1_  join Question question2_ where questionma0_.questionMapper_id=questionma1_.id and questionma1_.question_id=question2_.id and question2_.qualifier1=:qualifier1 AND question2_.companyId=:companyId AND question2_.qualifier2=:qualifier2 AND question2_.qualifier3=:qualifier3 AND question2_.qualifier4=:qualifier4 AND question2_.qualifier5=:qualifier5",
+				QuestionMapperInstance.class);
 		q.setParameter("qualifier1", qualifier1);
 		q.setParameter("qualifier2", qualifier2);
 		q.setParameter("qualifier3", qualifier3);
@@ -132,12 +136,12 @@ public class QuestionMapperInstanceServiceImpl implements
 		return list;
 	}
 
-	
-
 	@Override
 	public List<QuestionMapperInstance> getInstancesOR(String qualifier, String companyId) {
 		EntityManager entityManager = emf.createEntityManager();
-		Query q = entityManager.createNativeQuery("select * from QuestionMapperInstance questionma0_  join QuestionMapper questionma1_  join Question question2_ where questionma0_.questionMapper_id=questionma1_.id and questionma1_.question_id=question2_.id  AND question2_.companyId=:companyId AND ( question2_.qualifier1=:qualifier OR question2_.qualifier2=:qualifier OR question2_.qualifier3=:qualifier OR question2_.qualifier4=:qualifier OR question2_.qualifier5=:qualifier) ORDER BY questionma0_.createDate desc", QuestionMapperInstance.class);
+		Query q = entityManager.createNativeQuery(
+				"select * from QuestionMapperInstance questionma0_  join QuestionMapper questionma1_  join Question question2_ where questionma0_.questionMapper_id=questionma1_.id and questionma1_.question_id=question2_.id  AND question2_.companyId=:companyId AND ( question2_.qualifier1=:qualifier OR question2_.qualifier2=:qualifier OR question2_.qualifier3=:qualifier OR question2_.qualifier4=:qualifier OR question2_.qualifier5=:qualifier) ORDER BY questionma0_.createDate desc",
+				QuestionMapperInstance.class);
 		q.setParameter("qualifier", qualifier);
 		q.setParameter("companyId", companyId);
 		List<QuestionMapperInstance> list = q.getResultList();
@@ -160,6 +164,43 @@ public class QuestionMapperInstanceServiceImpl implements
 	public List<QuestionMapperInstance> findFullStackQuestionMapperInstancesForJavaScript(String companyId) {
 		// TODO Auto-generated method stub
 		return questionMapperInstanceRepository.findFullStackQuestionMapperInstancesForJavaScript(companyId);
+	}
+
+	@Override
+	public List<QuestionMapperInstance> findQuestionMapperInstancesForUserForCourseContext(String courseContext,
+			String user, String companyId) {
+		// TODO Auto-generated method stub
+		return questionMapperInstanceRepository
+				.findQuestionMapperInstancesForUserForCourseContext(courseContext, user, companyId);
+	}
+
+	@Override
+	public List<String> findQuestionMapperInstancesForUserLastAttemptForCourseContext(String courseContext,
+			String user, String companyId) {
+		// TODO Auto-generated method stub
+		return questionMapperInstanceRepository.findUniqueUsersForCourseContext(courseContext, user, companyId);
+	}
+
+	@Override
+	public List<String> findUniqueTestsForCourseContext(String courseContext, String user, String companyId) {
+		// TODO Auto-generated method stub
+		return questionMapperInstanceRepository.findUniqueTestsForCourseContext(courseContext, user, companyId);
+	}
+
+	@Override
+	public List<String> findUniqueUsersForCourseContextAndTest(String testName, String courseContext, String user,
+			String companyId) {
+		// TODO Auto-generated method stub
+		return questionMapperInstanceRepository.findUniqueUsersForCourseContextAndTest(testName, courseContext,
+				user, companyId);
+	}
+
+	@Override
+	public List<QuestionMapperInstance> findQuestionMapperInstancesForUserForCourseContextAndTest(String testName,
+			String courseContext, String user, String companyId) {
+		// TODO Auto-generated method stub
+		return questionMapperInstanceRepository.findQuestionMapperInstancesForUserForCourseContextAndTest(
+				testName, courseContext, user, companyId);
 	}
 
 }

@@ -1,65 +1,73 @@
 package com.assessment.common;
 
 public class PropertyConfig {
-	
+
 	String baseUrl;
-	
+
 	String hostName;
-	
+
 	String sendFrom;
-	
+
 	String sendFromName;
-	
+
 	String sendFromPassword;
-	
+
 	String smtpPort;
-	
+
 	String testLinkHtmlLocation;
-	
+
 	String testLinkHtml_Generic_Location;
-	
+
 	String resultLinkHtmlLocation;
-	
+
 	String screenShotFolder;
-	
+
 	String defaultReferenceConfigFileLocation;
-	
+
 	String tenantsConfigLocation;
-	
+
 	String tomcatDeployLocation;
-	
+
 	String remoteBaseUrl;
 
 	String pmdServerBaseUrl = "";
-	
+
 	String fileServerLocation;
-	
+
 	String fileServerWebUrl;
-	
+
 	String fullStackCodeLocation = "/opt/eclipse_che/instance/data/workspaces";
-	
+
 	String codeQualityServerLink = "http://13.233.2.97:9000/dashboard?id=";
-	
+
 	String codeQualityEmailTemplateLocation;
-	
+
 	/**
 	 * Java projects
 	 */
 	String sonarAnalysisFileLocation;
-	
+
+	public String getFullStackWorkspaceFolder() {
+		return fullStackWorkspaceFolder;
+	}
+
+	public void setFullStackWorkspaceFolder(String fullStackWorkspaceFolder) {
+		this.fullStackWorkspaceFolder = fullStackWorkspaceFolder;
+	}
+
 	/**
 	 * PhP projects
 	 */
 	String sonalAnalysisFilePHPLocation;
-	
+
 	String sonarAnalysisFileAngularLocation;
-	
+
 	String sonarAnalysisFileDotNetLocation;
-	
+
 	String fullStackReviewTemplate;
-	
-	
-	
+
+	String fullStackWorkspaceFolder;
+
 	public String getBaseUrl() {
 		return baseUrl;
 	}
@@ -180,7 +188,6 @@ public class PropertyConfig {
 		this.testLinkHtml_Generic_Location = testLinkHtml_Generic_Location;
 	}
 
-	
 	public String getFileServerLocation() {
 		return fileServerLocation;
 	}
@@ -188,8 +195,6 @@ public class PropertyConfig {
 	public void setFileServerLocation(String fileServerLocation) {
 		this.fileServerLocation = fileServerLocation;
 	}
-
-	
 
 	public String getFileServerWebUrl() {
 		return fileServerWebUrl;
@@ -262,9 +267,5 @@ public class PropertyConfig {
 	public void setSonarAnalysisFileDotNetLocation(String sonarAnalysisFileDotNetLocation) {
 		this.sonarAnalysisFileDotNetLocation = sonarAnalysisFileDotNetLocation;
 	}
-
-	
-	
-	
 
 }

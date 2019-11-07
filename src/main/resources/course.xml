@@ -1,0 +1,21 @@
+<workbook>
+	<worksheet name="course">
+		<section startRow="0" endRow="0" />
+		<loop startRow="1" endRow="1" items="result" var="ques"
+			varType="com.test.excel.CourseDto">
+			<section startRow="1" endRow="1">
+				<mapping row="1" col="0">ques.learningPath</mapping>
+				<mapping row="1" col="1">ques.courseName</mapping>
+				<mapping row="1" col="2">ques.imageUrl</mapping>
+				<mapping row="1" col="3">ques.module</mapping>
+ 				<mapping row="1" col="4">ques.link</mapping>
+				 
+			</section>
+			<loopbreakcondition>
+				<rowcheck offset="0">
+					<cellcheck offset="0">End Rows:</cellcheck>
+				</rowcheck>
+			</loopbreakcondition>
+		</loop>
+	</worksheet>
+</workbook>

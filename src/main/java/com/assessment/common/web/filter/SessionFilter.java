@@ -10,10 +10,8 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.assessment.data.User;
 
@@ -30,10 +28,9 @@ public class SessionFilter implements Filter {
 	}
 
 	@Override
-	public void doFilter(ServletRequest request, 
-               ServletResponse response, FilterChain chain)
-		throws IOException, ServletException {
-		
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+			throws IOException, ServletException {
+
 //		HttpSession session = ((HttpServletRequest) request).getSession();
 //		if (request.getParameter("JSESSIONID") != null) {
 //		    Cookie userCookie = new Cookie("JSESSIONID", request.getParameter("JSESSIONID"));
@@ -45,51 +42,50 @@ public class SessionFilter implements Filter {
 //		}
 		System.out.println("123 ");
 		try {
-			String page = ((HttpServletRequest)request).getRequestURI();
-			System.out.println("page is "+page);
-			
-			
-			
-			if(page.endsWith("/hackathon")){
+			String page = ((HttpServletRequest) request).getRequestURI();
+			System.out.println("page is " + page);
+
+			if (page.endsWith("/hackathon") || page.endsWith("multifileresults")
+					|| page.endsWith("showComprehensiveReportForCourse")) {
 				chain.doFilter(request, response);
-			}
-			
-			if(page.endsWith("/findLevel1Qs") || page.endsWith("/findLevel2Qs")){
+			} else if (page.endsWith("/findLevel1Qs") || page.endsWith("/findLevel2Qs")) {
 				chain.doFilter(request, response);
-			}
-			
-			if(page.endsWith("/searchQsWs") || page.endsWith("/init") ||  page.endsWith("/validateotp") || page.endsWith("/savenewpassword") || page.endsWith("/getotp") || page.endsWith("/login") || page.endsWith("/authenticate") || page.endsWith("publicTest") || page.contains("setUpTenant") || page.contains("downloadUserSessionReportsForTest")) {
+			} else if (page.endsWith("/searchQsWs") || page.endsWith("/init")
+					|| page.endsWith("/validateotp") || page.endsWith("/savenewpassword")
+					|| page.endsWith("/getotp") || page.endsWith("/login")
+					|| page.endsWith("/authenticate") || page.endsWith("publicTest")
+					|| page.contains("setUpTenant")
+					|| page.contains("downloadUserSessionReportsForTest")) {
 				chain.doFilter(request, response);
-			}
-			else if(page.endsWith("/testsByTag") || page.endsWith("/recommendedSkillsByTest") || page.endsWith("lmsadmin") || page.endsWith("getAssessmentURLForLMSLearner") || page.endsWith("getRecommendationsForTestForLmS")){
+			} else if (page.endsWith("/testsByTag") || page.endsWith("/recommendedSkillsByTest")
+					|| page.endsWith("lmsadmin") || page.endsWith("getAssessmentURLForLMSLearner")
+					|| page.endsWith("getRecommendationsForTestForLmS")) {
 				chain.doFilter(request, response);
-			}
-			else if(page.contains("scripts_login")  || page.contains("images") || page.contains("css") || page.contains("scripts") || page.contains("fonts") || page.contains("html") || page.contains("startTestSession")){
+			} else if (page.contains("scripts_login") || page.contains("images") || page.contains("css")
+					|| page.contains("scripts") || page.contains("fonts") || page.contains("html")
+					|| page.contains("startTestSession")) {
 				chain.doFilter(request, response);
+			} else {
+				User user = (User) ((HttpServletRequest) request).getSession().getAttribute("user");
+				if (user == null) {
+					((HttpServletResponse) response).sendRedirect("login");
+				} else {
+					chain.doFilter(request, response);
+				}
+
 			}
-			else {
-				 User user = (User) ((HttpServletRequest)request).getSession().getAttribute("user");
-				 	if(user == null) {
-				 		((HttpServletResponse)response).sendRedirect("login");
-				 	}
-				 	else {
-				 		chain.doFilter(request, response);
-				 	}
-				
-			}
-			
+
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			//((HttpServletResponse)response).sendRedirect("login");
+			// ((HttpServletResponse)response).sendRedirect("login");
 			StringWriter sw = new StringWriter();
 			PrintWriter pw = new PrintWriter(sw);
 			ex.printStackTrace(pw);
 			String sStackTrace = sw.toString(); // stack trace as a string
-			((HttpServletRequest)request).getSession().setAttribute("errorStack", sStackTrace);
-			((HttpServletResponse)response).sendRedirect("problem");
+			((HttpServletRequest) request).getSession().setAttribute("errorStack", sStackTrace);
+			((HttpServletResponse) response).sendRedirect("problem");
 		}
 
 	}
 
 }
-
