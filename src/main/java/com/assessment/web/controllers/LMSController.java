@@ -29,6 +29,7 @@ import com.assessment.services.CourseModuleService;
 import com.assessment.services.CourseService;
 import com.assessment.services.EnrollmentService;
 import com.assessment.services.LearningPathService;
+import com.assessment.services.TestService;
 import com.assessment.web.dto.LMSLearnerDashboardDTO;
 
 @Controller
@@ -50,6 +51,12 @@ public class LMSController {
 	
 	@Autowired
 	LearningPathRepository pathRep;
+	
+	@Autowired
+	TestService testService;
+	
+	@Autowired
+	LMSController lmsController;
 	
 	
 	@RequestMapping(value = "/learnerDashboard", method = RequestMethod.GET)
@@ -138,6 +145,21 @@ public class LMSController {
 		return "OK";
 	}
 	
+	@RequestMapping(value = "/goToLearningPath", method = RequestMethod.GET)
+	public ModelAndView goToLearningPath(@RequestParam Long lpid, HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView model = new ModelAndView("learner_learningPath");
+		User user = (User) request.getSession().getAttribute("user");
+		LearningPath learningPath = pathRep.findById(lpid).get();
+		model.addObject("path", learningPath);
+		return model;
+	}
+	
+	@RequestMapping(value = "/learnerHome", method = RequestMethod.GET)
+	public ModelAndView learnerHome(HttpServletRequest request, HttpServletResponse response){
+		User user = (User) request.getSession().getAttribute("user");
+		return lmsController.goToLearnerDashboard(user.getEmail(), request, response);
+	}
+	
 	
 	@RequestMapping(value = "/courseModules", method = RequestMethod.GET)
 	@ResponseBody
@@ -167,6 +189,10 @@ public class LMSController {
 					"					<h5>${module.name}</h5>\r\n" + 
 				//	"					<p>Resource Type - ${module.resourceType}</p>\r\n" + 
 					"				    </div>\r\n" + 
+					"  <div class=\"lastvisit\"> \r\n"+
+                    "   <a href=\"${TEST_URL}\" target=\"_blank\"><img src=\"images/icon-self1.png\"></a>\r\n"+
+                    "</div>\r\n"+
+					//"<a href=\"${TEST_URL}\" target=\"_blank\">Test Yourself</a>" +
 					"				   \r\n" + 	
 					"				</div>";
 			
@@ -180,6 +206,67 @@ public class LMSController {
 				String mod = block.replace("${module.name}", module.getModuleName());
 				mod = mod.replace("${moduleVideo}", module.getContentLink());
 				//mod = mod.replace("${moduleImage}", "images/play1.png");
+				Long testId = module.getTestId();
+				String testUrl = testService.getTestUrlForUser(user.getEmail(), testId, user.getCompanyId());
+				mod = mod.replace("${TEST_URL}", testUrl);
+				res += mod+"\n";
+			}
+			//return mav;
+			res+= "</div>";
+			return res;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw e;
+		} 
+		
+	}
+	
+	@RequestMapping(value = "/onlyshowcourseModules", method = RequestMethod.GET)
+	@ResponseBody
+	public String onlyshowcourseModules(@RequestParam(name = "cid", required = true) Long cid,HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) throws Exception {
+		try {
+			Course course = courseRep.findById(cid).get();
+			System.out.println("course object "+course);
+			String res = "";
+			
+			String init = " <label style=\"float: left;width: 100%;\">Modules for the course - ${coursename}</label>\r\n" + 
+					"	\r\n" + 
+					"                        <div class=\"corecontent\">\r\n" + 
+					"                            <label>Online content</label>\r\n" + 
+					"                            <label>${course.hours} minutes</label>\r\n" + 
+					"                        </div>";
+			
+			String base = "<p style=\"float: left;width: 100%;\">${course.overView} </p>";
+			base = base.replace("${course.overView}", course.getCourseDesc() == null ? "Overview NA":course.getCourseDesc());
+			init = init.replace("${coursename}", course.getCourseName());
+			init = init.replace("${course.hours}", course.getDuration()==null?"NA":""+course.getDuration());
+			
+			String block = "<div class=\"courseitem\">\r\n" + 
+					"			<div class=\"itemname\">\r\n" + 
+					"					<h5>${module.name}</h5>\r\n" + 
+				//	"					<p>Resource Type - ${module.resourceType}</p>\r\n" + 
+					"			</div>\r\n" + 
+					"  <div class=\"lastvisit\"> \r\n"+
+                    "   <a href=\"${TEST_URL}\" target=\"_blank\"><img src=\"images/icon-self1.png\"></a>\r\n"+
+                    "</div>\r\n"+
+					//"<a href=\"${TEST_URL}\" target=\"_blank\">Test Yourself</a>" +
+					"				   \r\n" + 	
+					"				</div>";
+			
+			//res += base +"\n"+ init +"\n";
+			String newClass = "<div class=\"innerpopuppart\"> \n";
+			User user = (User) request.getSession().getAttribute("user");
+			List<CourseModule> courseModules = courseModuleService.findModulesByCourseName(course.getCourseName(), user.getCompanyId());
+			
+			res += base +"\n"+ init +"\n"+newClass;
+			for(CourseModule module : courseModules) {
+				String mod = block.replace("${module.name}", module.getModuleName());
+				mod = mod.replace("${moduleVideo}", module.getContentLink());
+				//mod = mod.replace("${moduleImage}", "images/play1.png");
+				Long testId = module.getTestId();
+				String testUrl = testService.getTestUrlForUser(user.getEmail(), testId, user.getCompanyId());
+				mod = mod.replace("${TEST_URL}", testUrl);
 				res += mod+"\n";
 			}
 			//return mav;

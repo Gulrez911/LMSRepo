@@ -12,7 +12,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 
 public class EclipseCheService {
 //String url = "http://13.233.2.169:8080/api/workspace?start-after-create=false&namespace=che";
-	String url = "http://165.22.223.25:8080/api/workspace?start-after-create=false&namespace=che";
+	String url = "http://165.22.223.25:8080/api/workspace?start-after-create=true&namespace=che";
 	//http://52.66.22.44:8080
 	//String url = "http://52.66.22.44:8080/api/workspace?start-after-create=false&namespace=che";
 	

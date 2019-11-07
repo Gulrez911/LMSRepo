@@ -132,6 +132,7 @@ public class StudentController {
 	@Autowired
 	SQLCodingAutomationService automationService;
 	
+	
 	Logger logger = LoggerFactory.getLogger(StudentController.class);
 	
 	public String getUserAfterCheckingNoOfAttempts(String user, String companyId, Test test, HttpServletRequest request){
@@ -1239,6 +1240,24 @@ questionInstanceDto.getQuestionMapperInstance().setTestCaseInvalidData(questionI
 	 		json = json.replace("${APP_DESC}", "Skeleton Code............................Project\n\n\n.........");
 	 		EclipseCheService eclipseCheService = new EclipseCheService();
 	 		WorkspaceResponse workspaceResponse = eclipseCheService.createWorkSpace(json);
+	 		
+	 		/**
+	 		 * Remove the problem.txt input (mappint between testcase and expected result file) from parent location to 1 level above
+	 		 */
+	 		 try {
+				String baseCodePath = propertyConfig.getFullStackCodeLocation();
+				 String fin = workspaceResponse.getLinks().getIde() != null ? (workspaceResponse.getLinks().getIde().substring(workspaceResponse.getLinks().getIde().lastIndexOf("/")+1, workspaceResponse.getLinks().getIde().length())):"";
+				 System.out.println("fin is "+fin);
+				 String path = baseCodePath + File.separator + workspaceResponse.getId() + File.separator + fin;
+				 path += File.separator + "problem.properties";
+				 System.out.println("problem file location "+path);
+				 System.out.println("desst folder loc "+baseCodePath + File.separator + workspaceResponse.getId() + File.separator);
+				 FileUtils.moveFile(new File(path), new File(baseCodePath + File.separator + workspaceResponse.getId() + File.separator));
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				logger.error("can not move problem file", e);
+				System.out.println("can not move problem file"+e.getClass());
+			}
 	 		//return workspaceResponse.getLinks().getIde();
 	 		return workspaceResponse;
 	 }

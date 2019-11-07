@@ -232,34 +232,35 @@ UserService userService;
 		 String path = baseCodePath + File.separator + workspaceId + File.separator + fin;
 		 path += File.separator + "output.txt";
 		 System.out.println(" path is "+path);
-		 TestCasesMetric casesMetric = new TestCasesMetric();
-		 File output = new File(path);
-		 if(!output.exists()){
-			 System.out.println(path+" does not exist");
-			 casesMetric.setAvailable(false);
-			 casesMetric.setProblemStatement(questionMapperInstance.getQuestionMapper().getQuestion().getQuestionText());
-			 casesMetric.setCodeQualityLink(codeQualityUrl);
-			 casesMetric.setProjDocLink(questionMapperInstance.getUsageDocumentUrl());
-			 return casesMetric;
-		 }
-		 else{
-			 Properties props = new Properties();
-			 FileInputStream fis = new FileInputStream(output);
-			 props.load(fis);
-			 fis.close();
-			 int total = Integer.parseInt(((String)props.get("Total")).trim());
-			 int failed = Integer.parseInt(((String)props.get("Failed")).trim());
-			 int ignored = Integer.parseInt(((String)props.get("Ignore")).trim());
-			 casesMetric.setNoOfTestCases(total);
-			 casesMetric.setTestCasesPassed(total - (failed + ignored));
-			 casesMetric.setProblemStatement(questionMapperInstance.getQuestionMapper().getQuestion().getQuestionText());
-			 casesMetric.setCodeQualityLink(codeQualityUrl);
-			 casesMetric.setProjDocLink(questionMapperInstance.getUsageDocumentUrl());
-			 questionMapperInstance.setNoOfTestCases(total);
-			 questionMapperInstance.setNoOfTestCasesPassed(total - (failed + ignored));
-			 questionMapperInstanceRep.save(questionMapperInstance);
-			 return casesMetric;
-		 }
+		 TestCasesMetric casesMetric = processResults(questionMapperInstance, (baseCodePath + File.separator + workspaceId + File.separator + fin), codeQualityUrl);
+		 return casesMetric;
+//		 File output = new File(path);
+//		 if(!output.exists()){
+//			 System.out.println(path+" does not exist");
+//			 casesMetric.setAvailable(false);
+//			 casesMetric.setProblemStatement(questionMapperInstance.getQuestionMapper().getQuestion().getQuestionText());
+//			 casesMetric.setCodeQualityLink(codeQualityUrl);
+//			 casesMetric.setProjDocLink(questionMapperInstance.getUsageDocumentUrl());
+//			 return casesMetric;
+//		 }
+//		 else{
+//			 Properties props = new Properties();
+//			 FileInputStream fis = new FileInputStream(output);
+//			 props.load(fis);
+//			 fis.close();
+//			 int total = Integer.parseInt(((String)props.get("Total")).trim());
+//			 int failed = Integer.parseInt(((String)props.get("Failed")).trim());
+//			 int ignored = Integer.parseInt(((String)props.get("Ignore")).trim());
+//			 casesMetric.setNoOfTestCases(total);
+//			 casesMetric.setTestCasesPassed(total - (failed + ignored));
+//			 casesMetric.setProblemStatement(questionMapperInstance.getQuestionMapper().getQuestion().getQuestionText());
+//			 casesMetric.setCodeQualityLink(codeQualityUrl);
+//			 casesMetric.setProjDocLink(questionMapperInstance.getUsageDocumentUrl());
+//			 questionMapperInstance.setNoOfTestCases(total);
+//			 questionMapperInstance.setNoOfTestCasesPassed(total - (failed + ignored));
+//			 questionMapperInstanceRep.save(questionMapperInstance);
+//			 return casesMetric;
+//		 }
 //		 if(workspaceId.contains("psk2y2afb3ecogbh")){
 //			 System.out.println("00000000000000000");
 //			 String path = "/root/.che-multiuser/instance/data/workspaces/workspacepsk2y2afb3ecogbh/regex_jdbc";
@@ -417,6 +418,111 @@ UserService userService;
 //		 else{
 //			 return null;
 //		 }
+	 }
+	 
+	 private TestCasesMetric processResults(QuestionMapperInstance questionMapperInstance, String location, String codeQualityUrl) throws IOException{
+		 TestCasesMetric casesMetric = new TestCasesMetric();
+		 String path = location + File.separator + "output.txt";
+		 System.out.println(" path is "+path);
+		
+		 File output = new File(path);
+		 Integer totalTestCases = 0;
+		 Integer totalTestCasesPassed = 0;
+		 Integer totalFunctionalTestCases = 0;
+		 Integer totalFunctionalTestCasesPassed = 0;
+		 Integer totalBoundaryTestCases = 0;
+		 Integer totalBoundaryTestCasedPassed = 0;
+		 Integer totalExceptionTestCases = 0;
+		 Integer totalExceptionTestCasesPassed = 0;
+		 if(!output.exists()){
+			 System.out.println(path+" does not exist");
+			 casesMetric.setAvailable(false);
+			 casesMetric.setProblemStatement(questionMapperInstance.getQuestionMapper().getQuestion().getQuestionText());
+			 casesMetric.setCodeQualityLink(codeQualityUrl);
+			 casesMetric.setProjDocLink(questionMapperInstance.getUsageDocumentUrl());
+			 return casesMetric;
+		 }
+		 else{
+			 Properties props = new Properties();
+			 FileInputStream fis = new FileInputStream(output);
+			 props.load(fis);
+			 fis.close();
+			 int total = Integer.parseInt(((String)props.get("Total")).trim());
+			 int failed = Integer.parseInt(((String)props.get("Failed")).trim());
+			 int ignored = Integer.parseInt(((String)props.get("Ignore")).trim());
+			 totalTestCases += total;
+			 totalFunctionalTestCases = total;
+			 totalFunctionalTestCasesPassed = total - (failed + ignored);
+			 totalTestCasesPassed +=  totalFunctionalTestCasesPassed;
+			 
+			 path = location + File.separator + "output_boundary.txt";
+			 output = new File(path);
+			 props = new Properties();
+			 fis = new FileInputStream(output);
+			 props.load(fis);
+			 fis.close();
+			 total = Integer.parseInt(((String)props.get("Total")).trim());
+			 failed = Integer.parseInt(((String)props.get("Failed")).trim());
+			 ignored = Integer.parseInt(((String)props.get("Ignore")).trim());
+			 totalTestCases += total;
+			 totalBoundaryTestCases = total;
+			 totalBoundaryTestCasedPassed = total - (failed + ignored);
+			 totalTestCasesPassed +=  totalBoundaryTestCasedPassed;
+			 
+			 path = location + File.separator + "output_exception.txt";
+			 output = new File(path);
+			 props = new Properties();
+			 fis = new FileInputStream(output);
+			 props.load(fis);
+			 fis.close();
+			 total = Integer.parseInt(((String)props.get("Total")).trim());
+			 failed = Integer.parseInt(((String)props.get("Failed")).trim());
+			 ignored = Integer.parseInt(((String)props.get("Ignore")).trim());
+			 totalTestCases += total;
+			 totalExceptionTestCases = total;
+			 totalExceptionTestCasesPassed = total - (failed + ignored);
+			 totalTestCasesPassed +=  totalExceptionTestCasesPassed;
+			 System.out.println("total test cases "+totalTestCases);
+			 System.out.println("totalTestCasesPassed "+totalTestCasesPassed);
+			 System.out.println("totalFunctionalTestCases "+totalFunctionalTestCases);
+			 System.out.println("totalFunctionalTestCasesPassed "+totalFunctionalTestCasesPassed);
+			 System.out.println("totalBoundaryTestCases "+totalBoundaryTestCases);
+			 System.out.println("totalBoundaryTestCasedPassed "+totalBoundaryTestCasedPassed);
+			 System.out.println("totalExceptionTestCases "+totalExceptionTestCases);
+			 System.out.println("totalExceptionTestCasesPassed "+totalExceptionTestCasesPassed);
+			
+			
+			 
+			 casesMetric.setNoOfTestCases(totalTestCases);
+			 casesMetric.setTestCasesPassed(totalTestCasesPassed);
+			 casesMetric.setFunctionalTestCases(totalFunctionalTestCases);
+			 casesMetric.setFunctionalTestCasesPassed(totalFunctionalTestCasesPassed);
+			
+			 casesMetric.setBoundaryTestCases(totalBoundaryTestCases);
+			 casesMetric.setBoundaryTestCasesPassed(totalBoundaryTestCasedPassed);
+			 
+			 casesMetric.setExceptionTestCases(totalExceptionTestCases);
+			 casesMetric.setExceptionTestCasesPassed(totalExceptionTestCasesPassed);
+			 
+			 
+			 casesMetric.setProblemStatement(questionMapperInstance.getQuestionMapper().getQuestion().getQuestionText());
+			 casesMetric.setCodeQualityLink(codeQualityUrl);
+			 casesMetric.setProjDocLink(questionMapperInstance.getUsageDocumentUrl());
+			 
+			 questionMapperInstance.setNoOfTestCases(totalTestCases);
+			 questionMapperInstance.setNoOfTestCasesPassed(totalTestCasesPassed);
+			 questionMapperInstance.setFunctionalTestCases(totalFunctionalTestCases);
+			 questionMapperInstance.setFunctionalTestCasesPassed(totalFunctionalTestCasesPassed);
+			
+			 questionMapperInstance.setBoundaryTestCases(totalBoundaryTestCases);
+			 questionMapperInstance.setBoundaryTestCasesPassed(totalBoundaryTestCasedPassed);
+			 
+			 questionMapperInstance.setExceptionTestCases(totalExceptionTestCases);
+			 questionMapperInstance.setExceptionTestCasesPassed(totalExceptionTestCasesPassed);
+			 
+			 questionMapperInstanceRep.save(questionMapperInstance);
+			 return casesMetric;
+		 }
 	 }
 	 
 	 private TestCasesMetric initiateAutomation(String workspaceId, HttpServletRequest request, QuestionMapperInstance questionMapperInstance, String codeQualityUrl) throws IOException{
