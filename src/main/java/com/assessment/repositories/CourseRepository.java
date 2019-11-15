@@ -21,4 +21,7 @@ public interface CourseRepository extends JpaRepository<Course,Long>
 	@Query("SELECT c FROM Course c where c.companyId=:companyId order by c.noOfEnrollemnts DESC")
 	List<Course> getPopularCourses(@Param("companyId") String companyId);
 	
+	List<Course> findByCompanyId(String companyId);
+	
+	Course findBycourseName(String courseName);
 }

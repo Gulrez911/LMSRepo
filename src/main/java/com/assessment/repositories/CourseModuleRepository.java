@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.assessment.data.Course;
 import com.assessment.data.CourseModule;
 
 public interface CourseModuleRepository extends JpaRepository<CourseModule,Long>
@@ -16,6 +17,7 @@ public interface CourseModuleRepository extends JpaRepository<CourseModule,Long>
 	
 	@Query("SELECT c FROM CourseModule c WHERE c.courseName=:courseName and c.companyId=:companyId")
 	List<CourseModule> findModulesByCourseName(@Param("courseName") String courseName, @Param("companyId") String companyId);
-	
+
+	List<CourseModule> findByCompanyId(String companyId);
 	
 }

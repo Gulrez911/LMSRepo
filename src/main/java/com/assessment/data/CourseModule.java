@@ -28,6 +28,16 @@ public class CourseModule extends Base {
 	 * Associated with this module
 	 */
 	Long testId;
+	
+	String moduleDesc;
+
+	public String getModuleDesc() {
+		return moduleDesc;
+	}
+
+	public void setModuleDesc(String moduleDesc) {
+		this.moduleDesc = moduleDesc;
+	}
 
 	public String getModuleName() {
 		return moduleName;

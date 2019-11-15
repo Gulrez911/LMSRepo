@@ -94,7 +94,15 @@ public class QuestionMapperInstance extends Base {
 	Integer noOfTestCases;
 
 	Integer noOfTestCasesPassed;
-
+	
+	Integer functionalTestCases;
+	Integer boundaryTestCases;
+	Integer exceptionTestCases;
+	
+	Integer functionalTestCasesPassed;
+	Integer boundaryTestCasesPassed;
+	Integer exceptionTestCasesPassed;
+	
 	String courseName;
 
 	String moduleName;
@@ -424,4 +432,60 @@ public class QuestionMapperInstance extends Base {
 	public void setLearningPathName(String learningPathName) {
 		this.learningPathName = learningPathName;
 	}
+
+	public Integer getFunctionalTestCases() {
+		return functionalTestCases;
+	}
+
+	public void setFunctionalTestCases(Integer functionalTestCases) {
+		this.functionalTestCases = functionalTestCases;
+	}
+
+	public Integer getBoundaryTestCases() {
+		return boundaryTestCases;
+	}
+
+	public void setBoundaryTestCases(Integer boundaryTestCases) {
+		this.boundaryTestCases = boundaryTestCases;
+	}
+
+	public Integer getExceptionTestCases() {
+		return exceptionTestCases;
+	}
+
+	public void setExceptionTestCases(Integer exceptionTestCases) {
+		this.exceptionTestCases = exceptionTestCases;
+	}
+
+	public Integer getFunctionalTestCasesPassed() {
+		return functionalTestCasesPassed;
+	}
+
+	public void setFunctionalTestCasesPassed(Integer functionalTestCasesPassed) {
+		this.functionalTestCasesPassed = functionalTestCasesPassed;
+	}
+
+	public Integer getBoundaryTestCasesPassed() {
+		return boundaryTestCasesPassed;
+	}
+
+	public void setBoundaryTestCasesPassed(Integer boundaryTestCasesPassed) {
+		this.boundaryTestCasesPassed = boundaryTestCasesPassed;
+	}
+
+	public Integer getExceptionTestCasesPassed() {
+		return exceptionTestCasesPassed;
+	}
+
+	public void setExceptionTestCasesPassed(Integer exceptionTestCasesPassed) {
+		this.exceptionTestCasesPassed = exceptionTestCasesPassed;
+	}
+
+	
+
+	
+	
+	
+	
+	
 }

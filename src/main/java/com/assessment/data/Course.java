@@ -127,7 +127,13 @@ public class Course extends Base{
 	public void setNoOfEnrollemnts(Integer noOfEnrollemnts) {
 		this.noOfEnrollemnts = noOfEnrollemnts;
 	}
-	
-	
 
+
+	@Override
+	public String toString() {
+		return "Course [courseType=" + courseType + ", courseName=" + courseName + ", activeStatus="
+				+ activeStatus + ", imageUrl=" + imageUrl + ", duration=" + duration + ", courseDesc="
+				+ courseDesc + ", searchLabel=" + searchLabel + ", technology=" + technology
+				+ ", noOfEnrollemnts=" + noOfEnrollemnts + "]";
+	}
 }

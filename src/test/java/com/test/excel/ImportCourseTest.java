@@ -5,8 +5,10 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -41,16 +43,15 @@ public class ImportCourseTest {
 	@Test
 	public void testQuery() throws Exception {
 //	public static void main(String[] args) throws Exception {
-		File file2 = ResourceUtils.getFile("C:/Users/gulfa/OneDrive/Desktop/LMS.xlsx");
+		File file2 = ResourceUtils.getFile("C:/Users/gulfa/OneDrive/Desktop/LMS2.xlsx");
 		InputStream stream = new FileInputStream(file2.getPath());
 		System.out.println("stream :	" + stream);
 //		File file = new File("C:/Users/gulfa/OneDrive/Desktop/course.xml");
 		File file = ResourceUtils.getFile("classpath:course.xml");
 		System.out.println("file" + file.getAbsolutePath());
 		List<CourseDto> courses = ImportCourseTest.parseExcelFileToBeans(stream, file);
-
+		List<Course> list = new ArrayList<Course>();
 		for (CourseDto course : courses) {
-
 			System.out.println("List: " + course);
 			Course cs = courseRepository.findByPrimaryKey(course.getCourseName(), "ih");
 			Course cs2 = new Course();
@@ -62,34 +63,30 @@ public class ImportCourseTest {
 				courseRepository.save(cs2);
 				System.out.println("Id: " + cs2.getId());
 			}
-			LearningPath lp = learningPathRepository.findByPrimaryKey(course.getLearningPath(), "ih");
-			LearningPath lp2 = new LearningPath();
-			if (lp == null) {
-				lp2.setCompanyId("IH");
-				lp2.setCompanyName("IIHT");
-				lp2.setName(course.getLearningPath());
-
-				List<Course> lis = new ArrayList<Course>();
-				lis.add(cs2);
-				lp2.setCourses(lis);
-				learningPathRepository.save(lp2);
-				System.out.println("Id: " + lp2.getId());
-			}
+//			LearningPath lp = learningPathRepository.findByPrimaryKey(course.getLearningPath(),"ih");
+//			LearningPath lp2 = new LearningPath();
+//			if (lp == null) {
+//				lp2.setCompanyId("IH");
+//				lp2.setCompanyName("IIHT");
+//				lp2.setName(course.getLearningPath());
+//
+//				List<Course> lis = new ArrayList<Course>();
+//				lis.add(cs2);
+//				lp2.setCourses(lis);
+//				learningPathRepository.save(lp2);
+//				System.out.println("Id: " + lp2.getId());
+//			}
 			CourseModule cm = new CourseModule();
-			cm.setCompanyId("IH");
-			cm.setCompanyName("IIHT");
-			cm.setModuleName(course.getModule());
-			CourseModule cm2 = new CourseModule();
-			if (cs2.getId() == null) {
-				cm2=courseModuleRepository.findByPrimaryKey(course.getModule(), cs.getCourseName(), "ih");
-				cs2.setId(cs.getId());
-				cs2.setCourseName(cs.getCourseName());
-			}
+			
+			CourseModule cm2 = courseModuleRepository.findByPrimaryKey(course.getModule(), course.getCourseName(), "IH");
 			if(cm2==null) {
-				cm2 = courseModuleRepository.findByPrimaryKey(course.getModule(),
-						cs2.getCourseName(), "ih");
-			}
-			if (cm2 == null) {
+				cm.setCompanyId("IH");
+				cm.setCompanyName("IIHT");
+				cm.setModuleName(course.getModule());
+				if (cs2.getId() == null) {
+					cs2.setId(cs.getId());
+					cs2.setCourseName(cs.getCourseName());
+				}
 				cm.setCourseId(cs2.getId());
 				cm.setCourseName(cs2.getCourseName());
 				courseModuleRepository.save(cm);
@@ -98,6 +95,24 @@ public class ImportCourseTest {
 			System.out.println("learning Path: " + course.getLearningPath());
 			System.out.println("Course: " + course.getImageUrl());
 			System.out.println("ImageURL: " + course.getCourseName());
+		}
+		LearningPath lp = learningPathRepository.findByPrimaryKey(courses.get(0).getLearningPath(), "ih");
+		LearningPath lp2 = new LearningPath();
+		if (lp == null) {
+			lp2.setCompanyId("IH");
+			lp2.setCompanyName("IIHT");
+			lp2.setName(courses.get(0).getLearningPath());
+			Set<String> hSet = new HashSet<String>();
+			for (CourseDto course : courses) {
+				hSet.add(course.getCourseName());
+			}
+			for (String cs : hSet) {
+				Course cs23 = courseRepository.findByPrimaryKey(cs, "IH");
+				list.add(cs23);
+			}
+			lp2.setCourses(list);
+			learningPathRepository.save(lp2);
+			System.out.println("Id: " + lp2.getId());
 		}
 	}
 

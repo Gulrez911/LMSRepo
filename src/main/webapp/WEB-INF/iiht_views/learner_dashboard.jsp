@@ -12,330 +12,7 @@
         <link href="css/font-awesome.css" rel="stylesheet" type="text/css">
 		<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 	<link href="css/pnotify.custom.min.css" rel="stylesheet" type="text/css">
-        <style>
-            body{
-                background-color: #fff;
-                height: auto;
-            }
-            .coursetabs{
-                float: left;
-                width: 100%;
-            }
-            .learnercourse{
-                float: left;
-                width: 100%;
-            }
-            .coursetabs{
-                margin-top: 30px;
-            }
-            .courselisting{
-                float: left;
-                width: 100%;
-                padding-top: 30px;
-                padding-bottom: 50px;
-            }
-            .courselisting .item{
-                float: left;
-                width: 100%;
-                padding: 20px;
-                margin-bottom: 30px;
-                position: relative;
-                border: 1px solid #3e75f9;
-                border-top: 8px solid #3e75f9;
-
-            }
-            .courselisting label{
-                color: #000;
-                float: left;
-                width: 100%;
-                padding-left: 15px;
-                font-size: 20px;
-                padding-bottom: 10px;
-                font-weight: normal;
-            }
-            .courselisting .item i{
-                position: absolute;
-                top: 20px;
-                right: 20px;
-                background-color: #3e75f9;
-                padding: 10px 15px;
-                text-align: center;
-                border-radius: 50%;
-                font-size: 20px;
-                color: #fff;
-            }
-            .courselisting .item h3{
-                float: left;
-                width: 100%;
-                font-size: 20px;
-                height: 50px;
-                overflow: hidden;
-            }
-            .courselisting .item h3 a{
-                color: #3e75f9;
-                text-decoration: none;
-            }
-            .courselisting .item p{
-                color: #000;
-                float: left;
-                width: 100%;
-            }
-            .courselisting .item img{
-                position: absolute;
-                top: 20px;
-                right: 20px;
-                border-radius: 50%;
-            }
-            .header{
-                padding: 20px 0;
-            }
-            .logo {
-                padding: 0 !important;
-            }
-            .logo h1{
-                color: #000;
-                font-weight: bold;
-                font-size: 25px;
-                margin: 0;
-            }
-            .logo a{
-                text-decoration: none;
-            }
-            .rightsideinfo{
-                float: left;
-                width: 100%;
-            }
-            .rightsideinfo ul{
-                float: right;
-            }
-            .rightsideinfo ul li{
-                display: inline-block;
-                padding: 0 20px;
-            }
-            .rightsideinfo ul li.trybtn a{
-                background-color: #3e75f9;
-                padding: 10px 25px;
-                color: #fff;
-                border-radius: 25px;
-                text-decoration: none;
-            }
-            .rightsideinfo ul li a{
-                color: #fff;
-            }
-            .rightsideinfo ul li i{
-                font-size: 20px;
-            }
-            .rightsideinfo ul li img{
-                width: 35px;
-                border-radius: 50%;
-            }
-            .navigationmenu li a{
-                padding-top: 0 !important;
-                color: #fff;
-            }
-            .userinfo{
-                float: left;
-                width: 100%;
-                background-color: #3e75f9;
-                padding: 20px 0;
-                color: #fff;
-            }
-            .userinfo .image{
-                float: left;
-                width: 80px;
-            }
-            .userinfo .image img{
-                width: 50px;
-                border-radius: 50%;
-            }
-            .userinfo .content{
-                float: left;
-            }
-            .userinfo .content h4{
-                margin-top: 0;
-            }
-            .userinfo ul{
-                float: right;
-            }
-            .userinfo ul li{
-                display: inline-block;
-                text-align: center;
-                padding: 0 20px;
-            }
-            .userinfo ul li h4{
-                font-weight: bold;
-                font-size: 20px;
-                margin-bottom: 0;
-            }
-            .searchheader{
-                float: left;
-                width: 100%;
-                padding-left: 15px;
-            }
-            .searchheader form{
-                float: left;
-                width: 30%;
-                position: relative;
-            }
-            .searchheader input[type="text"] {
-                width: 100%;
-                border-radius: 25px;
-                padding: 10px 20px;
-                font-family: 'Poppins' !important;
-                font-size: 16px;
-                border: 1px solid #727780;
-            }
-            .searchheader i {
-                position: absolute;
-                right: 15px;
-                top: 12px;
-                cursor: pointer;
-                font-size: 20px;
-                color: #727780;
-            }
-            .coursetabs{
-                background: none;
-            }
-            .coursetabs .nav-tabs li.active:first-child a, .coursetabs .nav-tabs li:first-child a.active{
-                border-radius: 100px 0 0 100px;
-            }
-            .coursetabs .nav-tabs{
-                float: left;
-                width: 100%;
-                text-align: center;
-            }
-            .coursetabs .nav-tabs li{
-                display: inline-block;
-                float: none;
-            }
-            .coursesprogress{
-                float: left;
-                width: 100%;
-                padding-top: 30px;
-            }
-            .coursesprogress label{
-                float: left;
-                font-weight: normal;
-                font-size: 16px;
-                width: 50%;
-            }
-            .progress{
-                float: right;
-                width: 50%;
-                height: 18px;
-                margin-bottom: 30px;
-                border-radius: 35px;
-            }
-            .progress-bar{
-                background-color: #3e75f9;
-            }
-            .otherblank{
-                float: left;
-                width: 100%;
-            }
-            .otherblank .blogimg{
-                width: 100%;
-            }
-            .modal .modal-footer button{
-                background-color: #3e75f9;
-                color: #fff;
-                border: none;
-                padding: 10px 30px;
-                font-weight: bold;
-                border-radius: 20px;
-            }
-            .recentcoursespopup .courseitem .itemicon img{
-                cursor: pointer;
-            }
-            .coursetabs .nav-tabs {
-                border: none;
-                float: left;
-            }
-            .coursetabs .nav-tabs li.active a, .coursetabs .nav-tabs li a.active {
-                background: #3E75F9;
-                border-radius: 100px;
-                border: none;
-                padding: 5px 30px;
-                color: #fff;
-                opacity: 100;
-            }
-            .coursetabs .nav-tabs li a {
-                background-color: #373e4b;
-                border: none;
-                padding: 5px 30px;
-                border-radius: 0;
-                opacity: 0.7;
-                font-size: 16px;
-                color: #FFFFFF;
-                letter-spacing: 0.06px;
-            }
-            .coursetabs .nav-tabs li:last-child a {
-                border-radius: 0px 20px 20px 0;
-            }
-            .coursetabs .nav-tabs li:first-child a {
-                border-radius: 20px 0px 0px 20px;
-            }
-            .recentcoursespopup .progreses label {
-                font-size: 18px;
-            }
-            .progress {
-                height: 18px;
-                background: #666666;
-            }
-            .recentcoursespopup .progreses span {
-                float: left;
-                margin-left: 10px;
-                position: relative;
-                top: -4px;
-            }
-            .progress-bar {
-                border-radius: 5px;
-            }
-            .recentcoursespopup .progreses label{
-                font-size: 18px;
-            }
-            .recentcoursespopup .progreses span {
-                float: left;
-                margin-left: 10px;
-                position: relative;
-                top: -4px;
-            }
-            .recentcoursespopup .corecontent label{
-                float: left;
-                font-weight: normal;
-            }
-            .recentcoursespopup .corecontent label:last-child{
-                float: right;
-            }
-            .recentcoursespopup .courseitem{
-                float: left;
-                width: 100%;
-                border: 1px solid;
-                padding: 5px;
-            }
-            .recentcoursespopup .courseitem .itemicon{
-                float: left;
-                width: 10%;
-            }
-            .recentcoursespopup .courseitem .itemname{
-                float: left;
-                width: 70%;
-            }
-            .recentcoursespopup .courseitem .itemname h5,
-            .recentcoursespopup .courseitem .itemname p{
-                margin: 0;
-            }
-            .recentcoursespopup .courseitem .lastvisit{
-                float: left;
-                width: 20%;
-            }
-            .recentcoursespopup .courseitem .lastvisit p{
-                margin: 0;
-            }
-            .recentcoursespopup .courseitem .lastvisit span{
-                color: #f37254;
-            }
-        </style>
+        <link href="css/lms_style.css" rel="stylesheet" type="text/css">
     </head>
     <body>
 
@@ -442,9 +119,10 @@
 									<c:forEach  items="${dto.enrolledLearningPaths}" var="path">
                                     <div class="col-md-4">
                                         <div class="item">
-                                            <span>Learning Path</span>
-                                            <h3><a data-toggle="modal" data-target="#myModal" href="javascript:voi(0);">${path.name}</a></h3>
-                                            <p>${path.description}</p>
+											<img src="images/learningPath.png">
+                                            <!--<span>Learning Path</span> -->
+                                            <h3><a href="goToLearningPath?lpid=${path.learningObjectId}">${path.learningObjectName}</a></h3>
+                                           
                                         </div>
                                     </div>
                                     </c:forEach>
@@ -468,7 +146,9 @@
                                     <c:forEach  items="${dto.enrolledCourses}" var="enrolledCourse">
                                     <div class="col-md-4">
                                         <div class="item">
-                                            <span>Course</span>
+                                            <div class="itemicon">
+												<img src="images/online_course.png">
+											</div>
                                             <h3><a href="javascript:showModules('${enrolledCourse.learningObjectId}');">${enrolledCourse.learningObjectName}</a></h3>
                                           
                                         </div>
@@ -509,10 +189,14 @@
                                     <c:forEach  items="${dto.popularLearningPaths}" var="lpath">
                                     <div class="col-md-4">
                                         <div class="item">
-                                            <span>Learning Path</span>
-                                             <h3><a data-toggle="modal" data-target="#myModal" href="javascript:voi(0);">${lpath.name}</a></h3> 
+                                           <img src="images/learningPath.png">
+											<!--<img  src="images/enroll.png" onClick="enrollLearningPath('${lpath.id}', '${lpath.name}')"/> -->
+                                             <!--<h3><a data-toggle="modal" data-target="#myModal" href="javascript:voi(0);">${lpath.name}</a></h3> -->
+											<h3><a href="javascript:showCoursesForLearningPath('${lpath.id}', '${lpath.name}');">Show Courses</a></h3>
+											<h3><a href="javascript:enrollLearningPath('${lpath.id}', '${lpath.name}');">Enroll to ${lpath.name} </a></h3>
 											
-                                            <p>${lpath.description}</p>
+                                            <p>${lpath.description} </p>
+											
                                         </div>
                                     </div>
                                     </c:forEach>
@@ -539,7 +223,7 @@
                                         <div class="item">
                                             <span>Course</span>
 											<div class="itemicon">
-												<img src="images/play1.png">
+												<a href="javascript:onlyshowcourseModules('${course.id}');" ><img src="images/online_course.png"></a>
 											</div>
                                             <!-- <h3><a data-toggle="modal" data-target="#myModal" href="javascript:voi(0);">${course.courseName}</a></h3> -->
 											<!-- <h3><a href="javascript:showModules('${course.id}');">${course.courseName}</a></h3> -->
@@ -559,6 +243,12 @@
 
             </div>
         </div>
+		
+		<div class="footer">
+            <div class="col-md-12 text-center">
+                <p>Copyright © 2018 IIHT. All Rights Reserved Privacy Policy For Enterprise Solutions</p>
+            </div>
+        </div>
 
         <!-- Video Popup Modal -->
         <!-- Modules info Popup Modal to display-->
@@ -572,6 +262,31 @@
                             
                         </div>
                         <div id="modulesDiv">
+                          
+						</div>
+			
+			
+                    </div>
+                    <div class="modal-footer" style="margin-top: 10px;float: left;width: 100%;">
+		    
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+		
+		<!-- For showing learning paths -- >
+		<!-- Modules info Popup Modal to display-->
+        <div class="modal fade recentcoursespopup" id="myModalLearningPaths" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content" style="padding: 10px;display: inline-block;">
+		      <button type="button" class="close"  onClick="hideLearningPathsDialog()" id="closeModulesWin">&times;</button> 
+                    <div class="modal-body">
+                        <div class="progreses">
+                           
+                            
+                        </div>
+                        <div id="pathsDiv">
                           
 						</div>
 			
@@ -615,11 +330,19 @@
 			function changeVideo(vId) {
 				var iframe = document.getElementById("iframeYoutube");
 				iframe.src = vId;
-
 				$("#myModalvideo").modal("show");
 				$("#myModal").modal("hide");
 			}
-										
+				
+			function onlyshowcourseModules(cid){
+				$.get("onlyshowcourseModules?cid="+cid, function(data, status){
+				   console.log(data);
+				$("#modulesDiv").empty();
+				$("#modulesDiv").append(data);
+					$("#myModalModules").modal("show");
+				}); 
+			}
+				
 			function showModules(cid){
 				$.get("courseModules?cid="+cid, function(data, status){
 				   console.log(data);
@@ -637,6 +360,23 @@
 				}); 
 			}
 			
+			function enrollLearningPath(lid, lname){
+				console.log(lname);
+				$.get("enrollLearningPath?lid="+lid, function(data, status){
+				   console.log(data);
+				notify('Information', 'You have enrolled to the following Learning Path - '+lname+'. Refresh the page to see your enrollments');
+				}); 
+			}
+			
+			function showCoursesForLearningPath(lpathid){
+				$.get("showCoursesForLearningPath?lid="+lpathid, function(data, status){
+				   console.log(data);
+				$("#pathsDiv").empty();
+				$("#pathsDiv").append(data);
+					$("#myModalLearningPaths").modal("show");
+				});
+			}
+			
 			function notify(messageType, message){
 		 var notification = 'Information';
 			 $(function(){
@@ -652,6 +392,10 @@
 			
 			function hideDialog(){
 			  $("#myModalModules").modal("hide");
+			}
+			
+			function hideLearningPathsDialog(){
+			  $("#myModalLearningPaths").modal("hide");
 			}
 			
         </script>

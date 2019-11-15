@@ -131,7 +131,6 @@ public class StudentController {
 
 	@Autowired
 	SQLCodingAutomationService automationService;
-
 	Logger logger = LoggerFactory.getLogger(StudentController.class);
 
 	public String getUserAfterCheckingNoOfAttempts(String user, String companyId, Test test,
@@ -1340,77 +1339,90 @@ public class StudentController {
 			currentQuestion.getQuestionMapperInstance().setWorkspaceUrl(workspace);
 
 		}
-
-	}
-
-	private WorkspaceResponse generateWorkspace(QuestionInstanceDto currentQuestion, Long tid, Long qid,
-			String fullName, FullStackOptions fullStackOptions) throws Exception {
-
-		logger.info("in generate workspace " + fullStackOptions.getStack());
-		String json = "";
-		if (fullStackOptions == null
-				|| fullStackOptions.getStack().equals(FullStackOptions.JAVA_FULLSTACK.getStack())) {
-			System.out.println("generatin workspace for java");
-			json = FileUtils.readFileToString(new File("assessment" + File.separator + "eclipseChe"
-					+ File.separator + "Java_FullStack.json"));
-		} else if (fullStackOptions.getStack().equals(FullStackOptions.PHP_FULLSTACK.getStack())) {
-			System.out.println("generatin workspace for php");
-			json = FileUtils.readFileToString(new File("assessment" + File.separator + "eclipseChe"
-					+ File.separator + "PHP_MySQL.json"));
-		} else if (fullStackOptions.getStack().equals(FullStackOptions.ANGULARJS_FULLSTACK.getStack())) {
-			System.out.println("generatin workspace for angular");
-			json = FileUtils.readFileToString(new File("assessment" + File.separator + "eclipseChe"
-					+ File.separator + "ANGULAR_JAVASCRIPT_MYSQL.json"));
-		} else if (fullStackOptions.getStack().equals(FullStackOptions.DOTNET_FULLSTACK.getStack())) {
-			System.out.println("generatin workspace for dot net scharp");
-			json = FileUtils.readFileToString(new File("assessment" + File.separator + "eclipseChe"
-					+ File.separator + "c-sharp.json"));
-		} else {
-			System.out.println("generatin workspace for others");
-			json = FileUtils.readFileToString(new File("assessment" + File.separator + "eclipseChe"
-					+ File.separator + "Java_FullStack.json"));
-		}
-
-		// String qid =
-		// ""+currentQuestion.getQuestionMapperInstance().getQuestionMapper().getQuestion().getId();
-		json = json.replace("${APP_USER}", fullName + "-" + tid + "-" + qid + "-" + System.currentTimeMillis());
-		// json = json.replace("${APP_USER}", "a01");
-		json = json.replace("${APP_DESC}", "Skeleton Code............................Project\n\n\n.........");
-		EclipseCheService eclipseCheService = new EclipseCheService();
-		WorkspaceResponse workspaceResponse = eclipseCheService.createWorkSpace(json);
-		// return workspaceResponse.getLinks().getIde();
-		return workspaceResponse;
-	}
-
-	@RequestMapping(value = "/prevQuestion", method = RequestMethod.POST)
-	public ModelAndView prevQuestion(@RequestParam String questionId, @RequestParam String timeCounter,
-			HttpServletRequest request, HttpServletResponse response,
-			@ModelAttribute("currentQuestion") QuestionInstanceDto currentQuestion) throws Exception {
-		// ModelAndView model= new ModelAndView("test_cognizant");
-		User user = (User) request.getSession().getAttribute("user");
-		Test test = (Test) request.getSession().getAttribute("test");
-		ModelAndView model;
-		if (test.getFullStackTest() != null && test.getFullStackTest()) {
-			model = new ModelAndView("test_fstk");
-		} else {
-			model = new ModelAndView("test_cognizant");
-		}
-
-		List<SectionInstanceDto> sectionInstanceDtos = (List<SectionInstanceDto>) request.getSession()
-				.getAttribute("sectionInstanceDtos");
-		model.addObject("sectionInstanceDtos", sectionInstanceDtos);
-
-		SectionInstanceDto currentSection = (SectionInstanceDto) request.getSession()
-				.getAttribute("currentSection");
-		// just in case a Q is of coding type value that comes from jsp has \r
-		// characters.so removng them so they can be rendered next time
-		if (currentQuestion.getCode() != null) {
-			currentQuestion.setCode(currentQuestion.getCode().replaceAll("\r", ""));
-			String rep = "\\\\n";
-			String rept = "\\\\t";
-			currentQuestion.setCode(currentQuestion.getCode().replaceAll("\n", rep));
-			currentQuestion.setCode(currentQuestion.getCode().replaceAll("\t", rept));
-		}
+		
+	 	
+	 }
+	 
+	 private WorkspaceResponse generateWorkspace(QuestionInstanceDto currentQuestion, Long tid, Long qid, String fullName, FullStackOptions fullStackOptions) throws Exception{
+		
+		 logger.info("in generate workspace "+fullStackOptions.getStack());
+		 String json = "";
+			if(fullStackOptions == null || fullStackOptions.getStack().equals(FullStackOptions.JAVA_FULLSTACK.getStack())){
+				System.out.println("generatin workspace for java");
+				json = FileUtils.readFileToString(new File("assessment"+File.separator+"eclipseChe"+File.separator+"Java_FullStack.json"));
+			}
+			else if(fullStackOptions.getStack().equals(FullStackOptions.PHP_FULLSTACK.getStack())){
+				System.out.println("generatin workspace for php");
+				json = FileUtils.readFileToString(new File("assessment"+File.separator+"eclipseChe"+File.separator+"PHP_MySQL.json"));
+			}
+			else if(fullStackOptions.getStack().equals(FullStackOptions.ANGULARJS_FULLSTACK.getStack())){
+				System.out.println("generatin workspace for angular");
+				json = FileUtils.readFileToString(new File("assessment"+File.separator+"eclipseChe"+File.separator+"ANGULAR_JAVASCRIPT_MYSQL.json"));
+			}
+			else if(fullStackOptions.getStack().equals(FullStackOptions.DOTNET_FULLSTACK.getStack())){
+				System.out.println("generatin workspace for dot net scharp");
+				json = FileUtils.readFileToString(new File("assessment"+File.separator+"eclipseChe"+File.separator+"c-sharp.json"));
+			}
+			else{
+				System.out.println("generatin workspace for others");
+				json = FileUtils.readFileToString(new File("assessment"+File.separator+"eclipseChe"+File.separator+"Java_FullStack.json"));
+			}
+		 
+		 
+	 		//String qid = ""+currentQuestion.getQuestionMapperInstance().getQuestionMapper().getQuestion().getId();
+	 		json = json.replace("${APP_USER}", fullName+"-"+tid+"-"+qid+"-"+System.currentTimeMillis());
+	 		//json = json.replace("${APP_USER}", "a01");
+	 		json = json.replace("${APP_DESC}", "Skeleton Code............................Project\n\n\n.........");
+	 		EclipseCheService eclipseCheService = new EclipseCheService();
+	 		WorkspaceResponse workspaceResponse = eclipseCheService.createWorkSpace(json);
+	 		
+	 		/**
+	 		 * Remove the problem.txt input (mappint between testcase and expected result file) from parent location to 1 level above
+	 		 */
+	 		 try {
+				String baseCodePath = propertyConfig.getFullStackCodeLocation();
+				 String fin = workspaceResponse.getLinks().getIde() != null ? (workspaceResponse.getLinks().getIde().substring(workspaceResponse.getLinks().getIde().lastIndexOf("/")+1, workspaceResponse.getLinks().getIde().length())):"";
+				 System.out.println("fin is "+fin);
+				 String path = baseCodePath + File.separator + workspaceResponse.getId() + File.separator + fin;
+				 path += File.separator + "problem.properties";
+				 System.out.println("problem file location "+path);
+				 System.out.println("desst folder loc "+baseCodePath + File.separator + workspaceResponse.getId() + File.separator);
+				 FileUtils.moveFile(new File(path), new File(baseCodePath + File.separator + workspaceResponse.getId() + File.separator));
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				logger.error("can not move problem file", e);
+				System.out.println("can not move problem file"+e.getClass());
+			}
+	 		//return workspaceResponse.getLinks().getIde();
+	 		return workspaceResponse;
+	 }
+	 
+	 
+	 @RequestMapping(value = "/prevQuestion", method = RequestMethod.POST)
+	  public ModelAndView prevQuestion(@RequestParam String questionId, @RequestParam String timeCounter,HttpServletRequest request, HttpServletResponse response,@ModelAttribute("currentQuestion") QuestionInstanceDto currentQuestion) throws Exception {
+		 //ModelAndView model= new ModelAndView("test_cognizant");
+		 User user = (User) request.getSession().getAttribute("user");
+		 Test test = (Test) request.getSession().getAttribute("test");
+		 ModelAndView model;
+		 if(test.getFullStackTest() != null && test.getFullStackTest()){
+		 		model= new ModelAndView("test_fstk");
+		 	}
+		 	else{
+		 		model= new ModelAndView("test_cognizant");
+		 	}
+		 
+		 List<SectionInstanceDto> sectionInstanceDtos = (List<SectionInstanceDto>) request.getSession().getAttribute("sectionInstanceDtos");
+		 model.addObject("sectionInstanceDtos", sectionInstanceDtos);
+		 
+		SectionInstanceDto currentSection = (SectionInstanceDto) request.getSession().getAttribute("currentSection");
+		//just in case a Q is of coding type value that comes from jsp has \r characters.so removng them so they can be rendered next time
+		if(currentQuestion.getCode() != null){
+	 		 currentQuestion.setCode(currentQuestion.getCode().replaceAll("\r", ""));
+	 		 String rep = "\\\\n";
+	 		 String rept = "\\\\t";
+	 		currentQuestion.setCode(currentQuestion.getCode().replaceAll("\n", rep));
+	 		currentQuestion.setCode(currentQuestion.getCode().replaceAll("\t", rept));
+	 	}
 		setAnswers(request, currentSection, currentQuestion, questionId, false);
 		// setValuesInSession(currentSection, sectionInstanceDtos);
 

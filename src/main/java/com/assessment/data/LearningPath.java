@@ -7,30 +7,41 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
+import javax.persistence.Transient;
 
 @Entity
-public class LearningPath extends Base{
+public class LearningPath extends Base {
 
 	String name;
-	
+
 	String description;
-	
-	@ManyToMany(fetch=FetchType.EAGER)
+
+	@ManyToMany(fetch = FetchType.EAGER)
 	List<Course> courses = new ArrayList<Course>();
-	
+
+	@Transient
+	List<String> course = new ArrayList<String>();
+
+	public List<String> getCourse() {
+		return course;
+	}
+
+	public void setCourse(List<String> course) {
+		this.course = course;
+	}
+
 	String imageUrl;
-	
+
 	/**
 	 * Comma separated string
 	 */
-	@Column(length=500)
+	@Column(length = 500)
 	String searchLabel;
-	
-	
+
 	/**
 	 * Comma separated string
 	 */
-	@Column(length=500)
+	@Column(length = 500)
 	String technology;
 
 	Integer noOfEnrollments = 0;
@@ -90,6 +101,12 @@ public class LearningPath extends Base{
 	public void setNoOfEnrollments(Integer noOfEnrollments) {
 		this.noOfEnrollments = noOfEnrollments;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return "LearningPath [name=" + name + ", description=" + description + ", courses=" + courses
+				+ ", imageUrl=" + imageUrl + ", searchLabel=" + searchLabel + ", technology="
+				+ technology + ", noOfEnrollments=" + noOfEnrollments + "]";
+	}
+
 }

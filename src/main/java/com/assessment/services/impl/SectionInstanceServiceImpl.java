@@ -87,15 +87,14 @@ public class SectionInstanceServiceImpl implements SectionInstanceService {
 		for (QuestionMapperInstance questionMapperInstance : questionMapperInstances) {
 			System.out.println("in savequestions");
 			validateMandatoryFields(questionMapperInstance);
-			QuestionMapperInstance questionMapperInstance2 = questionMapperInstanceRepository
-					.findUniqueQuestionMapperInstanceForUser(
-							questionMapperInstance.getQuestionText(),
-							questionMapperInstance.getTestName(),
-							questionMapperInstance.getSectionName(),
-							questionMapperInstance.getUser(),
-							questionMapperInstance.getCompanyId());
-			if (questionMapperInstance2 != null) {
-				// update answer
+			System.out.println("questionMapperInstance.getQuestionText() "+questionMapperInstance.getQuestionText());
+			System.out.println("questionMapperInstance.getTestName() "+questionMapperInstance.getTestName());
+			System.out.println("questionMapperInstance.getSectionName() "+questionMapperInstance.getSectionName());
+			System.out.println("questionMapperInstance.getUser() "+questionMapperInstance.getUser());
+			System.out.println("questionMapperInstance.getCompanyId() "+questionMapperInstance.getCompanyId());;
+			QuestionMapperInstance questionMapperInstance2 = questionMapperInstanceRepository.findUniqueQuestionMapperInstanceForUser(questionMapperInstance.getQuestionText(), questionMapperInstance.getTestName(), questionMapperInstance.getSectionName(), questionMapperInstance.getUser(), questionMapperInstance.getCompanyId());
+			if(questionMapperInstance2 != null) {
+				//update answer
 				questionMapperInstance2.setUserChoices(questionMapperInstance.getUserChoices());
 				questionMapperInstance2.setUpdateDate(new Date());
 				checkAnswer(questionMapperInstance2);

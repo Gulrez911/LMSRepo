@@ -97,13 +97,13 @@
 		<!-- <property name="user" value="utf8_user" /> -->
 		<!-- <property name="password" value="Welcome@123" /> -->
 
-		<!-- <property name="jdbcUrl" -->
-		<!-- value="jdbc:mysql://localhost:3306/assessment" /> -->
-		<!-- <property name="user" value="root" /> -->
-		<!-- <property name="password" value="" /> -->
+<!-- 		<property name="jdbcUrl" -->
+<!-- 		value="jdbc:mysql://localhost:3306/assessment" /> -->
+<!-- 		<property name="user" value="root" /> -->
+<!-- 		<property name="password" value="" /> -->
 
 		<property name="jdbcUrl"
-			value="jdbc:mysql://localhost:3306/yaksha" />
+			value="jdbc:mysql://localhost:3306/ass_new" />
 		<property name="user" value="root" />
 		<property name="password" value="" />
 

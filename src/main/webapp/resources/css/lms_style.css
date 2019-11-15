@@ -1,0 +1,331 @@
+body{
+	background-color: #fff;
+	height: auto;
+}
+.coursetabs{
+	float: left;
+	width: 100%;
+}
+.learnercourse{
+	float: left;
+	width: 100%;
+}
+.coursetabs{
+	margin-top: 30px;
+}
+.courselisting{
+	float: left;
+	width: 100%;
+	padding-top: 30px;
+	padding-bottom: 50px;
+}
+.courselisting .item{
+	float: left;
+	width: 100%;
+	padding: 20px;
+	margin-bottom: 30px;
+	position: relative;
+	border: 1px solid #3e75f9;
+	border-top: 8px solid #3e75f9;
+
+}
+.courselisting label{
+	color: #000;
+	float: left;
+	width: 100%;
+	padding-left: 15px;
+	font-size: 20px;
+	padding-bottom: 10px;
+	font-weight: normal;
+}
+.courselisting .item i{
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	background-color: #3e75f9;
+	padding: 10px 15px;
+	text-align: center;
+	border-radius: 50%;
+	font-size: 20px;
+	color: #fff;
+}
+.courselisting .item h3{
+	float: left;
+	width: 100%;
+	font-size: 20px;
+	height: 50px;
+	overflow: hidden;
+}
+.courselisting .item h3 a{
+	color: #3e75f9;
+	text-decoration: none;
+}
+.courselisting .item p{
+	color: #000;
+	float: left;
+	width: 100%;
+}
+.courselisting .item img{
+	width: 100%;
+}
+
+.header{
+	padding: 20px 0;
+}
+.logo {
+	padding: 0 !important;
+}
+.logo h1{
+	color: #000;
+	font-weight: bold;
+	font-size: 25px;
+	margin: 0;
+}
+.logo a{
+	text-decoration: none;
+}
+.rightsideinfo{
+	float: left;
+	width: 100%;
+}
+.rightsideinfo ul{
+	float: right;
+}
+.rightsideinfo ul li{
+	display: inline-block;
+	padding: 0 20px;
+}
+.rightsideinfo ul li.trybtn a{
+	background-color: #3e75f9;
+	padding: 10px 25px;
+	color: #fff;
+	border-radius: 25px;
+	text-decoration: none;
+}
+.rightsideinfo ul li a{
+	color: #fff;
+}
+.rightsideinfo ul li i{
+	font-size: 20px;
+}
+.rightsideinfo ul li img{
+	width: 35px;
+	border-radius: 50%;
+}
+.navigationmenu li a{
+	padding-top: 0 !important;
+	color: #fff;
+}
+.userinfo{
+	float: left;
+	width: 100%;
+	background-color: #3e75f9;
+	padding: 20px 0;
+	color: #fff;
+}
+.userinfo .image{
+	float: left;
+	width: 80px;
+}
+.userinfo .image img{
+	width: 50px;
+	border-radius: 50%;
+}
+.userinfo .content{
+	float: left;
+}
+.userinfo .content h4{
+	margin-top: 0;
+}
+.userinfo ul{
+	float: right;
+}
+.userinfo ul li{
+	display: inline-block;
+	text-align: center;
+	padding: 0 20px;
+}
+.userinfo ul li h4{
+	font-weight: bold;
+	font-size: 20px;
+	margin-bottom: 0;
+}
+.searchheader{
+	float: left;
+	width: 100%;
+	padding-left: 15px;
+}
+.searchheader form{
+	float: left;
+	width: 30%;
+	position: relative;
+}
+.searchheader input[type="text"] {
+	width: 100%;
+	border-radius: 25px;
+	padding: 10px 20px;
+	font-family: 'Poppins' !important;
+	font-size: 16px;
+	border: 1px solid #727780;
+}
+.searchheader i {
+	position: absolute;
+	right: 15px;
+	top: 12px;
+	cursor: pointer;
+	font-size: 20px;
+	color: #727780;
+}
+.coursetabs{
+	background: none;
+}
+.coursetabs .nav-tabs li.active:first-child a, .coursetabs .nav-tabs li:first-child a.active{
+	border-radius: 100px 0 0 100px;
+}
+.coursetabs .nav-tabs{
+	float: left;
+	width: 100%;
+	text-align: center;
+}
+.coursetabs .nav-tabs li{
+	display: inline-block;
+	float: none;
+}
+.coursesprogress{
+	float: left;
+	width: 100%;
+	padding-top: 30px;
+}
+.coursesprogress label{
+	float: left;
+	font-weight: normal;
+	font-size: 16px;
+	width: 50%;
+}
+.progress{
+	float: right;
+	width: 50%;
+	height: 18px;
+	margin-bottom: 30px;
+	border-radius: 35px;
+}
+.progress-bar{
+	background-color: #3e75f9;
+}
+.otherblank{
+	float: left;
+	width: 100%;
+}
+.otherblank .blogimg{
+	width: 100%;
+}
+.modal .modal-footer button{
+	background-color: #3e75f9;
+	color: #fff;
+	border: none;
+	padding: 10px 30px;
+	font-weight: bold;
+	border-radius: 20px;
+}
+.recentcoursespopup .courseitem .itemicon img{
+	cursor: pointer;
+}
+.coursetabs .nav-tabs {
+	border: none;
+	float: left;
+}
+.coursetabs .nav-tabs li.active a, .coursetabs .nav-tabs li a.active {
+	background: #3E75F9;
+	border-radius: 100px;
+	border: none;
+	padding: 5px 30px;
+	color: #fff;
+	opacity: 100;
+}
+.coursetabs .nav-tabs li a {
+	background-color: #373e4b;
+	border: none;
+	padding: 5px 30px;
+	border-radius: 0;
+	opacity: 0.7;
+	font-size: 16px;
+	color: #FFFFFF;
+	letter-spacing: 0.06px;
+}
+.coursetabs .nav-tabs li:last-child a {
+	border-radius: 0px 20px 20px 0;
+}
+.coursetabs .nav-tabs li:first-child a {
+	border-radius: 20px 0px 0px 20px;
+}
+.recentcoursespopup .progreses label {
+	font-size: 18px;
+}
+.progress {
+	height: 18px;
+	background: #666666;
+}
+.recentcoursespopup .progreses span {
+	float: left;
+	margin-left: 10px;
+	position: relative;
+	top: -4px;
+}
+.progress-bar {
+	border-radius: 5px;
+}
+.recentcoursespopup .progreses label{
+	font-size: 18px;
+}
+.recentcoursespopup .progreses span {
+	float: left;
+	margin-left: 10px;
+	position: relative;
+	top: -4px;
+}
+.recentcoursespopup .corecontent label{
+	float: left;
+	font-weight: normal;
+}
+.recentcoursespopup .corecontent label:last-child{
+	float: right;
+}
+.recentcoursespopup .courseitem{
+	float: left;
+	width: 100%;
+	border: 1px solid;
+	padding: 5px;
+}
+.recentcoursespopup .courseitem .itemicon{
+	float: left;
+	width: 10%;
+}
+.recentcoursespopup .courseitem .itemname{
+	float: left;
+	width: 70%;
+}
+.recentcoursespopup .courseitem .itemname h5,
+.recentcoursespopup .courseitem .itemname p{
+	margin: 0;
+}
+.recentcoursespopup .courseitem .lastvisit{
+	float: left;
+	width: 20%;
+	text-align: center;
+}
+.recentcoursespopup .courseitem .lastvisit p{
+	margin: 0;
+}
+.recentcoursespopup .courseitem .lastvisit span{
+	color: #f37254;
+}
+
+
+.recentcoursespopup .courseitem .lastvisit img{
+	width: 30px;
+}
+ .footer{
+	float: left;
+	width: 100%;
+	padding: 10px;
+}
