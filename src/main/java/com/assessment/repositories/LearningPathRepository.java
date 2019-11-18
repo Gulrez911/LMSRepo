@@ -19,4 +19,6 @@ public interface LearningPathRepository extends JpaRepository<LearningPath,Long>
 	
 	@Query("SELECT c FROM LearningPath c where c.companyId=:companyId order by c.noOfEnrollments DESC")
 	List<LearningPath> getPopularLearningPaths(@Param("companyId") String companyId);
+	
+	List<LearningPath> findByCompanyId(String cid);
 }

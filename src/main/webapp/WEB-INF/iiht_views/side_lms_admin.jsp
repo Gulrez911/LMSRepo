@@ -11,7 +11,7 @@
 	    <li class="logolight"><a href="http://www.iiht.com" data-toggle="offcanvas"><i class="fa fa-bars fa-2x"></i><span class="collapse in hidden-xs"><img src="images/logoiiht.png" alt="logo"></span></a></li>
 	    <li><a href="question_list"><img src="images/question_icon.png" alt="logo"> <span class="collapse in hidden-xs">Question Bank</span></a></li>
 	    <li><a href="testlist"><img src="images/test_icon.png" alt="logo"> <span class="collapse in hidden-xs">Tests</span></a></li>
-	   
+			   
 	</ul>
     </div>
     

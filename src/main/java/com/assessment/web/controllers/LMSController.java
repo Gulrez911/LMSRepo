@@ -530,4 +530,14 @@ public class LMSController {
 		mav.addObject("id", id);
 		return mav;
 	}
+	
+	@GetMapping(value = "learningpath")
+	public ModelAndView learningPath(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("learningPath_list");
+		User user = (User) request.getSession().getAttribute("user");
+		 List<LearningPath> list =pathRep.findByCompanyId(user.getCompanyId());
+		 
+		 mav.addObject("list",list);
+		return mav;
+	}
 }

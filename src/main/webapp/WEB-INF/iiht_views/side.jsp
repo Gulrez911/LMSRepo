@@ -12,7 +12,7 @@
 	    <li class="active"><a href="javascript:notify('Information', 'We will release the feature pretty soon! Pease wait for our next release');"><img src="images/dashboard_icon.png" alt="logo"> <span class="collapse in hidden-xs">Dashboard</span></a></li>
 	    <li><a href="question_list"><img src="images/question_icon.png" alt="logo"> <span class="collapse in hidden-xs">Question Bank</span></a></li>
 	    <li><a href="testlist"><img src="images/test_icon.png" alt="logo"> <span class="collapse in hidden-xs">Tests</span></a></li>
-		<li><a href="addLearningPath"><img src="images/dashboard_icon.png" alt="logo"> <span class="collapse in hidden-xs">Learning Path Management</span></a></li>
+		<li><a href="learningpath"><img src="images/dashboard_icon.png" alt="logo"> <span class="collapse in hidden-xs">Learning Path Management</span></a></li>
 		<li><a href="addCourse"><img src="images/dashboard_icon.png" alt="logo"> <span class="collapse in hidden-xs">Course Management</span></a></li>
 		<li><a href="skills"><img src="images/test_icon.png" alt="logo"> <span class="collapse in hidden-xs">Skills</span></a></li>
 	    <li><a href="showReports"><img src="images/results_icon.png" alt="logo"> <span class="collapse in hidden-xs">Results</span></a></li>

@@ -1,20 +1,18 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1" isELIgnored="false"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page session="false"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ page import="com.assessment.data.*, java.text.*, java.util.*"%>
-<html>
+<%@ page session="false"%><html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IIHT</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Add Course</title>
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
 <link href="css/font-awesome.css" rel="stylesheet" type="text/css">
-<link href="css/style.css" rel="stylesheet" type="text/css">
+<!-- <link href="css/style.css" rel="stylesheet" type="text/css"> -->
 <link href="css/responsive.css" rel="stylesheet" type="text/css">
 <link href="css/pnotify.custom.min.css" rel="stylesheet" type="text/css">
 
@@ -26,10 +24,8 @@
 <script type="text/javascript" src="scripts/custom.js"></script>
 
 <link href="css/font-awesome.css" rel="stylesheet" type="text/css">
-</head>
 <style>
-<
-style>body {
+body {
 	background-color: #fff;
 	height: auto;
 }
@@ -127,130 +123,98 @@ style>body {
 	/* 	color: blue; */
 }
 </style>
-</style>
+</head>
 <body>
 
-	<div class="maincontainer">
+	<div class="addmodulecourse">
+		<div class="container">
+			<div class="col-md-12 col-sm-12 col-xs-12">
+				<h3 class="heading">
+					Module <a  href="javascript:resetModule();"><i class="fa fa-plus"></i> Add</a>
+				</h3>
+				<table class="table">
+					<thead>
+						<tr>
+							<th scope="col">Module Name</th>
+							<th scope="col">Duration</th>
+							<th scope="col">Description</th>
+							<th scope="col">Content Link</th>
+							<th scope="col">Test Name</th>
+							<th scope="col">Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach items="${listCourseModules }" var="module">
+							<tr>
+								<td>${module.moduleName}</td>
+								<td>${module.duration}</td>
+								<td>${module.moduleDesc}</td>
+								<td>${module.contentLink}</td>
+								<td>${module.testName}</td>
+								<td width="12%"><a href="#"
+									onclick="editCourseModule('${module.moduleName}','${module.duration}','${module.moduleDesc}','${module.contentLink}','${module.testName}')"><i
+										class="fa fa-edit"></i></a> <a
+									href="javascript:deleteCourseModule(${module.id})"><i
+										class="fa fa-trash-o"></i></a></td>
+							</tr>
+						</c:forEach>
 
-		<div class="wrapper">
-			<div class="row row-offcanvas row-offcanvas-left">
-				<!-- sidebar -->
-				<%
-					User user = (User) request.getSession().getAttribute("user");
-					System.out.println("user is " + user.getEmail());
-					if (user == null) {
-						response.sendRedirect("login");
-					}
-
-					if (user.getUserType().getType().equals("LMS_ADMIN")) {
-
-						System.out.println("LMS_ADMIN true");
-				%>
-				<jsp:include page="side_lms_admin.jsp" />
-				<%
-					} else {
-				%>
-				<jsp:include page="side.jsp" />
-				<%
-					}
-				%>
-
-				<!-- /sidebar -->
-
-				<div class="column col-sm-10 col-xs-11" id="main">
-					<div class="addmodulecourse">
-						<div class="rightside">
-							<div class="topmenu text-right">
-								<a href="signoff">Sign Off</a>
-							</div>
-						</div>
-						<h3 class="heading">
-							Module <a href="javascript:resetModule();"><i
-								class="fa fa-plus"></i> Add</a>
-						</h3>
-						<table class="table">
-							<thead>
-								<tr>
-									<th scope="col">Module Name</th>
-									<th scope="col">Duration</th>
-									<th scope="col">Description</th>
-									<th scope="col">Content Link</th>
-									<th scope="col">Test Name</th>
-									<th scope="col">Action</th>
-								</tr>
-							</thead>
-							<tbody>
-								<c:forEach items="${listCourseModules }" var="module">
-									<tr>
-										<td>${module.moduleName}</td>
-										<td>${module.duration}</td>
-										<td>${module.moduleDesc}</td>
-										<td>${module.contentLink}</td>
-										<td>${module.testName}</td>
-										<td width="12%"><a href="#"
-											onclick="editCourseModule('${module.moduleName}','${module.duration}','${module.moduleDesc}','${module.contentLink}','${module.testName}')"><i
-												class="fa fa-edit"></i></a> <a
-											href="javascript:deleteCourseModule(${module.id})"><i
-												class="fa fa-trash-o"></i></a></td>
-									</tr>
-								</c:forEach>
-
-							</tbody>
-						</table>
-						<h3 class="heading">
-							Course
-							<!-- 					 <a data-toggle="modal" data-target="#modal_course" -->
-							<!-- 						href="javascript:voi(0);"><i class="fa fa-plus"></i> Add</a> -->
-							<a href="javascript:resetForm();"><i class="fa fa-plus"></i>
-								Add</a>
-						</h3>
-						<table class="table">
-							<thead>
-								<tr>
-									<th scope="col">Course Name</th>
-									<th scope="col">Type</th>
-									<th scope="col">Description</th>
-									<!-- 							<th scope="col">Image URL</th> -->
-									<th scope="col">Search Label</th>
-									<th scope="col">Technology</th>
-									<th scope="col">Action</th>
-								</tr>
-							</thead>
-							<tbody id="tbodyclass">
-								<c:forEach items="${listCourse}" var="course">
-									<%-- <tr class="select${course.id}" onclick="called(this.id)" id="${course.courseName}"> --%>
-									<tr class="select${course.id}">
-										<th width="12%" id="${course.courseName}"
-											onclick="called(this.id)">${course.courseName}</th>
-										<td width="10%" id="${course.courseName}"
-											onclick="called(this.id)">${course.courseType}</td>
-										<td width="35%" id="${course.courseName}"
-											onclick="called(this.id)">${course.courseDesc}</td>
-										<%-- 								<td width="14%" id="${course.courseName}" --%>
-										<%-- 									onclick="called(this.id)">${course.imageUrl}</td> --%>
-										<td width="12%" id="${course.courseName}"
-											onclick="called(this.id)">${course.searchLabel}</td>
-										<td width="10%" id="${course.courseName}"
-											onclick="called(this.id)">${course.technology}</td>
-										<td width="12%"><a href="#"
-											onclick="editCourse('${course.courseName}','${course.courseDesc}','${course.imageUrl}','${course.searchLabel}','${course.technology}')"><i
-												class="fa fa-edit"></i></a> <a
-											href="javascript:deleteCourse(${course.id})"><i
-												class="fa fa-trash-o"></i></a></td>
-									</tr>
-								</c:forEach>
-							</tbody>
-						</table>
-					</div>
-
-				</div>
+					</tbody>
+				</table>
 			</div>
+
+
+			<div class="col-md-12 col-sm-12 col-xs-12">
+				<h3 class="heading">
+					Course
+					<!-- 					 <a data-toggle="modal" data-target="#modal_course" -->
+					<!-- 						href="javascript:voi(0);"><i class="fa fa-plus"></i> Add</a> -->
+					<a href="javascript:resetForm();"><i class="fa fa-plus"></i>
+						Add</a>
+				</h3>
+				<table class="table">
+					<thead>
+						<tr>
+							<th scope="col">Course Name</th>
+							<th scope="col">Type</th>
+							<th scope="col">Description</th>
+							<!-- 							<th scope="col">Image URL</th> -->
+							<th scope="col">Search Label</th>
+							<th scope="col">Technology</th>
+							<th scope="col">Action</th>
+						</tr>
+					</thead>
+					<tbody id="tbodyclass">
+						<c:forEach items="${listCourse}" var="course">
+							<%-- <tr class="select${course.id}" onclick="called(this.id)" id="${course.courseName}"> --%>
+							<tr class="select${course.id}">
+								<th width="12%" id="${course.courseName}"
+									onclick="called(this.id)">${course.courseName}</th>
+								<td width="10%" id="${course.courseName}"
+									onclick="called(this.id)">${course.courseType}</td>
+								<td width="35%" id="${course.courseName}"
+									onclick="called(this.id)">${course.courseDesc}</td>
+								<%-- 								<td width="14%" id="${course.courseName}" --%>
+								<%-- 									onclick="called(this.id)">${course.imageUrl}</td> --%>
+								<td width="12%" id="${course.courseName}"
+									onclick="called(this.id)">${course.searchLabel}</td>
+								<td width="10%" id="${course.courseName}"
+									onclick="called(this.id)">${course.technology}</td>
+								<td width="12%"><a href="#"
+									onclick="editCourse('${course.courseName}','${course.courseDesc}','${course.imageUrl}','${course.searchLabel}','${course.technology}')"><i
+										class="fa fa-edit"></i></a> <a
+									href="javascript:deleteCourse(${course.id})"><i
+										class="fa fa-trash-o"></i></a></td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+			</div>
+
 		</div>
-		<!-- /main -->
 	</div>
 
-<!--  PopUp-->
-<div class="modal fade" id="modal_courseModule">
+	<div class="modal fade" id="modal_courseModule">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-body">
@@ -323,6 +287,7 @@ style>body {
 			</div>
 		</div>
 	</div>
+
 	<script type="text/javascript">
 		$(":radio").each(
 				function() {
@@ -386,35 +351,38 @@ style>body {
 			$("#modal_course").modal();
 		}
 
-		// 		function deleteCourse(id) {
-		// 			console.log("id:>   " + id)
-		// 			location.href = "deleteCourse?id2=" + id;
-		// 		}
+// 		function deleteCourse(id) {
+// 			console.log("id:>   " + id)
+// 			location.href = "deleteCourse?id2=" + id;
+// 		}
 
-		function editCourseModule(name, duration, description, content, tname) {
+		function editCourseModule(name, duration, description,content, tname) {
 			console.log("called: " + name + ": d" + duration + ": C" + content
-					+ ":tname  " + tname + ": desc" + description)
+					+ ":tname  " + tname+": desc"+description)
 			$("#mname").val(name);
 			$("#duration").val(duration);
 			$("#mdesc").val(description);
 			$("#contLink").val(content);
 			$("#tname").val(tname);
 			$("#modal_courseModule").modal();
-			// 			$("#manme").val(name);
+// 			$("#manme").val(name);
 		}
 
-		// 		function deleteCourseModule(id) {
-		// 			console.log("Delete Called: " + id)
-		// 			location.href="deleteModule?id2="+id;
-		// 		}
+// 		function deleteCourseModule(id) {
+// 			console.log("Delete Called: " + id)
+// 			location.href="deleteModule?id2="+id;
+// 		}
 
-		function resetModule() {
+		function resetModule(){
 			$("#mname").val("");
 			$("#duration").val("");
 			$("#mdesc").val("");
 			$("#tname").val("");
 			$("#modal_courseModule").modal();
-		}
+			}
 	</script>
+
+
+
 </body>
 </html>

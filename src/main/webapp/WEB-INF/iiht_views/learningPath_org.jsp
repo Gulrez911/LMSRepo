@@ -1,20 +1,21 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1" isELIgnored="false"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page session="false"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ page import="com.assessment.data.*, java.text.*, java.util.*"%>
+<!DOCTYPE html>
 <html>
 <head>
+<meta charset="ISO-8859-1">
+<title>Add Learning Path</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>IIHT</title>
-
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
 <link href="css/font-awesome.css" rel="stylesheet" type="text/css">
-<link href="css/style.css" rel="stylesheet" type="text/css">
+<!-- <link href="css/style.css" rel="stylesheet" type="text/css"> -->
 <link href="css/responsive.css" rel="stylesheet" type="text/css">
 <link href="css/pnotify.custom.min.css" rel="stylesheet" type="text/css">
 
@@ -26,7 +27,7 @@
 <script type="text/javascript" src="scripts/custom.js"></script>
 
 <link href="css/font-awesome.css" rel="stylesheet" type="text/css">
-
+</head>
 <style>
 body {
 	background-color: #fff;
@@ -98,83 +99,37 @@ body {
 	padding-top: 0 !important;
 }
 </style>
-</head>
-
 <body>
-
-	<div class="maincontainer">
-
-		<div class="wrapper">
-			<div class="row row-offcanvas row-offcanvas-left">
-				<!-- sidebar -->
-				<%
-					User user = (User) request.getSession().getAttribute("user");
-					System.out.println("user is " + user.getEmail());
-					if (user == null) {
-						response.sendRedirect("login");
-					}
-
-					if (user.getUserType().getType().equals("LMS_ADMIN")) {
-
-						System.out.println("LMS_ADMIN true");
-				%>
-				<jsp:include page="side_lms_admin.jsp" />
-				<%
-					} else {
-				%>
-				<jsp:include page="side.jsp" />
-				<%
-					}
-				%>
-
-				<!-- /sidebar -->
-
-				<div class="column col-sm-10 col-xs-11" id="main"
-					style="overflow-x: scroll; overflow-y: scroll;">
-
-					<div class="rightside">
-
-
-
-						<div class="mylearningpath">
-							<div class="container">
-								<div class="col-md-3"></div>
-								<div class="col-md-6">
-									<h3>My Learning Path</h3>
-									<form:form action="saveLearningPath" method="post"
-										modelAttribute="learningPath">
-										<label>Name</label>
-										<form:input path="name" />
-										<label>Description</label>
-										<form:input path="description" />
-										<label>Image URL</label>
-										<form:input path="imageUrl" />
-										<label>Search label</label>
-										<form:input path="searchLabel" />
-										<label>Technology</label>
-										<form:input path="technology" />
-										<label>Course</label>
-										<input type="text" placeholder="Search Course" id="course">
-										<div class="courselist">
-											<form:checkboxes items="${listCourse}" itemLabel="courseName"
-												itemValue="courseName" path="course" />
-										</div>
-										<input type="submit" value="SAVE">
-									</form:form>
-								</div>
-								<div class="col-md-3"></div>
-							</div>
-						</div>
+	<div class="mylearningpath">
+		<div class="container">
+			<div class="col-md-3"></div>
+			<div class="col-md-6">
+				<h3>My Learning Path</h3>
+				<form:form action="saveLearningPath" method="post"
+					modelAttribute="learningPath">
+					<label>Name</label>
+					<form:input path="name" />
+					<label>Description</label>
+					<form:input path="description" />
+					<label>Image URL</label>
+					<form:input path="imageUrl" />
+					<label>Search label</label>
+					<form:input path="searchLabel" />
+					<label>Technology</label>
+					<form:input path="technology" />
+					<label>Course</label>
+					<input type="text" placeholder="Search Course" id="course">
+					<div class="courselist">
+												<form:checkboxes items="${listCourse}" itemLabel="courseName"
+						  							itemValue="courseName" path="course" />
 					</div>
-
-				</div>
+					<input type="submit" value="SAVE">
+				</form:form>
 			</div>
-
+			<div class="col-md-3"></div>
 		</div>
-
 	</div>
-	<!-- /main -->
-<script type="text/javascript">
+	<script type="text/javascript">
 		$(":checkbox").each(
 				function() {
 					$(this).add(this.nextSibling).add(
